@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Header from '../components/Header'
 import Popups from '../components/Popups'
+import Background from '../components/Background'
 import Web3ReactManager from '../components/Web3ReactManager'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import AddLiquidity from './AddLiquidity'
@@ -18,7 +19,6 @@ import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
-import { RightFlashIcon, LeftFlashIcon } from '../components/FlashIcon'
 import Bridge from './Bridge'
 import { RedirectToDefault } from './redirects'
 import Banner from '../components/Banner'
@@ -71,8 +71,8 @@ export default function App() {
             <Header />
           </HeaderWrapper>
           <Popups />
-          <LeftFlashIcon />
           <BodyWrapper>
+            <Background />
             <Web3ReactManager>
               <Switch>
                 <Route exact strict path="/swap" component={Swap} />
@@ -92,7 +92,6 @@ export default function App() {
             </Web3ReactManager>
             <Marginer />
           </BodyWrapper>
-          <RightFlashIcon />
         </AppWrapper>
       </HashRouter>
     </Suspense>

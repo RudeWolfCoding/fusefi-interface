@@ -2,35 +2,38 @@ import { ChainId } from '@fuseio/fuse-swap-sdk'
 import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { Text } from 'rebass'
-import { ExternalLink as ExternalLinkIcon } from 'react-feather'
-
 import styled from 'styled-components'
 
-import Logo from '../../assets/images/logo.png'
+import Logo from '../../assets/svg/fuse_logo.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 
 import { YellowCard } from '../Card'
 import Settings from '../Settings'
 import Menu from '../Menu'
+import LightSwitch from '../LightSwitch'
 
 import { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
 import { getNativeCurrencySymbol } from '../../utils'
-import { TYPE, ExternalLink } from '../../theme'
 import { BINANCE_MAINNET_CHAINID, BINANCE_TESTNET_CHAINID } from '../../constants'
 import useRampWidget from '../../hooks/useRamp'
 import { darken } from 'polished'
 
+
 const HeaderFrame = styled.div`
+  height: 90px;
+  background-color: ${({ theme }) => theme.bg1};
+  padding: 1.45rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
   width: 100%;
-  top: 40;
-  position: absolute;
+  top: 0;
+  position: fixed;
   z-index: 3;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     padding: 12px 0 0 0;
     width: calc(100%);
@@ -68,6 +71,8 @@ const Title = styled.a`
 
 const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
+  height: 38px;
+  margin-right: 0.5rem;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
@@ -115,22 +120,16 @@ const HeaderControls = styled.div`
   `};
 `
 
-const BalanceText = styled(Text)`
+const BalanceText = styled('div')`
+  padding-left:0.5rem;
+  padding-right:0.5rem;
+  margin:auto;
+  flex: shrink;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     display: none;
+    margin:auto;
+    width:100%
   `};
-`
-
-const HeaderLink = styled(ExternalLink)`
-  display: flex;
-  align-items: center;
-  font-weight: 400;
-  color: white;
-  margin-right: 10px;
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
-  `}
 `
 
 const MobileBalanceElement = styled.div`
@@ -201,37 +200,28 @@ export default function Header() {
 
   return (
     <HeaderFrame>
-      <RowBetween style={{ alignItems: 'flex-start' }} padding="1rem 1rem 0 1rem">
+      <RowBetween style={{ alignItems: 'flex-start' }}>
         <HeaderElement>
+          <Menu />
           <Title href="." style={{ textDecoration: 'none' }}>
             <UniIcon>
               <img src={Logo} alt="logo" />
             </UniIcon>
-            <TYPE.body fontSize={12} fontWeight={700} marginLeft={2}>
-              BETA
-            </TYPE.body>
           </Title>
         </HeaderElement>
         <HeaderControls>
           <HeaderElement>
-            <StyledBuyButton onClick={openRampWidget}>Buy Fuse Dollar</StyledBuyButton>
-            <HeaderLink target="_blank" href="https://rewards.fuse.io">
-              Farming <ExternalLinkIcon style={{ marginLeft: 5 }} size={14} />
-            </HeaderLink>
-            <HeaderLink target="_blank" href="https://info.fuseswap.com" style={{ marginRight: 0 }}>
-              Analytics <ExternalLinkIcon style={{ marginLeft: 5 }} size={14} />
-            </HeaderLink>
             <TestnetWrapper>
               {!isMobile && chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
-                <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
+                <BalanceText>
                   {userEthBalance?.toSignificant(4)} {getNativeCurrencySymbol(chainId)}
                 </BalanceText>
               ) : null}
-              <Web3Status />
             </AccountElement>
+            <Web3Status />
           </HeaderElement>
           <MobileBalanceElement>
             {account && userEthBalance ? (
@@ -243,6 +233,7 @@ export default function Header() {
           <HeaderElementWrap>
             <Settings />
             <Menu />
+            <LightSwitch />
           </HeaderElementWrap>
         </HeaderControls>
       </RowBetween>
