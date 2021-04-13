@@ -17,7 +17,7 @@ const StyledMenuButton = styled.button`
   margin-left: 8px;
   padding: 0.15rem 0.5rem;
   border-radius: 0.25rem;
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text3};
   :hover,
   :focus {
     cursor: pointer;

@@ -8,7 +8,6 @@ import Logo from '../../assets/svg/fuse_logo.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 
-import { YellowCard } from '../Card'
 import Settings from '../Settings'
 import Menu from '../Menu'
 import LightSwitch from '../LightSwitch'
@@ -92,7 +91,9 @@ const TestnetWrapper = styled.div`
   pointer-events: auto;
 `
 
-const NetworkCard = styled(YellowCard)`
+const NetworkCard = styled("div")`
+  background-color: ${({ theme }) => (theme.bg3)};
+  color: ${({ theme }) => (theme.yellow2)};
   width: fit-content;
   margin-right: 10px;
   border-radius: 12px;

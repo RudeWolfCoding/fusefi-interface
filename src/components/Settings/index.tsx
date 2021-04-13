@@ -25,8 +25,15 @@ const StyledMenuIcon = styled(Settings)`
   width: 20px;
 
   > * {
-    stroke: ${({ theme }) => theme.text1};
-  }
+    stroke: grey;
+    :hover,
+    :focus {
+      cursor: pointer;
+      outline: none;
+      stroke: ${({ theme }) => theme.text1};
+      background-color: ${({ theme }) => theme.bg4};
+    }
+  }  
 `
 
 const StyledCloseIcon = styled(X)`
@@ -37,7 +44,7 @@ const StyledCloseIcon = styled(X)`
   }
 
   > * {
-    stroke: ${({ theme }) => theme.text1};
+    stroke: ${({ theme }) => theme.text3};
   }
 `
 
@@ -54,17 +61,23 @@ const StyledMenuButton = styled.button`
 
   padding: 0.15rem 0.5rem;
   border-radius: 0.5rem;
-
+  svg path{
+    stroke: grey;
+    stroke-width: 1.5px;
+    margin-top: 2px;
+  }
   :hover,
   :focus {
     cursor: pointer;
     outline: none;
     background-color: ${({ theme }) => theme.bg4};
+    svg path{
+      stroke: black;
+      stroke-width: 2px;
+    }
   }
 
-  svg {
-    margin-top: 2px;
-  }
+
 `
 const EmojiWrapper = styled.div`
   position: absolute;

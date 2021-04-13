@@ -7,7 +7,7 @@ export const Button = styled.button<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
   padding: 0.95rem 1.25rem;
-  background-color: ${({ theme }) => theme.bg12};
+  background-color: #FFFFFF;
   border-radius: 16px;
   min-width: 160px;
   max-width: 100%;

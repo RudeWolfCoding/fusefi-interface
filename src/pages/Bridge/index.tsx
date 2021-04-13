@@ -256,7 +256,7 @@ export default function Bridge() {
           />
           {isHome && (
             <AutoColumn gap="md">
-              <TYPE.mediumHeader fontSize="18">Select Destination</TYPE.mediumHeader>
+              <TYPE.mediumHeader color="grey" fontSize="18">Select Destination</TYPE.mediumHeader>
               <DestinationWrapper>
                 <DestinationButton
                   text="Ethereum"
@@ -268,7 +268,7 @@ export default function Bridge() {
                 />
                 OR
                 <DestinationButton
-                  text="Binance"
+                  text="Binance Chain"
                   logoSrc={bnbLogo}
                   color={theme.binance}
                   selectedBridgeDirection={bridgeDirection}
@@ -279,7 +279,7 @@ export default function Bridge() {
             </AutoColumn>
           )}
           <AutoColumn gap={'md'}>
-            <TYPE.mediumHeader fontSize="18">Select Currency</TYPE.mediumHeader>
+            <TYPE.mediumHeader color="grey" fontSize="18">Select Currency</TYPE.mediumHeader>
             <CurrencyInputPanel
               label="Amount"
               value={formattedAmounts[Field.INPUT]}

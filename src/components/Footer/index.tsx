@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
+import fuse from '../../assets/svg/fuse.svg'
+import axios from "axios";
 
 const Wrapper = styled.div`
-  display: flex-wrap;
+  display: flex;
+  flex: flex-wrap;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -10,35 +13,61 @@ const Wrapper = styled.div`
   overflow: hidden;
   height: 2rem;
   background-color: black;
-  box-sizing: content-box;
+  z-index: 100;
 }
 `
 
 const NewsWrapper = styled.div`
-  display: inline-block;
+  display: flex;
   height: 2rem;
   line-height: 2rem;
-  white-space: nowrap;
-  padding-right: 100%;
-  box-sizing: content-box;
+  width: 33.3%;
+  color: #FFFFFF;
+  text-align: center;
 }
+`
+const IconWrapper = styled.div`
+  ${({ theme }) => theme.flexColumnNoWrap};
+  display: inline;
+  & > img,
+  span {
+    height: 100%;
+    padding: 0.25rem;
+  }
 `
 
 export default function Footer() {
-  const [data, setData] = useState<any[]>([])
-  const getData = () =>
-    fetch('https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=&vs_currencies=usd')
-      .then((res) => res.json())
-
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     useEffect(() => {
-        getData().then((data) => setData(data.body))
-    }, [])
+    axios("http://service.fuseswap.com/api/v1/price/0x0be9e53fd7edac9f859882afdda116645287c629")
+    .then((response) => {
+    setData(response.data);
+    })
+    .catch((error) => {
+    console.error("Error fetching data: ", error);
+    setError(error);
+    })
+    .finally(() => {
+    setLoading(false);
+    });
+    console.log(loading,error,data);
+    }, []);
+    
+  
+  const size = [0, 0, 0];
 
   return (
     <Wrapper>
+      {size.map((size, index) => (
       <NewsWrapper>
-      {data}
+        <IconWrapper>
+          <img src={fuse} alt="" />
+        </IconWrapper>
+          <span>Fuse Token price USD: 0.28</span>
       </NewsWrapper>
+      ))};
     </Wrapper>
   )
 };

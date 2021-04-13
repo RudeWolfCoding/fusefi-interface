@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import fuse from '../../assets/svg/fuse_sub.svg'
+import fuse from '../../assets/svg/animation.svg'
 
 const Circles = styled.div`
   position: absolute;
@@ -100,7 +100,7 @@ const Circles = styled.div`
       opacity: 1;
     }
     100% {
-      transform: translateY(-1000px) rotate(720deg);
+      transform: translateY(-1000px);
     }
   }
 `
