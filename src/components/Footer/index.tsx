@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import fuse from '../../assets/svg/fuse.svg'
 import axios from "axios";
@@ -37,27 +37,27 @@ const IconWrapper = styled.div`
 `
 
 export default function Footer() {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    useEffect(() => {
-    axios("http://service.fuseswap.com/api/v1/price/0x0be9e53fd7edac9f859882afdda116645287c629")
+  let [responseData, setResponseData] = React.useState('');
+  const fetchData = React.useCallback(() => {
+    axios({
+      "method": "GET",
+      "url": "https://service.fuseswap.com/api/v1/price/0x0be9e53fd7edac9f859882afdda116645287c629",
+    })
     .then((response) => {
-    setData(response.data);
+      setResponseData(response.data.data.price)
+      console.log(response.data.price);
     })
     .catch((error) => {
-    console.error("Error fetching data: ", error);
-    setError(error);
+      console.log(error)
     })
-    .finally(() => {
-    setLoading(false);
-    });
-    console.log(loading,error,data);
-    }, []);
-    
-  
-  const size = [0, 0, 0];
+  }, [])
 
+  React.useEffect(() => {
+    fetchData()
+  }, [fetchData])
+    
+
+  const size = [0, 0, 0];
   return (
     <Wrapper>
       {size.map((size, index) => (
@@ -65,7 +65,11 @@ export default function Footer() {
         <IconWrapper>
           <img src={fuse} alt="" />
         </IconWrapper>
-          <span>Fuse Token price USD: 0.28</span>
+        {responseData &&
+        <div>
+         Fuse Token Price: {parseFloat(responseData).toFixed(3)} USD
+        </div>         
+        }
       </NewsWrapper>
       ))};
     </Wrapper>

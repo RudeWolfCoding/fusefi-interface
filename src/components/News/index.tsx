@@ -28,8 +28,8 @@ const HeaderOptions = styled("div")<{ size: string, y: string }>`
 `
 
 const ExpandableWrapper = styled.div`
-overflow: hidden;
-padding-top: 0.75rem;
+  overflow: hidden;
+  padding-top: 0.75rem;
 `
 
 const Content = styled("div")<{ size: string }>`
@@ -41,6 +41,16 @@ const Article = styled("div")`
   padding-left: 1rem;
   border-bottom: solid 1px #E4DDDD;
   padding-bottom: 1rem;
+  padding-top: 1rem;
+`
+
+const Title = styled("a")`
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #000000;
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.5rem;
 `
 
 export default function NewsModal() {
@@ -54,22 +64,18 @@ export default function NewsModal() {
         <div>
           <img src={fuse} alt="test" width="32px"></img> 
         </div>
-        <div>
           <h4>News</h4>
-        </div>
        </HeaderItem>
-        <HeaderOptions size={open? '-175' : '0'} y={open? '25' : '0'}>
+        <HeaderOptions size={open? '-225' : '0'} y={open? '25' : '0'}>
         <ChevronUp />
         </HeaderOptions>
       </Header>
 
       <ExpandableWrapper>
-        <Content size={open ? '0' : '-100'}>
+        <Content size={open ? '0' : '-200'}>
           {articles.map((article, index) => (
             <Article>
-              <h4>{article.title}</h4>
-              <p>{article.description}</p>
-              <a href={article.link}>Read More</a>
+              <Title href={article.link}>{article.title}</Title>
             </Article>
           ))}
         </Content>
