@@ -49,13 +49,13 @@ export function colors(darkMode: boolean): Colors {
     text7: darkMode ? '#49A8FF' : '#55A1FF',
 
     // backgrounds / greys
-    bg1: darkMode ? '#1E242B' : '#FFFFFF',
-    bg2: darkMode ? '#2C2F36' : '#E3E3E3',
+    bg1: darkMode ? '#434751' : '#FFFFFF',
+    bg2: darkMode ? '#78797C' : '#E3E3E3',
     bg3: darkMode ? '#2C2F36' : '#EBEDF0',
     bg4: darkMode ? '#2C2F36' : '#FFFFFF',
     bg5: '#6C7284',
     bg6: darkMode ? '#111418' : '#F5F6FA',
-    bg7: darkMode ? '#2C2F36' : '#E2E6EC',
+    bg7: darkMode ? '#000000' : '#E2E6EC',
     bg8: '#E2E5EC',
     bg9: darkMode ? '#212429' : '#F5F6FA',
     bg10: '#041E2F',

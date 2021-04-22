@@ -8,9 +8,6 @@ import { ArrowLeft } from 'react-feather'
 import { RowBetween } from '../Row'
 import QuestionHelper from '../QuestionHelper'
 
-import bridge from '../../assets/svg/bridge.svg'
-import pool from '../../assets/svg/pool.svg'
-import swap from '../../assets/svg/swap.svg'
 
 const Tabs = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -55,39 +52,18 @@ const ActiveText = styled.div`
 const StyledArrowLeft = styled(ArrowLeft)`
   color: ${({ theme }) => theme.text1};
 `
-const IconWrapper = styled.div<{ size?: number }>`
-  ${({ theme }) => theme.flexColumnNoWrap};
-  width: 100%;
-  display: inline;
-  margin-right: 1rem;
-  color: red;
-  & > img,
-  span {
-    height: ${({ size }) => (size ? size + 'px' : '20px')};
-    width: ${({ size }) => (size ? size + 'px' : '20px')};
-  }
-`
 
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' | 'bridge' }) {
   const { t } = useTranslation()
   return (
     <Tabs style={{ marginBottom: '20px' }}>
       <StyledNavLink id={`swap-nav-link`} to={'/swap'} isActive={() => active === 'swap'}>
-        <IconWrapper>
-          <img src={swap} alt=""/>
-        </IconWrapper>
         {t('swap')}
       </StyledNavLink>
       <StyledNavLink id={`pool-nav-link`} to={'/pool'} isActive={() => active === 'pool'}>
-        <IconWrapper>
-          <img src={pool} alt=""/>
-        </IconWrapper>
         {t('pool')}
       </StyledNavLink>
       <StyledNavLink id={`bridge-nav-link`} to={'/bridge'} isActive={() => active === 'bridge'}>
-        <IconWrapper>
-          <img src={bridge} alt=""/>
-        </IconWrapper>
         Bridge
       </StyledNavLink>
     </Tabs>

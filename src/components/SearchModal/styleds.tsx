@@ -49,7 +49,7 @@ export const SearchInput = styled.input`
   border-radius: 20px;
   color: ${({ theme }) => theme.text1};
   border-style: solid;
-  border: 1px solid ${({ theme }) => theme.bg3};
+  border: 2px solid ${({ theme }) => theme.bg3};
   -webkit-appearance: none;
 
   font-size: 18px;

@@ -14,6 +14,7 @@ import {
   RedirectToAddLiquidity
 } from './AddLiquidity/redirects'
 import Pool from './Pool'
+import Farm from './Farm'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
@@ -41,7 +42,7 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 160px;
+  padding-top: 100px;
   align-items: center;
   flex: 1;
   overflow-y: auto;
@@ -87,6 +88,7 @@ export default function App() {
                 <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
                 <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
                 <Route exact strict path="/bridge" component={Bridge} />
+                <Route exact strict path="/farm" component={Farm} />
                 <Route component={RedirectToDefault} />
               </Switch>
             </Web3ReactManager>

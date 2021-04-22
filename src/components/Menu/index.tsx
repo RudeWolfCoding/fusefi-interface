@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import {
   ChevronUp,
-  Info,
   BookOpen,
   Code,
   PieChart,
@@ -9,15 +8,15 @@ import {
   BarChart2,
   MessageSquare
 } from 'react-feather'
-import styled from 'styled-components'
-
-import bridge from '../../assets/svg/bridge.svg'
-import pool from '../../assets/svg/pool.svg'
-import swap from '../../assets/svg/swap.svg'
-import farm from '../../assets/svg/farm.svg'
-
 import { ExternalLink } from '../../theme'
 import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+
+import Bridge from '../../assets/svg/bridge.js'
+import Pool from '../../assets/svg/pool.js'
+import Swap from '../../assets/svg/swap.js'
+import Farm from '../../assets/svg/farm.js'
+import More from '../../assets/svg/more.js'
 
 const activeClassName = 'ACTIVE'
 
@@ -45,27 +44,11 @@ const MenuFlyout = styled.span`
   display: flex;
   flex-direction: column;
   font-size: 1rem;
-  top: 6.5rem;
+  top: 5.25rem;
   left: 15px;
   z-index: 100;
 `
 
-const MenuItem = styled(ExternalLink)`
-  flex: 1;
-  font-size: 1.15rem;
-  line-height: 3rem;
-  padding: 0.5rem 0.25rem;
-  color: ${({ theme }) => theme.text2};
-  :hover {
-    color: ${({ theme }) => theme.text1};
-    cursor: pointer;
-    text-decoration: none;
-  }
-  > svg {
-    margin-right: 12px;
-    padding-top: 6px;
-  }
-`
 const MenuSubItem = styled(ExternalLink)`
   width:100%;
   display: block;
@@ -128,9 +111,8 @@ const MenuItemExpand = styled("div")`
 
 const MenuItemWrapper = styled.div`
   display: block;
-  width: 110px;
   overflow: hidden;
-  margin: auto;
+  width: 100%
   `
 
 const ExpandableWrapper = styled.div`
@@ -147,11 +129,17 @@ const IconWrapper = styled.div<{ size?: number }>`
   ${({ theme }) => theme.flexColumnNoWrap};
   width: 100%;
   display: inline;
+  margin-left: 1rem;
   margin-right: 1rem;
-  & > img,
-  span {
-    height: ${({ size }) => (size ? size + 'px' : '20px')};
-    width: ${({ size }) => (size ? size + 'px' : '20px')};
+  width: 40px;
+  > svg #icon{
+    stroke: ${({ theme }) => theme.text2};
+  }
+  > svg #icon2{
+    fill: ${({ theme }) => theme.text2};
+  }
+  > svg:hover #icon{
+    ${({ theme }) => theme.text1}
   }
 `
 const HeaderOptions = styled("div")<{ size: string, y: string }>`
@@ -174,7 +162,7 @@ export default function Sidebar() {
           <MenuItemInternal to="/swap">
             <MenuItemWrapper>
               <IconWrapper>
-                <img src={swap} alt=""/>
+                <Swap/>
               </IconWrapper>
                 Swap
             </MenuItemWrapper>
@@ -182,34 +170,34 @@ export default function Sidebar() {
             <MenuItemInternal to="/pool">
             <MenuItemWrapper>
               <IconWrapper>
-                <img src={pool} alt=""/>
-               </IconWrapper>
+                <Pool />
+              </IconWrapper>
               Pool
             </MenuItemWrapper>
           </MenuItemInternal>
           <MenuItemInternal to="/bridge">
             <MenuItemWrapper>
               <IconWrapper>
-                <img src={bridge} alt=""/>
+                <Bridge />
               </IconWrapper>
               Bridge
             </MenuItemWrapper>
           </MenuItemInternal>
-          <MenuItem id="link" href="https://staking.fuse.io">
+          <MenuItemInternal to="/farm">
             <MenuItemWrapper>
               <IconWrapper>
-                <img src={farm} alt=""/>
+                <Farm />
               </IconWrapper>
                 Farm
             </MenuItemWrapper>
-          </MenuItem>
+          </MenuItemInternal>
           <MenuItemExpand onClick={toggle}>
             <MenuItemWrapper>
               <IconWrapper>
-                <Info size={20}/>
+                <More />
               </IconWrapper>
                 More
-              <HeaderOptions size={open? '-175' : '0'} y={open? '0' : '0'}>
+              <HeaderOptions size={open? '0' : '-175'} y={open? '0' : '0'}>
                 <ChevronUp size={18} />
               </HeaderOptions>
             </MenuItemWrapper>
