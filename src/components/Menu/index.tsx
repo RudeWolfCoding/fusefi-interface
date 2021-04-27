@@ -17,6 +17,7 @@ import Pool from '../../assets/svg/pool.js'
 import Swap from '../../assets/svg/swap.js'
 import Farm from '../../assets/svg/farm.js'
 import More from '../../assets/svg/more.js'
+import Plus from '../../assets/svg/plus.js'
 
 const activeClassName = 'ACTIVE'
 
@@ -34,7 +35,7 @@ const StyledMenu = styled.div`
 `
 
 const MenuFlyout = styled.span`
-  position: fixed;
+  position: absolute;
   min-width: 13.25rem;
   background-color: ${({ theme }) => theme.bg1};
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
@@ -44,7 +45,7 @@ const MenuFlyout = styled.span`
   display: flex;
   flex-direction: column;
   font-size: 1rem;
-  top: 5.25rem;
+  top: 0.25rem;
   left: 15px;
   z-index: 100;
 `
@@ -55,7 +56,7 @@ const MenuSubItem = styled(ExternalLink)`
   font-size: 1rem;
   line-height: 2rem;
   padding: 0.5rem 0.5rem;
-  padding-left: 2.75rem;
+  padding-left: 2.9rem;
   color: ${({ theme }) => theme.text2};
   :hover {
     color: ${({ theme }) => theme.text1};
@@ -189,6 +190,14 @@ export default function Sidebar() {
                 <Farm />
               </IconWrapper>
                 Farm
+            </MenuItemWrapper>
+          </MenuItemInternal>
+          <MenuItemInternal to="/vote">
+            <MenuItemWrapper>
+              <IconWrapper>
+                <Plus />
+              </IconWrapper>
+              UpVoty
             </MenuItemWrapper>
           </MenuItemInternal>
           <MenuItemExpand onClick={toggle}>

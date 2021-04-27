@@ -43,7 +43,7 @@ const Content = styled("div")<{ size: string }>`
 `
 
 const Article = styled("div")`
-  padding-bottom: 1.25rem;
+  padding-bottom: 1.45rem;
 `
 
 const Title = styled("a")`
@@ -74,6 +74,18 @@ const Title = styled("a")`
     background-image: linear-gradient(50deg, #F5F378 0%, #9FFCB4 100%);
     transition: transform .35s ease-out;
   }
+  ::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(50deg, #F5F378 0%, #9FFCB4 100%);
+    transform: translateY(calc(-100% + 2px));
+    transition: transform .35s ease-out;
+  }
   
   :hover { 
     color: #000000; 
@@ -81,6 +93,10 @@ const Title = styled("a")`
   }
 
   :hover::before {
+    transform: translateY(0);
+    transition: transform .25s ease-out;
+  }
+  :hover::after {
     transform: translateY(0);
     transition: transform .25s ease-out;
   }
@@ -106,7 +122,7 @@ export default function NewsModal() {
         <Content size={open ? '0' : '-220'}>
           {articles.map((article, index) => (
             <Article>
-              <Title href={article.link}> -  {article.title}</Title>
+              <Title target="_blank" href={article.link}> -  {article.title}</Title>
             </Article>
           ))}
         </Content>

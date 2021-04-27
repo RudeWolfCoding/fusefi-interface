@@ -4,12 +4,11 @@ import { isMobile } from 'react-device-detect'
 import { Text } from 'rebass'
 import styled from 'styled-components'
 
-import Logo from '../../assets/svg/fuse_logo.svg'
+import Logo from '../../assets/svg/logo.js'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 
 import Settings from '../Settings'
-import Menu from '../Menu'
 import LightSwitch from '../LightSwitch'
 
 import { RowBetween } from '../Row'
@@ -102,13 +101,19 @@ const NetworkCard = styled("div")`
 `
 
 const UniIcon = styled.div`
-  img {
-    width: 10.5rem;
-
+    > svg #icon{
+    stroke: ${({ theme }) => theme.text2};
     ${({ theme }) => theme.mediaWidth.upToSmall`
       width: 7.5rem;
     `}
   }
+  > svg #icon2{
+    fill: ${({ theme }) => theme.text2};
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+      width: 7.5rem;
+    `}
+  }
+  
 `
 
 const HeaderControls = styled.div`
@@ -204,10 +209,9 @@ export default function Header() {
     <HeaderFrame>
       <RowBetween style={{ alignItems: 'flex-start' }}>
         <HeaderElement>
-          <Menu />
           <Title href="." style={{ textDecoration: 'none' }}>
             <UniIcon>
-              <img src={Logo} alt="logo" />
+              <Logo />
             </UniIcon>
           </Title>
         </HeaderElement>
@@ -234,7 +238,6 @@ export default function Header() {
           </MobileBalanceElement>
           <HeaderElementWrap>
             <Settings />
-            <Menu />
             <LightSwitch />
           </HeaderElementWrap>
         </HeaderControls>

@@ -115,6 +115,16 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "event-emitter": "^0.3.5"
+    "@apollo/react-hooks": "^4.0.0",
+    "apollo-boost": "^0.4.9",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-link-http": "^1.5.17",
+    "bignumber.js": "^9.0.1",
+    "event-emitter": "^0.3.5",
+    "graphql": "^15.5.0",
+    "graphql-request": "^3.4.0",
+    "graphql-tag": "^2.11.0",
+    "react-apollo": "^3.1.5",
+    "superagent": "^6.1.0"
   }
 }
