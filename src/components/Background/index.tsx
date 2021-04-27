@@ -7,7 +7,8 @@ const Circles = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  min-height: 1125px;
+  background-color: ${({ theme }) => theme.bg6};
   overflow: hidden;
   li {
     position: absolute;
@@ -15,7 +16,7 @@ const Circles = styled.div`
     list-style: none;
     width: 20px;
     height: 20px;
-    animation: animate 25s linear infinite;
+    animation: animate 35s linear infinite;
     bottom: -150px;
   }
 
@@ -100,13 +101,15 @@ const Circles = styled.div`
       opacity: 1;
     }
     100% {
-      transform: translateY(-1000px);
+      transform: translateY(-200vh);
     }
   }
 `
 
-export default function Bubbles() {
+export default function Bubbles(props:any) {
   return (
+    <>
+    {props.children}
     <Circles>
       <li><img src={fuse} alt="" width="100%"/></li>
       <li><img src={fuse} alt="" width="100%"/></li>
@@ -119,5 +122,6 @@ export default function Bubbles() {
       <li><img src={fuse} alt="" width="100%"/></li>
       <li><img src={fuse} alt="" width="100%"/></li>
     </Circles>
+    </>
   )
 }

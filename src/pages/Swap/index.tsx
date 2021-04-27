@@ -60,6 +60,7 @@ import Maintenance from '../../components/swap/Maintenance'
 import usePegSwapCallback, { PegSwapType } from '../../hooks/usePegSwapCallback'
 import useAddChain from '../../hooks/useAddChain'
 import { FUSE_CHAIN } from '../../constants/chains'
+import { useAddPopup } from '../../state/application/hooks'
 import styled from 'styled-components'
 
 const ExpandableWrapper = styled("div")`
@@ -232,12 +233,27 @@ export default function Swap() {
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
 
+  const addPopup = useAddPopup();
+
   // mark when a user has submitted an approval, reset onTokenSelection for input field
   useEffect(() => {
+    if (account){
+      Object.keys(tokens).forEach((key)=>{
+        const wrappedToken = tokens[key] as WrappedTokenInfo
+        if (wrappedToken.isDeprecated) {
+          addPopup({deprecated: {
+            token: 'WETH',
+            currency: wrappedToken,
+          }})
+          return
+        }      
+      })
+    }
+    
     if (approval === ApprovalState.PENDING) {
       setApprovalSubmitted(true)
     }
-  }, [approval, approvalSubmitted])
+  }, [approval, approvalSubmitted, account])
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))

@@ -7,6 +7,7 @@ import { PopupContent } from '../../state/application/actions'
 import { useRemovePopup } from '../../state/application/hooks'
 import ListUpdatePopup from './ListUpdatePopup'
 import TransactionPopup from './TransactionPopup'
+import Deprecated from './DeprecatedPopup'
 
 export const StyledClose = styled(X)`
   position: absolute;
@@ -89,6 +90,13 @@ export default function PopupItem({
         listType={listType}
       />
     )
+  }else if ('deprecated' in content) {
+    const {
+      deprecated: { token, currency }
+    } = content
+    popupContent = (
+       <Deprecated token={token} currency={currency} />
+      )
   }
 
   const faderStyle = useSpring({

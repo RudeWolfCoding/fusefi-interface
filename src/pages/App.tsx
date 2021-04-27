@@ -14,7 +14,7 @@ import {
   RedirectToAddLiquidity
 } from './AddLiquidity/redirects'
 import Pool from './Pool'
-import Farm from './Farm'
+import Upvoty from './UpVoty'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
@@ -72,8 +72,8 @@ export default function App() {
             <Header />
           </HeaderWrapper>
           <Popups />
+          <Background>
           <BodyWrapper>
-            <Background />
             <Web3ReactManager>
               <Switch>
                 <Route exact strict path="/swap" component={Swap} />
@@ -88,12 +88,13 @@ export default function App() {
                 <Route exact strict path="/remove/:tokens" component={RedirectOldRemoveLiquidityPathStructure} />
                 <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
                 <Route exact strict path="/bridge" component={Bridge} />
-                <Route exact strict path="/farm" component={Farm} />
+                <Route exact strict path="/vote" component={Upvoty} />
                 <Route component={RedirectToDefault} />
               </Switch>
             </Web3ReactManager>
             <Marginer />
           </BodyWrapper>
+          </Background>
         </AppWrapper>
       </HashRouter>
     </Suspense>
