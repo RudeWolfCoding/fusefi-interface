@@ -23,8 +23,6 @@ import {
   ArrowWrapper,
   Loader,
   DestinationWrapper,
-  ModalLink,
-  ExtLink
 } from '../../components/bridge/styleds'
 import { ArrowDown } from 'react-feather'
 import { ThemeContext } from 'styled-components'
@@ -60,6 +58,8 @@ import AddressInputPanel from '../../components/AddressInputPanel'
 import { FUSE_CHAIN } from '../../constants/chains'
 import useAddChain from '../../hooks/useAddChain'
 import AddTokenToMetamaskModal from '../../components/AddTokenToMetamaskModal'
+import MainCard from '../../components/MainCard'
+import BridgeInfo from '../../components/bridge/BridgeInfo'
 
 export default function Bridge() {
   const { account, chainId, library } = useActiveWeb3React()
@@ -239,6 +239,7 @@ export default function Bridge() {
     <>
       <AppBody>
         <SwapPoolTabs active={'bridge'} />
+        <MainCard>
         <Wrapper id="bridge-page">
           <AutoSwitchNetwork chainId={sourceChain} />
           <UnsupportedBridgeTokenModal isOpen={modalOpen} setIsOpen={setModalOpen} />
@@ -365,39 +366,12 @@ export default function Bridge() {
                     </Text>
                   )}
                 </ButtonError>
-                <TYPE.body fontSize={14} textAlign="center">
-                  Once you transfer your tokens using the bridge you will be gifted FUSE tokens directly to your wallet
-                  which will act as network gas. This will allow you to transact freely on FuseSwap
-                </TYPE.body>
-                <TYPE.body fontSize={14} textAlign="center" color={theme.red1}>
-                  Note: Please note that there are minimum limits to bridge the tokens back from fuse network to
-                  ethereum network. This is due to the high gas fees on ethereum network.
-                </TYPE.body>
-                <Wrapper style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.5rem' }}>
-                  <ExtLink target="_blank" href="https://docs.fuse.io/fuseswap/bridge-fuse-erc20-tokens">
-                    Learn how to bridge tokens
-                  </ExtLink>
-                  <ModalLink onClick={() => setFeeModalOpen(true)}>Learn about the fees</ModalLink>
-                </Wrapper>
-                <Wrapper style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.5rem' }}>
-                  <TYPE.body fontSize={14} textAlign="center">
-                    <ExtLink target="_blank" href="https://docs.fuse.io/fuseswap/migration-tutorial">
-                      Learn about token migration
-                    </ExtLink>
-                  </TYPE.body>
-                  <TYPE.body fontSize={14}>
-                    <ExtLink
-                      target="_blank"
-                      href="https://docs.fuse.io/fuseswap/bridge-fuse-network-less-than-greater-than-bsc"
-                    >
-                      Learn about BSC bridge
-                    </ExtLink>
-                  </TYPE.body>
-                </Wrapper>
+                <BridgeInfo/>
               </AutoColumn>
             )}
           </BottomGrouping>
         </Wrapper>
+        </MainCard>
       </AppBody>
       <BridgeDetails
         inputCurrencyId={inputCurrencyId}

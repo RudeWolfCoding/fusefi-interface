@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
-import { AutoColumn } from '../Column'
 import { RowBetween, RowFixed } from '../Row'
 import { TYPE } from '../../theme'
 import QuestionHelper from '../QuestionHelper'
@@ -9,18 +8,14 @@ import { useBridgeFee, useCalculatedBridgeFee, BridgeDirection } from '../../sta
 import { useCurrency } from '../../hooks/Tokens'
 
 const AdvancedDetailsFooter = styled.div<{ show: boolean }>`
-  padding-top: calc(16px + 2rem);
-  padding-bottom: 20px;
-  margin-top: -2rem;
   width: 100%;
-  max-width: 400px;
+  margin: auto;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   color: ${({ theme }) => theme.text2};
   background-color: ${({ theme }) => theme.advancedBG};
   z-index: -1;
-
-  transform: ${({ show }) => (show ? 'translateY(0%)' : 'translateY(-100%)')};
+  display: ${({ show }) => (show ? 'flex' : 'none')};
   transition: transform 300ms ease-in-out;
 `
 
@@ -44,7 +39,6 @@ function BridgeDetails({
 
   return (
     <AdvancedDetailsFooter show={show}>
-      <AutoColumn gap="md" style={{ padding: '0 20px' }}>
         <RowBetween style={{ flexWrap: 'wrap' }}>
           <RowFixed>
             <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
@@ -58,7 +52,6 @@ function BridgeDetails({
             {`${calculatedFee} ${currency?.symbol} Fee (${feePercentage}%)`}
           </TYPE.black>
         </RowBetween>
-      </AutoColumn>
     </AdvancedDetailsFooter>
   )
 }

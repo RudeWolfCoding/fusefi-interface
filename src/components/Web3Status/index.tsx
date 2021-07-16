@@ -42,6 +42,8 @@ const Web3StatusGeneric = styled('div')`
   align-items: center;
   padding: 0.5rem;
   border-radius: 12px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
   cursor: pointer;
   user-select: none;
   :focus {

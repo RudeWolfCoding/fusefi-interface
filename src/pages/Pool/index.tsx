@@ -23,6 +23,7 @@ import { Dots, Wrapper } from '../../components/swap/styleds'
 import SwitchNetwork from '../../components/swap/SwitchNetwork'
 import { UNDER_MAINTENANCE } from '../../constants'
 import Maintenance from '../../components/swap/Maintenance'
+import MainCard from '../../components/MainCard'
 
 export default function Pool() {
   const theme = useContext(ThemeContext)
@@ -82,67 +83,69 @@ export default function Pool() {
     <>
       <AppBody>
         <SwapPoolTabs active={'pool'} />
-        <AutoColumn gap="lg" justify="center">
-          <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add/FUSE">
-            <Text fontWeight={500} fontSize={20}>
-              Add Liquidity
-            </Text>
-          </ButtonPrimary>
-
-          <AutoColumn gap="12px" style={{ width: '100%' }}>
-            <RowBetween padding={'0 8px'}>
-              <Text color={theme.text1} fontWeight={500}>
-                Your Liquidity
+        <MainCard>
+          <AutoColumn gap="lg" justify="center">
+            <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add/FUSE">
+              <Text fontWeight={500} fontSize={20}>
+                Add Liquidity
               </Text>
-              <Question text="When you add liquidity, you are given pool tokens that represent your share. If you don’t see a pool you joined in this list, try importing a pool below." />
-            </RowBetween>
+            </ButtonPrimary>
 
-            {!account ? (
-              <LightCard padding="40px">
-                <TYPE.body color={theme.text3} textAlign="center">
-                  Connect to a wallet to view your liquidity.
-                </TYPE.body>
-              </LightCard>
-            ) : v2IsLoading ? (
-              <LightCard padding="40px">
-                <TYPE.body color={theme.text3} textAlign="center">
-                  <Dots>Loading</Dots>
-                </TYPE.body>
-              </LightCard>
-            ) : allV2PairsWithLiquidity?.length > 0 ? (
-              <>
-                {allV2PairsWithLiquidity.map(v2Pair => (
-                  <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
-                ))}
-              </>
-            ) : (
-              <LightCard padding="40px">
-                <TYPE.body color={theme.text3} textAlign="center">
-                  No liquidity found.
-                </TYPE.body>
-              </LightCard>
-            )}
+            <AutoColumn gap="12px" style={{ width: '100%' }}>
+              <RowBetween padding={'0 8px'}>
+                <Text color={theme.text1} fontWeight={500}>
+                  Your Liquidity
+                </Text>
+                <Question text="When you add liquidity, you are given pool tokens that represent your share. If you don’t see a pool you joined in this list, try importing a pool below." />
+              </RowBetween>
 
-            <div>
-              <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
-                {hasV1Liquidity ? 'Uniswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
-                <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
-                  {hasV1Liquidity ? 'Migrate now.' : 'Import it.'}
-                </StyledInternalLink>
-              </Text>
-              <Text textAlign="center" fontSize={14}>
-                <ExternalLink
-                  target="_blank"
-                  href="https://docs.fuse.io/fuseswap/adding-liquidity"
-                  style={{ color: theme.secondary1 }}
-                >
-                  Click here
-                </ExternalLink>{' '}
-                to learn how to add liquidity
-              </Text>
-            </div>
+              {!account ? (
+                <LightCard padding="40px">
+                  <TYPE.body color={theme.text3} textAlign="center">
+                    Connect to a wallet to view your liquidity.
+                  </TYPE.body>
+                </LightCard>
+              ) : v2IsLoading ? (
+                <LightCard padding="40px">
+                  <TYPE.body color={theme.text3} textAlign="center">
+                    <Dots>Loading</Dots>
+                  </TYPE.body>
+                </LightCard>
+              ) : allV2PairsWithLiquidity?.length > 0 ? (
+                <>
+                  {allV2PairsWithLiquidity.map(v2Pair => (
+                    <FullPositionCard key={v2Pair.liquidityToken.address} pair={v2Pair} />
+                  ))}
+                </>
+              ) : (
+                <LightCard padding="40px">
+                  <TYPE.body color={theme.text3} textAlign="center">
+                    No liquidity found.
+                  </TYPE.body>
+                </LightCard>
+              )}
+
+              <div>
+                <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
+                  {hasV1Liquidity ? 'Uniswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
+                  <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
+                    {hasV1Liquidity ? 'Migrate now.' : 'Import it.'}
+                  </StyledInternalLink>
+                </Text>
+                <Text textAlign="center" fontSize={14}>
+                  <ExternalLink
+                    target="_blank"
+                    href="https://docs.fuse.io/fuseswap/adding-liquidity"
+                    style={{ color: theme.secondary1 }}
+                  >
+                    Click here
+                  </ExternalLink>{' '}
+                  to learn how to add liquidity
+                </Text>
+              </div>
+            </AutoColumn>
           </AutoColumn>
-        </AutoColumn>
+        </MainCard>
       </AppBody>
     </>
   )
