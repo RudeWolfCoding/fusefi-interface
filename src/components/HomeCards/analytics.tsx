@@ -65,28 +65,20 @@ const Text = styled.div`
 
 const Image = styled.div`
 display: table-row;
-
 position: relative;
-    height: 75px;
-
-
-    >img{
-  position: absolute;
-bottom: -2%;
-left: 0;
-width: 100%;
 height: 75px;
-object-fit: cover;
-border-bottom-left-radius: 19px;
-border-bottom-right-radius: 19px;
-
-}
-  }
-  height: 75px;
-  
-
-
 color: #ededed;
+  >img{
+  position: absolute;
+  bottom: -2%;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  object-fit: cover;
+  border-bottom-left-radius: 19px;
+  border-bottom-right-radius: 19px;
+  }
+}
 `
 
 const Floater = styled.div`
@@ -97,7 +89,7 @@ cursor: pointer;
 }
 `
 
-export default function Analytics() {
+export default function HomeAnalytics() {
   return (
     <Container href="https://info.fuseswap.com/" target="_blank">
       <tr></tr>
@@ -108,10 +100,10 @@ export default function Analytics() {
         <span>Track tokens, pairs and pools in real time</span>
       </Text>
       <Image>
-        <img src={analytics} width="32px"></img>
+        <img src={analytics} width="32px" alt="Analytics logo"></img>
       </Image>
       <Floater>
-        <img src={floater}></img>
+        <img src={floater} alt="Click to open logo"></img>
       </Floater>
     </Container>
   )

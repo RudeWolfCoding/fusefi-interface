@@ -47,8 +47,8 @@ export const HeaderText = styled.div`
   color: #fff;
   align-self: center;
   color: lightgray;
-  >span{
-    font-size:32px;
+  > span {
+    font-size: 32px;
     line-height: 48px;
   }
 `
@@ -207,13 +207,13 @@ export const Modal: FunctionComponent<ModalProps> = ({ isShown, hide, modalConte
         <StyledModal>
           <Header>
             <HeaderText onClick={hide}>
-              <img src={Icon} width="48px" height="48px"></img>
+              <img src={Icon} width="48px" height="48px" alt="Bridge Icon"></img>
               <span>Bridge Fees</span>
             </HeaderText>
           </Header>
           <Content>
             <Chain>
-              <img src={eth} /> <span>Ethereum</span>
+              <img src={eth} alt="ETH Icon" /> <span>Ethereum</span>
             </Chain>
             <Cards>
               <Card>
@@ -235,7 +235,7 @@ export const Modal: FunctionComponent<ModalProps> = ({ isShown, hide, modalConte
               </Card>
             </Cards>
             <Chain>
-              <img src={binance} /> <span>Binance</span>
+              <img src={binance} alt="Binance Icon" /> <span>Binance</span>
             </Chain>
             <Cards>
               <Card>
@@ -257,7 +257,7 @@ export const Modal: FunctionComponent<ModalProps> = ({ isShown, hide, modalConte
             </Cards>
             <Info>
               <Side>
-                <img width="20px" src={InfoIcon} />
+                <img width="20px" src={InfoIcon} alt="Info Icon" />
               </Side>
               <InfoText>
                 <p>The fees are taken to repay the network fees on the Ethereum network.</p>
@@ -270,7 +270,7 @@ export const Modal: FunctionComponent<ModalProps> = ({ isShown, hide, modalConte
 
             <InfoNotice>
               <div>
-                <img width="20px" src={InfoIcon} />
+                <img width="20px" src={InfoIcon} alt="Info Icon" />
                 <span>Important</span>
               </div>
               <InfoNoticeText>

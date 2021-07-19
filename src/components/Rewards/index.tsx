@@ -1,25 +1,24 @@
-import { darken } from 'polished';
+import { darken } from 'polished'
 import React, { useState } from 'react'
-import styled from 'styled-components';
-import {  getFarmingPools } from '../../hooks/Farm';
-import Reward from './reward';
+import styled from 'styled-components'
+import { getFarmingPools } from '../../hooks/Farm'
+import Reward from './reward'
 
-const Wrapper = styled("div")`
+const Wrapper = styled('div')`
   display: flex;
   flex: wrap;
   font-size: 16px;
 `
-const Container = styled("div")`
+const Container = styled('div')`
   width: 100%;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
   background: #232638;
   border-radius: 16px;
-  
 `
 
-const Selector = styled("div")`
+const Selector = styled('div')`
   display: flex;
   position: relative;
   width: 25%;
@@ -51,20 +50,18 @@ const Button = styled('div').attrs({
     border-radius: 12px;
     font-weight: 500;
     color: ${({ theme }) => theme.text1};
-    :before{
-      content:"";
-  position:absolute;
-  width: 100%;
-  top:0;
-  bottom:0;
-  border-radius:16px; 
-  padding:3px; 
-  background:linear-gradient(110deg, #b1ffbf 7%, #fff16d);
-  -webkit-mask: 
-     linear-gradient(#fff 0 0) content-box, 
-     linear-gradient(#fff 0 0);
-  -webkit-mask-composite: destination-out; 
-  mask-composite: exclude; 
+    :before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      top: 0;
+      bottom: 0;
+      border-radius: 16px;
+      padding: 3px;
+      background: linear-gradient(110deg, #b1ffbf 7%, #fff16d);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
     }
   }
 
@@ -74,111 +71,94 @@ const Button = styled('div').attrs({
   }
 `
 
-
-const Item = styled("div")`
-flex: 1 1 25%;
+const Item = styled('div')`
+  flex: 1 1 25%;
   line-height: 3rem;
-border-bottom: 1px solid black;
+  border-bottom: 1px solid black;
   padding-left: 25px;
   text-align: left;
 `
-const DateField = styled("div")`
-flex: 1 1 22%;
+const DateField = styled('div')`
+  flex: 1 1 22%;
   line-height: 3rem;
-border-bottom: 1px solid black;
+  border-bottom: 1px solid black;
 `
 
-const APYField = styled("div")`
-flex: 1 1 6%;
+const APYField = styled('div')`
+  flex: 1 1 6%;
   line-height: 3rem;
-border-bottom: 1px solid black;
-
+  border-bottom: 1px solid black;
 `
-const SupplyField = styled("div")`
-flex: 1 1 10%;
+const SupplyField = styled('div')`
+  flex: 1 1 10%;
   line-height: 3rem;
-border-bottom: 1px solid black;
+  border-bottom: 1px solid black;
 `
 
 // eslint-disable-next-line react/display-name
-export default function (props: any) {
-  const [contracts2] = useState([...getFarmingPools()]);
-  const [polls] = useState([...getFarmingPools()]);
+export default function RewardsComponent(props: any) {
+  const [contracts2] = useState([...getFarmingPools()])
+  const [polls] = useState([...getFarmingPools()])
   const [filteredPolls, setfilteredPolls] = useState<any[]>([])
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   async function fetchMyAPI() {
-    const response = await contracts2
-    setfilteredPolls(response.filter(e => e.end  > new Date()));
-    setLoading(true);
-
+    const response = contracts2
+    setfilteredPolls(response.filter(e => e.end > new Date()))
+    setLoading(true)
   }
 
   React.useEffect(() => {
-    setfilteredPolls([]);
-    fetchMyAPI();
-    console.log(filteredPolls);
-  }, [setfilteredPolls, setLoading])
+    setfilteredPolls([])
+    fetchMyAPI()
+    console.log(filteredPolls)
+  }, [setfilteredPolls, setLoading, fetchMyAPI, filteredPolls])
 
-
-  var active = polls.filter(e => e.end > new Date())
-  var expired = polls.filter(e => e.end <= new Date())
+  const active = polls.filter(e => e.end > new Date())
+  const expired = polls.filter(e => e.end <= new Date())
 
   function showActive() {
     setLoading(true)
-    setfilteredPolls(active);
+    setfilteredPolls(active)
   }
 
   function showExpired() {
     setLoading(false)
-    setfilteredPolls(expired);
+    setfilteredPolls(expired)
   }
 
-
-
-    return (
-      <div>
-
-          <Selector>
-
-            <Button className={loading ? 'ACTIVE' : 'active'} onClick={() => { showActive() }}>Active</Button>
-            <Button  className={!loading ? 'ACTIVE' : 'active'} onClick={() => showExpired()}>Expired</Button>
-
-  </Selector>
-        <Container>
+  return (
+    <div>
+      <Selector>
+        <Button
+          className={loading ? 'ACTIVE' : 'active'}
+          onClick={() => {
+            showActive()
+          }}
+        >
+          Active
+        </Button>
+        <Button className={!loading ? 'ACTIVE' : 'active'} onClick={() => showExpired()}>
+          Expired
+        </Button>
+      </Selector>
+      <Container>
         <Wrapper>
-        <Item>
-                Farm
-              </Item>
-              {loading === true ? 
-              <APYField>
-              APY
-            </APYField> : null}
-              
-              <DateField>
-                TVL
-          </DateField>
-          <DateField>
-                Rewards
-              </DateField>
-              <SupplyField>
-              </SupplyField>
+          <Item>Farm</Item>
+          {loading === true ? <APYField>APY</APYField> : null}
+
+          <DateField>TVL</DateField>
+          <DateField>Rewards</DateField>
+          <SupplyField></SupplyField>
         </Wrapper>
 
-             {
-          filteredPolls && filteredPolls.map((poll, index) => (
-            <div key={poll.start+poll.token0+index}>
-              
+        {filteredPolls &&
+          filteredPolls.map((poll, index) => (
+            <div key={poll.start + poll.token0 + index}>
               <Reward data={poll} active={loading}></Reward>
             </div>
-
-          ))
-        }
-        </Container>
-        
-        </div>
-
-    );
-
+          ))}
+      </Container>
+    </div>
+  )
 }
-

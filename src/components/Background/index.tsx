@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import fuse from '../../assets/images/animation.png'
 
-const Circles = styled.div`
+const Container = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -37,49 +37,52 @@ const Circles = styled.div`
   li:nth-child(3) {
     left: 50%;
     top: -3%;
-        width: 150px;
+    width: 150px;
     height: 150px;
     animation-delay: 4s;
   }
 
   @keyframes animate {
-
-    0%{
-        transform: rotate(0deg);
-        opacity: 0.75;
-        border-radius: 0;
+    0% {
+      transform: rotate(0deg);
+      opacity: 0.75;
+      border-radius: 0;
     }
 
-    25%{
-        transform: rotate(30deg);
-        opacity: 1;
-        border-radius: 0;
+    25% {
+      transform: rotate(30deg);
+      opacity: 1;
+      border-radius: 0;
     }
 
-    50%{
-        transform: rotate(0deg);
-        opacity: 0.75;
-        border-radius: 0;
+    50% {
+      transform: rotate(0deg);
+      opacity: 0.75;
+      border-radius: 0;
     }
 
-    100%{
-        transform: rotate(-30deg);
-        opacity: 1;
-        border-radius: 50%;
+    100% {
+      transform: rotate(-30deg);
+      opacity: 1;
+      border-radius: 50%;
     }
-
   }
 `
 
-export default function Bubbles(props:any) {
+export default function Background() {
   return (
     <>
-    {props.children}
-    <Circles>
-        <li><img src={fuse} alt="" width="100%"/></li>
-        <li><img src={fuse} alt="" width="100%" /></li>
-        <li><img src={fuse} alt="" width="100%"/></li>
-    </Circles>
+      <Container>
+        <li>
+          <img src={fuse} alt="" width="100%" />
+        </li>
+        <li>
+          <img src={fuse} alt="" width="100%" />
+        </li>
+        <li>
+          <img src={fuse} alt="" width="100%" />
+        </li>
+      </Container>
     </>
   )
 }

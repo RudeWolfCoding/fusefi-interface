@@ -1,5 +1,5 @@
 import React from 'react'
-import image from '../images/logo.png'
+import image from './logo.svg'
 import styled from 'styled-components'
 
 const Logos = styled.div`
@@ -9,10 +9,10 @@ const Logos = styled.div`
   }
 `
 
-function Logo(props) {
+function Logo() {
   return (
     <Logos>
-      <img src={image} width="155px" />
+      <img src={image} width="155px" alt="Fuse Logo" />
     </Logos>
   )
 }

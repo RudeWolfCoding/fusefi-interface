@@ -52,26 +52,25 @@ const Item = styled(ExternalLink)`
 `
 
 export default function Footer() {
-
   return (
     <Container>
       <SocialBar>
         <Item id="link" href="https://medium.com/fusenet">
-          <img src={medium} />
+          <img src={medium} alt="Medium icon" />
         </Item>
         <Item id="link" href="https://github.com/fuseio">
-          <img src={github} />
+          <img src={github} alt="Github icon" />
         </Item>
         <Item id="link" href="https://twitter.com/fuse_network">
-          <img src={telegram} />
+          <img src={telegram} alt="Telegram icon" />
         </Item>
         <Item id="link" href="https://discord.com/invite/jpPMeSZ">
-          <img src={discord} />
+          <img src={discord} alt="Discord icon" />
         </Item>
         <Item id="link" href="https://t.me/fuseswap">
-          <img src={twitter} />
+          <img src={twitter} alt="Twitter icon" />
         </Item>
       </SocialBar>
     </Container>
   )
-};
+}

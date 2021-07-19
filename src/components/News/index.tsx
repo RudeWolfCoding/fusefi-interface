@@ -4,11 +4,11 @@ import useScript from '../../hooks/useScript'
 import Loader from './loader'
 
 export const Container = styled.div`
-z-index:100;
-border-radius: 12px;
-background: #202231;
-height: 100%;
-position: relative;
+  z-index: 100;
+  border-radius: 12px;
+  background: #202231;
+  height: 100%;
+  position: relative;
   > a {
     text-decoration: none;
     color: #ffffff;
@@ -38,56 +38,56 @@ export const Item = styled.div`
   line-height: 39px;
   font-weight: 500;
   text-align: left;
-  > img{
+  > img {
     margin-right: 1rem;
   }
-  >b{
-    color:#003cff;
+  > b {
+    color: #003cff;
   }
-  >p{
+  > p {
     margin: 0rem;
   }
-  > p >span{
+  > p > span {
     text-align: center;
   }
-
 `
 
 export const Wrap = styled.div`
-width: 100%;
-height: 100%;
-position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
 `
 
 export const Twitter = styled.div`
-padding-bottom: 0px;
-display: block;
-position: absolute;
-height: 77%;
-top:0;
-overflow: hidden;
-width: 99%;
+  padding-bottom: 0px;
+  display: block;
+  position: absolute;
+  height: 77%;
+  top: 0;
+  overflow: hidden;
+  width: 99%;
 `
 
-export default function NewsModal() {
-  useScript('https://platform.twitter.com/widgets.js');
+export default function TwitterFeed() {
+  useScript('https://platform.twitter.com/widgets.js')
 
   return (
     <Container>
-      <Header>
-        News
-      </Header>
+      <Header>News</Header>
 
-     <Wrap>
-     <Twitter>
-      <a className="twitter-timeline" data-chrome="transparent nofooter noborders noheader noscrollbar"  data-height="325"
- data-theme="dark" href="https://twitter.com/Fuse_network?ref_src=twsrc%5Etfw">
-   <Loader />
-   </a> </Twitter>  
- 
-     </Wrap>
-  </Container>
-  );
-
+      <Wrap>
+        <Twitter>
+          <a
+            className="twitter-timeline"
+            data-chrome="transparent nofooter noborders noheader noscrollbar"
+            data-height="325"
+            data-theme="dark"
+            href="https://twitter.com/Fuse_network?ref_src=twsrc%5Etfw"
+          >
+            <Loader />
+          </a>{' '}
+        </Twitter>
+      </Wrap>
+    </Container>
+  )
 }
-

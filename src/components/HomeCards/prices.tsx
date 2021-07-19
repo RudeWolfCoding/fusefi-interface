@@ -95,9 +95,9 @@ const SubText = styled('div')`
   font-style: normal;
 `
 
-export default function Rewards() {
-  let [responseData, setResponseData] = React.useState('0.00')
-  let [statsData, setStats] = React.useState({ pairCount: '0', totalLiquidityUSD: '0', totalVolumeUSD: '0' })
+export default function HomePrices() {
+  const [responseData, setResponseData] = React.useState('0.00')
+  const [statsData, setStats] = React.useState({ pairCount: '0', totalLiquidityUSD: '0', totalVolumeUSD: '0' })
 
   const props = useSpring({ val: Number(parseFloat(responseData).toFixed(2)), from: { val: 0 } })
   const tokens = useSpring({ val: Number(parseFloat(statsData.pairCount).toFixed(2)), from: { val: 0 } })

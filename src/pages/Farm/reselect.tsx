@@ -7,7 +7,7 @@ import Apy from '../../components/Rewards/apy'
 import vector from '../../assets/svg/vector.svg'
 import deposits from '../../assets/svg/deposits.svg'
 import rewards from '../../assets/svg/rewardsAcc.svg'
-import Icon from '../../components/Rewards/icons2'
+import Icon from '../../components/Rewards/icons'
 import apyPurple from '../../assets/svg/questionmark.svg'
 import apyBlue from '../../assets/svg/questionmark2.svg'
 import apyGreen from '../../assets/svg/questionmark3.svg'
@@ -62,7 +62,7 @@ const Title = styled('div')`
   }
 `
 
-export default function Farm(props: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
+export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
   const {
     match: {
       params: { currencyIdA }
@@ -197,18 +197,18 @@ export default function Farm(props: RouteComponentProps<{ currencyIdA: string; c
             </Item>
           </Grid>
           <Grid>
-              <ItemWrapper>
-                <Reselect
-                  result={result}
-                  contract={{
-                    stakingContractAddress: contract.contractAddress,
-                    tokenAddress: contract.address,
-                    user: account,
-                    token0: contract.token0,
-                    token1: contract.token1
-                  }}
-                ></Reselect>
-              </ItemWrapper>
+            <ItemWrapper>
+              <Reselect
+                result={result}
+                contract={{
+                  stakingContractAddress: contract.contractAddress,
+                  tokenAddress: contract.address,
+                  user: account,
+                  token0: contract.token0,
+                  token1: contract.token1
+                }}
+              ></Reselect>
+            </ItemWrapper>
           </Grid>
         </Wrapper>
       </AppBody>

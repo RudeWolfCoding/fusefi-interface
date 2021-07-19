@@ -6,57 +6,48 @@ import { Currency } from '@fuseio/fuse-swap-sdk'
 import { ButtonError } from '../../components/Button'
 
 const RowFlex = styled('div')`
-  display:flex;
+  display: flex;
 `
 
 const Icon = styled('div')`
-line-height:4rem;
+  line-height: 4rem;
 `
 const Title = styled('div')`
-color: red;
-font-weight: 500;
-line-height: 3.25rem;
-width: 100%;
-text-align: center;
+  color: red;
+  font-weight: 500;
+  line-height: 3.25rem;
+  width: 100%;
+  text-align: center;
 `
 
-
-export default function TransactionPopup({
-  token,
-  currency,
-}: {
-  token: string
-  currency?: Currency
-}) {
-
+export default function DeprecatedPopup({ token, currency }: { token: string; currency?: Currency }) {
   const theme = useContext(ThemeContext)
   const [migrateModalOpen, setMigrateModalOpen] = useState(false)
   return (
     <div>
-
-    <RowFlex>
+      <RowFlex>
         <Icon>
-        <AlertCircle color={theme.red1} size={24} />
+          <AlertCircle color={theme.red1} size={24} />
         </Icon>
-        <Title>
-          Your {token.replace(/\(Deprecated\)/, '')} token is deprecated!
-        </Title>
-     
-    </RowFlex>
-    <RowFlex>
-    <ButtonError
-                error={true}
-                padding={'12px'}
-                onClick={()=>{setMigrateModalOpen(true)}  
-              }>Migrate {token}</ButtonError>
-    </RowFlex>
-    <TokenMigrationModal
-         token={currency}
-         isOpen={migrateModalOpen}
-         onDismiss={() => setMigrateModalOpen(false)}
-         listType="Swap"
-       />
+        <Title>Your {token.replace(/\(Deprecated\)/, '')} token is deprecated!</Title>
+      </RowFlex>
+      <RowFlex>
+        <ButtonError
+          error={true}
+          padding={'12px'}
+          onClick={() => {
+            setMigrateModalOpen(true)
+          }}
+        >
+          Migrate {token}
+        </ButtonError>
+      </RowFlex>
+      <TokenMigrationModal
+        token={currency}
+        isOpen={migrateModalOpen}
+        onDismiss={() => setMigrateModalOpen(false)}
+        listType="Swap"
+      />
     </div>
-
   )
 }

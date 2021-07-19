@@ -245,7 +245,7 @@ export default function Sidebar() {
           <Settings />
           <Ramp onClick={openRampWidget}>
             <div>
-              <img src={fusd} width="24px" height="24px" />
+              <img src={fusd} width="24px" height="24px" alt="Fuse Dollar" />
             </div>
             <span>Buy Fuse Dollar</span>{' '}
           </Ramp>

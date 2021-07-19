@@ -25,7 +25,7 @@ const Item = styled('div')`
   overflow: hidden;
 `
 
-export default function Rewards() {
+export default function HomeNewsTweet() {
   return (
     <Grid>
       <Wrapper>

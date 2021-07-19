@@ -96,7 +96,7 @@ const Ola = styled('a')`
   }
 `
 
-export default function(props: any) {
+export default function LendingComponent(props: any) {
   const [filteredPolls, setfilteredPolls] = useState<any[]>([
     { asset: 'WBTC', size: '120.93M', borrowed: '119.92 M', apy: '176' },
     { asset: 'WETH', size: '120.93M', borrowed: '119.92 M', apy: '176' },
@@ -118,10 +118,7 @@ export default function(props: any) {
           <p>$ 999.999.999 USD</p>
           <span>Network Borrowed Balance</span>
         </Borrowed>
-        <Ola
-          href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/network"
-          target="_blank"
-        >
+        <Ola href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/network" target="_blank">
           <img src="https://app.ola.finance/assets/images/ola/ola_symbol_clear.png" width="75px;" />
           <span>Get more stats on Ola Finance </span> <img src={href} />
         </Ola>
@@ -142,7 +139,7 @@ export default function(props: any) {
         </Wrapper>
 
         {filteredPolls &&
-          filteredPolls.map((poll, index) => (
+          filteredPolls.map(poll => (
             <div key={poll.asset}>
               <Reward data={poll} active={loading}></Reward>
             </div>

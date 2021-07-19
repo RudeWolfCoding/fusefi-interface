@@ -49,10 +49,9 @@ const Icon = styled('div')`
   }
 `
 // eslint-disable-next-line react/display-name
-export default (props: any) => {
+export default function BridgeInfo(props: any) {
   const { isShown, toggle } = useModal()
-  const content =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
+  const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
   return (
     <Container>
       <Wrapper
@@ -61,7 +60,7 @@ export default (props: any) => {
         }}
       >
         <Icon>
-          <img src={bridgeApy} width="14px" height="14px"></img>
+          <img src={bridgeApy} width="14px" height="14px" alt="Bridge Logo"></img>
         </Icon>
         <span>Read about fees and minimum</span>
       </Wrapper>

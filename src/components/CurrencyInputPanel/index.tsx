@@ -34,16 +34,16 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   user-select: none;
   border: none;
   padding: 0 0.5rem;
-  svg path{
+  svg path {
     stroke: ${({ selected, theme }) => (selected ? theme.text1 : theme.text2)};
     stroke-width: 1.5px;
   }
   :focus,
   :hover {
-    background-color: #25435A;
-    color: #FFFFFF;
-    svg path{
-      stroke: #FFFFFF;
+    background-color: #25435a;
+    color: #ffffff;
+    svg path {
+      stroke: #ffffff;
       stroke-width: 1.5px;
     }
   }

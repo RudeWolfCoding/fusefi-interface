@@ -2,11 +2,7 @@ import React, { useRef, useContext, useState } from 'react'
 import { Settings, X } from 'react-feather'
 import styled from 'styled-components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import {
-  useUserSlippageTolerance,
-  useExpertModeManager,
-  useUserDeadline,
-} from '../../state/user/hooks'
+import { useUserSlippageTolerance, useExpertModeManager, useUserDeadline } from '../../state/user/hooks'
 import TransactionSettings from '../TransactionSettings'
 import { RowFixed, RowBetween } from '../Row'
 import { TYPE } from '../../theme'
@@ -27,9 +23,8 @@ const StyledMenuIcon = styled(Settings)`
   padding-right: 0px;
   padding-left: 0px;
   > * {
-    stroke: #B5B9D3;
-    
-  }  
+    stroke: #b5b9d3;
+  }
 `
 
 const StyledCloseIcon = styled(X)`
@@ -75,8 +70,6 @@ const StyledMenuButton = styled.button`
     background-color: ${({ theme }) => darken(0.05, theme.bg7)};
     
   }
-
-
 `
 const EmojiWrapper = styled.div`
   position: absolute;
@@ -108,9 +101,9 @@ const MenuFlyout = styled.span`
   bottom: 48px;
   right: 0rem;
   z-index: 100;
-  box-shadow: -2px -4px 10px 0px rgba(0,0,0,0.75);
-  -webkit-box-shadow: -2px -4px 10px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: -2px -4px 10px 0px rgba(0,0,0,0.75);
+  box-shadow: -2px -4px 10px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: -2px -4px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -2px -4px 10px 0px rgba(0, 0, 0, 0.75);
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     min-width: 18.125rem;
     right: -46px;

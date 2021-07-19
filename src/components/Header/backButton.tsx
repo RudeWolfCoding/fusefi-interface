@@ -15,10 +15,18 @@ const HeaderFrame = styled.div`
   }
 `
 
-function goBack() {
-  window.location.replace('https://v2.fuseswap.com/#/farm')
+function goBack(url: string) {
+  window.location.replace(url)
 }
 
-export default function Header() {
-  return <HeaderFrame onClick={goBack}>&#8592; Back to the list</HeaderFrame>
+export default function BackToButton(props: any) {
+  return (
+    <HeaderFrame
+      onClick={() => {
+        goBack(props.url)
+      }}
+    >
+      &#8592; Back to the list
+    </HeaderFrame>
+  )
 }

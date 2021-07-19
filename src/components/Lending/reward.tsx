@@ -136,7 +136,7 @@ const ApyField = styled('div')`
   background: linear-gradient(0deg, #fdffb2, #fdffb2);
 `
 
-export default function Reward(props: any) {
+export default function LendingReward(props: any) {
   const [contracts2, setState] = useState({ ...props.data })
 
   function toggle() {
@@ -148,9 +148,7 @@ export default function Reward(props: any) {
     return () => {
       setState(props.data)
     }
-  }, [])
-
-  console.log(contracts2)
+  }, [props.data])
 
   return (
     <Container>

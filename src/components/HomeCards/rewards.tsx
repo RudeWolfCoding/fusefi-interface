@@ -55,26 +55,25 @@ const Text = styled.div`
 `
 
 const Floater = styled.div`
-position: absolute;
-top: 15px;
-right: 15px;
-cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
 }
 `
 
-export default function Rewards() {
+export default function HomeRewards() {
   return (
     <Wrap>
       <Container href="https://rewards.fuse.io/" target="_blank">
         <Text>
-          <img src={image} />
+          <img src={image} alt="Rewards" />
         </Text>
         <Title>
           <span>Check out Fuse rewards on Mainnet and BSC</span>
         </Title>
-
         <Floater>
-          <img src={floater} />
+          <img src={floater} alt="Go to Rewards icon" />
         </Floater>
       </Container>
     </Wrap>

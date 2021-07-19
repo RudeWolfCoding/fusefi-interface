@@ -31,7 +31,7 @@ const Item = styled('div')`
 `
 
 const IconWrapper = styled('div')`
-  display:flex;
+  display: flex;
   width: 100%;
   text-align: center;
   justify-content: flex-end;
@@ -67,41 +67,42 @@ const Label = styled('div')`
   }
 `
 const Title = styled('div')<{ txt: string }>`
-  display:flex;
+  display: flex;
   width: 100%;
   text-align: center;
-  opacity:0.65;
+  opacity: 0.65;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
   color: ${({ txt }) => txt};
-  `
+`
 
-
-export default (props: any) => {
-  const { isShown, toggle } = useModal();
-  const content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id."
-
-
-
+export default function LendingAPY(props: any) {
+  const { isShown, toggle } = useModal()
+  const content =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
 
   return (
     <Container color={props.color} txt={props.txt}>
       <Wrapper>
-        <Item><img src={props.icon} width="18px" height="18px"></img> </Item>
-        <IconWrapper onClick={() => { toggle() }}><Icon><img src={props.apyIcon} width="14px" height="14px"></img></Icon></IconWrapper>
+        <Item>
+          <img src={props.icon} width="18px" height="18px"></img>{' '}
+        </Item>
+        <IconWrapper
+          onClick={() => {
+            toggle()
+          }}
+        >
+          <Icon>
+            <img src={props.apyIcon} width="14px" height="14px"></img>
+          </Icon>
+        </IconWrapper>
       </Wrapper>
       <Label>
         {props.data} &nbsp;<span> {props.label}</span>
       </Label>
-      <Title txt={props.txt}>
-        {props.title}
-      </Title>
+      <Title txt={props.txt}>{props.title}</Title>
       <Modal headerText={props.title} isShown={isShown} hide={toggle} modalContent={content} />
     </Container>
-
-  );
-
-
-
+  )
 }

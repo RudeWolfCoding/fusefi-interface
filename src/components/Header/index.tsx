@@ -131,7 +131,9 @@ export default function Header() {
     <HeaderFrame>
       <RowBetween style={{ alignItems: 'flex-start' }}>
         <HeaderElement>
-          <Route exact path="/farm/:currencyIdA" component={BackButton} />
+          <Route exact path="/farm/:currencyIdA">
+            <BackButton url="https://v2.fuseswap.com/#/farm" />
+          </Route>
         </HeaderElement>
         <HeaderControls>
           <HeaderElement>

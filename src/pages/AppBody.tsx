@@ -32,7 +32,6 @@ export default function AppBody({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <Header></Header>
-
       <BodyWrapper>
         <MobileNav></MobileNav>
         {children}

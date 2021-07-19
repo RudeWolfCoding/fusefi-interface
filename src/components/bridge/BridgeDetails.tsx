@@ -39,19 +39,19 @@ function BridgeDetails({
 
   return (
     <AdvancedDetailsFooter show={show}>
-        <RowBetween style={{ flexWrap: 'wrap' }}>
-          <RowFixed>
-            <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-              Bridge Fee
-            </TYPE.black>
-            <QuestionHelper
-              text={`Moving funds to mainnet requires ${feePercentage}% fee in order to cover  transaction and bridge maintenance costs`}
-            />
-          </RowFixed>
-          <TYPE.black fontSize={14} color={theme.text1}>
-            {`${calculatedFee} ${currency?.symbol} Fee (${feePercentage}%)`}
+      <RowBetween style={{ flexWrap: 'wrap' }}>
+        <RowFixed>
+          <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+            Bridge Fee
           </TYPE.black>
-        </RowBetween>
+          <QuestionHelper
+            text={`Moving funds to mainnet requires ${feePercentage}% fee in order to cover  transaction and bridge maintenance costs`}
+          />
+        </RowFixed>
+        <TYPE.black fontSize={14} color={theme.text1}>
+          {`${calculatedFee} ${currency?.symbol} Fee (${feePercentage}%)`}
+        </TYPE.black>
+      </RowBetween>
     </AdvancedDetailsFooter>
   )
 }

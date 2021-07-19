@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import Prices from '../HomeCards/prices'
-import News from '../HomeCards/news'
+import Prices from './prices'
+import News from './news'
 
 const Grid = styled.div`
   display: grid;
@@ -21,7 +21,7 @@ const Footer = styled.div`
   grid-area: footer;
 `
 
-export default function App() {
+export default function HomeGrid() {
   return (
     <Grid>
       <Nav>
