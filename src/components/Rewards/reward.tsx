@@ -160,8 +160,6 @@ export default function RewardItem(props: any) {
     }
   }, [props.data])
 
-  console.log(contracts2)
-
   return (
     <Container>
       <Wrapper onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)}>

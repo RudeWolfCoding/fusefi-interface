@@ -39,7 +39,7 @@ export default function Farm() {
               start earning Fuse.
             </span>{' '}
           </Text>
-          <Rewards></Rewards>
+          <Rewards />
         </Wrapper>
       </AppBody>
     )

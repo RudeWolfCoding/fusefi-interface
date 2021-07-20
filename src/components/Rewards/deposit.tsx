@@ -111,7 +111,7 @@ const Percentage = styled('button')`
   background: none;
 `
 
-export default (props: any) => {
+export default function Deposit(props: any) {
   const [withdrawValue, setWithdrawValue] = useState(props.withdrawValue)
   const addTransaction = useTransactionAdder()
 

@@ -14,7 +14,7 @@ import {
 import Pool from './Pool'
 import Farm from './Farm'
 import FarmSelect from './Farm/reselect'
-import Lending from './Lending/index'
+import Lending from './Lending'
 import Home from './Home'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'

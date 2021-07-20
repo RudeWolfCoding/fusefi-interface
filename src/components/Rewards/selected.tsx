@@ -11,7 +11,7 @@ import {
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonSecondary } from '../Button'
-const Wrapper = styled('div')`
+const Container = styled('div')`
   text-align: left;
 `
 
@@ -23,7 +23,7 @@ const Input = styled('input')`
   padding: 0.5rem;
 `
 
-const Wrapper2 = styled('div')`
+const Wrapper = styled('div')`
   display: flex;
   flex: wrap;
   margin: 1rem;
@@ -35,7 +35,7 @@ const Wrapper2 = styled('div')`
   text-align: left;
 `
 
-export default (props: any) => {
+export default function SelectedReward(props: any) {
   const [contract, setContract] = useState<{ stakingContractAddress: string; tokenAddress: string; user: string }>({
     stakingContractAddress: '',
     tokenAddress: '',
@@ -54,9 +54,6 @@ export default (props: any) => {
   const [withdrawValue, setWithdrawValue] = useState(props.withdrawValue)
   const [approvalValue, setApprovedValue] = useState(props.approvedValue)
   const [depositValue, setDepositValue] = useState(props.depositedValue)
-
-  //const [withdrawLP, setWithdrawLP] = useState<any>({})
-
   const { account, library } = useActiveWeb3React()
 
   useEffect(() => {
@@ -71,36 +68,31 @@ export default (props: any) => {
         })
       }
       const fetchLPBalance = async () => {
-        return await getLPBalance(contract.tokenAddress, contract.user, library).then(res => {
+        return await getLPBalance(contract.tokenAddress, contract.user).then(res => {
           return res
         })
       }
       const fetchLPApproved = async () => {
-        return await getLPApproved(contract.stakingContractAddress, contract.tokenAddress, contract.user, library).then(
-          res => {
-            return res
-          }
-        )
+        return await getLPApproved(contract.stakingContractAddress, contract.tokenAddress, contract.user).then(res => {
+          return res
+        })
       }
       fetchData().then(res => {
-        console.log(res)
         setResult(res)
       })
       fetchLPBalance().then(res => {
-        console.log(res)
         setlpUser(Number(res))
       })
       fetchLPApproved().then(res => {
-        console.log(res)
         setlpUserApproved(Number(res))
       })
     }
   }, [contract, library, props])
 
   return (
-    <Wrapper>
+    <Container>
       <h1>User Reward Stats</h1>
-      <Wrapper2>
+      <Wrapper>
         <Item>
           <b>
             Participating: {Number(result.userYield) > 0 && <span>Yes</span>}
@@ -113,26 +105,26 @@ export default (props: any) => {
         <Item>
           <b>User Rewards to Withdraw: {result.rewardUnlockedUser}</b>
         </Item>
-      </Wrapper2>
-      <Wrapper2>
+      </Wrapper>
+      <Wrapper>
         <Item>
           <b>User Total Rewards: {Number(result.rewardAcruded) + Number(result.rewardUnlockedUser)}</b>
         </Item>
         <Item>
           <b>User Remaining Reward Estimate: {Number(result.rewardEstimate)}</b>
         </Item>
-      </Wrapper2>
+      </Wrapper>
       <h1>Farm Reward Stats</h1>
-      <Wrapper2>
+      <Wrapper>
         <Item>
           <b>Rewards Remaining: {Number(result.rewardTotal) - Number(result.rewardUnlocked)}</b>
         </Item>
         <Item>
           <b>Rewards Total: {Number(result.rewardTotal)}</b>
         </Item>
-      </Wrapper2>
+      </Wrapper>
       <h1>Farm Reward Actions</h1>
-      <Wrapper2>
+      <Wrapper>
         <ButtonSecondary onClick={() => withdrawInterest(contract.stakingContractAddress, '', account, library)}>
           {' '}
           Claim your Rewards
@@ -140,9 +132,9 @@ export default (props: any) => {
         <Item>
           <b>WFUSE: {Number(result.rewardUnlockedUser)}</b>
         </Item>
-      </Wrapper2>
+      </Wrapper>
       <p>{result.lpBalance} LP deposited into smart contract</p>
-      <Wrapper2>
+      <Wrapper>
         <Input
           type="text"
           name="withdrawLP"
@@ -159,10 +151,10 @@ export default (props: any) => {
           {' '}
           Withdraw LP Tokens
         </ButtonSecondary>
-      </Wrapper2>
+      </Wrapper>
       <p>{lpUser} LP amount in your account</p>
 
-      <Wrapper2>
+      <Wrapper>
         <Input
           type="text"
           name="approveLP"
@@ -179,10 +171,10 @@ export default (props: any) => {
           {' '}
           Approve LP Tokens
         </ButtonSecondary>
-      </Wrapper2>
+      </Wrapper>
       <p>{lpUserApproved} LP allowed for deposition into smart contract</p>
 
-      <Wrapper2>
+      <Wrapper>
         <Input
           type="text"
           name="depositLP"
@@ -199,7 +191,7 @@ export default (props: any) => {
           {' '}
           Deposit LP Tokens
         </ButtonSecondary>
-      </Wrapper2>
-    </Wrapper>
+      </Wrapper>
+    </Container>
   )
 }

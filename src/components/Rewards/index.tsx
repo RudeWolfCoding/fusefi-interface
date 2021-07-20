@@ -1,5 +1,5 @@
 import { darken } from 'polished'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { getFarmingPools } from '../../hooks/Farm'
 import Reward from './reward'
@@ -96,23 +96,22 @@ const SupplyField = styled('div')`
 `
 
 // eslint-disable-next-line react/display-name
-export default function RewardsComponent(props: any) {
-  const [contracts2] = useState([...getFarmingPools()])
+export default function RewardsComponent() {
   const [polls] = useState([...getFarmingPools()])
   const [filteredPolls, setfilteredPolls] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
 
   async function fetchMyAPI() {
-    const response = contracts2
+    const response = polls
     setfilteredPolls(response.filter(e => e.end > new Date()))
     setLoading(true)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setfilteredPolls([])
     fetchMyAPI()
     console.log(filteredPolls)
-  }, [setfilteredPolls, setLoading, fetchMyAPI, filteredPolls])
+  }, [setfilteredPolls, setLoading])
 
   const active = polls.filter(e => e.end > new Date())
   const expired = polls.filter(e => e.end <= new Date())

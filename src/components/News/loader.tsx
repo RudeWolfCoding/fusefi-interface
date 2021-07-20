@@ -1,7 +1,7 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-const ResponsiveArticle = (props: any) => {
+const LoaderNews = (props: any) => {
   return (
     <div>
       <ContentLoader viewBox="0 0 500 475" height={475} width={500} {...props}>
@@ -25,4 +25,4 @@ const ResponsiveArticle = (props: any) => {
   )
 }
 
-export default ResponsiveArticle
+export default LoaderNews

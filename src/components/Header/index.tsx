@@ -5,9 +5,6 @@ import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 import { Route } from 'react-router-dom'
-import BackButton from './backButton'
-//import Settings from '../Settings'
-//import LightSwitch from '../LightSwitch'
 
 import { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
@@ -94,6 +91,23 @@ const BalanceText = styled('div')`
     width:100%
   `};
 `
+const BackButton = styled.div`
+  padding-right: 2.6%;
+  width: 100%;
+  top: 0;
+  z-index: 3;
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: 500;
+  :hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+`
+
+function goBack(url: string) {
+  window.location.replace(url)
+}
 
 export const NETWORK_LABELS: any = {
   [ChainId.MAINNET]: 'Ethereum',
@@ -132,7 +146,13 @@ export default function Header() {
       <RowBetween style={{ alignItems: 'flex-start' }}>
         <HeaderElement>
           <Route exact path="/farm/:currencyIdA">
-            <BackButton url="https://v2.fuseswap.com/#/farm" />
+            <BackButton
+              onClick={() => {
+                goBack('https://v2.fuseswap.com/#/farm')
+              }}
+            >
+              &#8592; Back to the list
+            </BackButton>{' '}
           </Route>
         </HeaderElement>
         <HeaderControls>

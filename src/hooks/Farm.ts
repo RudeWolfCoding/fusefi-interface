@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 
 export function getFarmingPools() {
   const obj: { [index: string]: any } = Config[0].contracts.fuse
-  let contracts: {
+  const contracts: {
     address: string
     contractAddress: string
     token0: string
@@ -22,7 +22,8 @@ export function getFarmingPools() {
     token0Pool: number
     token1Pool: number
   }[] = []
-  let contractAddresses: string[] = []
+
+  const contractAddresses: string[] = []
   Object.keys(obj).forEach((key: string) => {
     const address: string = obj[key].LPToken
     const contractAddress: string = obj[key].contractAddress

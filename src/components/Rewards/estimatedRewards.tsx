@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Questionmark from '../../assets/svg/questionmark.svg'
-import { useModal } from './useModal'
+import { ShowModal } from '../../hooks/showModal'
 import { Modal } from './modal'
 
 const Icon = styled('div')`
@@ -53,12 +53,10 @@ const Wrapper = styled('div')`
   position: relative;
 `
 
-export default function EstimatedReward(props: any){
-  const { isShown, toggle } = useModal()
+export default function EstimatedReward(props: any) {
+  const { isShown, toggle } = ShowModal()
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
-
-  useEffect(() => {}, [props])
 
   return (
     <Container>

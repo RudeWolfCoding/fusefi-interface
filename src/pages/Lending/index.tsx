@@ -45,19 +45,5 @@ export default function LendingPage() {
     )
   }
 
-  return (
-    <AppBody>
-      <Wrapper>
-        <Text>
-          {' '}
-          <h1>Fuse LP Farm</h1>
-          <span>
-            Please choose your preferred pair, provide liquidity on Fuseswap (Fuse) then deposit your LP tokens and
-            start earning Fuse.
-          </span>{' '}
-        </Text>
-        <Lending></Lending>
-      </Wrapper>
-    </AppBody>
-  )
+  return <p>Loading Fuse Lending Programmes</p>
 }

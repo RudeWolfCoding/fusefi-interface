@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Reward from './reward'
+import Lending from './lending'
 import href from '../../assets/svg/href.svg'
 
 const Wrapper = styled('div')`
@@ -96,7 +96,7 @@ const Ola = styled('a')`
   }
 `
 
-export default function LendingComponent(props: any) {
+export default function LendingComponent() {
   const [filteredPolls, setfilteredPolls] = useState<any[]>([
     { asset: 'WBTC', size: '120.93M', borrowed: '119.92 M', apy: '176' },
     { asset: 'WETH', size: '120.93M', borrowed: '119.92 M', apy: '176' },
@@ -119,8 +119,12 @@ export default function LendingComponent(props: any) {
           <span>Network Borrowed Balance</span>
         </Borrowed>
         <Ola href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/network" target="_blank">
-          <img src="https://app.ola.finance/assets/images/ola/ola_symbol_clear.png" width="75px;" />
-          <span>Get more stats on Ola Finance </span> <img src={href} />
+          <img
+            src="https://app.ola.finance/assets/images/ola/ola_symbol_clear.png"
+            width="75px;"
+            alt="Ola.finance logo"
+          />
+          <span>Get more stats on Ola Finance </span> <img src={href} alt="Go to Ola.finance" />
         </Ola>
       </Selector>
       <Container>
@@ -141,7 +145,7 @@ export default function LendingComponent(props: any) {
         {filteredPolls &&
           filteredPolls.map(poll => (
             <div key={poll.asset}>
-              <Reward data={poll} active={loading}></Reward>
+              <Lending data={poll} active={loading}></Lending>
             </div>
           ))}
       </Container>

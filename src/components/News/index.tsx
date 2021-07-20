@@ -68,7 +68,7 @@ export const Twitter = styled.div`
   width: 99%;
 `
 
-export default function TwitterFeed() {
+export default function News() {
   useScript('https://platform.twitter.com/widgets.js')
 
   return (

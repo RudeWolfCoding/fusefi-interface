@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useModal } from '../../hooks/useModal'
+import { ShowModal } from '../../hooks/showModal'
 import { Modal } from './modal'
 import bridgeApy from '../../assets/svg/questionmarkBridge.svg'
 
-const Container = styled('div')`
+const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   background: ${({ color }) => color};
@@ -17,7 +17,7 @@ const Container = styled('div')`
   justify-content: center;
 `
 
-const Wrapper = styled('div')`
+const Wrapper = styled.div`
   display: flex;
   width: 100%;
   text-align: center;
@@ -33,7 +33,7 @@ const Wrapper = styled('div')`
   }
 `
 
-const Icon = styled('div')`
+const Icon = styled.div`
   border-radius: 999px;
   background-color: #ffffff17;
   opacity: 1;
@@ -50,8 +50,10 @@ const Icon = styled('div')`
 `
 // eslint-disable-next-line react/display-name
 export default function BridgeInfo(props: any) {
-  const { isShown, toggle } = useModal()
-  const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
+  const { isShown, toggle } = ShowModal()
+  const content =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
+
   return (
     <Container>
       <Wrapper

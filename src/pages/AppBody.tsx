@@ -31,9 +31,9 @@ export const MobileNav = styled.div`
 export default function AppBody({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <Header></Header>
+      <Header />
       <BodyWrapper>
-        <MobileNav></MobileNav>
+        <MobileNav />
         {children}
       </BodyWrapper>
       <Footer />

@@ -102,9 +102,6 @@ export default (props: any) => {
     rewardUnlocked: '0'
   })
   const [active, setActive] = useState(types[0])
-
-  //const [withdrawLP, setWithdrawLP] = useState<any>({})
-
   const { chainId } = useActiveWeb3React()
 
   useEffect(() => {
@@ -112,11 +109,11 @@ export default (props: any) => {
     setResult(props.result)
   }, [props])
 
-  if (chainId == 122) {
+  if (chainId === 122) {
     return (
       <Wrapper>
         <ButtonGroup>
-          {types.map((type, index) => (
+          {types.map(type => (
             <Tab key={type} active={active === type} onClick={() => setActive(type)}>
               {type}
             </Tab>

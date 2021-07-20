@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useModal } from './useModal'
+import { ShowModal } from '../../hooks/showModal'
 import { Modal } from './modal'
 
 const Container = styled('div')<{ color: string; txt: string }>`
@@ -77,8 +77,8 @@ const LendLabel = styled('div')<{ txt: string }>`
   color: ${({ txt }) => txt};
 `
 
-export default function RewardsApy(props: any){
-  const { isShown, toggle } = useModal()
+export default function RewardsApy(props: any) {
+  const { isShown, toggle } = ShowModal()
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
 

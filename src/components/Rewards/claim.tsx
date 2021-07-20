@@ -62,7 +62,7 @@ margin-top: 15px
     text-align: center;
 `
 
-export default (props: any) => {
+export default function ClaimReward(props: any) {
   const [contract, setContract] = useState<{ stakingContractAddress: string; tokenAddress: string; user: string }>({
     stakingContractAddress: '',
     tokenAddress: '',

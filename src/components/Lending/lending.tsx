@@ -140,7 +140,7 @@ export default function LendingReward(props: any) {
   const [contracts2, setState] = useState({ ...props.data })
 
   function toggle() {
-    window.location.replace('/#/farm/' + contracts2.contractAddress)
+    window.location.replace('/#/lending/' + contracts2.contractAddress)
   }
   useEffect(() => {
     setState(props.data)

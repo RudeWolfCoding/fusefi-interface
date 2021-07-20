@@ -62,7 +62,7 @@ const Title = styled('div')`
   }
 `
 
-export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
+export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: string }>) {
   const {
     match: {
       params: { currencyIdA }
@@ -113,7 +113,7 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
   useEffect(() => {
     allContracts.forEach((contractData, index) => {
       console.log(contractData.contractAddress + ' ' + currencyIdA)
-      if (contractData.contractAddress == currencyIdA) {
+      if (contractData.contractAddress === currencyIdA) {
         setContract(allContracts[index])
         setIsContract(true)
       }
@@ -137,8 +137,6 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
     getUserRewardData().then(res => {
       setResult(res)
     })
-
-    console.log(result)
 
     setLoaded(true)
   }, [isLoaded, setContract])

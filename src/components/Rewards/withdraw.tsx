@@ -4,13 +4,14 @@ import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
 import EstimatedRewards from './estimatedRewards'
-const Wrapper = styled('div')`
+
+const Container = styled('div')`
   text-align: left;
   display: flex;
   flex-wrap: wrap;
 `
 
-const Wrapper2 = styled('div')`
+const Wrapper = styled('div')`
   display: flex;
   flex: wrap;
   padding-bottom: 14px;
@@ -131,17 +132,16 @@ export default function WithdrawReward(props: any){
     setWithdrawValue(0)
     setContract(props.contract)
     setResult(props.data)
-    console.log(result)
   }, [props])
 
   return (
-    <Wrapper>
-      <Wrapper2>
+    <Container>
+      <Wrapper>
         <Text>Balance</Text>{' '}
         <Balance>
           <span>{result.lpBalance} </span> &nbsp; <span>{contract.token0 + '-' + contract.token1}</span>
         </Balance>
-      </Wrapper2>
+      </Wrapper>
       <InputWrapper>
         <Input
           type="text"
@@ -196,6 +196,6 @@ export default function WithdrawReward(props: any){
         {' '}
         Withdraw LP Tokens
       </ButtonPrimary>
-    </Wrapper>
+    </Container>
   )
 }
