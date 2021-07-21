@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useSpring, animated } from 'react-spring'
-import { getSwapStats } from '../../hooks/Farm'
+import { getSwapStats } from '../../utils/getFarm'
 
 const Grid = styled('div')`
   width: 100%;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AppBody from '../AppBody'
 import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
-import { calculateAPY, getContract, getFarmingPools } from '../../hooks/Farm'
+import { calculateAPY, getContract, getFarmingPools } from '../../utils/getFarm'
 import Apy from '../../components/Rewards/apy'
 import vector from '../../assets/svg/vector.svg'
 import deposits from '../../assets/svg/deposits.svg'
@@ -12,7 +12,7 @@ import apyPurple from '../../assets/svg/questionmark.svg'
 import apyBlue from '../../assets/svg/questionmark2.svg'
 import apyGreen from '../../assets/svg/questionmark3.svg'
 import Reselect from '../../components/Rewards/reselect'
-import { getRewardsData } from '../../hooks/Rewards'
+import { getRewardsData } from '../../utils/getReward'
 import { useActiveWeb3React } from '../../hooks'
 
 const Wrapper = styled('div')`
@@ -111,7 +111,7 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
   const { account } = useActiveWeb3React()
 
   useEffect(() => {
-    allContracts.forEach((contractData, index) => {
+    allContracts.forEach((contractData: { contractAddress: string }, index:any) => {
       console.log(contractData.contractAddress + ' ' + currencyIdA)
       if (contractData.contractAddress === currencyIdA) {
         setContract(allContracts[index])
@@ -129,8 +129,8 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
       return await getContract(contract)
     }
 
-    const getData = async (aa: any, contract: any) => {
-      return await calculateAPY(aa, contract)
+    const getData = async (response: any, contract: any) => {
+      return await calculateAPY(response, contract)
     }
 
     fetchData().then(res => getData(res, contract).then(res => setApy(res)))
@@ -201,7 +201,7 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
                 contract={{
                   stakingContractAddress: contract.contractAddress,
                   tokenAddress: contract.address,
-                  user: account,
+                  user: account || '',
                   token0: contract.token0,
                   token1: contract.token1
                 }}

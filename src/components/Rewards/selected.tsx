@@ -7,10 +7,11 @@ import {
   withdrawLP,
   approveLP,
   depositLP
-} from '../../hooks/Rewards'
+} from '../../utils/getReward'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonSecondary } from '../Button'
+
 const Container = styled('div')`
   text-align: left;
 `
@@ -34,8 +35,18 @@ const Wrapper = styled('div')`
   padding-right: 2rem;
   text-align: left;
 `
+interface Reward {
+  withdrawValue: string;
+  approvedValue: string;
+  depositedValue: string;
+  contract: {
+    stakingContractAddress: string;
+    tokenAddress: string;
+    user: string;
+  };
+}
 
-export default function SelectedReward(props: any) {
+export default function SelectedReward(props: Reward) {
   const [contract, setContract] = useState<{ stakingContractAddress: string; tokenAddress: string; user: string }>({
     stakingContractAddress: '',
     tokenAddress: '',
@@ -47,7 +58,6 @@ export default function SelectedReward(props: any) {
     rewardsTotal: '0',
     lpUser: '0',
     rewardsUnlocked: '0',
-    aa: 'aa'
   })
   const [lpUser, setlpUser] = useState<Number>(0)
   const [lpUserApproved, setlpUserApproved] = useState<Number>(0)

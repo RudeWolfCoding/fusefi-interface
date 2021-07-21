@@ -137,10 +137,10 @@ const ApyField = styled('div')`
 `
 
 export default function LendingReward(props: any) {
-  const [contracts2, setState] = useState({ ...props.data })
+  const [contracts, setState] = useState({ ...props.data })
 
   function toggle() {
-    window.location.replace('/#/lending/' + contracts2.contractAddress)
+    window.location.replace('/#/lending/' + contracts.contractAddress)
   }
   useEffect(() => {
     setState(props.data)
@@ -154,19 +154,19 @@ export default function LendingReward(props: any) {
     <Container>
       <Wrapper>
         <TitleIcon onClick={toggle}>
-          <Icon contract={contracts2.contractAddress} name={contracts2.asset}></Icon>
+          <Icon contract={contracts.contractAddress} name={contracts.asset}></Icon>
         </TitleIcon>
 
         <Item>
           <p>
-            $ {contracts2.size}
+            $ {contracts.size}
             <span> USD</span>
           </p>
         </Item>
 
         <Item>
           <p>
-            $ {contracts2.borrowed}
+            $ {contracts.borrowed}
             <span> USD</span>
           </p>
         </Item>

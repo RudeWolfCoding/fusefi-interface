@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { calculateAPY, getContract } from '../../hooks/Farm'
+import { calculateAPY, getContract } from '../../utils/getFarm'
 import styled from 'styled-components'
 import Icon from './icons'
 import { usePromiseTracker, trackPromise } from 'react-promise-tracker'
-import Loader from './contentLoader'
+import Loader from '../Loaders/rewards'
 
 const ExpandableWrapper = styled.div`
   overflow: hidden;
@@ -125,7 +125,7 @@ const Select = styled('div')`
 export default function RewardItem(props: any) {
   const { promiseInProgress } = usePromiseTracker()
 
-  const [contracts2, setState] = useState({ ...props.data })
+  const [contracts, setState] = useState({ ...props.data })
   const [apy, setApy] = useState({
     contractAddress: '',
     address: '',
@@ -137,11 +137,11 @@ export default function RewardItem(props: any) {
     token0Pool: 0,
     token1Pool: 0
   })
-  const name: string = contracts2.token0 + ' - ' + contracts2.token1
+  const name: string = contracts.token0 + ' - ' + contracts.token1
   const [isShown, setIsShown] = useState(false)
 
   function toggle() {
-    window.location.replace('/#/farm/' + contracts2.contractAddress)
+    window.location.replace('/#/farm/' + contracts.contractAddress)
   }
   useEffect(() => {
     setState(props.data)
@@ -149,8 +149,8 @@ export default function RewardItem(props: any) {
       return await getContract(props.data)
     }
 
-    const getData = async (aa: any, contract: any) => {
-      return await calculateAPY(aa, contract)
+    const getData = async (response: any, contract: any) => {
+      return await calculateAPY(response, contract)
     }
 
     trackPromise(fetchData().then(res => getData(res, props.data).then(res => setApy(res))))
@@ -164,7 +164,7 @@ export default function RewardItem(props: any) {
     <Container>
       <Wrapper onMouseEnter={() => setIsShown(true)} onMouseLeave={() => setIsShown(false)}>
         <Item onClick={toggle}>
-          <Icon contract={contracts2.contractAddress} name={name}></Icon>
+          <Icon contract={contracts.contractAddress} name={name}></Icon>
         </Item>
 
         {props.active === true ? (
@@ -172,20 +172,20 @@ export default function RewardItem(props: any) {
             <APYField>{promiseInProgress ? <Loader /> : apy.apy + '%'}</APYField>
           </APYItem>
         ) : null}
-        {contracts2.contractAddress === '0xAAb4FB30aD9c20EFFDA712c0fFC24f77b1B5439d' ||
-        contracts2.contractAddress === '0xf14D745a4D264255F758B541BB1F61EbC589EA25' ? (
+        {contracts.contractAddress === '0xAAb4FB30aD9c20EFFDA712c0fFC24f77b1B5439d' ||
+        contracts.contractAddress === '0xf14D745a4D264255F758B541BB1F61EbC589EA25' ? (
           <DateField>
             <DateWrap>
               <PreField>
                 {promiseInProgress ? <Loader /> : apy.token0Pool.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
               </PreField>{' '}
-              <Field>{contracts2.token1}</Field>
+              <Field>{contracts.token1}</Field>
             </DateWrap>
             <DateWrap>
               <PreField>
                 {promiseInProgress ? <Loader /> : apy.token1Pool.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </PreField>{' '}
-              <Field>{contracts2.token0}</Field>
+              <Field>{contracts.token0}</Field>
             </DateWrap>
           </DateField>
         ) : (
@@ -194,13 +194,13 @@ export default function RewardItem(props: any) {
               <PreField>
                 {promiseInProgress ? <Loader /> : apy.token0Pool.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
               </PreField>{' '}
-              <Field>{contracts2.token0}</Field>
+              <Field>{contracts.token0}</Field>
             </DateWrap>
             <DateWrap>
               <PreField>
                 {promiseInProgress ? <Loader /> : apy.token1Pool.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </PreField>{' '}
-              <Field>{contracts2.token1}</Field>
+              <Field>{contracts.token1}</Field>
             </DateWrap>
           </DateField>
         )}
@@ -212,7 +212,7 @@ export default function RewardItem(props: any) {
                 <Loader />
               ) : (
                 '$' +
-                ((contracts2.rewards / contracts2.duration) * 0.089)
+                ((contracts.rewards / contracts.duration) * 0.089)
                   .toFixed(0)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -225,7 +225,7 @@ export default function RewardItem(props: any) {
               {promiseInProgress ? (
                 <Loader />
               ) : (
-                (contracts2.rewards / contracts2.duration)
+                (contracts.rewards / contracts.duration)
                   .toFixed(0)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')

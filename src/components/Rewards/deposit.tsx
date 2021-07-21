@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { approveLP, depositLP } from '../../hooks/Rewards'
+import { approveLP, depositLP } from '../../utils/getReward'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
@@ -110,8 +110,27 @@ const Percentage = styled('button')`
   border: solid 2px white;
   background: none;
 `
+interface Deposit {
+  withdrawValue?: string
+  data: {
+    lpAvailable: string
+    lpApproved: string
+    lpBalance: string
+    rewardUnlockedUser: string
+    rewardEstimate: string
+    rewardTotal: string
+    rewardUnlocked: string
+  }
+  contract: {
+    stakingContractAddress: string
+    tokenAddress: string
+    user: string
+    token0: string
+    token1: string
+  }
+}
 
-export default function Deposit(props: any) {
+export default function Deposit(props: Deposit) {
   const [withdrawValue, setWithdrawValue] = useState(props.withdrawValue)
   const addTransaction = useTransactionAdder()
 
@@ -154,7 +173,7 @@ export default function Deposit(props: any) {
 
   useEffect(() => {
     setEstimate(result.rewardEstimate)
-    setWithdrawValue(0)
+    setWithdrawValue('0')
     setContract(props.contract)
     setResult(props.data)
   }, [props, addTransaction, result.rewardEstimate])

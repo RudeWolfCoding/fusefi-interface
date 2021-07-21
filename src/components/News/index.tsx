@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import useScript from '../../hooks/useScript'
-import Loader from './loader'
+import Loader from '../Loaders/news'
 
 export const Container = styled.div`
   z-index: 100;

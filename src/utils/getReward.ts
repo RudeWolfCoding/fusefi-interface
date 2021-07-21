@@ -1,7 +1,7 @@
 import Staking from '../constants/abis/stakeMethods.json'
 import ethers from 'ethers'
 import { formatEther, parseUnits } from 'ethers/lib/utils'
-import { getProviderOrSigner } from '../utils'
+import { getProviderOrSigner } from '.'
 import BasicTokenABI from '../constants/abis/tokenABI.json'
 
 var url = 'https://rpc.fuse.io'

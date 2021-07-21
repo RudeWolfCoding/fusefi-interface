@@ -68,6 +68,17 @@ const ButtonGroup = styled.div`
 
 const types = ['Deposit', 'Withdraw', 'Stats']
 
+interface RewardSelection {
+  result: string
+  contract: {
+    stakingContractAddress: string
+    tokenAddress: string
+    user: string
+    token0: string
+    token1: string
+  }
+}
+
 function RewardsReselect(param: string, result: any, contract: any) {
   switch (param) {
     case 'Deposit':
@@ -81,7 +92,7 @@ function RewardsReselect(param: string, result: any, contract: any) {
   }
 }
 
-export default (props: any) => {
+export default (props: RewardSelection) => {
   const [contract, setContract] = useState<{
     stakingContractAddress: string
     tokenAddress: string

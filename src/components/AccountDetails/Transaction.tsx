@@ -7,7 +7,7 @@ import { getExplorerLink } from '../../utils'
 import { ExternalLink } from '../../theme'
 import { useAllTransactions } from '../../state/transactions/hooks'
 import { RowFixed } from '../Row'
-import Loader from '../Loader'
+import Loader from '../Loaders/default'
 
 const TransactionWrapper = styled.div``
 

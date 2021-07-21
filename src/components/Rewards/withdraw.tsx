@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { withdrawLP } from '../../hooks/Rewards'
+import { withdrawLP } from '../../utils/getReward'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'

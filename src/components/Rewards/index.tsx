@@ -1,7 +1,7 @@
 import { darken } from 'polished'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { getFarmingPools } from '../../hooks/Farm'
+import { getFarmingPools } from '../../utils/getFarm'
 import Reward from './reward'
 
 const Wrapper = styled('div')`

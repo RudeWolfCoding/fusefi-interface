@@ -52,8 +52,11 @@ const Wrapper = styled('div')`
   margin: 3px;
   position: relative;
 `
+interface Estimate {
+  estimate: string
+}
 
-export default function EstimatedReward(props: any) {
+export default function EstimatedReward(props: Estimate) {
   const { isShown, toggle } = ShowModal()
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'

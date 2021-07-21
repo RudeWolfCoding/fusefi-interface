@@ -19,7 +19,7 @@ import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
 
 import Identicon from '../Identicon'
-import Loader from '../Loader'
+import Loader from '../Loaders/default'
 
 import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
