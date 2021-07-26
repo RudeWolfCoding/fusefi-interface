@@ -3,21 +3,28 @@ import { AlertCircle } from 'react-feather'
 import styled, { ThemeContext } from 'styled-components'
 import TokenMigrationModal from '../../components/TokenMigration'
 import { Currency } from '@fuseio/fuse-swap-sdk'
-import { ButtonError } from '../../components/Button'
+import { ButtonDark } from '../../components/Button'
 
 const RowFlex = styled('div')`
   display: flex;
 `
+const RowEnd = styled('div')`
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+`
 
 const Icon = styled('div')`
-  line-height: 4rem;
+  line-height: 21px;
+  width: 24px;
 `
 const Title = styled('div')`
-  color: red;
   font-weight: 500;
-  line-height: 3.25rem;
+  line-height: 21px;
+  font-size: 16px;
   width: 100%;
-  text-align: center;
+  color: #111219;
+  padding-left: 5px;
 `
 
 export default function DeprecatedPopup({ token, currency }: { token: string; currency?: Currency }) {
@@ -29,19 +36,20 @@ export default function DeprecatedPopup({ token, currency }: { token: string; cu
         <Icon>
           <AlertCircle color={theme.red1} size={24} />
         </Icon>
-        <Title>Your {token.replace(/\(Deprecated\)/, '')} token is deprecated!</Title>
+        <Title>Your {token.replace(/\(Deprecated\)/, '')} is deprecated!</Title>
       </RowFlex>
-      <RowFlex>
-        <ButtonError
-          error={true}
+      <RowEnd>
+        <ButtonDark
+          dark={true}
+          width={'auto'}
           padding={'12px'}
           onClick={() => {
             setMigrateModalOpen(true)
           }}
         >
           Migrate {token}
-        </ButtonError>
-      </RowFlex>
+        </ButtonDark>
+      </RowEnd>
       <TokenMigrationModal
         token={currency}
         isOpen={migrateModalOpen}

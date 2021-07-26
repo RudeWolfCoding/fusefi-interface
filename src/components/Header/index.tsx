@@ -44,7 +44,7 @@ const HeaderElementWrap = styled.div`
 
 const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
-  height: 41px;
+  height: 39px;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};

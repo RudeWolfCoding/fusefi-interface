@@ -10,7 +10,7 @@ import QuestionHelper from '../QuestionHelper'
 
 export const Wrapper = styled('div')`
   position: relative;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   padding: 0.25rem;
   width: 100%;
   margin-left: 30%;

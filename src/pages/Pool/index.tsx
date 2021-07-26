@@ -19,7 +19,7 @@ import { useActiveWeb3React, useChain } from '../../hooks'
 import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
 import AppBody from '../AppBody'
-import { Dots, Wrapper } from '../../components/swap/styleds'
+import { Dots } from '../../components/swap/styleds'
 import SwitchNetwork from '../../components/swap/SwitchNetwork'
 import { UNDER_MAINTENANCE } from '../../constants'
 import Maintenance from '../../components/swap/Maintenance'
@@ -70,10 +70,10 @@ export default function Pool() {
     return (
       <>
         <AppBody>
-          <Wrapper>
             <SwapPoolTabs active={'pool'} />
-            <SwitchNetwork />
-          </Wrapper>
+            <MainCard>
+              <SwitchNetwork />
+            </MainCard>
         </AppBody>
       </>
     )

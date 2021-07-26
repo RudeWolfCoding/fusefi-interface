@@ -27,7 +27,7 @@ const SocialBar = styled.div`
   color: white;
   text-align: right;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-start;
   > img {
     margin-left: 0.75rem;
     padding-top: 0.75rem;

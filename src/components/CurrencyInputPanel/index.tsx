@@ -83,8 +83,7 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
 
 const Container = styled.div<{ hideInput: boolean }>`
   border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
-  border: 2px solid ${({ theme }) => theme.bg2};
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: #111219;
 `
 
 const StyledTokenName = styled.span<{ active?: boolean }>`
@@ -115,6 +114,7 @@ const StyledBalanceMax = styled.button`
 
 interface CurrencyInputPanelProps {
   value: string
+  bridge?: boolean
   onUserInput: (value: string) => void
   onMax?: () => void
   showMaxButton: boolean
@@ -134,6 +134,7 @@ interface CurrencyInputPanelProps {
 
 export default function CurrencyInputPanel({
   value,
+  bridge,
   onUserInput,
   onMax,
   showMaxButton,

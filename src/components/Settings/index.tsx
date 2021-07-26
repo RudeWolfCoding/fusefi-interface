@@ -4,12 +4,11 @@ import styled from 'styled-components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { useUserSlippageTolerance, useExpertModeManager, useUserDeadline } from '../../state/user/hooks'
 import TransactionSettings from '../TransactionSettings'
-import { RowFixed, RowBetween } from '../Row'
+import { RowBetween } from '../Row'
 import { TYPE } from '../../theme'
 import QuestionHelper from '../QuestionHelper'
 import Toggle from '../Toggle'
 import { ThemeContext } from 'styled-components'
-import { AutoColumn } from '../Column'
 import { ButtonError } from '../Button'
 import { useSettingsMenuOpen, useToggleSettingsMenu } from '../../state/application/hooks'
 import { Text } from 'rebass'
@@ -91,7 +90,8 @@ const StyledMenu = styled.div`
 
 const MenuFlyout = styled.span`
   min-width: 100%;
-  background-color: ${({ theme }) => theme.bg7};
+  padding: 28px;
+  background-color: #111219;
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
   display: flex;
@@ -147,39 +147,35 @@ export default function SettingsTab() {
     <StyledMenu ref={node as any}>
       <Modal isOpen={showConfirmation} onDismiss={() => setShowConfirmation(false)} maxHeight={100}>
         <ModalContentWrapper>
-          <AutoColumn gap="sm">
-            <RowBetween>
-              <div />
-              <Text fontWeight={500} fontSize={20}>
-                Are you sure?
-              </Text>
-              <StyledCloseIcon onClick={() => setShowConfirmation(false)} />
-            </RowBetween>
-            <Break />
-            <AutoColumn gap="sm">
-              <Text fontWeight={500} fontSize={20}>
-                Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result
-                in bad rates and lost funds.
-              </Text>
-              <Text fontWeight={600} fontSize={20}>
-                ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.
-              </Text>
-              <ButtonError
-                error={true}
-                padding={'12px'}
-                onClick={() => {
-                  if (window.prompt(`Please type the word "confirm" to enable expert mode.`) === 'confirm') {
-                    toggleExpertMode()
-                    setShowConfirmation(false)
-                  }
-                }}
-              >
-                <Text fontSize={20} fontWeight={500} id="confirm-expert-mode">
-                  Turn On Expert Mode
-                </Text>
-              </ButtonError>
-            </AutoColumn>
-          </AutoColumn>
+          <RowBetween>
+            <div />
+            <Text fontWeight={500} fontSize={20}>
+              Are you sure?
+            </Text>
+            <StyledCloseIcon onClick={() => setShowConfirmation(false)} />
+          </RowBetween>
+          <Break />
+          <Text fontWeight={500} fontSize={20}>
+            Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result in
+            bad rates and lost funds.
+          </Text>
+          <Text fontWeight={600} fontSize={20}>
+            ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.
+          </Text>
+          <ButtonError
+            error={true}
+            padding={'12px'}
+            onClick={() => {
+              if (window.prompt(`Please type the word "confirm" to enable expert mode.`) === 'confirm') {
+                toggleExpertMode()
+                setShowConfirmation(false)
+              }
+            }}
+          >
+            <Text fontSize={20} fontWeight={500} id="confirm-expert-mode">
+              Turn On Expert Mode
+            </Text>
+          </ButtonError>
         </ModalContentWrapper>
       </Modal>
       <StyledMenuButton onClick={toggle} id="open-settings-dialog-button">
@@ -194,38 +190,34 @@ export default function SettingsTab() {
       </StyledMenuButton>
       {open && (
         <MenuFlyout>
-          <AutoColumn>
-            <TransactionSettings
-              rawSlippage={userSlippageTolerance}
-              setRawSlippage={setUserslippageTolerance}
-              deadline={deadline}
-              setDeadline={setDeadline}
-            />
+          <TransactionSettings
+            rawSlippage={userSlippageTolerance}
+            setRawSlippage={setUserslippageTolerance}
+            deadline={deadline}
+            setDeadline={setDeadline}
+          />
 
-            <RowBetween>
-              <RowFixed>
-                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                  Toggle Expert Mode
-                </TYPE.black>
-                <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />
-              </RowFixed>
-              <Toggle
-                id="toggle-expert-mode-button"
-                isActive={expertMode}
-                toggle={
-                  expertMode
-                    ? () => {
-                        toggleExpertMode()
-                        setShowConfirmation(false)
-                      }
-                    : () => {
-                        toggle()
-                        setShowConfirmation(true)
-                      }
-                }
-              />
-            </RowBetween>
-          </AutoColumn>
+          <RowBetween>
+            <TYPE.black fontWeight={600} fontSize={16} color={theme.text2} style={{ marginTop: 16, marginBottom: 14 }}>
+              Toggle Expert Mode
+            </TYPE.black>
+            <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />
+          </RowBetween>
+          <Toggle
+            id="toggle-expert-mode-button"
+            isActive={expertMode}
+            toggle={
+              expertMode
+                ? () => {
+                    toggleExpertMode()
+                    setShowConfirmation(false)
+                  }
+                : () => {
+                    toggle()
+                    setShowConfirmation(true)
+                  }
+            }
+          />
         </MenuFlyout>
       )}
     </StyledMenu>

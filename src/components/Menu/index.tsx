@@ -28,7 +28,6 @@ const StyledMenu = styled.div`
 const Ramp = styled.div`
   cursor: pointer;
   justify-content: space-evenly;
-
   position: absolute;
   display: flex;
   width: 85%;
@@ -103,7 +102,6 @@ const MenuFlyout = styled.span`
   flex-direction: column;
   font-weight: 500;
   font-size: 16px;
-  line-height: 58px;
   z-index: 100;
   color: white;
 `
@@ -151,6 +149,8 @@ const MenuItemInternal = styled(NavLink).attrs({
 
 const MenuItemWrapper = styled.div`
   display: flex;
+  height: 100%
+  align-items: center;
   overflow: hidden;
   width: 100%;
 `
@@ -177,6 +177,7 @@ const IconWrapper = styled.div<{ size?: number }>`
   margin-left: 1rem;
   margin-right: 0.5rem;
   width: 24px;
+  padding-top: 3%;
   line-height: 70px;
 `
 

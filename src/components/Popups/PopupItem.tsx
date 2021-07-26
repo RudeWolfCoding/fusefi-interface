@@ -1,7 +1,7 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { X } from 'react-feather'
 import { useSpring } from 'react-spring/web'
-import styled, { ThemeContext } from 'styled-components'
+import styled from 'styled-components'
 import { animated } from 'react-spring'
 import { PopupContent } from '../../state/application/actions'
 import { useRemovePopup } from '../../state/application/hooks'
@@ -22,7 +22,7 @@ export const Popup = styled.div`
   display: inline-block;
   width: 100%;
   padding: 1em;
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: #dde2fe;
   position: relative;
   border-radius: 10px;
   padding: 20px;
@@ -34,13 +34,13 @@ export const Popup = styled.div`
     margin-bottom: 20px;
   `}
 `
-const Fader = styled.div`
+const Fader = styled.div<{ color?: string }>`
   position: absolute;
-  bottom: 0px;
+  top: 0px;
   left: 0px;
   width: 100%;
-  height: 2px;
-  background-color: ${({ theme }) => theme.bg3};
+  height: 4px;
+  background-color: ${({ color }) => (color ? color : null)};
 `
 
 const AnimatedFader = animated(Fader)
@@ -68,18 +68,23 @@ export default function PopupItem({
     }
   }, [removeAfterMs, removeThisPopup])
 
-  const theme = useContext(ThemeContext)
-
+  let contentColor
   let popupContent
   if ('txn' in content) {
     const {
       txn: { hash, success, summary }
     } = content
     popupContent = <TransactionPopup hash={hash} success={success} summary={summary} />
+    if (success) {
+      contentColor = 'green'
+    } else {
+      contentColor = 'red'
+    }
   } else if ('listUpdate' in content) {
     const {
       listUpdate: { listUrl, oldList, newList, auto, listType }
     } = content
+    contentColor = 'blue'
     popupContent = (
       <ListUpdatePopup
         popKey={popKey}
@@ -94,6 +99,7 @@ export default function PopupItem({
     const {
       deprecated: { token, currency }
     } = content
+    contentColor = 'red'
     popupContent = <DeprecatedPopup token={token} currency={currency} />
   }
 
@@ -105,9 +111,8 @@ export default function PopupItem({
 
   return (
     <Popup>
-      <StyledClose color={theme.text2} onClick={removeThisPopup} />
+      {removeAfterMs !== null ? <AnimatedFader style={faderStyle} color={contentColor} /> : null}
       {popupContent}
-      {removeAfterMs !== null ? <AnimatedFader style={faderStyle} /> : null}
     </Popup>
   )
 }

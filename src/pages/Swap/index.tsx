@@ -400,10 +400,8 @@ export default function Swap() {
     return (
       <>
         <AppBody>
-          <Wrapper>
-            <SwapPoolTabs active={'swap'} />
-            {completedBridgeTransfer ? <SwitchNetwork /> : <BridgeInfo />}
-          </Wrapper>
+          <SwapPoolTabs active={'swap'} />
+          <MainCard>{completedBridgeTransfer ? <SwitchNetwork /> : <BridgeInfo />}</MainCard>
         </AppBody>
       </>
     )
