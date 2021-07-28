@@ -34,7 +34,7 @@ import { calculateSlippageAmount, getRouterContract, calculateGasMargin } from '
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import AppBody from '../AppBody'
-import { Dots, Wrapper } from '../Pool/styleds'
+import { Dots } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
@@ -42,6 +42,7 @@ import TokenMigrationModal from '../../components/TokenMigration'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import { FUSE_CHAIN } from '../../constants/chains'
 import useAddChain from '../../hooks/useAddChain'
+import MainCard from '../../components/MainCard'
 
 export default function AddLiquidity({
   match: {
@@ -340,8 +341,9 @@ export default function AddLiquidity({
   return (
     <>
       <AppBody>
-        <AddRemoveTabs adding={true} />
-        <Wrapper>
+        <MainCard>
+          <AddRemoveTabs adding={true} />
+
           <TransactionConfirmationModal
             isOpen={showConfirm}
             onDismiss={handleDismissConfirmation}
@@ -485,7 +487,7 @@ export default function AddLiquidity({
               </AutoColumn>
             )}
           </AutoColumn>
-        </Wrapper>
+        </MainCard>
       </AppBody>
 
       {pair && !noLiquidity && pairState !== PairState.INVALID ? (

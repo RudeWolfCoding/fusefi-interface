@@ -7,7 +7,7 @@ import {
   withdrawLP,
   approveLP,
   depositLP
-} from '../../utils/getReward'
+} from '../../utils/rewards'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonSecondary } from '../Button'
@@ -36,14 +36,14 @@ const Wrapper = styled('div')`
   text-align: left;
 `
 interface Reward {
-  withdrawValue: string;
-  approvedValue: string;
-  depositedValue: string;
+  withdrawValue: string
+  approvedValue: string
+  depositedValue: string
   contract: {
-    stakingContractAddress: string;
-    tokenAddress: string;
-    user: string;
-  };
+    stakingContractAddress: string
+    tokenAddress: string
+    user: string
+  }
 }
 
 export default function SelectedReward(props: Reward) {
@@ -57,10 +57,10 @@ export default function SelectedReward(props: Reward) {
     lpTotal: '0',
     rewardsTotal: '0',
     lpUser: '0',
-    rewardsUnlocked: '0',
+    rewardsUnlocked: '0'
   })
-  const [lpUser, setlpUser] = useState<Number>(0)
-  const [lpUserApproved, setlpUserApproved] = useState<Number>(0)
+  const [lpUser, setlpUser] = useState<number>(0)
+  const [lpUserApproved, setlpUserApproved] = useState<number>(0)
   const [withdrawValue, setWithdrawValue] = useState(props.withdrawValue)
   const [approvalValue, setApprovedValue] = useState(props.approvedValue)
   const [depositValue, setDepositValue] = useState(props.depositedValue)

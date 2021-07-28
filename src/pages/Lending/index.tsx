@@ -39,7 +39,7 @@ export default function LendingPage() {
               amet pellentesque sem. Sit in urna.
             </span>{' '}
           </Text>
-          <Lending></Lending>
+          <Lending />
         </Wrapper>
       </AppBody>
     )

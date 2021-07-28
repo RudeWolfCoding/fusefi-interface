@@ -70,10 +70,10 @@ export default function Pool() {
     return (
       <>
         <AppBody>
-            <SwapPoolTabs active={'pool'} />
-            <MainCard>
-              <SwitchNetwork />
-            </MainCard>
+          <SwapPoolTabs active={'pool'} />
+          <MainCard>
+            <SwitchNetwork />
+          </MainCard>
         </AppBody>
       </>
     )

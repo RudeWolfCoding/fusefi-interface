@@ -2,9 +2,16 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { gql } from '@apollo/client'
 import { ethers } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
-import Config from '../constants/abis/config.json'
-import StakingMethods from '../constants/abis/stakeMethods.json'
+import Config from '../../constants/abis/config.json'
+import StakingMethods from '../../constants/abis/stakeMethods.json'
 import dayjs from 'dayjs'
+
+export function selectPercentage(amount: number, lp: string, balance: string, estimate: any, withdrawValue: any) {
+  const calculated = (Number(lp) * amount) / 100
+  const rewards = Number(estimate) + (Number(estimate) / Number(balance)) * ((Number(lp) * amount) / 100)
+  estimate(rewards.toFixed(2).toString())
+  withdrawValue(calculated.toString())
+}
 
 export function getFarmingPools() {
   const obj: { [index: string]: any } = Config[0].contracts.fuse
@@ -15,7 +22,7 @@ export function getFarmingPools() {
     token1: string
     pairs: [string]
     apy: string
-    duration: Number
+    duration: number
     start: Date
     end: Date
     rewards: number
@@ -152,7 +159,7 @@ export async function calculateAPY(
     token1Pool: number
   }
 ) {
-  var url = 'https://rpc.fuse.io'
+  const url = 'https://rpc.fuse.io'
   const provider = new ethers.providers.JsonRpcProvider(url)
   const stakingContractInstance = new ethers.Contract(contract.contractAddress, StakingMethods, provider)
   const statsData = await stakingContractInstance.getStatsData(contract.address)

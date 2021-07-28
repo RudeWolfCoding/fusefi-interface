@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AppBody from '../AppBody'
 import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
-import { calculateAPY, getContract, getFarmingPools } from '../../utils/getFarm'
+import { calculateAPY, getContract, getFarmingPools } from '../../utils/farm'
 import Apy from '../../components/Rewards/apy'
 import vector from '../../assets/svg/vector.svg'
 import deposits from '../../assets/svg/deposits.svg'
@@ -12,7 +12,7 @@ import apyPurple from '../../assets/svg/questionmark.svg'
 import apyBlue from '../../assets/svg/questionmark2.svg'
 import apyGreen from '../../assets/svg/questionmark3.svg'
 import Reselect from '../../components/Rewards/reselect'
-import { getRewardsData } from '../../utils/getReward'
+import { getRewardsData } from '../../utils/rewards'
 import { useActiveWeb3React } from '../../hooks'
 
 const Wrapper = styled('div')`
@@ -85,7 +85,7 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
     token1: string
     pairs: [string]
     apy: string
-    duration: Number
+    duration: number
     start: Date
     end: Date
     rewards: number
@@ -106,16 +106,12 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
     token1Pool: 0
   })
   const [apy, setApy] = useState({ apy: 0 })
-  const [isContract, setIsContract] = useState(false)
-  const [isLoaded, setLoaded] = useState(false)
   const { account } = useActiveWeb3React()
 
   useEffect(() => {
-    allContracts.forEach((contractData: { contractAddress: string }, index:any) => {
-      console.log(contractData.contractAddress + ' ' + currencyIdA)
+    allContracts.forEach((contractData: { contractAddress: string }, index: any) => {
       if (contractData.contractAddress === currencyIdA) {
         setContract(allContracts[index])
-        setIsContract(true)
       }
     })
 
@@ -137,81 +133,73 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
     getUserRewardData().then(res => {
       setResult(res)
     })
+  }, [allContracts, currencyIdA, contract, account])
 
-    setLoaded(true)
-  }, [isLoaded, setContract])
+  return (
+    <AppBody>
+      <Wrapper>
+        <Title>
+          <Icon name={''} contract={contract.contractAddress} />{' '}
+          <span>
+            {contract.token0} - {contract.token1}
+          </span>
+        </Title>
 
-  console.log(contract)
-
-  if (isLoaded && isContract) {
-    return (
-      <AppBody>
-        <Wrapper>
-          <Title>
-            <Icon name={''} contract={contract.contractAddress} />{' '}
-            <span>
-              {contract.token0} - {contract.token1}
-            </span>
-          </Title>
-
-          <Grid>
-            <Item>
-              <ItemWrapper>
-                <Apy
-                  title={'Deposit APY'}
-                  data={apy.apy + '%'}
-                  icon={vector}
-                  apyIcon={apyPurple}
-                  txt={'#8E6CC0'}
-                  color={'#473660'}
-                />{' '}
-              </ItemWrapper>
-            </Item>
-            <Item>
-              <ItemWrapper>
-                <Apy
-                  title={'Your Deposits'}
-                  data={result.lpBalance}
-                  apyIcon={apyBlue}
-                  label={contract.token0 + ' - ' + contract.token1}
-                  icon={deposits}
-                  txt={'#0684A6'}
-                  color={'#034253'}
-                />
-              </ItemWrapper>
-            </Item>
-            <Item>
-              <ItemWrapper>
-                <Apy
-                  title={'Accruded Rewards'}
-                  data={result.rewardAcruded}
-                  apyIcon={apyGreen}
-                  label={'WFUSE'}
-                  icon={rewards}
-                  txt={'#1C9E7E'}
-                  color={'#0E4F3F'}
-                />
-              </ItemWrapper>
-            </Item>
-          </Grid>
-          <Grid>
+        <Grid>
+          <Item>
             <ItemWrapper>
-              <Reselect
-                result={result}
-                contract={{
-                  stakingContractAddress: contract.contractAddress,
-                  tokenAddress: contract.address,
-                  user: account || '',
-                  token0: contract.token0,
-                  token1: contract.token1
-                }}
-              ></Reselect>
+              <Apy
+                title={'Deposit APY'}
+                data={apy.apy + '%'}
+                icon={vector}
+                apyIcon={apyPurple}
+                txt={'#8E6CC0'}
+                color={'#473660'}
+              />{' '}
             </ItemWrapper>
-          </Grid>
-        </Wrapper>
-      </AppBody>
-    )
-  }
-
-  return <p>Loading</p>
+          </Item>
+          <Item>
+            <ItemWrapper>
+              <Apy
+                title={'Your Deposits'}
+                data={result.lpBalance}
+                apyIcon={apyBlue}
+                label={contract.token0 + ' - ' + contract.token1}
+                icon={deposits}
+                txt={'#0684A6'}
+                color={'#034253'}
+              />
+            </ItemWrapper>
+          </Item>
+          <Item>
+            <ItemWrapper>
+              <Apy
+                title={'Accruded Rewards'}
+                data={result.rewardAcruded}
+                apyIcon={apyGreen}
+                label={'WFUSE'}
+                icon={rewards}
+                txt={'#1C9E7E'}
+                color={'#0E4F3F'}
+              />
+            </ItemWrapper>
+          </Item>
+        </Grid>
+        <Grid>
+          <ItemWrapper>
+            <Reselect
+              result={result}
+              contract={{
+                stakingContractAddress: contract.contractAddress,
+                tokenAddress: contract.address,
+                user: account || '',
+                token0: contract.token0,
+                token1: contract.token1
+              }}
+            ></Reselect>
+          </ItemWrapper>
+        </Grid>
+      </Wrapper>
+    </AppBody>
+  )
 }

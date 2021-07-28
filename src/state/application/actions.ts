@@ -19,7 +19,7 @@ export type PopupContent =
         listType: CurrencyListType
       }
     }
-    | {
+  | {
       deprecated: {
         token: string
         currency: Currency

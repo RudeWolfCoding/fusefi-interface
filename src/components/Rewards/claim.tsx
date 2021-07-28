@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { withdrawInterest } from '../../utils/getReward'
+import { withdrawInterest } from '../../utils/rewards'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
@@ -61,8 +61,24 @@ margin-top: 15px
     overflow: hidden;
     text-align: center;
 `
+interface ClaimProps {
+  withdrawValue?: number
+  data: {
+    lpBalance: string
+    rewardUnlocked: string
+    rewardAcruded: string
+    rewardUnlockedUser: string
+    rewardEstimate: string
+    rewardTotal: string
+  }
+  contract: {
+    stakingContractAddress: string
+    tokenAddress: string
+    user: string
+  }
+}
 
-export default function ClaimReward(props: any) {
+export default function ClaimReward(props: ClaimProps) {
   const [contract, setContract] = useState<{ stakingContractAddress: string; tokenAddress: string; user: string }>({
     stakingContractAddress: '',
     tokenAddress: '',
@@ -78,7 +94,7 @@ export default function ClaimReward(props: any) {
   const addTransaction = useTransactionAdder()
   const { account, library } = useActiveWeb3React()
 
-  async function onMigrate(contract: any) {
+  async function onClaim(contract: any) {
     if (!library || !account) return
     try {
       const response = await withdrawInterest(contract.stakingContractAddress, '', account, library)
@@ -127,7 +143,7 @@ export default function ClaimReward(props: any) {
           </Collected>
         </Wrapper>
       </Container>
-      <Button onClick={() => onMigrate(contract)}> Claim WFUSE Rewards</Button>
+      <Button onClick={() => onClaim(contract)}> Claim WFUSE Rewards</Button>
     </div>
   )
 }

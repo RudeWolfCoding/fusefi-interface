@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { calculateAPY, getContract } from '../../utils/getFarm'
+import { calculateAPY, getContract } from '../../utils/farm'
 import styled from 'styled-components'
 import Icon from './icons'
 import { usePromiseTracker, trackPromise } from 'react-promise-tracker'
@@ -122,7 +122,7 @@ const Select = styled('div')`
   color: black;
 `
 
-export default function RewardItem(props: any) {
+export default function RewardItem(props: { data: any; active: boolean }) {
   const { promiseInProgress } = usePromiseTracker()
 
   const [contracts, setState] = useState({ ...props.data })

@@ -1,7 +1,7 @@
 import { darken } from 'polished'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { getFarmingPools } from '../../utils/getFarm'
+import { getFarmingPools } from '../../utils/farm'
 import Reward from './reward'
 
 const Wrapper = styled('div')`
@@ -101,17 +101,10 @@ export default function RewardsComponent() {
   const [filteredPolls, setfilteredPolls] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
 
-  async function fetchMyAPI() {
-    const response = polls
-    setfilteredPolls(response.filter(e => e.end > new Date()))
-    setLoading(true)
-  }
-
   useEffect(() => {
-    setfilteredPolls([])
-    fetchMyAPI()
-    console.log(filteredPolls)
-  }, [setfilteredPolls, setLoading])
+    setfilteredPolls(polls.filter(e => e.end > new Date()))
+    setLoading(true)
+  }, [polls])
 
   const active = polls.filter(e => e.end > new Date())
   const expired = polls.filter(e => e.end <= new Date())

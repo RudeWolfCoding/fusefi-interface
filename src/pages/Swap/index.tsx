@@ -63,6 +63,7 @@ import { FUSE_CHAIN } from '../../constants/chains'
 import { useAddPopup } from '../../state/application/hooks'
 import styled from 'styled-components'
 import MainCard from '../../components/MainCard'
+import { useDeprecated } from '../../hooks/useDeprecated'
 
 const ExpandableWrapper = styled('div')`
   overflow: hidden;
@@ -235,28 +236,24 @@ export default function Swap() {
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
 
   const addPopup = useAddPopup()
-
+  const { isDeprecated, tokenDep, currencyDep } = useDeprecated()
   // mark when a user has submitted an approval, reset onTokenSelection for input field
   useEffect(() => {
-    if (account) {
-      Object.keys(tokens).forEach(key => {
-        const wrappedToken = tokens[key] as WrappedTokenInfo
-        if (wrappedToken.isDeprecated) {
-          addPopup({
-            deprecated: {
-              token: wrappedToken.tokenInfo.symbol,
-              currency: wrappedToken
-            }
-          })
-          return
+    if (isDeprecated && tokenDep && currencyDep) {
+      console.log('aaa' + isDeprecated)
+      addPopup({
+        deprecated: {
+          token: tokenDep.tokenInfo.symbol,
+          currency: currencyDep
         }
       })
+      return
     }
 
     if (approval === ApprovalState.PENDING) {
       setApprovalSubmitted(true)
     }
-  }, [approval, approvalSubmitted, account, tokens, addPopup])
+  }, [approval, approvalSubmitted, account, tokens, currencyDep, isDeprecated, tokenDep, addPopup])
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))

@@ -21,7 +21,6 @@ const StyledToggle = styled.button<{ isActive?: boolean; activeElement?: boolean
   background-color: transparent;
   margin: auto;
   margin-bottom: 10px;
-
 `
 
 export interface ToggleProps {

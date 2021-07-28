@@ -90,7 +90,7 @@ export default function App() {
                   <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
                   <Route exact strict path="/bridge" component={Bridge} />
                   <Route exact strict path="/farm" component={Farm} />
-                  <Route exact path="/farm/:currencyIdA" component={FarmSelect} />
+                  <Route exact path="/farm/:stakingContractAddress" component={FarmSelect} />
                   <Route exact strict path="/lending" component={Lending} />
                   <Route component={RedirectToDefault} />
                 </Switch>

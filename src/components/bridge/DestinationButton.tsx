@@ -34,7 +34,8 @@ export const Button = styled.button<{ isActive?: boolean; colorSelect?: string }
     margin-right: 0.5rem;
   }
 
-  ${({ isActive, color, colorSelect }) => isActive && `border-color: ${color};background: ${colorSelect}; color: white; opacity: 0.`}
+  ${({ isActive, color, colorSelect }) =>
+    isActive && `border-color: ${color};background: ${colorSelect}; color: white; opacity: 0.`}
 `
 
 export default function DestinationButton({

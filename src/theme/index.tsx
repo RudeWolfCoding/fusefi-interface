@@ -8,7 +8,7 @@ import styled, {
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { Colors } from './styled'
-import WebFont from 'webfontloader';
+import WebFont from 'webfontloader'
 
 export * from './components'
 

@@ -33,7 +33,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   }
 
   ::placeholder {
-    color: ${({ theme }) =>  '#9FA3C9'};
+    color: #9FA3C9};
   }
 `
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { withdrawLP } from '../../utils/getReward'
+import { withdrawLP } from '../../utils/rewards'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
@@ -99,7 +99,25 @@ const Percentage = styled('button')`
   background: none;
 `
 
-export default function WithdrawReward(props: any){
+interface RewardProps {
+  withdrawValue?: number
+  data: {
+    lpBalance: string
+    rewardUnlockedUser: string
+    rewardEstimate: string
+    rewardTotal: string
+    rewardUnlocked: string
+  }
+  contract: {
+    stakingContractAddress: string
+    tokenAddress: string
+    user: string
+    token0: string
+    token1: string
+  }
+}
+
+export default function WithdrawReward(props: RewardProps) {
   const [withdrawValue, setWithdrawValue] = useState(props.withdrawValue)
 
   const [contract, setContract] = useState<{
@@ -124,7 +142,7 @@ export default function WithdrawReward(props: any){
     const calculated = (Number(result.lpBalance) * amount) / 100
     const rewards = Number(result.rewardEstimate) - (Number(result.rewardEstimate) * amount) / 100
     setEstimate(rewards.toFixed(2).toString())
-    setWithdrawValue(calculated.toString())
+    setWithdrawValue(calculated)
   }
 
   useEffect(() => {
@@ -149,7 +167,7 @@ export default function WithdrawReward(props: any){
           id="withdrawal"
           value={withdrawValue}
           placeholder="0"
-          onChange={e => setWithdrawValue(e.target.value)}
+          onChange={e => setWithdrawValue(Number(e.target.value))}
         />
         <span>{contract.token0 + '-' + contract.token1}</span>
       </InputWrapper>
@@ -190,7 +208,13 @@ export default function WithdrawReward(props: any){
       <EstimatedRewards estimate={estimate} />
       <ButtonPrimary
         onClick={() =>
-          withdrawLP(contract.stakingContractAddress, contract.tokenAddress, contract.user, library, withdrawValue)
+          withdrawLP(
+            contract.stakingContractAddress,
+            contract.tokenAddress,
+            contract.user,
+            library,
+            withdrawValue ? withdrawValue.toString() : '0'
+          )
         }
       >
         {' '}

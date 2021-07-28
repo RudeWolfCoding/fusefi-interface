@@ -3,7 +3,6 @@ import { Moon, Sun } from 'react-feather'
 import { useDarkModeManager } from '../../state/user/hooks'
 import styled from 'styled-components'
 
-
 const StyledMenuButton = styled.button`
   position: relative;
   width: 100%;
@@ -27,14 +26,8 @@ const StyledMenuButton = styled.button`
   }
 `
 
-
 export default function LightSwitch() {
   const [isDark, toggle] = useDarkModeManager()
 
-  return (
-    <StyledMenuButton onClick={() => toggle()}>
-        {isDark ? <Sun size={24} /> : <Moon size={24} />}
-    </StyledMenuButton>
- 
-  )
+  return <StyledMenuButton onClick={() => toggle()}>{isDark ? <Sun size={24} /> : <Moon size={24} />}</StyledMenuButton>
 }

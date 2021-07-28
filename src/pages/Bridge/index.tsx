@@ -282,7 +282,7 @@ export default function Bridge() {
                 Select Currency
               </TYPE.mediumHeader>
               <CurrencyInputPanel
-                bridge= {true}
+                bridge={true}
                 label="Amount"
                 value={formattedAmounts[Field.INPUT]}
                 onUserInput={onFieldInput}

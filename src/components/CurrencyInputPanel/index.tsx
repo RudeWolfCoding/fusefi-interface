@@ -134,7 +134,6 @@ interface CurrencyInputPanelProps {
 
 export default function CurrencyInputPanel({
   value,
-  bridge,
   onUserInput,
   onMax,
   showMaxButton,

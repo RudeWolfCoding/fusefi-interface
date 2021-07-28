@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Questionmark from '../../assets/svg/questionmark.svg'
-import { ShowModal } from '../../hooks/showModal'
-import { Modal } from './modal'
+import { ButtonPrimary } from '../Button'
+import Modal from '../Modal'
 
 const Icon = styled('div')`
   border-radius: 999px;
@@ -52,12 +52,56 @@ const Wrapper = styled('div')`
   margin: 3px;
   position: relative;
 `
+export const StyledModal = styled.div`
+  z-index: 100;
+  padding: 24px;
+  background: #242637;
+  position: relative;
+  margin: auto;
+  border-radius: 12px;
+`
+export const Header = styled.div`
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+`
+
+export const HeaderText = styled.div`
+  color: #fff;
+  align-self: center;
+  color: lightgray;
+`
+
+export const Content = styled.div`
+  padding-bottom: 15px;
+  max-height: 30rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  > h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  > p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+  }
+`
+
+const Item = styled('div')`
+  display: flex;
+  width: 100%;
+  text-align: center;
+  justify-content: flex-end;
+  position: relative;
+`
+
 interface Estimate {
   estimate: string
 }
 
 export default function EstimatedReward(props: Estimate) {
-  const { isShown, toggle } = ShowModal()
+  const [isOpen, setOpen] = useState(false)
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
 
@@ -65,14 +109,53 @@ export default function EstimatedReward(props: Estimate) {
     <Container>
       <Wrapper>
         <span>Your Estimated rewards</span>
-        <Icon onClick={toggle}>
+        <Icon
+          onClick={() => {
+            setOpen(true)
+          }}
+        >
           <img src={Questionmark} width="14px" height="14px" alt="Question icon"></img>
         </Icon>
       </Wrapper>
       <p>
         <span>{props.estimate}</span>&nbsp;<span> - WFUSE</span>
       </p>
-      <Modal headerText={'Estimated Rewards'} isShown={isShown} hide={toggle} modalContent={content} />
+      <Modal
+        maxHeight={90}
+        isOpen={isOpen}
+        onDismiss={() => {
+          setOpen(false)
+        }}
+      >
+        <Wrapper aria-modal aria-labelledby={'APY'} tabIndex={-1} role="dialog">
+          <StyledModal>
+            <Header>
+              <HeaderText>
+                <Item
+                  onClick={() => {
+                    setOpen(false)
+                  }}
+                >
+                  <Icon>
+                    <img src={Questionmark} width="28px" height="28px" alt="Modal Icon"></img>
+                  </Icon>
+                </Item>
+              </HeaderText>
+            </Header>
+            <Content>
+              <h1>What does &quot; APY &quot; mean?</h1>
+              <p>{content}</p>
+            </Content>
+            <ButtonPrimary
+              onClick={() => {
+                setOpen(false)
+              }}
+            >
+              Done
+            </ButtonPrimary>
+          </StyledModal>
+        </Wrapper>
+      </Modal>{' '}
     </Container>
   )
 }

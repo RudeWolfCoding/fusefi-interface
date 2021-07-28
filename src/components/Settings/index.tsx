@@ -108,6 +108,9 @@ const MenuFlyout = styled.span`
     min-width: 18.125rem;
     right: -46px;
   `};
+  @media only screen and (max-width: 1300px) {
+    padding: 4px;
+  }
 `
 
 const Break = styled.div`
@@ -198,7 +201,7 @@ export default function SettingsTab() {
           />
 
           <RowBetween>
-            <TYPE.black fontWeight={600} fontSize={16} color={theme.text2} style={{ marginTop: 16, marginBottom: 14 }}>
+            <TYPE.black fontWeight={600} fontSize={16} color={theme.text2} style={{ marginTop: 12, marginBottom: 12 }}>
               Toggle Expert Mode
             </TYPE.black>
             <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />

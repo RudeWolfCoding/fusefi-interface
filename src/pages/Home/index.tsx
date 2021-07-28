@@ -52,10 +52,10 @@ export default function HomePage() {
   return (
     <AppBody>
       <Wrap>
-        <Prices></Prices>
+        <Prices />
         <Container>
           <Tweet>
-            <News></News>
+            <News />
           </Tweet>
           <Item>
             <Analytics />

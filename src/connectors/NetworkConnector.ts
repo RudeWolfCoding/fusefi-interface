@@ -72,7 +72,7 @@ class MiniRpcProvider implements AsyncSendable {
       return
     }
 
-  /*   let json
+    /*   let json
     try {
       json = await response.json()
     } catch (error) {

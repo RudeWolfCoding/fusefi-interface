@@ -298,7 +298,6 @@ export const ButtonPrimaryLightStyle = styled.button`
   font-size: 1rem;
   font-weight: 500;
   margin-top: 1rem;
-
   padding: 0.15rem 1rem;
   border-radius: 12px;
 

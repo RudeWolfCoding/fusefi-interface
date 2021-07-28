@@ -97,15 +97,13 @@ const Ola = styled('a')`
 `
 
 export default function LendingComponent() {
-  const [filteredPolls, setfilteredPolls] = useState<any[]>([
+  const [filteredPolls] = useState<any[]>([
     { asset: 'WBTC', size: '120.93M', borrowed: '119.92 M', apy: '176' },
     { asset: 'WETH', size: '120.93M', borrowed: '119.92 M', apy: '176' },
     { asset: 'USDC', size: '120.93M', borrowed: '119.92 M', apy: '176' },
     { asset: 'FUSE', size: '120.93M', borrowed: '119.92 M', apy: '176' }
   ])
-  const [loading, setLoading] = useState(false)
-
-  React.useEffect(() => {}, [setfilteredPolls, setLoading])
+  const [loading] = useState(false)
 
   return (
     <div>
