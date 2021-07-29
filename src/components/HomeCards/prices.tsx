@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 import { useSpring, animated } from 'react-spring'
-import { getSwapStats } from '../../utils/farm'
+import useFusePrice from '../../hooks/useFusePrice'
+import useFuseswapStats from '../../hooks/useFuseswapStats'
 
 const Grid = styled('div')`
   width: 100%;
@@ -96,40 +96,13 @@ const SubText = styled('div')`
 `
 
 export default function HomePrices() {
-  const [responseData, setResponseData] = React.useState('0.00')
-  const [statsData, setStats] = React.useState({ pairCount: '0', totalLiquidityUSD: '0', totalVolumeUSD: '0' })
+  const { response } = useFusePrice()
+  const { pairCount, totalLiquidityUSD, totalVolumeUSD } = useFuseswapStats()
 
-  const props = useSpring({ val: Number(parseFloat(responseData).toFixed(2)), from: { val: 0 } })
-  const tokens = useSpring({ val: Number(parseFloat(statsData.pairCount).toFixed(2)), from: { val: 0 } })
-  const liquidity = useSpring({ val: Number(parseFloat(statsData.totalLiquidityUSD).toFixed(2)), from: { val: 0 } })
-  const volume = useSpring({ val: Number(parseFloat(statsData.totalVolumeUSD).toFixed(2)), from: { val: 0 } })
-
-  const fetchData = React.useCallback(() => {
-    axios({
-      method: 'GET',
-      url: 'https://service.fuseswap.com/api/v1/price/0x0be9e53fd7edac9f859882afdda116645287c629'
-    })
-      .then(response => {
-        setInterval(() => {
-          setResponseData(response.data.data.price)
-        }, 500)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-
-    const fetchData = async () => {
-      return await getSwapStats()
-    }
-
-    fetchData().then(res => {
-      setStats(res)
-    })
-  }, [])
-
-  React.useEffect(() => {
-    fetchData()
-  }, [fetchData])
+  const props = useSpring({ val: Number(parseFloat(response).toFixed(2)), from: { val: 0 } })
+  const tokens = useSpring({ val: Number(parseFloat(pairCount).toFixed(2)), from: { val: 0 } })
+  const liquidity = useSpring({ val: Number(parseFloat(totalLiquidityUSD).toFixed(2)), from: { val: 0 } })
+  const volume = useSpring({ val: Number(parseFloat(totalVolumeUSD).toFixed(2)), from: { val: 0 } })
 
   return (
     <Grid>
@@ -142,7 +115,7 @@ export default function HomePrices() {
             </animated.span>
             <em>USD</em>
           </Numbers>
-          <SubText>Fuse Price</SubText>
+          <SubText>Fuse Price </SubText>
         </Item>
       </Wrapper>
       <Wrapper>

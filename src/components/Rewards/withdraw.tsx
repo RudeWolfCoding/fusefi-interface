@@ -150,7 +150,7 @@ export default function WithdrawReward(props: RewardProps) {
     setWithdrawValue(0)
     setContract(props.contract)
     setResult(props.data)
-  }, [props])
+  }, [props.contract, props.data])
 
   return (
     <Container>

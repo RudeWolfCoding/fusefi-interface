@@ -1,11 +1,10 @@
 import { ChainId } from '@fuseio/fuse-swap-sdk'
 import React from 'react'
 import styled from 'styled-components'
-
+import { Text } from 'rebass'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 import { Route } from 'react-router-dom'
-
 import { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
 import { getNativeCurrencySymbol } from '../../utils'
@@ -33,23 +32,13 @@ const HeaderElement = styled.div`
   padding-left: 42px;
 `
 
-const HeaderElementWrap = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin-top: 0.5rem;
-`};
-`
-
 const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
   height: 39px;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
+  border-radius: 12px;
   white-space: nowrap;
   width: 100%;
   border: solid 2px;
@@ -81,14 +70,9 @@ const HeaderControls = styled.div`
   align-items: center;
 `
 
-const BalanceText = styled('div')`
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  margin: auto;
-  flex: shrink;
+const BalanceText = styled(Text)`
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    margin:auto;
-    width:100%
+    display: none;
   `};
 `
 const BackButton = styled.div`
@@ -119,23 +103,6 @@ export const NETWORK_LABELS: any = {
   [BINANCE_TESTNET_CHAINID]: 'Binance Testnet',
   [BINANCE_MAINNET_CHAINID]: 'Binance'
 }
-
-function accounts(account: any, userEthBalance: any, chainId: any) {
-  if (account) {
-    return (
-      <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-        {account && userEthBalance ? (
-          <BalanceText>
-            {userEthBalance?.toSignificant(4)} {getNativeCurrencySymbol(chainId)}
-          </BalanceText>
-        ) : null}
-      </AccountElement>
-    )
-  } else {
-    return <div></div>
-  }
-}
-
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
 
@@ -160,11 +127,15 @@ export default function Header() {
             <TestnetWrapper>
               {chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>
-            {accounts(account, userEthBalance, chainId)}
-            <Web3Status />
+            <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
+              {account && userEthBalance ? (
+                <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
+                  {userEthBalance?.toSignificant(4)} {getNativeCurrencySymbol(chainId)}
+                </BalanceText>
+              ) : null}
+              <Web3Status />
+            </AccountElement>
           </HeaderElement>
-          <HeaderElementWrap>{/*    <Settings />
-            <LightSwitch /> */}</HeaderElementWrap>
         </HeaderControls>
       </RowBetween>
     </HeaderFrame>

@@ -159,7 +159,7 @@ export async function calculateAPY(
     token1Pool: number
   }
 ) {
-  const url = 'https://rpc.fuse.io'
+  const url = process.env.REACT_APP_NETWORK_URL
   const provider = new ethers.providers.JsonRpcProvider(url)
   const stakingContractInstance = new ethers.Contract(contract.contractAddress, StakingMethods, provider)
   const statsData = await stakingContractInstance.getStatsData(contract.address)

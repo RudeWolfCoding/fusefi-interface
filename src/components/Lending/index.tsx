@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Lending from './lending'
+import Item from './item'
 import href from '../../assets/svg/href.svg'
 
 const Wrapper = styled('div')`
@@ -25,7 +25,7 @@ const Selector = styled('div')`
   margin-bottom: 24px;
 `
 
-const Item = styled('div')`
+const Field = styled('div')`
   flex: 1 1 19%;
   line-height: 3rem;
   border-bottom: 1px solid black;
@@ -96,7 +96,7 @@ const Ola = styled('a')`
   }
 `
 
-export default function LendingComponent() {
+export default function Lending() {
   const [filteredPolls] = useState<any[]>([
     { asset: 'WBTC', size: '120.93M', borrowed: '119.92 M', apy: '176' },
     { asset: 'WETH', size: '120.93M', borrowed: '119.92 M', apy: '176' },
@@ -127,7 +127,7 @@ export default function LendingComponent() {
       </Selector>
       <Container>
         <Wrapper>
-          <Item>Asset</Item>
+          <Field>Asset</Field>
           <DateField>Market Size</DateField>
 
           <DateField>Total Borrowed</DateField>
@@ -143,7 +143,7 @@ export default function LendingComponent() {
         {filteredPolls &&
           filteredPolls.map(poll => (
             <div key={poll.asset}>
-              <Lending data={poll} active={loading}></Lending>
+              <Item data={poll} active={loading}></Item>
             </div>
           ))}
       </Container>

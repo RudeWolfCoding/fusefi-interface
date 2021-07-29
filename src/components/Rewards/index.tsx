@@ -95,8 +95,7 @@ const SupplyField = styled('div')`
   border-bottom: 1px solid black;
 `
 
-// eslint-disable-next-line react/display-name
-export default function RewardsComponent() {
+export default function Rewards() {
   const [polls] = useState([...getFarmingPools()])
   const [filteredPolls, setfilteredPolls] = useState<any[]>([])
   const [loading, setLoading] = useState(false)

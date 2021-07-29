@@ -122,7 +122,7 @@ const Select = styled('div')`
   color: black;
 `
 
-export default function RewardItem(props: { data: any; active: boolean }) {
+export default function Reward(props: { data: any; active: boolean }) {
   const { promiseInProgress } = usePromiseTracker()
 
   const [contracts, setState] = useState({ ...props.data })

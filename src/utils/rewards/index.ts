@@ -4,7 +4,7 @@ import { formatEther, parseUnits } from 'ethers/lib/utils'
 import { getProviderOrSigner } from '..'
 import BasicTokenABI from '../../constants/abis/tokenABI.json'
 
-const url = 'https://rpc.fuse.io'
+const url = process.env.REACT_APP_NETWORK_URL
 
 export async function getRewardsData(contractAddress: string, LP: any, account: any) {
   const provider = new ethers.providers.JsonRpcProvider(url)

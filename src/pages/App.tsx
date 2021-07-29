@@ -55,7 +55,7 @@ const Content = styled.div`
   position: relative;
 `
 
-const Zindex = styled.div`
+const Container = styled.div`
   width: 100%;
   height: 100%;
 `
@@ -73,7 +73,7 @@ export default function App() {
           <Content>
             <Route exact strict path="/home" component={Background} />
             <Route component={GoogleAnalyticsReporter} />
-            <Zindex>
+            <Container>
               <Web3ReactManager>
                 <Switch>
                   <Route exact strict path="/home" component={Home} />
@@ -95,7 +95,7 @@ export default function App() {
                   <Route component={RedirectToDefault} />
                 </Switch>
               </Web3ReactManager>
-            </Zindex>
+            </Container>
             <Popups />
           </Content>
         </AppWrapper>

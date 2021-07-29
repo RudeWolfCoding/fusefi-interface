@@ -15,7 +15,6 @@ export const useDeprecated = () => {
   const [balanceDep, setBalance] = useState(0)
   useEffect(() => {
     if (account) {
-      console.log('hookstart')
       Object.keys(tokens).forEach(async key => {
         const wrappedToken = tokens[key] as WrappedTokenInfo
         const currencyDeprecated = tokens[key] as Currency

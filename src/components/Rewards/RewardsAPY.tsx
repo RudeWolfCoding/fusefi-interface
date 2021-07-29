@@ -144,7 +144,7 @@ const IconW = styled('div')`
     position: absolute;
   }
 `
-export default function LendingAPY(props: any) {
+export default function RewardsAPY(props: any) {
   const [isOpen, setOpen] = useState(false)
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
