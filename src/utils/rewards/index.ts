@@ -3,11 +3,10 @@ import ethers from 'ethers'
 import { formatEther, parseUnits } from 'ethers/lib/utils'
 import { getProviderOrSigner } from '..'
 import BasicTokenABI from '../../constants/abis/tokenABI.json'
-
-const url = process.env.REACT_APP_NETWORK_URL
+import { NETWORK_URL } from '../../connectors'
 
 export async function getRewardsData(contractAddress: string, LP: any, account: any) {
-  const provider = new ethers.providers.JsonRpcProvider(url)
+  const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL)
   const stakingContractInstance = new ethers.Contract(contractAddress, Staking, provider)
   const basicTokenContract = new ethers.Contract(LP, BasicTokenABI, provider)
   const allowancePromise = await basicTokenContract.allowance(account, contractAddress)

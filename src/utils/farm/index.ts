@@ -5,6 +5,7 @@ import { formatEther } from 'ethers/lib/utils'
 import Config from '../../constants/abis/config.json'
 import StakingMethods from '../../constants/abis/stakeMethods.json'
 import dayjs from 'dayjs'
+import { NETWORK_URL } from '../../connectors'
 
 export function selectPercentage(amount: number, lp: string, balance: string, estimate: any, withdrawValue: any) {
   const calculated = (Number(lp) * amount) / 100
@@ -159,8 +160,7 @@ export async function calculateAPY(
     token1Pool: number
   }
 ) {
-  const url = process.env.REACT_APP_NETWORK_URL
-  const provider = new ethers.providers.JsonRpcProvider(url)
+  const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL)
   const stakingContractInstance = new ethers.Contract(contract.contractAddress, StakingMethods, provider)
   const statsData = await stakingContractInstance.getStatsData(contract.address)
   const stakingPeriod = await stakingContractInstance.stakingPeriod()
