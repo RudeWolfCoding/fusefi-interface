@@ -6,7 +6,7 @@ const ResponsiveArticle = (props: any) => {
     <div>
       <ContentLoader
         speed={2}
-        width={88}
+        width={50}
         height={20}
         viewBox="0 0 88 20"
         backgroundColor="#f3f3f3"

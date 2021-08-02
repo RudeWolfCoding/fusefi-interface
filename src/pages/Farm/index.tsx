@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import AppBody from '../AppBody'
 import styled from 'styled-components'
-import Rewards from '../../components/Rewards'
+import AppBody from '../AppBody'
+import Filter from '../../components/FarmTable/filter'
+import Table from '../../components/FarmTable'
+import { getFarmingPools } from '../../utils/farm'
 
-const Wrapper = styled('div')`
+const Container = styled('div')`
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -13,51 +15,50 @@ const Wrapper = styled('div')`
   z-index: 3;
   margin-bottom: 20px;
   > span {
-    width: 500px;
+    max-width: 500px;
   }
 `
 
-const Text = styled('div')`
-  width: 545px;
+const Header = styled('div')`
+  max-width: 545px;
 `
 
 export default function Farm() {
-  const [isLoaded, setLoaded] = useState(false)
-  useEffect(() => {
-    setLoaded(true)
-  }, [isLoaded])
+  const [farmRewards] = useState([...getFarmingPools()])
+  const [filteredRewards, setfilteredRewards] = useState(farmRewards.filter(e => e.end > new Date()))
+  const [isActive, setisActive] = useState(false)
 
-  if (isLoaded) {
-    return (
-      <AppBody>
-        <Wrapper>
-          <Text>
-            {' '}
-            <h1>Fuse LP Farm</h1>
-            <span>
-              Please choose your preferred pair, provide liquidity on Fuseswap (Fuse) then deposit your LP tokens and
-              start earning Fuse.
-            </span>{' '}
-          </Text>
-          <Rewards />
-        </Wrapper>
-      </AppBody>
-    )
+  useEffect(() => {
+    setisActive(true)
+  }, [farmRewards, isActive])
+
+  function setFilter(active: boolean) {
+    if (active) {
+      setfilteredRewards(farmRewards.filter(e => e.end > new Date()))
+    } else {
+      setfilteredRewards(farmRewards.filter(e => e.end < new Date()))
+    }
+    setisActive(active)
   }
 
   return (
     <AppBody>
-      <Wrapper>
-        <Text>
-          {' '}
+      <Container>
+        <Header>
           <h1>Fuse LP Farm</h1>
           <span>
             Please choose your preferred pair, provide liquidity on Fuseswap (Fuse) then deposit your LP tokens and
             start earning Fuse.
-          </span>{' '}
-        </Text>
-        <p>Loading Farm</p>
-      </Wrapper>
+          </span>
+        </Header>
+        <Filter
+          active={true}
+          callBack={(active: boolean) => {
+            setFilter(active)
+          }}
+        />
+        <Table rewards={filteredRewards} />
+      </Container>
     </AppBody>
   )
 }

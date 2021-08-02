@@ -3,19 +3,19 @@ import AppBody from '../AppBody'
 import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
 import { calculateAPY, getContract, getFarmingPools } from '../../utils/farm'
-import Apy from '../../components/Rewards/RewardsAPY'
+import Apy from '../../components/RewardCards/info'
 import vector from '../../assets/svg/vector.svg'
 import deposits from '../../assets/svg/deposits.svg'
 import rewards from '../../assets/svg/rewardsAcc.svg'
-import Icon from '../../components/Rewards/icons'
+import Icon from '../../components/FarmTable/icons'
 import apyPurple from '../../assets/svg/questionmark.svg'
 import apyBlue from '../../assets/svg/questionmark2.svg'
 import apyGreen from '../../assets/svg/questionmark3.svg'
-import Reselect from '../../components/Rewards/reselect'
+import Reselect from '../../components/RewardCards'
 import { getRewardsData } from '../../utils/rewards'
 import { useActiveWeb3React } from '../../hooks'
 
-const Wrapper = styled('div')`
+const Container = styled('div')`
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -31,7 +31,7 @@ const Wrapper = styled('div')`
   }
 `
 
-const Grid = styled('div')`
+const Wrapper = styled('div')`
   width: 100%;
   display: -webkit-box;
   display: -moz-box;
@@ -39,26 +39,17 @@ const Grid = styled('div')`
   display: -webkit-flex;
   display: flex;
   flex-wrap: wrap;
-`
-const ItemWrapper = styled('div')`
-  margin: 4px;
-`
-
-const Item = styled('div')`
-  width: 33.333333333333336%;
-  @media only screen and (max-width: 768px) {
-    width: 100%;
-  }
-`
-const Title = styled('div')`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  padding-bottom: 20px;
   > span {
     line-height: 54px;
     font-size: 32px;
     font-weight: 500;
+  }
+`
+const Item = styled('div')`
+  padding: 4px;
+  width: 33%;
+  @media only screen and (max-width: 768px) {
+    width: 100%;
   }
 `
 
@@ -137,69 +128,62 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
 
   return (
     <AppBody>
-      <Wrapper>
-        <Title>
-          <Icon name={''} contract={contract.contractAddress} />{' '}
+      <Container>
+        <Wrapper style={{ paddingBottom: '25px' }}>
+          <Icon name={''} address={contract.contractAddress} />{' '}
           <span>
             {contract.token0} - {contract.token1}
           </span>
-        </Title>
+        </Wrapper>
 
-        <Grid>
+        <Wrapper>
           <Item>
-            <ItemWrapper>
-              <Apy
-                title={'Deposit APY'}
-                data={apy.apy + '%'}
-                icon={vector}
-                apyIcon={apyPurple}
-                txt={'#8E6CC0'}
-                color={'#473660'}
-              />{' '}
-            </ItemWrapper>
+            <Apy
+              title={'Deposit APY'}
+              data={apy.apy + '%'}
+              icon={vector}
+              apyIcon={apyPurple}
+              txt={'#8E6CC0'}
+              color={'#473660'}
+            />{' '}
           </Item>
           <Item>
-            <ItemWrapper>
-              <Apy
-                title={'Your Deposits'}
-                data={result.lpBalance}
-                apyIcon={apyBlue}
-                label={contract.token0 + ' - ' + contract.token1}
-                icon={deposits}
-                txt={'#0684A6'}
-                color={'#034253'}
-              />
-            </ItemWrapper>
+            <Apy
+              title={'Your Deposits'}
+              data={result.lpBalance}
+              apyIcon={apyBlue}
+              label={contract.token0 + ' - ' + contract.token1}
+              icon={deposits}
+              txt={'#0684A6'}
+              color={'#034253'}
+            />
           </Item>
           <Item>
-            <ItemWrapper>
-              <Apy
-                title={'Accruded Rewards'}
-                data={result.rewardAcruded}
-                apyIcon={apyGreen}
-                label={'WFUSE'}
-                icon={rewards}
-                txt={'#1C9E7E'}
-                color={'#0E4F3F'}
-              />
-            </ItemWrapper>
+            <Apy
+              title={'Accruded Rewards'}
+              data={result.rewardAcruded}
+              apyIcon={apyGreen}
+              label={'WFUSE'}
+              icon={rewards}
+              txt={'#1C9E7E'}
+              color={'#0E4F3F'}
+            />
           </Item>
-        </Grid>
-        <Grid>
-          <ItemWrapper>
-            <Reselect
-              result={result}
-              contract={{
-                stakingContractAddress: contract.contractAddress,
-                tokenAddress: contract.address,
-                user: account || '',
-                token0: contract.token0,
-                token1: contract.token1
-              }}
-            ></Reselect>
-          </ItemWrapper>
-        </Grid>
-      </Wrapper>
+        </Wrapper>
+
+        <Wrapper style={{ paddingLeft: '4px', paddingRight: '10px' }}>
+          <Reselect
+            result={result}
+            contract={{
+              stakingContractAddress: contract.contractAddress,
+              tokenAddress: contract.address,
+              user: account || '',
+              token0: contract.token0,
+              token1: contract.token1
+            }}
+          />
+        </Wrapper>
+      </Container>
     </AppBody>
   )
 }
