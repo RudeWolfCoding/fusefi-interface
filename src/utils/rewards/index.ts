@@ -43,14 +43,14 @@ export async function withdrawInterest(contractAddress: string, LP: any, account
 }
 
 export async function getLPBalance(LP: any, account: any) {
-  const provider = new ethers.providers.JsonRpcProvider(url)
+  const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL)
   const basicTokenContract = new ethers.Contract(LP, BasicTokenABI, provider)
   const transactionPromise = await basicTokenContract.balanceOf(account)
   return formatEther(transactionPromise)
 }
 
 export async function getLPApproved(contractAddress: any, LP: any, account: any) {
-  const provider = new ethers.providers.JsonRpcProvider(url)
+  const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL)
   const basicTokenContract = new ethers.Contract(LP, BasicTokenABI, provider)
   const transactionPromise = await basicTokenContract.allowance(account, contractAddress)
   return formatEther(transactionPromise)
