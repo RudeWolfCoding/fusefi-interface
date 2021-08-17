@@ -63,8 +63,43 @@ const Tab = styled.button<{ active: any }>`
 
 const types = ['Deposit', 'Withdraw', 'Stats']
 
+export interface RewardsInfo {
+  totalRewards: number
+  rewardRate: number
+  totalRewardsInUSD: number
+  apyPercent: number
+  accuruedRewards: number
+}
+
+export interface Token {
+  __typename: string
+  id: string
+  name: string
+  symbol: string
+}
+
+export interface Rewards {
+  lpBalance: string
+  lpDeposited: string
+  lpAvailable: string
+  globalTotalStake: string
+  totalRewards: string
+  estimatedRewards: string
+  unlockedRewards: string
+  accuruedRewards: string
+  totalStakedUSD: number
+  globalTotalStakeUSD: number
+  pairPrice: number
+  reserve0: string
+  reserve1: string
+  lockedRewards: string
+  rewardsInfo: RewardsInfo[]
+  token0: Token
+  token1: Token
+}
+
 interface RewardSelection {
-  result: string
+  result: Rewards
   contract: {
     stakingContractAddress: string
     tokenAddress: string
@@ -90,7 +125,6 @@ function RewardsReselect(param: string, result: any, contract: any) {
 export default (props: RewardSelection) => {
   const [active, setActive] = useState(types[0])
   const { chainId } = useActiveWeb3React()
-
   if (chainId === 122) {
     return (
       <Wrapper>

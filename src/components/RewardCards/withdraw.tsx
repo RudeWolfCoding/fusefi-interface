@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { withdrawLP } from '../../utils/rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
 import EstimatedRewards from './modal'
 import Percentage from './percentage'
 import styled from 'styled-components'
-
+import { withdrawLP } from '../../utils/rewards'
 const Container = styled('div')`
   text-align: left;
   display: flex;
@@ -83,6 +82,7 @@ interface RewardProps {
     rewardUnlocked: string
   }
   contract: {
+    contracta: string
     stakingContractAddress: string
     tokenAddress: string
     user: string
@@ -92,9 +92,9 @@ interface RewardProps {
 }
 
 export default function WithdrawReward(props: RewardProps) {
-  const { library } = useActiveWeb3React()
-  const [withdrawValue, setWithdrawValue] = useState('0')
-  const [estimate, setEstimate] = useState('0')
+  const { library, account } = useActiveWeb3React()
+  const [withdrawValue, setWithdrawValue] = useState('1000')
+  const [estimate, setEstimate] = useState('1000')
 
   function setPercentage(value: string, estimate: string) {
     setEstimate(estimate)
@@ -104,7 +104,7 @@ export default function WithdrawReward(props: RewardProps) {
   useEffect(() => {
     setEstimate(props.data.rewardEstimate)
     setWithdrawValue('0')
-  }, [props.contract, props.data])
+  }, [props.contract, props.data, library])
 
   return (
     <Container>
@@ -130,10 +130,10 @@ export default function WithdrawReward(props: RewardProps) {
       <ButtonPrimary
         onClick={() =>
           withdrawLP(
-            props.contract.stakingContractAddress,
             props.contract.tokenAddress,
-            props.contract.user,
             library,
+            '0',
+            account ? account : '',
             withdrawValue ? withdrawValue.toString() : '0'
           )
         }

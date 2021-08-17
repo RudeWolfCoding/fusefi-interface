@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { approveLP, depositLP } from '../../utils/rewards'
+import { approveLP } from '../../utils/rewards'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
@@ -7,7 +7,7 @@ import EstimatedRewards from './modal'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
 import Percentage from './percentage'
-
+import { depositLP } from '../../utils/rewards'
 const Container = styled('div')`
 text-align:left;
 display: flex;
@@ -88,6 +88,7 @@ const Button = styled(ButtonPrimary)`
 interface Deposit {
   depositValue?: string
   data: {
+    pairName: string
     lpAvailable: string
     lpApproved: string
     lpBalance: string
@@ -97,6 +98,7 @@ interface Deposit {
     rewardUnlocked: string
   }
   contract: {
+    pairName: string
     stakingContractAddress: string
     tokenAddress: string
     user: string
@@ -108,7 +110,7 @@ interface Deposit {
 export default function Deposit(props: Deposit) {
   const addTransaction = useTransactionAdder()
   const { library, account } = useActiveWeb3React()
-  const [depositValue, setdepositValue] = useState(props.depositValue)
+  const [depositValue, setdepositValue] = useState('0')
   const [estimate, setEstimate] = useState('0')
 
   function setPercentage(value: string, estimate: string) {
@@ -127,7 +129,7 @@ export default function Deposit(props: Deposit) {
         <Text>Balance</Text>{' '}
         <Balance>
           <span>{props.data.lpAvailable} </span> &nbsp;{' '}
-          <span>{props.contract.token0 + '-' + props.contract.token1}</span>
+          <span>{props.data.pairName}</span>
         </Balance>
       </Wrapper>
       <InputWrapper>
@@ -171,18 +173,14 @@ export default function Deposit(props: Deposit) {
         {Number(props.data.lpApproved) > 0 ? (
           <ButtonPrimary
             onClick={() =>
-              depositLP(
-                props.contract.stakingContractAddress,
-                props.contract.tokenAddress,
-                props.contract.user,
-                library,
-                props.data.lpApproved
-              ).then((response: TransactionResponse) => {
-                addTransaction(response, {
-                  summary: 'Deposited ' + depositValue + props.contract.token0 + '-' + props.contract.token1,
-                  approval: { tokenAddress: props.contract.stakingContractAddress, spender: '' }
-                })
-              })
+              depositLP(props.contract.stakingContractAddress, library, '0', account ? account : '', depositValue).then(
+                (response: TransactionResponse) => {
+                  addTransaction(response, {
+                    summary: 'Deposited ' + depositValue + props.contract.token0 + '-' + props.contract.token1,
+                    approval: { tokenAddress: props.contract.stakingContractAddress, spender: '' }
+                  })
+                }
+              )
             }
           >
             {' '}

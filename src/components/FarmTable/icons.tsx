@@ -4,14 +4,32 @@ import wethfuse from '../../assets/svg/pairs/WETH-FUSE.svg'
 import goodusdc from '../../assets/svg/pairs/G$-USDC.svg'
 import fusdbnb from '../../assets/svg/pairs/FUSD-BNB.svg'
 import fusdfuse from '../../assets/svg/pairs/FUSD-FUSE.svg'
+import wbtcweth from '../../assets/svg/pairs/WBTC-WETH.svg'
+import daiusdt from '../../assets/svg/pairs/DAI-USDT.svg'
+import omusdc from '../../assets/svg/pairs/OM-USDC.svg'
+import usdcfuse from '../../assets/svg/pairs/USDC-FUSE.svg'
+import usdcusdt from '../../assets/svg/pairs/USDC-USDT.svg'
+import wethusdc from '../../assets/svg/pairs/WETH-USDC.svg'
+import linkweth from '../../assets/svg/pairs/LINK-WETH.svg'
+import grtweth from '../../assets/svg/pairs/GRT-WETH.svg'
+import dextfuse from '../../assets/svg/pairs/DEXT-FUSE.svg'
 
-export default function Icon(props: { name: string; address: string }) {
+export default function Icon(props: { name: string; pairName: string }) {
   const Map: { [name: string]: any } = {
-    '0x04Ee5DE43332aF99eeC2D40de19962AA1cC583EC': goodusdc,
-    '0x65995B106988E9aCd15998a5DF95aDe89b6511c8': fusdbnb,
-    '0x4Bd7dc50B49d018FDE10a1ae6b29f09E175b85fC': fusdfuse,
-    '0xf14D745a4D264255F758B541BB1F61EbC589EA25': fusdfuse,
-    '0xAAb4FB30aD9c20EFFDA712c0fFC24f77b1B5439d': wethfuse
+    'G$/USDC': goodusdc,
+    'fUSD/BNB': fusdbnb,
+    'KNC/USDC': fusdfuse,
+    'fUSD/FUSE': fusdfuse,
+    'WETH/FUSE': wethfuse,
+    'WBTC/WETH': wbtcweth,
+    'DAI/USDT': daiusdt,
+    'OM/USDC': omusdc,
+    'USDC/FUSE': usdcfuse,
+    'USDC/USDT': usdcusdt,
+    'WETH/USDC': wethusdc,
+    'LINK/WETH': linkweth,
+    'GRT/WETH': grtweth,
+    'DEXT/FUSE': dextfuse
   }
 
   const Container = styled.div`
@@ -33,7 +51,7 @@ export default function Icon(props: { name: string; address: string }) {
 
   return (
     <Container>
-      <img src={Map[props.address]} alt="" />
+      <img src={Map[props.pairName]} alt="" />
       <span>{props.name}</span>
     </Container>
   )

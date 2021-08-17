@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import AppBody from '../AppBody'
 import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
-import { calculateAPY, getContract, getFarmingPools } from '../../utils/farm'
 import Apy from '../../components/RewardCards/info'
 import vector from '../../assets/svg/vector.svg'
 import deposits from '../../assets/svg/deposits.svg'
@@ -12,8 +11,10 @@ import apyPurple from '../../assets/svg/questionmark.svg'
 import apyBlue from '../../assets/svg/questionmark2.svg'
 import apyGreen from '../../assets/svg/questionmark3.svg'
 import Reselect from '../../components/RewardCards'
-import { getRewardsData } from '../../utils/rewards'
 import { useActiveWeb3React } from '../../hooks'
+import Config from '../../constants/abis/config.json'
+import { fetchStakerInfo, fetchStats } from '../../utils/farm'
+import { getLPBalance } from '../../utils/rewards'
 
 const Container = styled('div')`
   width: 100%;
@@ -53,94 +54,136 @@ const Item = styled('div')`
   }
 `
 
-export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: string }>) {
+export interface RewardsInfo {
+  totalRewards: number
+  rewardRate: number
+  totalRewardsInUSD: number
+  apyPercent: number
+  accuruedRewards: number
+}
+
+export interface Token {
+  __typename: string
+  id: string
+  name: string
+  symbol: string
+}
+
+export interface Rewards {
+  pairName: string
+  globalTotalStake: string
+  totalRewards: string
+  estimatedRewards: string
+  unlockedRewards: string
+  accuruedRewards: string
+  totalStakedUSD: number
+  globalTotalStakeUSD: number
+  pairPrice: number
+  reserve0: string
+  reserve1: string
+  lockedRewards: string
+  rewardsInfo: RewardsInfo[]
+  token0: Token
+  token1: Token
+}
+
+export default function FarmReselect(props: RouteComponentProps<{ contracta: string; LPToken: string; APY: string }>) {
   const {
     match: {
-      params: { currencyIdA }
+      params: { contracta, LPToken }
     }
   } = props
   const [result, setResult] = useState<any>({
     res: [],
-    lpTotal: '0',
+    lpDeposited: '0',
     rewardsTotal: '0',
     lpUser: '0',
     lpBalance: '0',
     rewardAcruded: '0',
     rewardsUnlocked: '0'
   })
-  const [allContracts] = useState([...getFarmingPools()])
-  const [contract, setContract] = useState<{
-    address: string
-    contractAddress: string
-    token0: string
-    token1: string
-    pairs: [string]
-    apy: string
-    duration: number
-    start: Date
-    end: Date
-    rewards: number
-    token0Pool: number
-    token1Pool: number
-  }>({
-    address: '',
-    contractAddress: '',
-    token0: '',
-    token1: '',
-    pairs: [''],
-    apy: '',
-    duration: 0,
-    start: new Date(),
-    end: new Date(),
-    rewards: 0,
-    token0Pool: 0,
-    token1Pool: 0
+  const [allContracts] = useState([])
+  const [result2, setresult2] = useState<Rewards>({
+    globalTotalStake: '',
+    totalRewards: '',
+    pairName: '',
+    estimatedRewards: '',
+    unlockedRewards: '',
+    accuruedRewards: '',
+    rewardsInfo: [
+      {
+        rewardRate: 0,
+        totalRewards: 0,
+        totalRewardsInUSD: 0,
+        apyPercent: 0,
+        accuruedRewards: 0
+      }
+    ],
+    token0: {
+      __typename: '',
+      id: '',
+      name: '',
+      symbol: ''
+    },
+    token1: {
+      __typename: '',
+      id: '',
+      name: '',
+      symbol: ''
+    },
+    totalStakedUSD: 0,
+    globalTotalStakeUSD: 0,
+    pairPrice: 0,
+    reserve0: '',
+    reserve1: '',
+    lockedRewards: ''
   })
-  const [apy, setApy] = useState({ apy: 0 })
-  const { account } = useActiveWeb3React()
+
+  const { account, library } = useActiveWeb3React()
+  const obj: { [index: string]: any } = Config[0].contracts.fuse
 
   useEffect(() => {
-    allContracts.forEach((contractData: { contractAddress: string }, index: any) => {
-      if (contractData.contractAddress === currencyIdA) {
-        setContract(allContracts[index])
-      }
+    getLPBalance(obj[contracta].LPToken, account).then(res => {
+      setResult({ ...result, lpBalance: res })
+    })
+    getLPBalance(obj[contracta].LPToken, account).then(res => {
+      setResult({ ...result, lpBalance: res })
     })
 
-    const getUserRewardData = async () => {
-      return await getRewardsData(contract.contractAddress, contract.address, account).then(res => {
-        return res
+    fetchStakerInfo(
+      contracta,
+      library?.provider,
+      'multi',
+      account ? account : '',
+      '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629'
+    ).then(res =>
+      setResult({
+        ...result,
+        lpDeposited: (res[0] / 1000000000000000000).toFixed(2),
+        lpBalance: (res[0] / 1000000000000000000).toFixed(2)
       })
-    }
+    )
 
-    const fetchData = async () => {
-      return await getContract(contract)
-    }
-
-    const getData = async (response: any, contract: any) => {
-      return await calculateAPY(response, contract)
-    }
-
-    fetchData().then(res => getData(res, contract).then(res => setApy(res)))
-    getUserRewardData().then(res => {
-      setResult(res)
-    })
-  }, [allContracts, currencyIdA, contract, account])
+    fetchStats(
+      account ? account : '',
+      obj[contracta].LPToken,
+      obj[contracta].contractAddress,
+      obj[contracta].type,
+      library?.provider
+    ).then(res => setresult2(res))
+  }, [allContracts, contracta, account])
 
   return (
     <AppBody>
       <Container>
         <Wrapper style={{ paddingBottom: '25px' }}>
-          <Icon name={''} address={contract.contractAddress} />{' '}
-          <span>
-            {contract.token0} - {contract.token1}
-          </span>
+          <Icon name={''} pairName={obj[contracta].pairName} /> <span>{obj[contracta].pairName}</span>
         </Wrapper>
-
         <Wrapper>
           <Item>
             <Apy
               title={'Deposit APY'}
-              data={apy.apy + '%'}
+              data={(result2.rewardsInfo[0].apyPercent * 100).toFixed(2) + '%'}
               icon={vector}
               apyIcon={apyPurple}
               txt={'#8E6CC0'}
@@ -150,9 +193,9 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
           <Item>
             <Apy
               title={'Your Deposits'}
-              data={result.lpBalance}
+              data={result.lpDeposited}
               apyIcon={apyBlue}
-              label={contract.token0 + ' - ' + contract.token1}
+              label={obj[contracta].pairName}
               icon={deposits}
               txt={'#0684A6'}
               color={'#034253'}
@@ -161,7 +204,7 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
           <Item>
             <Apy
               title={'Accruded Rewards'}
-              data={result.rewardAcruded}
+              data={(result2.rewardsInfo[0].accuruedRewards / 1000000000000000000).toFixed(2)}
               apyIcon={apyGreen}
               label={'WFUSE'}
               icon={rewards}
@@ -170,16 +213,15 @@ export default function FarmReselect(props: RouteComponentProps<{ currencyIdA: s
             />
           </Item>
         </Wrapper>
-
         <Wrapper style={{ paddingLeft: '4px', paddingRight: '10px' }}>
           <Reselect
             result={result}
             contract={{
-              stakingContractAddress: contract.contractAddress,
-              tokenAddress: contract.address,
+              stakingContractAddress: contracta,
+              tokenAddress: LPToken,
               user: account || '',
-              token0: contract.token0,
-              token1: contract.token1
+              token0: obj[contracta].token0,
+              token1: obj[contracta].token1
             }}
           />
         </Wrapper>

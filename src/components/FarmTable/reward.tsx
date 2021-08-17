@@ -1,10 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import { calculateAPY, getContract } from '../../utils/farm'
 import styled from 'styled-components'
 import Icon from './icons'
-import { usePromiseTracker, trackPromise } from 'react-promise-tracker'
-import Loader from '../Loaders/rewards'
 import { Flex } from 'rebass'
+import { fetchStats } from '../../utils/farm'
+import { useActiveWeb3React } from '../../hooks'
+export interface RewardsInfo {
+  totalRewardsInUSD: number
+  apyPercent: number
+}
+
+export interface Token {
+  __typename: string
+  id: string
+  name: string
+  symbol: string
+}
+
+export interface Rewards {
+  globalTotalStake: string
+  totalRewards: string
+  estimatedRewards: string
+  unlockedRewards: string
+  accuruedRewards: string
+  totalStakedUSD: number
+  globalTotalStakeUSD: number
+  pairPrice: number
+  reserve0: string
+  reserve1: string
+  lockedRewards: string
+  rewardsInfo: RewardsInfo[]
+  token0: Token
+  token1: Token
+}
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +46,6 @@ const Container = styled.div`
     background: #111219;
     opacity: 0.85;
     text-orientation: upright;
-    height: 100%;
   }
 `
 const Wrapper = styled('div')`
@@ -68,38 +94,72 @@ const SelectButton = styled('div')`
 
 export default function Reward(props: { contract: any; active: boolean }) {
   const [showSelectButton, setShowSelectButton] = useState(false)
-  const { promiseInProgress } = usePromiseTracker()
-  const [apy, setApy] = useState({
-    contractAddress: '',
-    address: '',
-    reserve0: 0,
-    apy: 0,
-    start: new Date(),
-    duration: 0,
-    end: new Date(),
-    token0Pool: 0,
-    token1Pool: 0
+  function toggle() {
+    window.location.replace(
+      '/#/farm/' +
+        props.contract.contractAddress +
+        '/' +
+        props.contract.LPToken +
+        '/' +
+        (result2.rewardsInfo[0].apyPercent * 100).toFixed(0)
+    )
+  }
+  const [result2, setresult2] = useState<Rewards>({
+    globalTotalStake: '',
+    totalRewards: '',
+    estimatedRewards: '',
+    unlockedRewards: '',
+    accuruedRewards: '',
+    rewardsInfo: [
+      {
+        totalRewardsInUSD: 0,
+        apyPercent: 0
+      }
+    ],
+    token0: {
+      __typename: '',
+      id: '',
+      name: '',
+      symbol: ''
+    },
+    token1: {
+      __typename: '',
+      id: '',
+      name: '',
+      symbol: ''
+    },
+    totalStakedUSD: 0,
+    globalTotalStakeUSD: 0,
+    pairPrice: 0,
+    reserve0: '',
+    reserve1: '',
+    lockedRewards: ''
   })
 
-  function toggle() {
-    window.location.replace('/#/farm/' + props.contract.contractAddress)
-  }
+  const { library, account } = useActiveWeb3React()
 
   useEffect(() => {
-    trackPromise(
-      getContract(props.contract).then(resContract =>
-        calculateAPY(resContract, props.contract).then(resApy => setApy(resApy))
+    const fetchData = async () => {
+      const data2 = await fetchStats(
+        account ? account : '',
+        props.contract.LPToken,
+        props.contract.contractAddress,
+        props.contract.type,
+        library?.provider
       )
-    )
-  })
-
+      setresult2(data2)
+    }
+    if (library?.provider) {
+      fetchData()
+    }
+  }, [])
   return (
     <Container onMouseEnter={() => setShowSelectButton(true)} onMouseLeave={() => setShowSelectButton(false)}>
       <Item flex={'1 1 25%'} onClick={toggle}>
-        <Icon address={props.contract.contractAddress} name={props.contract.token0 + ' - ' + props.contract.token1} />
+        <Icon pairName={props.contract.pairName} name={props.contract.pairName} />
       </Item>
       {props.active === true ? (
-        <Item flex={'1 1 22%'}>
+        <Item flex={'1 1 20%'}>
           <Field
             style={{
               padding: '0.5rem',
@@ -109,67 +169,34 @@ export default function Reward(props: { contract: any; active: boolean }) {
               background: 'linear-gradient(0deg, #d0f7d7, #d0f7d7)'
             }}
           >
-            {promiseInProgress ? <Loader /> : apy.apy + '%'}
+            {(result2.rewardsInfo[0].apyPercent * 100).toFixed(0)}%
           </Field>
         </Item>
       ) : null}
-      {props.contract.contractAddress === '0xAAb4FB30aD9c20EFFDA712c0fFC24f77b1B5439d' ||
-      props.contract.contractAddress === '0xf14D745a4D264255F758B541BB1F61EbC589EA25' ? (
-        <Item fontSize={1}>
-          <Wrapper>
-            <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-              {promiseInProgress ? <Loader /> : apy.token0Pool.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </Field>
-            <Field>{props.contract.token1}</Field>
-          </Wrapper>
-          <Wrapper>
-            <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-              {promiseInProgress ? <Loader /> : apy.token1Pool.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </Field>
-            <Field>{props.contract.token0}</Field>
-          </Wrapper>
-        </Item>
-      ) : (
-        <Item fontSize={1}>
-          <Wrapper>
-            <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-              {promiseInProgress ? <Loader /> : apy.token0Pool.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </Field>
-            <Field>{props.contract.token0}</Field>
-          </Wrapper>
-          <Wrapper>
-            <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-              {promiseInProgress ? <Loader /> : apy.token1Pool.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </Field>
-            <Field>{props.contract.token1}</Field>
-          </Wrapper>
-        </Item>
-      )}
-      <Item fontSize={1}>
+      <Item flex={'1 1 10%'} fontSize={1}>
         <Wrapper>
           <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-            {promiseInProgress ? (
-              <Loader />
-            ) : (
-              '$' +
-              ((props.contract.rewards / props.contract.duration) * 0.089)
-                .toFixed(0)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            )}
+            {(Number(result2.reserve0) / 1000000000000000000).toFixed(0)}
+          </Field>
+          <Field>{result2.token0.symbol}</Field>
+        </Wrapper>
+        <Wrapper>
+          <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
+            {(Number(result2.globalTotalStake) / 1000000000000000000).toFixed(0)}
+          </Field>
+          <Field>{result2.token1.symbol}</Field>
+        </Wrapper>
+      </Item>
+      <Item flex={'1 1 20%'} fontSize={1}>
+        <Wrapper>
+          <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
+            {Number(result2.globalTotalStakeUSD / 1000).toFixed(0)}
           </Field>
           <Field>USD / day</Field>
         </Wrapper>
         <Wrapper>
           <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-            {promiseInProgress ? (
-              <Loader />
-            ) : (
-              (props.contract.rewards / props.contract.duration)
-                .toFixed(0)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            )}
+            {(Number(result2.globalTotalStake) / 1000000000000000000).toFixed(0)}
           </Field>
           <Field>WFUSE / day</Field>
         </Wrapper>

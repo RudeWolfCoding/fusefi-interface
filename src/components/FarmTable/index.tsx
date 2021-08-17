@@ -3,12 +3,15 @@ import { Flex } from 'rebass'
 import styled from 'styled-components'
 import Reward from './reward'
 
-const Wrapper = styled('div')`
+const Header = styled('div')`
   display: flex;
+  width: 100%;
   flex: wrap;
   font-size: 16px;
 `
-const Container = styled('div')`
+const Table = styled('div')`
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   font-size: 16px;
   font-weight: 500;
@@ -23,38 +26,41 @@ const Item = styled(Flex)`
   padding-left: 25px;
   text-align: left;
 `
-interface RewardStats {
-  address: string
+
+interface Reward {
+  networkId: number
+  pairName: string
+  LPToken: string
+  uniPairToken?: string
   contractAddress: string
-  token0: string
-  token1: string
-  pairs: [string]
-  apy: string
-  duration: number
+  type?: string
+  pairs: [string, string]
+  totalReward?: number
   start: Date
   end: Date
-  rewards: number
-  token0Pool: number
-  token1Pool: number
+  duration: number
+  isActive: boolean
 }
 
-interface RewardsProps {
-  rewards: RewardStats[]
+interface RewardsProp {
+  active: boolean
+  rewards: Reward[]
 }
 
-export default function Rewards({ rewards }: RewardsProps) {
+export default function Rewards({ rewards, active }: RewardsProp) {
+
   return (
-    <Container>
-      <Wrapper>
+    <Table>
+      <Header>
         <Item flex={'1 1 46%'}>Farm</Item>
         <Item flex={'1 1 22%'}>APY</Item>
         <Item flex={'1 1 22%'}>TVL</Item>
         <Item flex={'1 1 22%'}>Rewards</Item>
         <Item flex={'1 1 10%'}>&nbsp;</Item>
-      </Wrapper>
-      {rewards.map(item => {
-        return <Reward key={item.contractAddress} contract={item} active={true} />
+      </Header>
+      {rewards.map((item: { contractAddress: string | null | undefined }) => {
+        return <Reward key={item.contractAddress} contract={item} active={true}></Reward>
       })}
-    </Container>
+    </Table>
   )
 }

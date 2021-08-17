@@ -1,11 +1,49 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { gql } from '@apollo/client'
-import { ethers } from 'ethers'
-import { formatEther } from 'ethers/lib/utils'
 import Config from '../../constants/abis/config.json'
-import StakingMethods from '../../constants/abis/stakeMethods.json'
-import dayjs from 'dayjs'
-import { NETWORK_URL } from '../../connectors'
+import { SingleRewardProgram, MultiRewardProgram } from '@fuseio/earn-sdk'
+
+export const fetchStakingTimes = async (contract: string, library: any, type: string, rewardsToken?: string) => {
+  let staking
+  if (type == 'single') {
+    staking = new SingleRewardProgram(contract, library)
+    return await staking.getStakingTimes()
+  } else {
+    staking = new MultiRewardProgram(contract, library)
+    return await staking.getStakingTimes(rewardsToken)
+  }
+}
+
+export const fetchStakerInfo = async (
+  contract: string,
+  library: any,
+  type: string,
+  account: string,
+  rewardsToken?: string
+) => {
+  let staking
+  if (type == 'single') {
+    staking = new SingleRewardProgram(contract, library)
+    return await staking.getStakingTimes()
+  } else {
+    staking = new MultiRewardProgram(contract, library)
+    return await staking.getStakerInfo(account, rewardsToken)
+  }
+}
+
+export const fetchStats = async (account: string, token: string, contract: string, type: string, library: any) => {
+  let staking
+  const rewards = ['0x0BE9e53fd7EDaC9F859882AfdDa116645287C629']
+  if (type == 'single') {
+    staking = new SingleRewardProgram(contract, library)
+    console.log(await staking.getStats(account, token, 122, rewards))
+    return await staking.getStats(account, token, 122, rewards)
+  } else {
+    staking = new MultiRewardProgram(contract, library)
+    console.log(await staking.getStats(account, token, 122, rewards))
+    return await staking.getStats(account, token, 122, rewards)
+  }
+}
 
 export function selectPercentage(amount: number, lp: string, balance: string, estimate: any, withdrawValue: any) {
   const calculated = (Number(lp) * amount) / 100
@@ -14,53 +52,29 @@ export function selectPercentage(amount: number, lp: string, balance: string, es
   withdrawValue(calculated.toString())
 }
 
-export function getFarmingPools() {
+export const getFarmingPools = async (library: any) => {
+  const result = []
   const obj: { [index: string]: any } = Config[0].contracts.fuse
-  const contracts: {
-    address: string
-    contractAddress: string
-    token0: string
-    token1: string
-    pairs: [string]
-    apy: string
-    duration: number
-    start: Date
-    end: Date
-    rewards: number
-    token0Pool: number
-    token1Pool: number
-  }[] = []
+  for (const key in obj) {
+    let reward = ''
 
-  const contractAddresses: string[] = []
-  Object.keys(obj).forEach((key: string) => {
-    const address: string = obj[key].LPToken
-    const contractAddress: string = obj[key].contractAddress
-    const token0: string = obj[key].pairName.split('/')[0]
-    const token1: string = obj[key].pairName.split('/')[1]
-    const pairs: [string] = obj[key].pairs
-    const duration: number = (obj[key].duration * 1000000000000000000) / (3600 * 24)
-    const start = new Date(obj[key].start * 1000000000000000000000)
-    const end = dayjs(start)
-      .add(duration, 'day')
-      .toDate()
-    contractAddresses.push(contractAddress)
-    const rewards = obj[key].totalReward
-    contracts.push({
-      address,
-      contractAddress,
-      token0,
-      token1,
-      pairs,
-      apy: '0',
-      start,
-      end,
-      duration,
-      rewards,
-      token0Pool: 0,
-      token1Pool: 0
-    })
-  })
-  return contracts
+    if (typeof obj[key].rewards !== 'undefined' && obj[key].rewards.length > 0) {
+      reward = obj[key].rewards[0]
+    }
+    const data = await fetchStakingTimes(key, library?.provider, obj[key].type, reward)
+    const response = {
+      ...data,
+      ...obj[key],
+      totalReward: obj[key].totalReward ? obj[key].totalReward : 0,
+      start: new Date(data.start * 1000),
+      duration: data.duration / 86400,
+      end: new Date(data.end * 1000),
+      isActive: new Date(data.end * 1000) > new Date() ? true : false
+    }
+    result.push(response)
+  }
+  console.log(result)
+  return result
 }
 
 export async function getSwapStats() {
@@ -88,98 +102,4 @@ export async function getSwapStats() {
     })
   const transactionPromise = await stakingContractInstance
   return transactionPromise.data.uniswapFactories[0]
-}
-
-export async function getContract(contract: {
-  address: string
-  contractAddress: string
-  token0: string
-  token1: string
-  pairs: [string]
-  apy: string
-  start: Date
-  end: Date
-  rewards: number
-  token0Pool: number
-  token1Pool: number
-}) {
-  const client = new ApolloClient({
-    uri: `${Config[0].api.graph.fuseswap.url}${Config[0].api.graph.fuseswap.subgraphs.fuseswap}`,
-    cache: new InMemoryCache()
-  })
-  const stakingContractInstance = client
-    .query({
-      query: gql`
-  {
-    pair(id: "${contract.address.toLowerCase()}") {
-      untrackedVolumeUSD
-      reserveETH
-      reserveUSD
-      token0Price
-      token1Price
-      volumeUSD
-      liquidityProviderCount
-      reserve0
-      reserve1
-      trackedReserveETH
-      totalSupply
-      token0 {
-        id
-        name
-        symbol
-      }
-      token1 {
-        id
-        name
-        symbol
-      }
-    }
-  }
-`
-    })
-    .then(res => {
-      return res
-    })
-  const transactionPromise = await stakingContractInstance
-  return transactionPromise.data.pair
-}
-
-export async function calculateAPY(
-  contractResponse: any,
-  contract: {
-    address: string
-    contractAddress: string
-    token0: string
-    token1: string
-    pairs: [string]
-    apy: string
-    start: Date
-    end: Date
-    rewards: number
-    token0Pool: number
-    token1Pool: number
-  }
-) {
-  const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL)
-  const stakingContractInstance = new ethers.Contract(contract.contractAddress, StakingMethods, provider)
-  const statsData = await stakingContractInstance.getStatsData(contract.address)
-  const stakingPeriod = await stakingContractInstance.stakingPeriod()
-  const data = { ...contractResponse }
-  data['stakingContractAddress'] = contract.contractAddress
-  data['tokenAddress'] = contract.address
-  const totalReward = Number(formatEther(statsData[1]))
-  const globalTotalStake = Number(formatEther(statsData[0]))
-  const totalRewardInUSD = totalReward * 0.05
-  const reserveUSD = data.reserveUSD
-  const totalSupply = data.totalSupply
-  const lpPrice = reserveUSD / totalSupply
-  const globalTotalStakeUSD = Number(globalTotalStake) * lpPrice
-  const stakingPeriodInDays = Number(stakingPeriod) / (3600 * 24)
-  data['apy'] = parseInt(
-    ((totalRewardInUSD / globalTotalStakeUSD) * (365 / stakingPeriodInDays) * 100).toString()
-  ).toString()
-  data['reward'] = totalReward
-  data['token0Pool'] = parseInt(data.reserve0)
-  data['token1Pool'] = parseInt(data.reserve1)
-  return data
 }

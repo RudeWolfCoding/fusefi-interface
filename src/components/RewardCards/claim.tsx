@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { withdrawInterest } from '../../utils/rewards'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
 import { useTransactionAdder } from '../../state/transactions/hooks'
+import { withdrawInterest } from '../../utils/rewards'
 
 const Container = styled('div')`
   display: flex;
@@ -66,6 +66,7 @@ interface ClaimProps {
     rewardTotal: string
   }
   contract: {
+    LPToken: string
     stakingContractAddress: string
     tokenAddress: string
     user: string
@@ -84,10 +85,12 @@ export default function ClaimReward(props: ClaimProps) {
   }>({ rewardAcruded: '0', rewardUnlockedUser: '0', rewardEstimate: '0', rewardTotal: '0', rewardUnlocked: '0' })
 
   async function onClaim(contract: any) {
+
     if (!library || !account) return
+    const response = withdrawInterest(props.contract.stakingContractAddress, props.contract.LPToken, account, library)
+
     try {
-      const response = await withdrawInterest(contract.stakingContractAddress, '', account, library)
-      await addTransaction(response, { summary: `Rewards Claimed` })
+      addTransaction(await response, { summary: `Rewards Claimed` })
       setResult({
         rewardAcruded: result.rewardAcruded,
         rewardUnlockedUser: '0',

@@ -16,7 +16,7 @@ import Farm from './Farm'
 import FarmReward from './Farm/reward'
 import Lending from './Lending'
 import Home from './Home'
-import Test from './Test'
+import Test from './Farm/test'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
@@ -92,8 +92,9 @@ export default function App() {
                   <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
                   <Route exact strict path="/bridge" component={Bridge} />
                   <Route exact strict path="/farm" component={Farm} />
-                  <Route exact path="/farm/:stakingContractAddress" component={FarmReward} />
+                  <Route exact path="/farm/:contracta/:LPToken/:APY" component={FarmReward} />
                   <Route exact strict path="/lending" component={Lending} />
+                  <Route exact strict path="/test" component={Test} />
                   <Route component={RedirectToDefault} />
                 </Switch>
               </Web3ReactManager>

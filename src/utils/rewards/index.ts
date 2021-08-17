@@ -1,52 +1,76 @@
-import Staking from '../../constants/abis/stakeMethods.json'
 import ethers from 'ethers'
 import { formatEther, parseUnits } from 'ethers/lib/utils'
 import { getProviderOrSigner } from '..'
 import BasicTokenABI from '../../constants/abis/tokenABI.json'
 import { NETWORK_URL } from '../../connectors'
+import { MultiRewardProgram, SingleRewardProgram } from '@fuseio/earn-sdk'
 
-export async function getRewardsData(contractAddress: string, LP: any, account: any) {
-  const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL)
-  const stakingContractInstance = new ethers.Contract(contractAddress, Staking, provider)
-  const basicTokenContract = new ethers.Contract(LP, BasicTokenABI, provider)
-  const allowancePromise = await basicTokenContract.allowance(account, contractAddress)
-  const transactionPromise = await basicTokenContract.balanceOf(account)
-  const lpAvailable = formatEther(transactionPromise)
-  const lpApproved = formatEther(allowancePromise)
-  const depositedYield = await stakingContractInstance.getYieldData(account)
-  const statsData = await stakingContractInstance.getStatsData(account)
-  const stat = await stakingContractInstance.getStakerData(account)
-  const globalTotalStake = statsData[0]
-  const totalReward = statsData[1]
-  const estimatedReward = statsData[2]
-  const unlockedReward = statsData[3]
-  const accruedRewards = statsData[4]
-  const result = {
-    userYield: parseFloat(formatEther(depositedYield[1])).toFixed(2),
-    stakeTotal: parseFloat(formatEther(globalTotalStake)).toFixed(2),
-    rewardTotal: parseFloat(formatEther(totalReward)).toFixed(2),
-    rewardEstimate: parseFloat(formatEther(estimatedReward)).toFixed(2),
-    rewardAcruded: parseFloat(formatEther(stat[1])).toFixed(2),
-    lpBalance: parseFloat(formatEther(stat[0])).toFixed(2),
-    rewardUnlockedUser: parseFloat(formatEther(accruedRewards)).toFixed(2),
-    rewardUnlocked: parseFloat(formatEther(unlockedReward)).toFixed(0),
-    lpAvailable,
-    lpApproved
+export async function withdrawInterest(
+  contract: string,
+  account: any,
+  type: string,
+  library: any,
+  rewardsToken?: string
+) {
+  let staking
+  if (type == 'single') {
+    staking = new SingleRewardProgram(contract, library)
+    return await staking.withdrawReward(account)
+  } else {
+    staking = new MultiRewardProgram(contract, library)
+    return await staking.withdrawReward(account)
   }
-  return result
 }
 
-export async function withdrawInterest(contractAddress: string, LP: any, account: any, library: any) {
-  const stakingContractInstance = new ethers.Contract(contractAddress, Staking, getProviderOrSigner(library, account))
-  const transactionPromise = await stakingContractInstance.withdrawInterest()
+export async function withdrawLP(
+  contract: string,
+  account: any,
+  amount: string,
+  type: string,
+  library: any,
+  rewardsToken?: string
+) {
+  let staking
+  if (type == 'single') {
+    staking = new SingleRewardProgram(contract, library)
+    return await staking.withdraw(amount, account)
+  } else {
+    staking = new MultiRewardProgram(contract, library)
+    return await staking.withdraw(amount, account)
+  }
+}
+
+export async function depositLP(
+  contract: string,
+  account: any,
+  amount: string,
+  type: string,
+  library: any,
+  rewardsToken?: string
+) {
+  let staking
+  if (type == 'single') {
+    staking = new SingleRewardProgram(contract, library)
+    return await staking.deposit(amount, account)
+  } else {
+    staking = new MultiRewardProgram(contract, library)
+    return await staking.deposit(amount, account)
+  }
+}
+
+export async function approveLP(contractAddress: any, LP: any, account: any, library: any, amount: any) {
+  const basicTokenContract = new ethers.Contract(LP, BasicTokenABI, getProviderOrSigner(library, account))
+  const transactionPromise = await basicTokenContract.approve(contractAddress, parseUnits(amount.toString(), 18))
   return transactionPromise
 }
+
 
 export async function getLPBalance(LP: any, account: any) {
   const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL)
   const basicTokenContract = new ethers.Contract(LP, BasicTokenABI, provider)
-  const transactionPromise = await basicTokenContract.balanceOf(account)
-  return formatEther(transactionPromise)
+  console.log('aaa')
+  console.log(await basicTokenContract.balanceOf(account))
+  return await basicTokenContract.balanceOf(account)
 }
 
 export async function getLPApproved(contractAddress: any, LP: any, account: any) {
@@ -56,20 +80,4 @@ export async function getLPApproved(contractAddress: any, LP: any, account: any)
   return formatEther(transactionPromise)
 }
 
-export async function withdrawLP(contractAddress: any, LP: any, account: any, library: any, amount: string) {
-  const stakingContractInstance = new ethers.Contract(contractAddress, Staking, getProviderOrSigner(library, account))
-  const transactionPromise = await stakingContractInstance.withdrawStakeAndInterest(parseUnits(amount, 18))
-  return transactionPromise
-}
 
-export async function depositLP(contractAddress: any, LP: any, account: any, library: any, amount: string) {
-  const stakingContractInstance = new ethers.Contract(contractAddress, Staking, getProviderOrSigner(library, account))
-  const transactionPromise = await stakingContractInstance.stake(parseUnits(amount, 18))
-  return transactionPromise
-}
-
-export async function approveLP(contractAddress: any, LP: any, account: any, library: any, amount: any) {
-  const basicTokenContract = new ethers.Contract(LP, BasicTokenABI, getProviderOrSigner(library, account))
-  const transactionPromise = await basicTokenContract.approve(contractAddress, parseUnits(amount.toString(), 18))
-  return transactionPromise
-}
