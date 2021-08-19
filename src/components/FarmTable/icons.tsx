@@ -15,7 +15,7 @@ import grtweth from '../../assets/svg/pairs/GRT-WETH.svg'
 import dextfuse from '../../assets/svg/pairs/DEXT-FUSE.svg'
 
 export default function Icon(props: { name: string; pairName: string }) {
-  const Map: { [name: string]: any } = {
+  const FarmIcons: { [name: string]: any } = {
     'G$/USDC': goodusdc,
     'fUSD/BNB': fusdbnb,
     'KNC/USDC': fusdfuse,
@@ -51,7 +51,7 @@ export default function Icon(props: { name: string; pairName: string }) {
 
   return (
     <Container>
-      <img src={Map[props.pairName]} alt="" />
+      <img src={FarmIcons[props.pairName]} alt="" />
       <span>{props.name}</span>
     </Container>
   )

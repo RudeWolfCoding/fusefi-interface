@@ -4,6 +4,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { withdrawInterest } from '../../utils/rewards'
+import { Reward } from '../../utils/farm/constants'
 
 const Container = styled('div')`
   display: flex;
@@ -58,19 +59,14 @@ const Button = styled(ButtonPrimary)`
 interface ClaimProps {
   withdrawValue?: number
   data: {
-    lpBalance: string
+    lpDeposited: string
     rewardUnlocked: string
     rewardAcruded: string
     rewardUnlockedUser: string
     rewardEstimate: string
     rewardTotal: string
   }
-  contract: {
-    LPToken: string
-    stakingContractAddress: string
-    tokenAddress: string
-    user: string
-  }
+  contract: Reward
 }
 
 export default function ClaimReward(props: ClaimProps) {
@@ -84,10 +80,9 @@ export default function ClaimReward(props: ClaimProps) {
     rewardUnlocked: string
   }>({ rewardAcruded: '0', rewardUnlockedUser: '0', rewardEstimate: '0', rewardTotal: '0', rewardUnlocked: '0' })
 
-  async function onClaim(contract: any) {
-
+  async function onClaim() {
     if (!library || !account) return
-    const response = withdrawInterest(props.contract.stakingContractAddress, props.contract.LPToken, account, library)
+    const response = withdrawInterest(props.contract.contractAddress, account, props.contract.type, library?.provider)
 
     try {
       addTransaction(await response, { summary: `Rewards Claimed` })
@@ -99,14 +94,13 @@ export default function ClaimReward(props: ClaimProps) {
         rewardUnlocked: result.rewardUnlocked
       })
     } catch (e) {
-      window.location.reload()
-
       console.log(e)
     }
   }
 
   useEffect(() => {
     setResult(props.data)
+    console.log(props.contract)
   }, [props, addTransaction])
 
   return (
@@ -134,7 +128,7 @@ export default function ClaimReward(props: ClaimProps) {
           <b>Collected</b> {(Number(result.rewardAcruded) || 0 + Number(result.rewardUnlockedUser)).toFixed(2) || 0}
         </Claim>
       </Wrapper>
-      <Button onClick={() => onClaim(props.contract)}> Claim WFUSE Rewards</Button>
+      <Button onClick={() => onClaim()}> Claim WFUSE Rewards</Button>
     </Container>
   )
 }

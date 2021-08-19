@@ -3,59 +3,21 @@ import { formatEther, parseUnits } from 'ethers/lib/utils'
 import { getProviderOrSigner } from '..'
 import BasicTokenABI from '../../constants/abis/tokenABI.json'
 import { NETWORK_URL } from '../../connectors'
-import { MultiRewardProgram, SingleRewardProgram } from '@fuseio/earn-sdk'
+import { getProgram } from '../../utils/farm'
 
-export async function withdrawInterest(
-  contract: string,
-  account: any,
-  type: string,
-  library: any,
-  rewardsToken?: string
-) {
-  let staking
-  if (type == 'single') {
-    staking = new SingleRewardProgram(contract, library)
-    return await staking.withdrawReward(account)
-  } else {
-    staking = new MultiRewardProgram(contract, library)
-    return await staking.withdrawReward(account)
-  }
+export async function withdrawInterest(contract: string, account: any, type: string, library: any) {
+  const staking = getProgram(contract, library, type)
+  return await staking.withdrawReward(account)
 }
 
-export async function withdrawLP(
-  contract: string,
-  account: any,
-  amount: string,
-  type: string,
-  library: any,
-  rewardsToken?: string
-) {
-  let staking
-  if (type == 'single') {
-    staking = new SingleRewardProgram(contract, library)
-    return await staking.withdraw(amount, account)
-  } else {
-    staking = new MultiRewardProgram(contract, library)
-    return await staking.withdraw(amount, account)
-  }
+export async function withdrawLP(contract: string, account: any, amount: string, type: string, library: any) {
+  const staking = getProgram(contract, library, type)
+  return await staking.withdraw(amount, account)
 }
 
-export async function depositLP(
-  contract: string,
-  account: any,
-  amount: string,
-  type: string,
-  library: any,
-  rewardsToken?: string
-) {
-  let staking
-  if (type == 'single') {
-    staking = new SingleRewardProgram(contract, library)
-    return await staking.deposit(amount, account)
-  } else {
-    staking = new MultiRewardProgram(contract, library)
-    return await staking.deposit(amount, account)
-  }
+export async function depositLP(contract: string, account: any, amount: string, type: string, library: any) {
+  const staking = getProgram(contract, library, type)
+  return await staking.deposit(amount, account)
 }
 
 export async function approveLP(contractAddress: any, LP: any, account: any, library: any, amount: any) {
@@ -64,13 +26,11 @@ export async function approveLP(contractAddress: any, LP: any, account: any, lib
   return transactionPromise
 }
 
-
 export async function getLPBalance(LP: any, account: any) {
   const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL)
   const basicTokenContract = new ethers.Contract(LP, BasicTokenABI, provider)
-  console.log('aaa')
-  console.log(await basicTokenContract.balanceOf(account))
-  return await basicTokenContract.balanceOf(account)
+  const transactionPromise = await basicTokenContract.balanceOf(account)
+  return await formatEther(transactionPromise)
 }
 
 export async function getLPApproved(contractAddress: any, LP: any, account: any) {
@@ -79,5 +39,3 @@ export async function getLPApproved(contractAddress: any, LP: any, account: any)
   const transactionPromise = await basicTokenContract.allowance(account, contractAddress)
   return formatEther(transactionPromise)
 }
-
-

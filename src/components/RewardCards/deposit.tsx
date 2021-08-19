@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { approveLP } from '../../utils/rewards'
-import styled from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
-import EstimatedRewards from './modal'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { TransactionResponse } from '@ethersproject/providers'
-import Percentage from './percentage'
 import { depositLP } from '../../utils/rewards'
+import { Reward, User } from '../../utils/farm/constants'
+import Percentage from './percentage'
+import EstimatedRewards from './modal'
+import styled from 'styled-components'
+
 const Container = styled('div')`
 text-align:left;
 display: flex;
@@ -87,24 +89,8 @@ const Button = styled(ButtonPrimary)`
 
 interface Deposit {
   depositValue?: string
-  data: {
-    pairName: string
-    lpAvailable: string
-    lpApproved: string
-    lpBalance: string
-    rewardUnlockedUser: string
-    rewardEstimate: string
-    rewardTotal: string
-    rewardUnlocked: string
-  }
-  contract: {
-    pairName: string
-    stakingContractAddress: string
-    tokenAddress: string
-    user: string
-    token0: string
-    token1: string
-  }
+  data: User
+  contract: Reward
 }
 
 export default function Deposit(props: Deposit) {
@@ -121,15 +107,15 @@ export default function Deposit(props: Deposit) {
   useEffect(() => {
     setEstimate(props.data.rewardEstimate)
     setdepositValue('0')
-  }, [props, addTransaction, estimate])
+  }, [props, addTransaction])
 
   return (
     <Container>
       <Wrapper>
         <Text>Balance</Text>{' '}
         <Balance>
-          <span>{props.data.lpAvailable} </span> &nbsp;{' '}
-          <span>{props.data.pairName}</span>
+          <span>{props.data.lpAvailable} &nbsp;</span>
+          <span>{props.contract.token0.symbol + '-' + props.contract.token1.symbol}</span>
         </Balance>
       </Wrapper>
       <InputWrapper>
@@ -141,7 +127,7 @@ export default function Deposit(props: Deposit) {
           placeholder="0"
           onChange={e => setdepositValue(e.target.value)}
         />
-        <span>{props.contract.token0 + '-' + props.contract.token1}</span>
+        <span>{props.contract.token0.symbol + '-' + props.contract.token1.symbol}</span>
       </InputWrapper>
       <Percentage callBack={setPercentage} user={props.data} />
       <EstimatedRewards estimate={estimate} />
@@ -149,15 +135,15 @@ export default function Deposit(props: Deposit) {
         <ButtonPrimary
           onClick={() =>
             approveLP(
-              props.contract.stakingContractAddress,
-              props.contract.tokenAddress,
-              props.contract.user,
+              props.contract.contractAddress,
+              props.contract.LPToken,
+              account ? account : '',
               library,
               depositValue
             ).then((response: TransactionResponse) => {
               addTransaction(response, {
-                summary: 'Approved ' + depositValue + props.contract.token0 + '-' + props.contract.token1,
-                approval: { tokenAddress: props.contract.stakingContractAddress, spender: '' }
+                summary: 'Approved ' + depositValue + props.contract.token0.symbol + '-' + props.contract.token1,
+                approval: { tokenAddress: props.contract.contractAddress, spender: '' }
               })
             })
           }
@@ -173,11 +159,11 @@ export default function Deposit(props: Deposit) {
         {Number(props.data.lpApproved) > 0 ? (
           <ButtonPrimary
             onClick={() =>
-              depositLP(props.contract.stakingContractAddress, library, '0', account ? account : '', depositValue).then(
+              depositLP(props.contract.contractAddress, library, '0', account ? account : '', depositValue).then(
                 (response: TransactionResponse) => {
                   addTransaction(response, {
                     summary: 'Deposited ' + depositValue + props.contract.token0 + '-' + props.contract.token1,
-                    approval: { tokenAddress: props.contract.stakingContractAddress, spender: '' }
+                    approval: { tokenAddress: props.contract.contractAddress, spender: '' }
                   })
                 }
               )

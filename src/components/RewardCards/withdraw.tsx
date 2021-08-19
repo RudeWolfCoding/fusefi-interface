@@ -5,6 +5,8 @@ import EstimatedRewards from './modal'
 import Percentage from './percentage'
 import styled from 'styled-components'
 import { withdrawLP } from '../../utils/rewards'
+import { Reward, User } from '../../utils/farm/constants'
+
 const Container = styled('div')`
   text-align: left;
   display: flex;
@@ -71,24 +73,8 @@ const Balance = styled('div')`
 `
 
 interface RewardProps {
-  withdrawValue?: number
-  data: {
-    lpAvailable: string
-    lpApproved: string
-    lpBalance: string
-    rewardUnlockedUser: string
-    rewardEstimate: string
-    rewardTotal: string
-    rewardUnlocked: string
-  }
-  contract: {
-    contracta: string
-    stakingContractAddress: string
-    tokenAddress: string
-    user: string
-    token0: string
-    token1: string
-  }
+  data: User
+  contract: Reward
 }
 
 export default function WithdrawReward(props: RewardProps) {
@@ -103,7 +89,7 @@ export default function WithdrawReward(props: RewardProps) {
 
   useEffect(() => {
     setEstimate(props.data.rewardEstimate)
-    setWithdrawValue('0')
+    setWithdrawValue(props.data.lpDeposited)
   }, [props.contract, props.data, library])
 
   return (
@@ -111,7 +97,8 @@ export default function WithdrawReward(props: RewardProps) {
       <Wrapper>
         <Text>Balance</Text>{' '}
         <Balance>
-          <span>{props.data.lpBalance} </span> &nbsp; <span>{props.contract.token0 + '-' + props.contract.token1}</span>
+          <span>{props.data.lpDeposited} </span> &nbsp;{' '}
+          <span>{props.contract.token0.symbol + '-' + props.contract.token1.symbol}</span>
         </Balance>
       </Wrapper>
       <InputWrapper>
@@ -123,18 +110,18 @@ export default function WithdrawReward(props: RewardProps) {
           placeholder="0"
           onChange={e => setWithdrawValue(e.target.value)}
         />
-        <span>{props.contract.token0 + '-' + props.contract.token1}</span>
+        <span>{props.contract.token0.symbol + '-' + props.contract.token1.symbol}</span>
       </InputWrapper>
       <Percentage callBack={setPercentage} user={props.data} />
       <EstimatedRewards estimate={estimate} />
       <ButtonPrimary
         onClick={() =>
           withdrawLP(
-            props.contract.tokenAddress,
-            library,
-            '0',
+            props.contract.LPToken,
             account ? account : '',
-            withdrawValue ? withdrawValue.toString() : '0'
+            withdrawValue ? withdrawValue.toString() : '0',
+            props.contract.type,
+            library?.provider
           )
         }
       >

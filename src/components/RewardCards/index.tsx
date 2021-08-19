@@ -5,6 +5,7 @@ import Claim from './claim'
 import Withdraw from './withdraw'
 import Deposit from './deposit'
 import { Flex } from 'rebass'
+import { Reward, User } from '../../utils/farm/constants'
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -63,50 +64,9 @@ const Tab = styled.button<{ active: any }>`
 
 const types = ['Deposit', 'Withdraw', 'Stats']
 
-export interface RewardsInfo {
-  totalRewards: number
-  rewardRate: number
-  totalRewardsInUSD: number
-  apyPercent: number
-  accuruedRewards: number
-}
-
-export interface Token {
-  __typename: string
-  id: string
-  name: string
-  symbol: string
-}
-
-export interface Rewards {
-  lpBalance: string
-  lpDeposited: string
-  lpAvailable: string
-  globalTotalStake: string
-  totalRewards: string
-  estimatedRewards: string
-  unlockedRewards: string
-  accuruedRewards: string
-  totalStakedUSD: number
-  globalTotalStakeUSD: number
-  pairPrice: number
-  reserve0: string
-  reserve1: string
-  lockedRewards: string
-  rewardsInfo: RewardsInfo[]
-  token0: Token
-  token1: Token
-}
-
 interface RewardSelection {
-  result: Rewards
-  contract: {
-    stakingContractAddress: string
-    tokenAddress: string
-    user: string
-    token0: string
-    token1: string
-  }
+  result: User
+  contract: Reward
 }
 
 function RewardsReselect(param: string, result: any, contract: any) {

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { User } from '../../utils/farm/constants'
 
 const PrecentageWrapper = styled('div')`
   display: flex;
@@ -31,25 +32,20 @@ const Percentage = styled('button')`
 `
 interface Deposit {
   callBack: any
-  user: {
-    lpAvailable: string
-    lpApproved: string
-    lpBalance: string
-    rewardUnlockedUser: string
-    rewardEstimate: string
-    rewardTotal: string
-    rewardUnlocked: string
-  }
+  user: User
 }
 
 export default function Deposit({ user, callBack }: Deposit) {
   function selectPercentage(amount: number) {
-    const calculated = (Number(user.lpAvailable) * amount) / 100
+    const calculated = (Number(user.lpDeposited) * amount) / 100
     const rewards =
       Number(user.rewardEstimate) +
-      (Number(user.rewardEstimate) / Number(user.lpBalance)) * ((Number(user.lpAvailable) * amount) / 100)
-    callBack(calculated.toString(), rewards.toFixed(2).toString())
+      (Number(user.rewardEstimate) / Number(user.lpAvailable)) * ((Number(user.lpDeposited) * amount) / 100)
+    callBack(calculated.toFixed(2), rewards.toFixed(2).toString())
   }
+  useEffect(() => {
+    console.log(user)
+  }, [user])
 
   return (
     <PrecentageWrapper>

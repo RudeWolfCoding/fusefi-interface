@@ -312,7 +312,7 @@ export function ButtonDark({ dark, ...rest }: { dark?: boolean } & ButtonProps) 
   }
 }
 
-export function ButtonError({ error, ...rest }: { error?: boolean } & ButtonProps) {
+export function ButtonError({ ...rest }: { error?: boolean } & ButtonProps) {
   return <ButtonLight {...rest} />
 }
 

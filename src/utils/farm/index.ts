@@ -3,65 +3,36 @@ import { gql } from '@apollo/client'
 import Config from '../../constants/abis/config.json'
 import { SingleRewardProgram, MultiRewardProgram } from '@fuseio/earn-sdk'
 
-export const fetchStakingTimes = async (contract: string, library: any, type: string, rewardsToken?: string) => {
-  let staking
-  if (type == 'single') {
-    staking = new SingleRewardProgram(contract, library)
-    return await staking.getStakingTimes()
+export const rewardsToken = Config[0].rewardTokens[122]
+
+export const getProgram = (contract: string, library: any, type: string) => {
+  if (type === 'single') {
+    return new SingleRewardProgram(contract, library)
   } else {
-    staking = new MultiRewardProgram(contract, library)
-    return await staking.getStakingTimes(rewardsToken)
+    return new MultiRewardProgram(contract, library)
   }
 }
 
-export const fetchStakerInfo = async (
-  contract: string,
-  library: any,
-  type: string,
-  account: string,
-  rewardsToken?: string
-) => {
-  let staking
-  if (type == 'single') {
-    staking = new SingleRewardProgram(contract, library)
-    return await staking.getStakingTimes()
-  } else {
-    staking = new MultiRewardProgram(contract, library)
-    return await staking.getStakerInfo(account, rewardsToken)
-  }
+export const fetchStakingTimes = async (contract: string, library: any, type: string) => {
+  const staking = getProgram(contract, library, type)
+  return await staking.getStakingTimes(rewardsToken)
+}
+
+export const fetchStakerInfo = async (contract: string, library: any, type: string, account: string) => {
+  const staking = getProgram(contract, library, type)
+  return await staking.getStakerInfo(account, rewardsToken)
 }
 
 export const fetchStats = async (account: string, token: string, contract: string, type: string, library: any) => {
-  let staking
-  const rewards = ['0x0BE9e53fd7EDaC9F859882AfdDa116645287C629']
-  if (type == 'single') {
-    staking = new SingleRewardProgram(contract, library)
-    console.log(await staking.getStats(account, token, 122, rewards))
-    return await staking.getStats(account, token, 122, rewards)
-  } else {
-    staking = new MultiRewardProgram(contract, library)
-    console.log(await staking.getStats(account, token, 122, rewards))
-    return await staking.getStats(account, token, 122, rewards)
-  }
-}
-
-export function selectPercentage(amount: number, lp: string, balance: string, estimate: any, withdrawValue: any) {
-  const calculated = (Number(lp) * amount) / 100
-  const rewards = Number(estimate) + (Number(estimate) / Number(balance)) * ((Number(lp) * amount) / 100)
-  estimate(rewards.toFixed(2).toString())
-  withdrawValue(calculated.toString())
+  const staking = getProgram(contract, library, type)
+  return await staking.getStats(account, token, 122, [rewardsToken])
 }
 
 export const getFarmingPools = async (library: any) => {
   const result = []
   const obj: { [index: string]: any } = Config[0].contracts.fuse
   for (const key in obj) {
-    let reward = ''
-
-    if (typeof obj[key].rewards !== 'undefined' && obj[key].rewards.length > 0) {
-      reward = obj[key].rewards[0]
-    }
-    const data = await fetchStakingTimes(key, library?.provider, obj[key].type, reward)
+    const data = await fetchStakingTimes(key, library?.provider, obj[key].type)
     const response = {
       ...data,
       ...obj[key],
@@ -73,7 +44,6 @@ export const getFarmingPools = async (library: any) => {
     }
     result.push(response)
   }
-  console.log(result)
   return result
 }
 
@@ -102,4 +72,11 @@ export async function getSwapStats() {
     })
   const transactionPromise = await stakingContractInstance
   return transactionPromise.data.uniswapFactories[0]
+}
+
+export function selectPercentage(amount: number, lp: string, balance: string, estimate: any, withdrawValue: any) {
+  const calculated = (Number(lp) * amount) / 100
+  const rewards = Number(estimate) + (Number(estimate) / Number(balance)) * ((Number(lp) * amount) / 100)
+  estimate(rewards.toString())
+  withdrawValue(calculated.toString())
 }

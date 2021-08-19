@@ -1,66 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Flex } from 'rebass'
 import styled from 'styled-components'
+import Loader from '../Loaders/table'
+import { Rewards } from '../../utils/farm/constants'
+import Filter from './filter'
 import Reward from './reward'
 
-const Header = styled('div')`
-  display: flex;
-  width: 100%;
-  flex: wrap;
-  font-size: 16px;
+const Wrap = styled('div')`
+  margin-bottom: 25px;
 `
+
 const Table = styled('div')`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
+  background: #232638;
+  border-radius: 16px;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
-  background: #232638;
-  border-radius: 16px;
+`
+const Header = styled('div')`
+  display: flex;
+  flex: wrap;
+  font-size: 16px;
 `
 
-const Item = styled(Flex)`
-  line-height: 3rem;
+const Column = styled(Flex)`
   border-bottom: 1px solid black;
   padding-left: 25px;
   text-align: left;
+  line-height: 3rem;
 `
 
-interface Reward {
-  networkId: number
-  pairName: string
-  LPToken: string
-  uniPairToken?: string
-  contractAddress: string
-  type?: string
-  pairs: [string, string]
-  totalReward?: number
-  start: Date
-  end: Date
-  duration: number
-  isActive: boolean
-}
-
-interface RewardsProp {
-  active: boolean
-  rewards: Reward[]
-}
-
-export default function Rewards({ rewards, active }: RewardsProp) {
-
+export default function FarmTable({ rewards }: Rewards) {
+  const [filter, setFilter] = useState<boolean>(true)
   return (
-    <Table>
-      <Header>
-        <Item flex={'1 1 46%'}>Farm</Item>
-        <Item flex={'1 1 22%'}>APY</Item>
-        <Item flex={'1 1 22%'}>TVL</Item>
-        <Item flex={'1 1 22%'}>Rewards</Item>
-        <Item flex={'1 1 10%'}>&nbsp;</Item>
-      </Header>
-      {rewards.map((item: { contractAddress: string | null | undefined }) => {
-        return <Reward key={item.contractAddress} contract={item} active={true}></Reward>
-      })}
-    </Table>
+    <Wrap>
+      <Filter
+        active={true}
+        callBack={(active: boolean) => {
+          setFilter(active)
+        }}
+      />
+      <Table>
+        <Header>
+          <Column flex={'1 1 46%'}>Farm</Column>
+          <Column flex={'1 1 22%'}>APY</Column>
+          <Column flex={'1 1 22%'}>TVL</Column>
+          <Column flex={'1 1 22%'}>Rewards</Column>
+          <Column flex={'1 1 10%'}>&nbsp;</Column>
+        </Header>
+        {rewards.length > 0 ? (
+          rewards
+            .filter(i => i.isActive === filter)
+            .map((item: { contractAddress: string | null | undefined }) => {
+              return <Reward key={item.contractAddress} contract={item} active={true}></Reward>
+            })
+        ) : (
+          <Loader />
+        )}
+      </Table>
+    </Wrap>
   )
 }
