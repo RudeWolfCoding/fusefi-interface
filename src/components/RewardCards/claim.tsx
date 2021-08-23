@@ -4,7 +4,8 @@ import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { withdrawInterest } from '../../utils/rewards'
-import { Reward } from '../../utils/farm/constants'
+import { Reward, User, UserObj } from '../../utils/farm/constants'
+import { formatUnits } from 'ethers/lib/utils'
 
 const Container = styled('div')`
   display: flex;
@@ -18,7 +19,6 @@ const Container = styled('div')`
 `
 
 const Wrapper = styled('div')`
-  display: flex;
   flex: wrap;
   margin: auto;
   margin-bottom: 15px;
@@ -31,22 +31,17 @@ const Pool = styled('div')`
   padding: 0.25rem;
   width: 100%;
   text-align: left;
-  display: flex;
-  flex-wrap: wrap;
   font-size: 14px;
+  text-align: center;
   > span {
     text-align: right;
     flex: 1;
+    
   }
-  > b {
+  > h1 {
+    width: 100%;
     text-align: left;
   }
-`
-const Claim = styled('div')`
-  margin-top: 24px;
-  margin-bottom: 24px;
-  width: 100%;
-  font-size: 14px;
 `
 
 const Button = styled(ButtonPrimary)`
@@ -58,35 +53,25 @@ const Button = styled(ButtonPrimary)`
 
 interface ClaimProps {
   withdrawValue?: number
-  data: {
-    lpDeposited: string
-    rewardUnlocked: string
-    rewardAcruded: string
-    rewardUnlockedUser: string
-    rewardEstimate: string
-    rewardTotal: string
-  }
-  contract: Reward
+  user: User
+  reward: Reward
 }
 
 export default function ClaimReward(props: ClaimProps) {
   const addTransaction = useTransactionAdder()
   const { account, library } = useActiveWeb3React()
-  const [result, setResult] = useState<{
-    rewardAcruded: string
-    rewardUnlockedUser: string
-    rewardEstimate: string
-    rewardTotal: string
-    rewardUnlocked: string
-  }>({ rewardAcruded: '0', rewardUnlockedUser: '0', rewardEstimate: '0', rewardTotal: '0', rewardUnlocked: '0' })
+  const [result, setResult] = useState<User>(UserObj)
 
   async function onClaim() {
     if (!library || !account) return
-    const response = withdrawInterest(props.contract.contractAddress, account, props.contract.type, library?.provider)
+    const response = withdrawInterest(props.reward.contractAddress, account, props.reward.type, library?.provider)
 
     try {
       addTransaction(await response, { summary: `Rewards Claimed` })
       setResult({
+        lpApproved: '0',
+        lpDeposited: '0',
+        lpAvailable: '0',
         rewardAcruded: result.rewardAcruded,
         rewardUnlockedUser: '0',
         rewardEstimate: result.rewardEstimate,
@@ -99,35 +84,18 @@ export default function ClaimReward(props: ClaimProps) {
   }
 
   useEffect(() => {
-    setResult(props.data)
-    console.log(props.contract)
+    setResult(props.user)
   }, [props, addTransaction])
 
   return (
     <Container>
       <Wrapper>
+        <h2>Accruded Rewards</h2>
         <Pool>
-          <b>Total Rewards</b> <span>{Number(result.rewardTotal) || 0}</span>
-        </Pool>
-        <Pool>
-          <b>Remaining Rewards</b> <span>{Number(result.rewardTotal) - Number(result.rewardUnlocked) || 0}</span>
-        </Pool>
-        <Pool>
-          <b>Your Estimated Rewards</b> <span>{Number(result.rewardEstimate).toFixed(0) || 0}</span>
+          <h3>{Number(formatUnits(props.reward.rewardsInfo[0].accuruedRewards, 18)).toFixed(2) || 0}</h3>
         </Pool>
       </Wrapper>
 
-      <Wrapper>
-        <Claim>
-          <b>Claimed</b> {result.rewardAcruded || 0}
-        </Claim>
-        <Claim>
-          <b>Claimable</b> {result.rewardUnlockedUser || 0}
-        </Claim>
-        <Claim style={{ textAlign: 'center' }}>
-          <b>Collected</b> {(Number(result.rewardAcruded) || 0 + Number(result.rewardUnlockedUser)).toFixed(2) || 0}
-        </Claim>
-      </Wrapper>
       <Button onClick={() => onClaim()}> Claim WFUSE Rewards</Button>
     </Container>
   )

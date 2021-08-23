@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { approveLP } from '../../utils/rewards'
+import { useApproveCallback } from '../../hooks/useApproveCallback'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -9,6 +9,7 @@ import { Reward, User } from '../../utils/farm/constants'
 import Percentage from './percentage'
 import EstimatedRewards from './modal'
 import styled from 'styled-components'
+import { ChainId, Token, TokenAmount } from '@fuseio/fuse-swap-sdk'
 
 const Container = styled('div')`
 text-align:left;
@@ -89,8 +90,8 @@ const Button = styled(ButtonPrimary)`
 
 interface Deposit {
   depositValue?: string
-  data: User
-  contract: Reward
+  user: User
+  reward: Reward
 }
 
 export default function Deposit(props: Deposit) {
@@ -98,14 +99,20 @@ export default function Deposit(props: Deposit) {
   const { library, account } = useActiveWeb3React()
   const [depositValue, setdepositValue] = useState('0')
   const [estimate, setEstimate] = useState('0')
-
+  const chainId = 122 as ChainId
+  const decimals = 18
+  const token = new Token(chainId, props.reward.contractAddress, decimals)
+  const amount = BigInt(0)
+  const [approval, approveCallback] = useApproveCallback(new TokenAmount(token, amount), account ? account : '')
+  console.log(approveCallback)
+  console.log(approval)
   function setPercentage(value: string, estimate: string) {
     setEstimate(estimate)
     setdepositValue(value)
   }
 
   useEffect(() => {
-    setEstimate(props.data.rewardEstimate)
+    setEstimate(props.user.rewardEstimate)
     setdepositValue('0')
   }, [props, addTransaction])
 
@@ -114,8 +121,8 @@ export default function Deposit(props: Deposit) {
       <Wrapper>
         <Text>Balance</Text>{' '}
         <Balance>
-          <span>{props.data.lpAvailable} &nbsp;</span>
-          <span>{props.contract.token0.symbol + '-' + props.contract.token1.symbol}</span>
+          <span>{props.user.lpAvailable} &nbsp;</span>
+          <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
         </Balance>
       </Wrapper>
       <InputWrapper>
@@ -127,50 +134,28 @@ export default function Deposit(props: Deposit) {
           placeholder="0"
           onChange={e => setdepositValue(e.target.value)}
         />
-        <span>{props.contract.token0.symbol + '-' + props.contract.token1.symbol}</span>
+        <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
       </InputWrapper>
-      <Percentage callBack={setPercentage} user={props.data} />
+      <Percentage callBack={setPercentage} user={props.user} />
       <EstimatedRewards estimate={estimate} />
-      {account ? (
-        <ButtonPrimary
-          onClick={() =>
-            approveLP(
-              props.contract.contractAddress,
-              props.contract.LPToken,
-              account ? account : '',
-              library,
-              depositValue
-            ).then((response: TransactionResponse) => {
-              addTransaction(response, {
-                summary: 'Approved ' + depositValue + props.contract.token0.symbol + '-' + props.contract.token1,
-                approval: { tokenAddress: props.contract.contractAddress, spender: '' }
-              })
-            })
-          }
-        >
-          {' '}
-          Approve
-        </ButtonPrimary>
-      ) : (
-        <ButtonPrimary>Connect Wallet</ButtonPrimary>
-      )}
+      {account ? <ButtonPrimary> Approve</ButtonPrimary> : <ButtonPrimary>Connect Wallet</ButtonPrimary>}
 
       <div>
-        {Number(props.data.lpApproved) > 0 ? (
+        {Number(props.user.lpApproved) > 0 ? (
           <ButtonPrimary
             onClick={() =>
-              depositLP(props.contract.contractAddress, library, '0', account ? account : '', depositValue).then(
+              depositLP(props.reward.contractAddress, library, '0', account ? account : '', depositValue).then(
                 (response: TransactionResponse) => {
                   addTransaction(response, {
-                    summary: 'Deposited ' + depositValue + props.contract.token0 + '-' + props.contract.token1,
-                    approval: { tokenAddress: props.contract.contractAddress, spender: '' }
+                    summary: 'Deposited ' + depositValue + props.reward.token0 + '-' + props.reward.token1,
+                    approval: { tokenAddress: props.reward.contractAddress, spender: '' }
                   })
                 }
               )
             }
           >
             {' '}
-            Deposit {props.data.lpApproved} tokens
+            Deposit {props.user.lpApproved} tokens
           </ButtonPrimary>
         ) : (
           <Button>Deposit</Button>

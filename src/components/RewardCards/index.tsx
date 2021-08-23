@@ -65,20 +65,20 @@ const Tab = styled.button<{ active: any }>`
 const types = ['Deposit', 'Withdraw', 'Stats']
 
 interface RewardSelection {
-  result: User
+  user: User
   contract: Reward
 }
 
-function RewardsReselect(param: string, result: any, contract: any) {
+function RewardsReselect(param: string, user: any, contract: any) {
   switch (param) {
     case 'Deposit':
-      return <Deposit data={result} contract={contract} />
+      return <Deposit user={user} reward={contract} />
     case 'Withdraw':
-      return <Withdraw data={result} contract={contract} />
+      return <Withdraw user={user} reward={contract} />
     case 'Stats':
-      return <Claim data={result} contract={contract} />
+      return <Claim user={user} reward={contract} />
     default:
-      return <Deposit data={result} contract={contract} />
+      return <Deposit user={user} reward={contract} />
   }
 }
 
@@ -95,7 +95,7 @@ export default (props: RewardSelection) => {
             </Tab>
           ))}
         </TabGroup>
-        {RewardsReselect(active, props.result, props.contract)}
+        {RewardsReselect(active, props.user, props.contract)}
       </Wrapper>
     )
   } else {

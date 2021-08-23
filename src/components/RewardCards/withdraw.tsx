@@ -6,11 +6,17 @@ import Percentage from './percentage'
 import styled from 'styled-components'
 import { withdrawLP } from '../../utils/rewards'
 import { Reward, User } from '../../utils/farm/constants'
+import { parseUnits } from 'ethers/lib/utils'
+import { BigNumber } from 'ethers'
 
 const Container = styled('div')`
-  text-align: left;
-  display: flex;
-  flex-wrap: wrap;
+text-align:left;
+display: flex;
+flex-wrap: wrap;
+>div{
+  width: 100%
+  margin-top: 10px;
+}
 `
 
 const Wrapper = styled('div')`
@@ -18,9 +24,7 @@ const Wrapper = styled('div')`
   flex: wrap;
   padding-bottom: 14px;
   margin: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100%;
+  width: 80%;
   overflow: hidden;
   text-align: left;
   justify-content: flex-end;
@@ -33,7 +37,7 @@ const InputWrapper = styled('div')`
   border-radius: 12px;
   padding: 12px;
   border: 2px solid white;
-  width: 100%;
+  width: 80%;
   overflow: hidden;
   text-align: left;
   justify-content: flex-end;
@@ -73,32 +77,32 @@ const Balance = styled('div')`
 `
 
 interface RewardProps {
-  data: User
-  contract: Reward
+  user: User
+  reward: Reward
 }
 
 export default function WithdrawReward(props: RewardProps) {
   const { library, account } = useActiveWeb3React()
-  const [withdrawValue, setWithdrawValue] = useState('1000')
+  const [withdrawValue, setWithdrawValue] = useState<BigNumber | undefined>()
   const [estimate, setEstimate] = useState('1000')
 
-  function setPercentage(value: string, estimate: string) {
+  function setPercentage(value: BigNumber | undefined, estimate: string) {
     setEstimate(estimate)
     setWithdrawValue(value)
   }
 
   useEffect(() => {
-    setEstimate(props.data.rewardEstimate)
-    setWithdrawValue(props.data.lpDeposited)
-  }, [props.contract, props.data, library])
+    setEstimate(props.user.rewardEstimate)
+    setWithdrawValue(parseUnits(props.user.lpDeposited))
+  }, [props.reward, props.user, library])
 
   return (
     <Container>
       <Wrapper>
         <Text>Balance</Text>{' '}
         <Balance>
-          <span>{props.data.lpDeposited} </span> &nbsp;{' '}
-          <span>{props.contract.token0.symbol + '-' + props.contract.token1.symbol}</span>
+          <span>{props.user.lpDeposited} </span> &nbsp;{' '}
+          <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
         </Balance>
       </Wrapper>
       <InputWrapper>
@@ -106,21 +110,21 @@ export default function WithdrawReward(props: RewardProps) {
           type="text"
           name="withdrawLP"
           id="withdrawal"
-          value={withdrawValue}
+          value={Number(withdrawValue).toString()}
           placeholder="0"
-          onChange={e => setWithdrawValue(e.target.value)}
+          onChange={e => setWithdrawValue(parseUnits(e.target.value))}
         />
-        <span>{props.contract.token0.symbol + '-' + props.contract.token1.symbol}</span>
+        <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
       </InputWrapper>
-      <Percentage callBack={setPercentage} user={props.data} />
+      <Percentage callBack={setPercentage} user={props.user} />
       <EstimatedRewards estimate={estimate} />
       <ButtonPrimary
         onClick={() =>
           withdrawLP(
-            props.contract.LPToken,
+            props.reward.LPToken,
             account ? account : '',
-            withdrawValue ? withdrawValue.toString() : '0',
-            props.contract.type,
+            withdrawValue ? Number(withdrawValue).toString() : '0',
+            props.reward.type,
             library?.provider
           )
         }

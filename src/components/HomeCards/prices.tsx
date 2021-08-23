@@ -113,7 +113,7 @@ export default function HomePrices() {
             <animated.span className="number">
               {props.val.interpolate((val: any) => parseFloat(val).toFixed(2))}
             </animated.span>
-            <em>USD</em>
+            <em> USD</em>
           </Numbers>
           <SubText>Fuse Price </SubText>
         </Item>

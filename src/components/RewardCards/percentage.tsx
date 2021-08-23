@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { User } from '../../utils/farm/constants'
 
-const PrecentageWrapper = styled('div')`
+const Wrapper = styled('div')`
   display: flex;
   padding-left: 24px;
   padding-right: 24px;
@@ -15,7 +15,7 @@ const PrecentageWrapper = styled('div')`
   justify-content: flex-end;
 `
 
-const Percentage = styled('button')`
+const Selector = styled('button')`
   margin: 2px;
   padding: 4px;
   display: inline-block;
@@ -30,12 +30,12 @@ const Percentage = styled('button')`
   border: solid 2px white;
   background: none;
 `
-interface Deposit {
+interface Percentage {
   callBack: any
   user: User
 }
 
-export default function Deposit({ user, callBack }: Deposit) {
+export default function Percentage({ user, callBack }: Percentage) {
   function selectPercentage(amount: number) {
     const calculated = (Number(user.lpDeposited) * amount) / 100
     const rewards =
@@ -48,39 +48,39 @@ export default function Deposit({ user, callBack }: Deposit) {
   }, [user])
 
   return (
-    <PrecentageWrapper>
-      <Percentage
+    <Wrapper>
+      <Selector
         onClick={() => {
           selectPercentage(25)
         }}
       >
         {' '}
         25%{' '}
-      </Percentage>
-      <Percentage
+      </Selector>
+      <Selector
         onClick={() => {
           selectPercentage(50)
         }}
       >
         {' '}
         50%{' '}
-      </Percentage>
-      <Percentage
+      </Selector>
+      <Selector
         onClick={() => {
           selectPercentage(75)
         }}
       >
         {' '}
         75%{' '}
-      </Percentage>
-      <Percentage
+      </Selector>
+      <Selector
         onClick={() => {
           selectPercentage(100)
         }}
       >
         {' '}
         <span>100%</span>{' '}
-      </Percentage>
-    </PrecentageWrapper>
+      </Selector>
+    </Wrapper>
   )
 }

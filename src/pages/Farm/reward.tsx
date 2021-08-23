@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AppBody from '../AppBody'
 import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
-import Apy from '../../components/RewardCards/info'
+import InfoPanel from '../../components/RewardCards/info'
 import vector from '../../assets/svg/vector.svg'
 import deposits from '../../assets/svg/deposits.svg'
 import rewards from '../../assets/svg/rewardsAcc.svg'
@@ -13,9 +13,11 @@ import apyGreen from '../../assets/svg/questionmark3.svg'
 import Reselect from '../../components/RewardCards'
 import { useActiveWeb3React } from '../../hooks'
 import Config from '../../constants/abis/config.json'
-import { fetchStakerInfo, fetchStats } from '../../utils/farm'
-import { getLPBalance } from '../../utils/rewards'
+import { fetchStats } from '../../utils/farm'
 import { Reward, RewardObj, User, UserObj } from '../../utils/farm/constants'
+import { formatUnits } from 'ethers/lib/utils'
+import { useTokenBalance } from '../../state/wallet/hooks'
+import { ChainId, Token } from '@fuseio/fuse-swap-sdk'
 
 const Container = styled('div')`
   width: 100%;
@@ -65,28 +67,28 @@ export default function FarmReselect(props: RouteComponentProps<{ address: strin
   const { account, library } = useActiveWeb3React()
   const [result, setResult] = useState<Reward>(RewardObj)
   const [user, setUser] = useState<User>(UserObj)
+  const [lpDeposists, setLPDeposists] = useState('0')
+  const chainId = 122 as ChainId
+  const userPoolBalance = useTokenBalance(account ? account : undefined, new Token(chainId, address, 18))
+  const userBalance = useTokenBalance(account ? account : undefined, new Token(chainId, obj[address].LPToken, 18))
 
   useEffect(() => {
-    getLPBalance(obj[address].LPToken, account).then(res => {
-      setUser({ ...user, lpAvailable: res })
-    })
+    console.log(userBalance?.toSignificant(4))
 
-    fetchStakerInfo(address, library?.provider, 'multi', account ? account : '').then(res =>
-      setUser({
-        ...user,
-        lpDeposited: (res[0] / 1000000000000000000).toFixed(2)
-      })
-    )
+    if (userPoolBalance && userBalance) {
+      setLPDeposists(userPoolBalance.toSignificant(4))
+      setUser({ ...user, lpAvailable: userBalance.toSignificant(4), lpDeposited: lpDeposists })
+      fetchStats(
+        account ? account : '',
+        obj[address].LPToken,
+        obj[address].contractAddress,
+        obj[address].type,
+        library?.provider
+      ).then(res => setResult({ ...res, ...obj[address] }))
+    }
 
-    fetchStats(
-      account ? account : '',
-      obj[address].LPToken,
-      obj[address].contractAddress,
-      obj[address].type,
-      library?.provider
-    ).then(res => setResult({ ...res, ...obj[address] }))
-    console.log(result)
-  }, [address, account, library, obj])
+
+  }, [address, account, library, lpDeposists])
 
   return (
     <AppBody>
@@ -94,34 +96,35 @@ export default function FarmReselect(props: RouteComponentProps<{ address: strin
         <Wrapper style={{ paddingBottom: '25px' }}>
           <Icon name={''} pairName={obj[address].pairName} /> <span>{obj[address].pairName}</span>
         </Wrapper>
-        <Wrapper>
+        <Wrapper style={{ paddingBottom: '10px' }}>
           <Item>
-            <Apy
+            <InfoPanel
               title={'Deposit APY'}
-              data={(result.rewardsInfo[0].apyPercent * 100).toFixed(2) + '%'}
+              data={(result.rewardsInfo[0].apyPercent * 100).toFixed(2)}
               icon={vector}
               apyIcon={apyPurple}
+              label={'%'}
               txt={'#8E6CC0'}
               color={'#473660'}
             />{' '}
           </Item>
           <Item>
-            <Apy
+            <InfoPanel
               title={'Your Deposits'}
               data={user.lpDeposited}
               apyIcon={apyBlue}
-              label={obj[address].pairName}
+              label={' ' + obj[address].pairName}
               icon={deposits}
               txt={'#0684A6'}
               color={'#034253'}
             />
           </Item>
           <Item>
-            <Apy
+            <InfoPanel
               title={'Accruded Rewards'}
-              data={(result.rewardsInfo[0].accuruedRewards / 1000000000000000000).toFixed(2)}
+              data={formatUnits(result.rewardsInfo[0].accuruedRewards, 18)}
               apyIcon={apyGreen}
-              label={'WFUSE'}
+              label={' WFUSE'}
               icon={rewards}
               txt={'#1C9E7E'}
               color={'#0E4F3F'}
@@ -129,7 +132,7 @@ export default function FarmReselect(props: RouteComponentProps<{ address: strin
           </Item>
         </Wrapper>
         <Wrapper style={{ paddingLeft: '4px', paddingRight: '10px' }}>
-          <Reselect result={user} contract={result} />
+          <Reselect user={user} contract={result} />
         </Wrapper>
       </Container>
     </AppBody>

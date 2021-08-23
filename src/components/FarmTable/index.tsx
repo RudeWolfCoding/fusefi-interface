@@ -32,17 +32,18 @@ const Column = styled(Flex)`
 
 export default function FarmTable({ rewards }: Rewards) {
   const [filter, setFilter] = useState<boolean>(true)
+
   return (
     <Wrap>
       <Filter
-        active={true}
+        active={filter}
         callBack={(active: boolean) => {
           setFilter(active)
         }}
       />
       <Table>
         <Header>
-          <Column flex={'1 1 46%'}>Farm</Column>
+          <Column paddingLeft={'33px'} flex={'1 1 46%'}>Farm</Column>
           <Column flex={'1 1 22%'}>APY</Column>
           <Column flex={'1 1 22%'}>TVL</Column>
           <Column flex={'1 1 22%'}>Rewards</Column>
@@ -52,7 +53,7 @@ export default function FarmTable({ rewards }: Rewards) {
           rewards
             .filter(i => i.isActive === filter)
             .map((item: { contractAddress: string | null | undefined }) => {
-              return <Reward key={item.contractAddress} contract={item} active={true}></Reward>
+              return <Reward key={item.contractAddress} contract={item}></Reward>
             })
         ) : (
           <Loader />

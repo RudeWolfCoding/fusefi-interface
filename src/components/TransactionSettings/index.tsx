@@ -29,7 +29,7 @@ const FancyButton = styled.button`
   border-radius: 36px;
   font-size: 12px;
   width: auto;
-  min-width: 3rem;
+  min-width: 2rem;
   border: 1px solid ${({ theme }) => theme.bg3};
   outline: none;
   background: ${({ theme }) => theme.bg1};
@@ -151,7 +151,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
   return (
     <Wrapper>
       <RowBetween>
-        <TYPE.black fontWeight={600} fontSize={16} color={theme.text2} style={{ marginTop: 12, marginBottom: 12 }}>
+        <TYPE.black fontWeight={600} fontSize={14} color={theme.text2} style={{ marginTop: 12, marginBottom: 12 }}>
           Slippage tolerance
         </TYPE.black>
         <QuestionHelper text="Your transaction will revert if the price changes unfavorably by more than this percentage." />
@@ -226,7 +226,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
       )}
 
       <RowBetween>
-        <TYPE.black fontSize={16} fontWeight={600} color={theme.text2} style={{ marginTop: 12, marginBottom: 12 }}>
+        <TYPE.black fontSize={14} fontWeight={600} color={theme.text2} style={{ marginTop: 12, marginBottom: 12 }}>
           Transaction deadline
         </TYPE.black>
         <QuestionHelper text="Your transaction will revert if it is pending for more than this long." />

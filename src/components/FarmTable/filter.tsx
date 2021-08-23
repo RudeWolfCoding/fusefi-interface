@@ -13,7 +13,7 @@ const Container = styled('div')`
   border: solid 2px #000000;
   border-radius: 16px;
 `
-const activeClassName = 'ACTIVE'
+const activeClassName = 'active'
 
 const Button = styled('div').attrs({
   activeClassName
@@ -69,14 +69,14 @@ export default function Filter(props: Filter) {
   return (
     <Container>
       <Button
-        className={isActive ? 'ACTIVE' : ''}
+        className={isActive ? 'active' : ''}
         onClick={() => {
           toggle(true)
         }}
       >
         Active
       </Button>
-      <Button className={!isActive ? 'ACTIVE' : ''} onClick={() => toggle(false)}>
+      <Button className={!isActive ? 'active' : ''} onClick={() => toggle(false)}>
         Expired
       </Button>
     </Container>

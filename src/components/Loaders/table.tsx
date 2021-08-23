@@ -11,7 +11,7 @@ const FadingLoader = () => {
 
 const FadingLoaderCard = () => {
   return (
-    <ContentLoader width={'100%'} height={80} backgroundColor="#ababab" foregroundColor="#fafafa">
+    <ContentLoader width={'100%'} height={65} backgroundColor="#ababab" foregroundColor="#fafafa">
       <rect x="800" y="15" rx="5" ry="5" width="160" height="15" />
       <rect x="800" y="39" rx="5" ry="5" width="160" height="15" />
       <rect x="580" y="15" rx="5" ry="5" width="160" height="15" />

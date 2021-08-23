@@ -90,13 +90,14 @@ const StyledMenu = styled.div`
 
 const MenuFlyout = styled.span`
   min-width: 100%;
-  padding: 28px;
+  padding-left: 4px;
+  padding-right: 4px;
   background-color: #111219;
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
   display: flex;
   flex-direction: column;
-  font-size: 0.5rem;
+  font-size: 12px;
   position: absolute;
   bottom: 48px;
   right: 0rem;
@@ -175,7 +176,7 @@ export default function SettingsTab() {
               }
             }}
           >
-            <Text fontSize={20} fontWeight={500} id="confirm-expert-mode">
+            <Text fontSize={14} fontWeight={500} id="confirm-expert-mode">
               Turn On Expert Mode
             </Text>
           </ButtonError>
@@ -201,7 +202,7 @@ export default function SettingsTab() {
           />
 
           <RowBetween>
-            <TYPE.black fontWeight={600} fontSize={16} color={theme.text2} style={{ marginTop: 12, marginBottom: 12 }}>
+            <TYPE.black fontWeight={600} fontSize={14} color={theme.text2} style={{ marginTop: 12, marginBottom: 12 }}>
               Toggle Expert Mode
             </TYPE.black>
             <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />

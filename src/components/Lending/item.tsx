@@ -73,7 +73,6 @@ const Select = styled('div')`
   width: 40%;
   z-index: 1;
   content: 'Select';
-  cursor: pointer;
   font-weight: 500;
   line-height: 17px;
   padding: 7px;

@@ -240,7 +240,6 @@ export default function Swap() {
   // mark when a user has submitted an approval, reset onTokenSelection for input field
   useEffect(() => {
     if (isDeprecated && tokenDep && currencyDep) {
-      console.log('aaa' + isDeprecated)
       addPopup({
         deprecated: {
           token: tokenDep.tokenInfo.symbol,

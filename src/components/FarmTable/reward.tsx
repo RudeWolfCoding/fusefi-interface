@@ -21,8 +21,8 @@ const Wrapper = styled('div')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `
 
 const Column = styled(Flex)`
@@ -92,6 +92,7 @@ export default function Item({ contract }: any) {
     <Container onMouseEnter={() => setshowButon(true)} onMouseLeave={() => setshowButon(false)}>
       <Column
         flex={'1 1 25%'}
+        margin={'auto'}
         onClick={() => {
           toggle(contract.contractAddress)
         }}
@@ -101,14 +102,25 @@ export default function Item({ contract }: any) {
       <Column flex={'1 1 20%'}>
         <Field
           style={{
-            padding: '0.5rem',
-            color: '#4b4b4b',
-            margin: 'auto',
+            minWidth: '60px',
             borderRadius: '999px',
+            margin: 'auto',
+            padding: '0.5rem',
             background: 'linear-gradient(0deg, #d0f7d7, #d0f7d7)'
           }}
         >
-          {(reward.rewardsInfo[0].apyPercent * 100).toFixed(0)}%
+          <span
+            style={{
+              margin: 'auto',
+              fontSize: '16px',
+              fontWeight: 500,
+              lineHeight: '21px',
+              wordSpacing: '0px',
+              color: '#4b4b4b'
+            }}
+          >
+            {(reward.rewardsInfo[0].apyPercent * 100).toFixed(0)}%
+          </span>
         </Field>
       </Column>
       <Column flex={'1 1 10%'} fontSize={1}>
@@ -139,7 +151,7 @@ export default function Item({ contract }: any) {
           <Field>WFUSE / day</Field>
         </Wrapper>
       </Column>
-      <Column flex={'1 1 10%'}>
+      <Column  flex={'1 1 10%'}>
         {showButon && (
           <Button
             onClick={() => {

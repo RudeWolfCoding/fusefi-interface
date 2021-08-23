@@ -66,6 +66,7 @@ const Label = styled('div')`
   > span {
     font-size: 14px;
     font-weight: 500;
+    white-space: pre-wrap;
   }
 `
 const Title = styled('div')<{ txt: string }>`
@@ -101,7 +102,16 @@ const IconModal = styled('div')`
     position: absolute;
   }
 `
-export default function RewardsAPY(props: any) {
+interface apy {
+  data: string
+  title: string
+  label: string
+  color: string
+  txt: string
+  icon: string
+  apyIcon: string
+}
+export default function RewardsAPY(props: apy) {
   const [isOpen, setOpen] = useState(false)
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
@@ -123,7 +133,7 @@ export default function RewardsAPY(props: any) {
         </IconWrapper>
       </Wrapper>
       <Label>
-        {props.data} &nbsp;<span> {props.label}</span>
+        {Number(props.data).toFixed(2)}<span>{props.label}</span>
       </Label>
       <Title txt={props.txt}>{props.title}</Title>
       <Modal

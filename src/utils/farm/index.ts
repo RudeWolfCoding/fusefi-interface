@@ -73,10 +73,3 @@ export async function getSwapStats() {
   const transactionPromise = await stakingContractInstance
   return transactionPromise.data.uniswapFactories[0]
 }
-
-export function selectPercentage(amount: number, lp: string, balance: string, estimate: any, withdrawValue: any) {
-  const calculated = (Number(lp) * amount) / 100
-  const rewards = Number(estimate) + (Number(estimate) / Number(balance)) * ((Number(lp) * amount) / 100)
-  estimate(rewards.toString())
-  withdrawValue(calculated.toString())
-}

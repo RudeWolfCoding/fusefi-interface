@@ -13,7 +13,7 @@ import {
 } from './AddLiquidity/redirects'
 import Pool from './Pool'
 import Farm from './Farm'
-import FarmReward from './Farm/reward'
+import Reward from './Farm/reward'
 import Lending from './Lending'
 import Home from './Home'
 import PoolFinder from './PoolFinder'
@@ -33,7 +33,7 @@ const AppWrapper = styled.div`
 `
 const LeftMenu = styled.div`
   height: 100vh;
-  flex: 0 0 19%;
+  flex: 0 0 224px;
   order: -1;
   ${({ theme }) => theme.mediaWidth.upToSmall`display: none;flex: 0 0 0`};
   ${({ theme }) => theme.mediaWidth.upToMedium`display: none;flex: 0 0 22%`};
@@ -43,7 +43,7 @@ const Sticky = styled.div`
   position: fixed;
   position: -webkit-fixed;
   top: 0;
-  width: 19%;
+  width: 224px;
   height: 100vh;
   ${({ theme }) => theme.mediaWidth.upToSmall`display: none;`};
 `
@@ -90,7 +90,7 @@ export default function App() {
                   <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
                   <Route exact strict path="/bridge" component={Bridge} />
                   <Route exact strict path="/farm" component={Farm} />
-                  <Route exact path="/farm/:address" component={FarmReward} />
+                  <Route exact path="/farm/:address" component={Reward} />
                   <Route exact strict path="/lending" component={Lending} />
                   <Route component={RedirectToDefault} />
                 </Switch>
