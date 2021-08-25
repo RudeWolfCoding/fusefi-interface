@@ -4,11 +4,9 @@ import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
 import InfoPanel from '../../components/RewardCards/info'
 import vector from '../../assets/svg/vector.svg'
-import deposits from '../../assets/svg/deposits.svg'
 import rewards from '../../assets/svg/rewardsAcc.svg'
 import Icon from '../../components/FarmTable/icons'
 import apyPurple from '../../assets/svg/questionmark.svg'
-import apyBlue from '../../assets/svg/questionmark2.svg'
 import apyGreen from '../../assets/svg/questionmark3.svg'
 import Reselect from '../../components/RewardCards'
 import { useActiveWeb3React } from '../../hooks'
@@ -18,6 +16,7 @@ import { Reward, RewardObj, User, UserObj } from '../../utils/farm/constants'
 import { formatUnits } from 'ethers/lib/utils'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { ChainId, Token } from '@fuseio/fuse-swap-sdk'
+import InfoDeposist from '../../components/RewardCards/infoDeposit'
 
 const Container = styled('div')`
   width: 100%;
@@ -57,10 +56,10 @@ const Item = styled('div')`
   }
 `
 
-export default function FarmReselect(props: RouteComponentProps<{ address: string }>) {
+export default function FarmReselect(props: RouteComponentProps<{ address: string; LP: string }>) {
   const {
     match: {
-      params: { address }
+      params: { address, LP }
     }
   } = props
   const obj: { [index: string]: any } = Config[0].contracts.fuse
@@ -69,26 +68,21 @@ export default function FarmReselect(props: RouteComponentProps<{ address: strin
   const [user, setUser] = useState<User>(UserObj)
   const [lpDeposists, setLPDeposists] = useState('0')
   const chainId = 122 as ChainId
-  const userPoolBalance = useTokenBalance(account ? account : undefined, new Token(chainId, address, 18))
-  const userBalance = useTokenBalance(account ? account : undefined, new Token(chainId, obj[address].LPToken, 18))
+  const userPoolBalance = useTokenBalance(account ?? undefined, new Token(chainId, address, 18))
+  const userBalance = useTokenBalance(account ?? undefined, new Token(chainId, LP, 18))
 
   useEffect(() => {
     console.log(userBalance?.toSignificant(4))
-
-    if (userPoolBalance && userBalance) {
-      setLPDeposists(userPoolBalance.toSignificant(4))
-      setUser({ ...user, lpAvailable: userBalance.toSignificant(4), lpDeposited: lpDeposists })
-      fetchStats(
-        account ? account : '',
-        obj[address].LPToken,
-        obj[address].contractAddress,
-        obj[address].type,
-        library?.provider
-      ).then(res => setResult({ ...res, ...obj[address] }))
-    }
-
-
-  }, [address, account, library, lpDeposists])
+    setLPDeposists(userPoolBalance ? userPoolBalance?.toSignificant(4) : '0')
+    setUser({ ...user, lpAvailable: userBalance ? userBalance.toSignificant(4) : '0', lpDeposited: lpDeposists })
+    fetchStats(
+      account ? account : '',
+      obj[address].LPToken,
+      obj[address].contractAddress,
+      obj[address].type,
+      library?.provider
+    ).then(res => setResult({ ...res, ...obj[address] }))
+  }, [address, account, library])
 
   return (
     <AppBody>
@@ -109,15 +103,7 @@ export default function FarmReselect(props: RouteComponentProps<{ address: strin
             />{' '}
           </Item>
           <Item>
-            <InfoPanel
-              title={'Your Deposits'}
-              data={user.lpDeposited}
-              apyIcon={apyBlue}
-              label={' ' + obj[address].pairName}
-              icon={deposits}
-              txt={'#0684A6'}
-              color={'#034253'}
-            />
+            <InfoDeposist token={address} pair={result.token0.symbol + '/' + result.token1.symbol} />
           </Item>
           <Item>
             <InfoPanel

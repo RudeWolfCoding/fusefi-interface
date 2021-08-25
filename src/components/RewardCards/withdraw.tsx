@@ -8,6 +8,8 @@ import { withdrawLP } from '../../utils/rewards'
 import { Reward, User } from '../../utils/farm/constants'
 import { parseUnits } from 'ethers/lib/utils'
 import { BigNumber } from 'ethers'
+import { ChainId, Token } from '@fuseio/fuse-swap-sdk'
+import { useTokenBalance } from '../../state/wallet/hooks'
 
 const Container = styled('div')`
 text-align:left;
@@ -85,6 +87,9 @@ export default function WithdrawReward(props: RewardProps) {
   const { library, account } = useActiveWeb3React()
   const [withdrawValue, setWithdrawValue] = useState<BigNumber | undefined>()
   const [estimate, setEstimate] = useState('1000')
+  const chainId = 122 as ChainId
+  const token = new Token(chainId, props.reward.contractAddress, 18)
+  const userPoolBalance = useTokenBalance(account ?? undefined, token)
 
   function setPercentage(value: BigNumber | undefined, estimate: string) {
     setEstimate(estimate)
@@ -93,17 +98,19 @@ export default function WithdrawReward(props: RewardProps) {
 
   useEffect(() => {
     setEstimate(props.user.rewardEstimate)
-    setWithdrawValue(parseUnits(props.user.lpDeposited))
+    setWithdrawValue(parseUnits(userPoolBalance ? userPoolBalance.toSignificant(4) : '0'))
   }, [props.reward, props.user, library])
 
   return (
     <Container>
       <Wrapper>
         <Text>Balance</Text>{' '}
-        <Balance>
-          <span>{props.user.lpDeposited} </span> &nbsp;{' '}
-          <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
-        </Balance>
+        {userPoolBalance && (
+          <Balance>
+            <span>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} </span> &nbsp;{' '}
+            <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
+          </Balance>
+        )}
       </Wrapper>
       <InputWrapper>
         <Input
@@ -120,13 +127,7 @@ export default function WithdrawReward(props: RewardProps) {
       <EstimatedRewards estimate={estimate} />
       <ButtonPrimary
         onClick={() =>
-          withdrawLP(
-            props.reward.LPToken,
-            account ? account : '',
-            withdrawValue ? Number(withdrawValue).toString() : '0',
-            props.reward.type,
-            library?.provider
-          )
+          withdrawLP(props.reward.contractAddress, props.reward.LPToken, account ? account : '', library, '40')
         }
       >
         {' '}

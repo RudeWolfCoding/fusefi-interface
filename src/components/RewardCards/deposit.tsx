@@ -3,13 +3,13 @@ import { useApproveCallback } from '../../hooks/useApproveCallback'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
 import { useTransactionAdder } from '../../state/transactions/hooks'
-import { TransactionResponse } from '@ethersproject/providers'
-import { depositLP } from '../../utils/rewards'
+
 import { Reward, User } from '../../utils/farm/constants'
 import Percentage from './percentage'
 import EstimatedRewards from './modal'
 import styled from 'styled-components'
 import { ChainId, Token, TokenAmount } from '@fuseio/fuse-swap-sdk'
+import { useTokenBalance } from '../../state/wallet/hooks'
 
 const Container = styled('div')`
 text-align:left;
@@ -96,34 +96,50 @@ interface Deposit {
 
 export default function Deposit(props: Deposit) {
   const addTransaction = useTransactionAdder()
-  const { library, account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const [depositValue, setdepositValue] = useState('0')
   const [estimate, setEstimate] = useState('0')
+
   const chainId = 122 as ChainId
   const decimals = 18
-  const token = new Token(chainId, props.reward.contractAddress, decimals)
-  const amount = BigInt(0)
-  const [approval, approveCallback] = useApproveCallback(new TokenAmount(token, amount), account ? account : '')
-  console.log(approveCallback)
-  console.log(approval)
+  const token = new Token(
+    chainId,
+    props.reward.contractAddress ? props.reward.contractAddress : '0x1bbB72942E4F73753CA83787411DBed4476A5a7e',
+    decimals
+  )
+  const amount = BigInt(50)
+
+  const token2 = new Token(
+    chainId,
+    props.reward.LPToken ? props.reward.LPToken : '0x1bbB72942E4F73753CA83787411DBed4476A5a7e',
+    18
+  )
+  const userPoolBalance = useTokenBalance(account ?? undefined, token2)
+
   function setPercentage(value: string, estimate: string) {
     setEstimate(estimate)
     setdepositValue(value)
   }
+  const [approval, approveCallback] = useApproveCallback(
+    new TokenAmount(token, amount),
+    props.reward.LPToken ? props.reward.LPToken : '0x1bbB72942E4F73753CA83787411DBed4476A5a7e'
+  )
 
   useEffect(() => {
     setEstimate(props.user.rewardEstimate)
-    setdepositValue('0')
+    setdepositValue(userPoolBalance ? userPoolBalance.toSignificant(4) : '0')
   }, [props, addTransaction])
 
   return (
     <Container>
       <Wrapper>
         <Text>Balance</Text>{' '}
-        <Balance>
-          <span>{props.user.lpAvailable} &nbsp;</span>
-          <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
-        </Balance>
+        {userPoolBalance && (
+          <Balance>
+            <span>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} </span> &nbsp;{' '}
+            <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
+          </Balance>
+        )}
       </Wrapper>
       <InputWrapper>
         <Input
@@ -138,28 +154,21 @@ export default function Deposit(props: Deposit) {
       </InputWrapper>
       <Percentage callBack={setPercentage} user={props.user} />
       <EstimatedRewards estimate={estimate} />
-      {account ? <ButtonPrimary> Approve</ButtonPrimary> : <ButtonPrimary>Connect Wallet</ButtonPrimary>}
+      {approval <= 2 ? (
+        <ButtonPrimary
+          onClick={() => {
+            approveCallback().then(res => console.log(res))
+          }}
+        >
+          {' '}
+          Approve
+        </ButtonPrimary>
+      ) : (
+        <ButtonPrimary>Connect Wallet</ButtonPrimary>
+      )}
 
       <div>
-        {Number(props.user.lpApproved) > 0 ? (
-          <ButtonPrimary
-            onClick={() =>
-              depositLP(props.reward.contractAddress, library, '0', account ? account : '', depositValue).then(
-                (response: TransactionResponse) => {
-                  addTransaction(response, {
-                    summary: 'Deposited ' + depositValue + props.reward.token0 + '-' + props.reward.token1,
-                    approval: { tokenAddress: props.reward.contractAddress, spender: '' }
-                  })
-                }
-              )
-            }
-          >
-            {' '}
-            Deposit {props.user.lpApproved} tokens
-          </ButtonPrimary>
-        ) : (
-          <Button>Deposit</Button>
-        )}
+        {approval === 3 ? <ButtonPrimary> Deposit {depositValue} tokens</ButtonPrimary> : <Button>Deposit</Button>}
       </div>
     </Container>
   )

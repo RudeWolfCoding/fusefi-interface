@@ -59,8 +59,8 @@ const Button = styled('div')`
   right: 15px;
   color: black;
 `
-function toggle(address: string) {
-  window.location.replace('/#/farm/' + address)
+function toggle(address: string, LP: string) {
+  window.location.replace('/#/farm/' + address + '/' + LP)
 }
 
 export default function Item({ contract }: any) {
@@ -94,7 +94,7 @@ export default function Item({ contract }: any) {
         flex={'1 1 25%'}
         margin={'auto'}
         onClick={() => {
-          toggle(contract.contractAddress)
+          toggle(contract.contractAddress, contract.LPToken)
         }}
       >
         <Icon pairName={contract.pairName} name={contract.pairName} />
@@ -155,7 +155,7 @@ export default function Item({ contract }: any) {
         {showButon && (
           <Button
             onClick={() => {
-              toggle(contract.contractAddress)
+              toggle(contract.contractAddress, contract.LPToken)
             }}
           >
             Select
