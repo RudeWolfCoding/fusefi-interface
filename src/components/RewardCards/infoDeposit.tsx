@@ -138,9 +138,14 @@ export default function RewardsAPY(props: apy) {
             </Icon>
           </IconWrapper>
         </Wrapper>
-        {userPoolBalance && (
+        {userPoolBalance ? (
           <Label>
             {userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}
+            <span> {props.pair}</span>
+          </Label>
+        ) : (
+          <Label>
+            0.00
             <span> {props.pair}</span>
           </Label>
         )}

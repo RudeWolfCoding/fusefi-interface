@@ -66,15 +66,17 @@ export default function FarmReselect(props: RouteComponentProps<{ address: strin
   const { account, library } = useActiveWeb3React()
   const [result, setResult] = useState<Reward>(RewardObj)
   const [user, setUser] = useState<User>(UserObj)
-  const [lpDeposists, setLPDeposists] = useState('0')
   const chainId = 122 as ChainId
   const userPoolBalance = useTokenBalance(account ?? undefined, new Token(chainId, address, 18))
   const userBalance = useTokenBalance(account ?? undefined, new Token(chainId, LP, 18))
 
   useEffect(() => {
-    console.log(userBalance?.toSignificant(4))
-    setLPDeposists(userPoolBalance ? userPoolBalance?.toSignificant(4) : '0')
-    setUser({ ...user, lpAvailable: userBalance ? userBalance.toSignificant(4) : '0', lpDeposited: lpDeposists })
+    console.log(account)
+    setUser({
+      ...user,
+      lpAvailable: userBalance ? userBalance.toSignificant(4) : '0',
+      lpDeposited: userPoolBalance ? userPoolBalance?.toSignificant(4) : '12'
+    })
     fetchStats(
       account ? account : '',
       obj[address].LPToken,
@@ -86,41 +88,45 @@ export default function FarmReselect(props: RouteComponentProps<{ address: strin
 
   return (
     <AppBody>
-      <Container>
-        <Wrapper style={{ paddingBottom: '25px' }}>
-          <Icon name={''} pairName={obj[address].pairName} /> <span>{obj[address].pairName}</span>
-        </Wrapper>
-        <Wrapper style={{ paddingBottom: '10px' }}>
-          <Item>
-            <InfoPanel
-              title={'Deposit APY'}
-              data={(result.rewardsInfo[0].apyPercent * 100).toFixed(2)}
-              icon={vector}
-              apyIcon={apyPurple}
-              label={'%'}
-              txt={'#8E6CC0'}
-              color={'#473660'}
-            />{' '}
-          </Item>
-          <Item>
-            <InfoDeposist token={address} pair={result.token0.symbol + '/' + result.token1.symbol} />
-          </Item>
-          <Item>
-            <InfoPanel
-              title={'Accruded Rewards'}
-              data={formatUnits(result.rewardsInfo[0].accuruedRewards, 18)}
-              apyIcon={apyGreen}
-              label={' WFUSE'}
-              icon={rewards}
-              txt={'#1C9E7E'}
-              color={'#0E4F3F'}
-            />
-          </Item>
-        </Wrapper>
-        <Wrapper style={{ paddingLeft: '4px', paddingRight: '10px' }}>
-          <Reselect user={user} contract={result} />
-        </Wrapper>
-      </Container>
+      {account ? (
+        <Container>
+          <Wrapper style={{ paddingBottom: '25px' }}>
+            <Icon name={''} pairName={obj[address].pairName} /> <span>{obj[address].pairName}</span>
+          </Wrapper>
+          <Wrapper style={{ paddingBottom: '10px' }}>
+            <Item>
+              <InfoPanel
+                title={'Deposit APY'}
+                data={(result.rewardsInfo[0].apyPercent * 100).toFixed(2)}
+                icon={vector}
+                apyIcon={apyPurple}
+                label={'%'}
+                txt={'#8E6CC0'}
+                color={'#473660'}
+              />{' '}
+            </Item>
+            <Item>
+              <InfoDeposist token={address} pair={result.token0.symbol + '/' + result.token1.symbol} />
+            </Item>
+            <Item>
+              <InfoPanel
+                title={'Accruded Rewards'}
+                data={formatUnits(result.rewardsInfo[0].accuruedRewards, 18)}
+                apyIcon={apyGreen}
+                label={' WFUSE'}
+                icon={rewards}
+                txt={'#1C9E7E'}
+                color={'#0E4F3F'}
+              />
+            </Item>
+          </Wrapper>
+          <Wrapper style={{ paddingLeft: '4px', paddingRight: '10px' }}>
+            <Reselect user={user} contract={result} />
+          </Wrapper>
+        </Container>
+      ) : (
+        'Loading'
+      )}
     </AppBody>
   )
 }

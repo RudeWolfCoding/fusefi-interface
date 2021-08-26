@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Questionmark from '../../assets/svg/questionmark.svg'
+import { useTokenBalance } from '../../state/wallet/hooks'
 import { ButtonPrimary } from '../Button'
 import Modal from '../Modal'
 
@@ -95,19 +96,31 @@ const Item = styled('div')`
   justify-content: flex-end;
   position: relative;
 `
-
 interface Estimate {
-  estimate: string
+  rate: number
+  token: any
+}
+function calculateEstimate(rate: number, balance: any): number {
+  if (balance) {
+    return Number(rate) * Number(balance.toSignificant(4) / 1000000000000000)
+  }
+  return 0.00
 }
 
 export default function EstimatedReward(props: Estimate) {
   const [isOpen, setOpen] = useState(false)
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
+  const userPoolBalance = useTokenBalance('0x1bbB72942E4F73753CA83787411DBed4476A5a7e', props.token)
+  const [estimate, setEstimate] = useState('')
+  useEffect(() => {
+    setEstimate(calculateEstimate(props.rate, userPoolBalance).toFixed(2))
+  }, [props])
 
   return (
     <Container>
       <Wrapper>
+        {}
         <span>Your Estimated rewards</span>
         <Icon
           onClick={() => {
@@ -118,7 +131,7 @@ export default function EstimatedReward(props: Estimate) {
         </Icon>
       </Wrapper>
       <p>
-        <span>{props.estimate}</span>&nbsp;<span> - WFUSE</span>
+        <span>{estimate}</span>&nbsp;<span> - WFUSE</span>
       </p>
       <Modal
         maxHeight={90}

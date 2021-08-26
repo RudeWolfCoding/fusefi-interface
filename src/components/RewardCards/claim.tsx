@@ -69,6 +69,7 @@ export default function ClaimReward(props: ClaimProps) {
     try {
       addTransaction(await response, { summary: `Rewards Claimed` })
       setResult({
+        account: '',
         lpApproved: '0',
         lpDeposited: '0',
         lpAvailable: '0',

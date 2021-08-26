@@ -39,6 +39,7 @@ export interface Token {
 }
 
 export interface User {
+  account: string
   lpAvailable: string
   lpApproved: string
   lpDeposited: string
@@ -89,6 +90,7 @@ export const RewardObj = {
 }
 
 export const UserObj = {
+  account: '',
   lpDeposited: '0',
   lpApproved: '0',
   rewardTotal: '0',

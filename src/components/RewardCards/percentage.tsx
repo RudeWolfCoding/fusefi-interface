@@ -32,16 +32,17 @@ const Selector = styled('button')`
 `
 interface Percentage {
   callBack: any
+  value: string
   user: User
 }
 
-export default function Percentage({ user, callBack }: Percentage) {
+export default function Percentage({ user, value, callBack }: Percentage) {
   function selectPercentage(amount: number) {
-    const calculated = (Number(user.lpDeposited) * amount) / 100
+    const calculated = (Number(value) * amount) / 100
     const rewards =
       Number(user.rewardEstimate) +
       (Number(user.rewardEstimate) / Number(user.lpAvailable)) * ((Number(user.lpDeposited) * amount) / 100)
-    callBack(calculated.toFixed(2), rewards.toFixed(2).toString())
+    callBack(calculated.toString(), rewards.toFixed(2).toString())
   }
   useEffect(() => {
     console.log(user)
