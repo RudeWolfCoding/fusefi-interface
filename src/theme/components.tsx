@@ -114,16 +114,13 @@ export function ExternalLink({
   fontSize,
   ...rest
 }: Omit<HTMLProps<HTMLAnchorElement>, 'as' | 'ref' | 'onClick'> & { href: string; fontSize?: number }) {
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
-      ReactGA.event({
-        category: 'Link',
-        action: 'Open External Link',
-        label: href
-      })
-    },
-    [href, target]
-  )
+  const handleClick = useCallback(() => {
+    ReactGA.event({
+      category: 'Link',
+      action: 'Open External Link',
+      label: href
+    })
+  }, [href])
   return <StyledLink target={target} rel={rel} href={href} onClick={handleClick} style={{ fontSize }} {...rest} />
 }
 
