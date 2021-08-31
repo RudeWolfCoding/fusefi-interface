@@ -12,11 +12,11 @@ const FadingLoader = () => {
 const FadingLoaderCard = () => {
   return (
     <ContentLoader width={'100%'} height={65} backgroundColor="#ababab" foregroundColor="#fafafa">
-      <rect x="800" y="15" rx="5" ry="5" width="160" height="15" />
-      <rect x="800" y="39" rx="5" ry="5" width="160" height="15" />
-      <rect x="580" y="15" rx="5" ry="5" width="160" height="15" />
-      <rect x="580" y="39" rx="5" ry="5" width="160" height="15" />
-      <rect x="420" y="20" rx="5" ry="5" width="80" height="25" />
+      <rect x="850" y="15" rx="5" ry="5" width="160" height="15" />
+      <rect x="850" y="39" rx="5" ry="5" width="160" height="15" />
+      <rect x="600" y="15" rx="5" ry="5" width="160" height="15" />
+      <rect x="600" y="39" rx="5" ry="5" width="160" height="15" />
+      <rect x="440" y="20" rx="5" ry="5" width="80" height="25" />
       <rect x="120" y="25" rx="5" ry="5" width="260" height="15" />
       <rect x="40" y="10" rx="100" ry="100" width="40" height="40" />
       <rect x="20" y="10" rx="100" ry="100" width="40" height="40" />

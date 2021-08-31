@@ -137,7 +137,7 @@ export default function Item({ contract }: any) {
           <Field>{reward.token1.symbol}</Field>
         </Wrapper>
       </Column>
-      <Column flex={'1 1 20%'} fontSize={1}>
+      <Column paddingLeft={'70px'} flex={'1 1 20%'} fontSize={1}>
         <Wrapper>
           <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
             {Number(reward.globalTotalStakeUSD / 1000).toFixed(0)}

@@ -20,6 +20,21 @@ const Icon = styled('div')`
     position: absolute;
   }
 `
+const Icon2 = styled('div')`
+  border-radius: 999px;
+  background-color: #ffffff1a;
+  height: 24px;
+  width: 24px;
+  position: relative;
+  cursor: pointer;
+  > img {
+    opacity: 0.5;
+    position: absolute;
+    top: -10%;
+    right: -6%;
+    position: absolute;
+  }
+`
 
 const Container = styled('div')`
   background: #111219;
@@ -98,7 +113,7 @@ const Item = styled('div')`
 `
 interface Estimate {
   rate: number
-  token: any
+  reward: any
 }
 function calculateEstimate(rate: number, balance: any): number {
   if (balance) {
@@ -111,7 +126,7 @@ export default function EstimatedReward(props: Estimate) {
   const [isOpen, setOpen] = useState(false)
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
-  const userPoolBalance = useTokenBalance('0x1bbB72942E4F73753CA83787411DBed4476A5a7e', props.token)
+  const userPoolBalance = useTokenBalance('0x1bbB72942E4F73753CA83787411DBed4476A5a7e', props.reward)
   const [estimate, setEstimate] = useState('')
   useEffect(() => {
     setEstimate(calculateEstimate(props.rate, userPoolBalance).toFixed(2))
@@ -149,14 +164,14 @@ export default function EstimatedReward(props: Estimate) {
                     setOpen(false)
                   }}
                 >
-                  <Icon>
+                  <Icon2>
                     <img src={Questionmark} width="28px" height="28px" alt="Modal Icon"></img>
-                  </Icon>
+                  </Icon2>
                 </Item>
               </HeaderText>
             </Header>
             <Content>
-              <h1>What does &quot; APY &quot; mean?</h1>
+              <h1>What does &quot; Estimated Rewards &quot; mean?</h1>
               <p>{content}</p>
             </Content>
             <ButtonPrimary

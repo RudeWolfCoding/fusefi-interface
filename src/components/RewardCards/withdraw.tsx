@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonPrimary } from '../Button'
 import EstimatedRewards from './modal'
@@ -6,8 +6,8 @@ import Percentage from './percentage'
 import styled from 'styled-components'
 import { withdrawLP } from '../../utils/rewards'
 import { Reward, User } from '../../utils/farm/constants'
-import { formatUnits, parseUnits } from 'ethers/lib/utils'
-import { ChainId, Token } from '@fuseio/fuse-swap-sdk'
+import { parseUnits } from 'ethers/lib/utils'
+import { Token } from '@fuseio/fuse-swap-sdk'
 import { useTokenBalance } from '../../state/wallet/hooks'
 
 const Container = styled('div')`
@@ -83,23 +83,38 @@ interface RewardProps {
 }
 
 export default function WithdrawReward(props: RewardProps) {
-  const { library, account } = useActiveWeb3React()
+  const { library, account, chainId } = useActiveWeb3React()
+  const [amount, setAmount] = useState('0')
   const [withdrawValue, setWithdrawValue] = useState<string | undefined>('0')
-  const chainId = 122 as ChainId
-  const token = new Token(chainId, props.reward.contractAddress, 18)
-  //const LPToken = new Token(chainId, props.reward.LPToken, 18)
+
+  const token = new Token(
+    chainId ? chainId : 122,
+    props.reward.contractAddress ? props.reward.contractAddress : '0xcDd8964BA8963929867CAfFCf5942De4F085bFB7',
+    18
+  )
 
   const userPoolBalance = useTokenBalance(account ?? undefined, token)
 
-  function setPercentage(value: string | undefined, estimate: string) {
+  function setPercentage(value: string | undefined) {
     setWithdrawValue(value)
   }
-  console.log(token)
-  console.log(formatUnits(props.reward.rewardsInfo[0].rewardRate.toString(), 15).toString())
+
+  const withdraw = useCallback(() => {
+    if (account && withdrawValue) {
+      withdrawLP(
+        props.reward.contractAddress,
+        account,
+        parseUnits(withdrawValue ?? '0').toString(),
+        props.reward.type,
+        library?.provider
+      )
+    }
+  }, [account, withdrawValue])
+
   useEffect(() => {
-    console.log(props.user.lpDeposited)
     setWithdrawValue(userPoolBalance ? userPoolBalance.toSignificant(4) : '0')
-  }, [props, library, userPoolBalance])
+    setAmount(userPoolBalance ? userPoolBalance.toSignificant(4) : '0')
+  }, [props, library])
 
   return (
     <Container>
@@ -117,28 +132,15 @@ export default function WithdrawReward(props: RewardProps) {
           type="text"
           name="withdrawLP"
           id="withdrawal"
-          value={Number(withdrawValue).toString()}
+          value={withdrawValue}
           placeholder="0"
           onChange={e => setWithdrawValue(e.target.value)}
         />
         <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
       </InputWrapper>
-      <Percentage callBack={setPercentage} user={props.user} value={withdrawValue ?? '0'} />
-      <EstimatedRewards rate={props.reward.rewardsInfo[0].rewardRate} token={token} />
-      <ButtonPrimary
-        onClick={() =>
-          withdrawLP(
-            props.reward.contractAddress,
-            account ? account : '0x1bbB72942E4F73753CA83787411DBed4476A5a7e',
-            parseUnits(withdrawValue ?? '0').toString(),
-            'multi',
-            library?.provider
-          )
-        }
-      >
-        {' '}
-        Withdraw LP Tokens
-      </ButtonPrimary>
+      <Percentage selectPerecentage={setPercentage} user={props.user} value={amount ?? '0'} />
+      <EstimatedRewards rate={props.reward.rewardsInfo[0].rewardRate} reward={token} />
+      <ButtonPrimary onClick={() => withdraw()}> Withdraw LP Tokens</ButtonPrimary>
     </Container>
   )
 }

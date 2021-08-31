@@ -2,6 +2,9 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { gql } from '@apollo/client'
 import Config from '../../constants/abis/config.json'
 import { SingleRewardProgram, MultiRewardProgram } from '@fuseio/earn-sdk'
+import { useActiveWeb3React } from '../../hooks'
+import { useEffect, useState } from 'react'
+import { Reward } from './constants'
 
 export const rewardsToken = Config[0].rewardTokens[122]
 
@@ -45,6 +48,24 @@ export const getFarmingPools = async (library: any) => {
     result.push(response)
   }
   return result
+}
+
+export const useFarmPools = async () => {
+  const { library } = useActiveWeb3React()
+  const [farmRewards, setFarms] = useState<Reward[]>([])
+
+  useEffect(() => {
+    let mounted = true
+    getFarmingPools(library).then(res => {
+      if (mounted) {
+        setFarms([...res])
+      }
+    })
+    return () => {
+      mounted = false
+    }
+  }, [library])
+  return await farmRewards
 }
 
 export async function getSwapStats() {

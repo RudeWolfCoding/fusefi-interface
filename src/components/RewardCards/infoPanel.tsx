@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ButtonPrimary } from '../Button'
 import Modal from '../Modal'
-import Questionmark from '../../assets/svg/questionmark.svg'
 import { Content, Header, HeaderText, StyledModal } from './modal'
 
 const Container = styled('div')<{ color: string; txt: string }>`
@@ -111,7 +110,7 @@ interface apy {
   icon: string
   apyIcon: string
 }
-export default function RewardsAPY(props: apy) {
+export default function InfoPanel(props: apy) {
   const [isOpen, setOpen] = useState(false)
   const content =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
@@ -152,12 +151,12 @@ export default function RewardsAPY(props: apy) {
                 }}
               >
                 <IconModal>
-                  <img src={Questionmark} width="28px" height="28px" alt="APY Icon"></img>
+                  <img src={props.apyIcon} width="28px" height="28px" alt="APY Icon"></img>
                 </IconModal>
               </TitleModal>
             </Header>
             <Content>
-              <h1>What does &quot; APY &quot; mean?</h1>
+              <h1>What does &quot; {props.title} &quot; mean?</h1>
               <p>{content}</p>
             </Content>
             <ButtonPrimary

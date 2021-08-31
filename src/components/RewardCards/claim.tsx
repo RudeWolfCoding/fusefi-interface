@@ -28,15 +28,12 @@ const Wrapper = styled('div')`
 `
 
 const Pool = styled('div')`
-  padding: 0.25rem;
   width: 100%;
   text-align: left;
-  font-size: 14px;
   text-align: center;
   > span {
     text-align: right;
     flex: 1;
-    
   }
   > h1 {
     width: 100%;
@@ -91,7 +88,7 @@ export default function ClaimReward(props: ClaimProps) {
   return (
     <Container>
       <Wrapper>
-        <h2>Accruded Rewards</h2>
+        <h3>Accruded Rewards</h3>
         <Pool>
           <h3>{Number(formatUnits(props.reward.rewardsInfo[0].accuruedRewards, 18)).toFixed(2) || 0}</h3>
         </Pool>

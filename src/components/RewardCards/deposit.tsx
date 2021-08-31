@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
 import { useActiveWeb3React } from '../../hooks'
 import { ButtonError, ButtonPrimary } from '../Button'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { depositLP } from '../../utils/rewards'
 import { Reward, User } from '../../utils/farm/constants'
-import Percentage from './percentage'
-import EstimatedRewards from './modal'
-import styled from 'styled-components'
-import { ChainId, Token, TokenAmount } from '@fuseio/fuse-swap-sdk'
+import { Token, TokenAmount } from '@fuseio/fuse-swap-sdk'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { RowBetween } from '../Row'
 import { parseUnits } from 'ethers/lib/utils'
+import Percentage from './percentage'
+import EstimatedRewards from './modal'
 import Loader from '../Loaders/default'
+import styled from 'styled-components'
 
 const Container = styled('div')`
 text-align:left;
@@ -95,50 +95,57 @@ enum MigrationState {
 
 export default function Deposit(props: Deposit) {
   const addTransaction = useTransactionAdder()
-  const { account, library } = useActiveWeb3React()
+  const { account, library, chainId } = useActiveWeb3React()
   const [depositValue, setdepositValue] = useState('0')
-  const [depositValue2, setdepositValue2] = useState('0')
+  const [amount, setAmount] = useState('0')
   const [migrationState, setMigrationState] = useState<MigrationState>(MigrationState.INITIAL)
 
-  const chainId = 122 as ChainId
-  const decimals = 18
+  const pairSymbol = props.reward.token0.symbol + '-' + props.reward.token1.symbol
+
   const token = new Token(
-    chainId,
+    chainId ? chainId : 122,
+    props.reward.contractAddress ? props.reward.contractAddress : '0xcDd8964BA8963929867CAfFCf5942De4F085bFB7',
+    18
+  )
+
+  const tokenLP = new Token(
+    chainId ? chainId : 122,
     props.reward.LPToken ? props.reward.LPToken : '0xcDd8964BA8963929867CAfFCf5942De4F085bFB7',
-    decimals
+    18
   )
 
   const [approval, approveCallback] = useApproveCallback(
-    new TokenAmount(token, parseUnits(depositValue).toString() ?? '0'),
-    account ? account : '0x1bbB72942E4F73753CA83787411DBed4476A5a7e'
+    new TokenAmount(tokenLP, '100'),
+    props.reward.contractAddress ? props.reward.contractAddress : '0x1bbB72942E4F73753CA83787411DBed4476A5a7e'
   )
-  const userPoolBalance = useTokenBalance(account ?? undefined, token)
+
+  const userPoolBalance = useTokenBalance(account ?? undefined, tokenLP)
 
   function setPercentage(value: string) {
     setdepositValue(value)
   }
 
-  async function onMigrate() {
-    if (!library || !account) return
-    try {
-      setMigrationState(MigrationState.PENDING)
-      await depositLP(
-        props.reward.contractAddress,
-        account ? account : '0x1bbB72942E4F73753CA83787411DBed4476A5a7e',
-        parseUnits(depositValue.toString() ?? '0', 18).toString(),
-        'multi',
-        library?.provider
-      )
-      setMigrationState(MigrationState.MIGRATED)
-    } catch (e) {
-      setMigrationState(MigrationState.INITIAL)
-      console.log(e)
+  const deposit = useCallback(() => {
+    if (account && depositValue) {
+      try {
+        setMigrationState(MigrationState.PENDING)
+        depositLP(
+          props.reward.contractAddress,
+          account ? account : '0x1bbB72942E4F73753CA83787411DBed4476A5a7e',
+          parseUnits(depositValue ?? '0').toString(),
+          'multi',
+          library?.provider
+        ).then(res => setMigrationState(MigrationState.MIGRATED))
+      } catch (e) {
+        setMigrationState(MigrationState.INITIAL)
+        console.log(e)
+      }
     }
-  }
+  }, [account, depositValue])
 
   useEffect(() => {
     setdepositValue(userPoolBalance ? userPoolBalance.toSignificant(4) : '0')
-    setdepositValue2(userPoolBalance ? userPoolBalance.toSignificant(4) : '0')
+    setAmount(userPoolBalance ? userPoolBalance.toSignificant(4) : '0')
   }, [props, addTransaction])
 
   return approval != ApprovalState.UNKNOWN ? (
@@ -147,8 +154,7 @@ export default function Deposit(props: Deposit) {
         <Text>Balance</Text>{' '}
         {userPoolBalance && (
           <Balance>
-            <span>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} </span> &nbsp;{' '}
-            <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
+            <span>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'} </span> &nbsp; <span>{pairSymbol}</span>
           </Balance>
         )}
       </Wrapper>
@@ -161,10 +167,10 @@ export default function Deposit(props: Deposit) {
           placeholder="0"
           onChange={e => setdepositValue(e.target.value)}
         />
-        <span>{props.reward.token0.symbol + '-' + props.reward.token1.symbol}</span>
+        <span>{pairSymbol}</span>
       </InputWrapper>
-      <Percentage callBack={setPercentage} value={depositValue2} user={props.user} />
-      <EstimatedRewards rate={props.reward.rewardsInfo[0].rewardRate} token={token} />
+      <Percentage selectPerecentage={setPercentage} value={amount} user={props.user} />
+      <EstimatedRewards rate={props.reward.rewardsInfo[0].rewardRate} reward={token} />
       {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
         <RowBetween marginBottom={20}>
           <ButtonPrimary onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
@@ -173,7 +179,7 @@ export default function Deposit(props: Deposit) {
         </RowBetween>
       )}
       <ButtonError
-        onClick={() => (migrationState === MigrationState.MIGRATED ? '' : onMigrate())}
+        onClick={() => (migrationState === MigrationState.MIGRATED ? '' : deposit())}
         disabled={approval !== ApprovalState.APPROVED}
       >
         Deposit

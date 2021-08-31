@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { User } from '../../utils/farm/constants'
 
@@ -31,22 +31,19 @@ const Selector = styled('button')`
   background: none;
 `
 interface Percentage {
-  callBack: any
+  selectPerecentage: any
   value: string
   user: User
 }
 
-export default function Percentage({ user, value, callBack }: Percentage) {
+export default function Percentage({ user, value, selectPerecentage }: Percentage) {
   function selectPercentage(amount: number) {
     const calculated = (Number(value) * amount) / 100
     const rewards =
       Number(user.rewardEstimate) +
       (Number(user.rewardEstimate) / Number(user.lpAvailable)) * ((Number(user.lpDeposited) * amount) / 100)
-    callBack(calculated.toString(), rewards.toFixed(2).toString())
+    selectPerecentage(calculated.toString(), rewards.toFixed(2).toString())
   }
-  useEffect(() => {
-    console.log(user)
-  }, [user])
 
   return (
     <Wrapper>

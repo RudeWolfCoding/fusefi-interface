@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AppBody from '../AppBody'
 import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
-import InfoPanel from '../../components/RewardCards/info'
+import InfoPanel from '../../components/RewardCards/infoPanel'
 import vector from '../../assets/svg/vector.svg'
 import rewards from '../../assets/svg/rewardsAcc.svg'
 import Icon from '../../components/FarmTable/icons'
@@ -43,7 +43,6 @@ const Wrapper = styled('div')`
   display: flex;
   flex-wrap: wrap;
   > span {
-    line-height: 54px;
     font-size: 32px;
     font-weight: 500;
   }

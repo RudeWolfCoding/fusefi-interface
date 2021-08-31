@@ -6,6 +6,9 @@ import Icon from '../../assets/svg/base.svg'
 import InfoIcon from '../../assets/svg/infoBridge.svg'
 import binance from '../../assets/svg/pairs/binance.svg'
 import eth from '../../assets/svg/pairs/eth.svg'
+import close from '../../assets/svg/close.svg'
+
+
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -47,11 +50,15 @@ export const Header = styled.div`
 
 export const HeaderText = styled.div`
   display: flex;
+  padding-bottom: 20px;
   color: #fff;
   align-self: center;
   color: lightgray;
   > span {
-    font-size: 32px;
+    color: white;
+    padding-left: 16px;
+    font-size: 24px;
+    font-weight: 500;
     line-height: 48px;
   }
 `
@@ -143,6 +150,7 @@ const InfoText = styled('div')`
   text-align: left;
   > p {
     margin: 0;
+    font-weight: 400;
   }
 `
 
@@ -330,7 +338,7 @@ export default function BridgeInfo() {
                   setOpen(false)
                 }}
               >
-                X
+                <img src={close} />
               </Close>
             </Content>
           </StyledModal>

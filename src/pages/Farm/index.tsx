@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useActiveWeb3React } from '../../hooks'
-import { getFarmingPools } from '../../utils/farm'
+import {useFarmPools } from '../../utils/farm'
 import { Reward } from '../../utils/farm/constants'
 import styled from 'styled-components'
 import AppBody from '../AppBody'
@@ -18,12 +17,12 @@ const Container = styled('div')`
 `
 
 export default function Farm() {
-  const { library } = useActiveWeb3React()
-  const [farmRewards, setFarms] = useState<Reward[]>([])
+  const [farms, setFarms] = useState<Reward[]>([])
+  const farmRewards = useFarmPools()
 
   useEffect(() => {
     let mounted = true
-    getFarmingPools(library).then(res => {
+    farmRewards.then(res => {
       if (mounted) {
         setFarms([...res])
       }
@@ -31,7 +30,7 @@ export default function Farm() {
     return () => {
       mounted = false
     }
-  }, [library])
+  }, [farms])
 
   return (
     <AppBody>
@@ -41,7 +40,7 @@ export default function Farm() {
           Please choose your preferred pair, provide liquidity on Fuseswap (Fuse) then deposit your LP tokens and start
           earning Fuse.
         </p>
-        <Table rewards={farmRewards} />
+        <Table rewards={farms} />
       </Container>
     </AppBody>
   )
