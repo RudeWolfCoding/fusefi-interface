@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ButtonPrimary } from '../Button'
-import Modal from '../Modal'
+import { ButtonPrimary } from '../../Button'
+import Modal from '../../Modal'
 import { Content, Header, HeaderText, StyledModal } from './modal'
 
 const Container = styled('div')<{ color: string; txt: string }>`

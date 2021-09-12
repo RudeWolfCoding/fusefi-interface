@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React } from '../../../hooks'
 import Claim from './claim'
 import Withdraw from './withdraw'
 import Deposit from './deposit'
 import { Flex } from 'rebass'
-import { Reward, User } from '../../utils/farm/constants'
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -62,40 +61,35 @@ const Tab = styled.button<{ active: any }>`
   `}
 `
 
-const types = ['Deposit', 'Withdraw', 'Stats']
+const tabs = ['Deposit', 'Withdraw', 'Stats']
 
-interface RewardSelection {
-  user: User
-  contract: Reward
-}
-
-function RewardsReselect(param: string, user: any, contract: any) {
-  switch (param) {
+function FarmTab(tab: string, farm: any) {
+  switch (tab) {
     case 'Deposit':
-      return <Deposit user={user} reward={contract} />
+      return <Deposit farm={farm} />
     case 'Withdraw':
-      return <Withdraw user={user} reward={contract} />
+      return <Withdraw farm={farm} />
     case 'Stats':
-      return <Claim user={user} reward={contract} />
+      return <Claim farm={farm} />
     default:
-      return <Deposit user={user} reward={contract} />
+      return <div />
   }
 }
 
-export default (props: RewardSelection) => {
-  const [active, setActive] = useState(types[0])
+export default ({ farm }: any) => {
+  const [activeTab, setActiveTab] = useState(tabs[0])
   const { chainId } = useActiveWeb3React()
   if (chainId === 122) {
     return (
       <Wrapper>
         <TabGroup>
-          {types.map(type => (
-            <Tab key={type} active={active === type} onClick={() => setActive(type)}>
-              {type}
+          {tabs.map(tab => (
+            <Tab key={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)}>
+              {tab}
             </Tab>
           ))}
         </TabGroup>
-        {RewardsReselect(active, props.user, props.contract)}
+        {FarmTab(activeTab, farm)}
       </Wrapper>
     )
   } else {

@@ -4,6 +4,7 @@ import { AddressZero } from '@ethersproject/constants'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
+import BigNumberJS from 'bignumber.js'
 import {
   ROUTER_ADDRESS,
   BINANCE_ERC20_TO_ERC677_FOREIGN_BRIDGE_ADDRESS,
@@ -287,6 +288,26 @@ export const tryFormatAmount = (amount?: string, deciamls?: number) => {
   }
 
   return undefined
+}
+
+export const tryFormatDecimalAmount = (amount?: string, tokenDecimals = 18, decimals = 0): string | undefined => {
+  if (!amount || !tokenDecimals) return undefined
+
+  try {
+    return new BigNumberJS(amount)
+      .div(10 ** tokenDecimals)
+      .toNumber()
+      .toFixed(decimals)
+  } catch (error) {
+    console.debug(`Failed to format decimal amount: "${amount}"`, error)
+  }
+
+  return undefined
+}
+
+export const tryFormatPercentageAmount = (value?: number, decimals = 0): string | undefined => {
+  if (!value) return undefined
+  return (value * 100).toFixed(decimals)
 }
 
 export async function pollEvent(

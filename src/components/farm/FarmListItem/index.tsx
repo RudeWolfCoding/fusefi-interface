@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import Icon from './icons'
+import Icon from '../FarmList/icons'
 import { Flex } from 'rebass'
-import { fetchStats } from '../../utils/farm'
-import { useActiveWeb3React } from '../../hooks'
-import { Reward, RewardObj } from '../../utils/farm/constants'
+import { tryFormatDecimalAmount, tryFormatPercentageAmount } from '../../../utils'
 
 const Container = styled.div`
   position: relative;
@@ -59,34 +57,12 @@ const Button = styled('div')`
   right: 15px;
   color: black;
 `
-function toggle(address: string, LP: string) {
-  window.location.replace('/#/farm/' + address + '/' + LP)
+function toggle(address: string) {
+  window.location.replace(`/#/farm/${address}`)
 }
 
-export default function Item({ contract }: any) {
-  const { library, account } = useActiveWeb3React()
-  const [reward, setReward] = useState<Reward>(RewardObj)
+export default function FarmListItem({ farm }: any) {
   const [showButon, setshowButon] = useState(false)
-
-  useEffect(() => {
-    let mounted = true
-    if (library?.provider) {
-      fetchStats(
-        account ? account : '',
-        contract.LPToken,
-        contract.contractAddress,
-        contract.type,
-        library?.provider
-      ).then(res => {
-        if (mounted) {
-          setReward(res)
-        }
-      })
-    }
-    return () => {
-      mounted = true
-    }
-  }, [account, contract.LPToken, contract.contractAddress, contract.type, library])
 
   return (
     <Container onMouseEnter={() => setshowButon(true)} onMouseLeave={() => setshowButon(false)}>
@@ -94,10 +70,10 @@ export default function Item({ contract }: any) {
         flex={'1 1 25%'}
         margin={'auto'}
         onClick={() => {
-          toggle(contract.contractAddress, contract.LPToken)
+          toggle(farm.contractAddress)
         }}
       >
-        <Icon pairName={contract.pairName} name={contract.pairName} />
+        <Icon pairName={farm.pairName} name={farm.pairName} />
       </Column>
       <Column flex={'1 1 20%'}>
         <Field
@@ -119,43 +95,43 @@ export default function Item({ contract }: any) {
               color: '#4b4b4b'
             }}
           >
-            {(reward.rewardsInfo[0].apyPercent * 100).toFixed(0)}%
+            {tryFormatPercentageAmount(farm.rewardsInfo[0].apyPercent, 2)}%
           </span>
         </Field>
       </Column>
       <Column flex={'1 1 10%'} fontSize={1}>
         <Wrapper>
           <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-            {(Number(reward.reserve0) / 1000000000000000000).toFixed(0)}
+            {tryFormatDecimalAmount(farm.reserve0, 18, 2)}
           </Field>
-          <Field>{reward.token0.symbol}</Field>
+          <Field>{farm.token0.symbol}</Field>
         </Wrapper>
         <Wrapper>
           <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-            {(Number(reward.globalTotalStake) / 1000000000000000000).toFixed(0)}
+            {tryFormatDecimalAmount(farm.reserve1, 18, 2)}
           </Field>
-          <Field>{reward.token1.symbol}</Field>
+          <Field>{farm.token1.symbol}</Field>
         </Wrapper>
       </Column>
       <Column paddingLeft={'70px'} flex={'1 1 20%'} fontSize={1}>
         <Wrapper>
           <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-            {Number(reward.globalTotalStakeUSD / 1000).toFixed(0)}
+            0
           </Field>
           <Field>USD / day</Field>
         </Wrapper>
         <Wrapper>
           <Field color={'white'} paddingRight={'5px'} justifyContent={'flex-end'}>
-            {(Number(reward.globalTotalStake) / 1000000000000000000).toFixed(0)}
+            0
           </Field>
           <Field>WFUSE / day</Field>
         </Wrapper>
       </Column>
-      <Column  flex={'1 1 10%'}>
+      <Column flex={'1 1 10%'}>
         {showButon && (
           <Button
             onClick={() => {
-              toggle(contract.contractAddress, contract.LPToken)
+              toggle(farm.contractAddress)
             }}
           >
             Select

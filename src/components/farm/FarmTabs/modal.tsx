@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Questionmark from '../../assets/svg/questionmark.svg'
-import { useTokenBalance } from '../../state/wallet/hooks'
-import { ButtonPrimary } from '../Button'
-import Modal from '../Modal'
+import Questionmark from '../../../assets/svg/questionmark.svg'
+import { useTokenBalance } from '../../../state/wallet/hooks'
+import { ButtonPrimary } from '../../Button'
+import Modal from '../../Modal'
 
 const Icon = styled('div')`
   border-radius: 999px;
@@ -113,7 +113,7 @@ const Item = styled('div')`
 `
 interface Estimate {
   rate: number
-  reward: any
+  reward?: any
 }
 function calculateEstimate(rate: number, balance: any): number {
   if (balance) {

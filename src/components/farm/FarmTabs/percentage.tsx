@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { User } from '../../utils/farm/constants'
 
 const Wrapper = styled('div')`
   display: flex;
@@ -32,17 +31,13 @@ const Selector = styled('button')`
 `
 interface Percentage {
   selectPerecentage: any
-  value: string
-  user: User
+  value?: string
 }
 
-export default function Percentage({ user, value, selectPerecentage }: Percentage) {
+export default function Percentage({ value, selectPerecentage }: Percentage) {
   function selectPercentage(amount: number) {
     const calculated = (Number(value) * amount) / 100
-    const rewards =
-      Number(user.rewardEstimate) +
-      (Number(user.rewardEstimate) / Number(user.lpAvailable)) * ((Number(user.lpDeposited) * amount) / 100)
-    selectPerecentage(calculated.toString(), rewards.toFixed(2).toString())
+    selectPerecentage(calculated)
   }
 
   return (

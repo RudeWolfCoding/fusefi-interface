@@ -1,14 +1,14 @@
 import { ChainId, Token } from '@fuseio/fuse-swap-sdk'
 import React, { useState } from 'react'
-import { useActiveWeb3React } from '../../hooks'
-import { useTokenBalance } from '../../state/wallet/hooks'
-import { ButtonPrimary } from '../Button'
-import Modal from '../Modal'
-import Questionmark from '../../assets/svg/questionmark.svg'
+import { useActiveWeb3React } from '../../../hooks'
+import { useTokenBalance } from '../../../state/wallet/hooks'
+import { ButtonPrimary } from '../../Button'
+import Modal from '../../Modal'
+import Questionmark from '../../../assets/svg/questionmark.svg'
 import { Content, Header, HeaderText, StyledModal } from './modal'
 import styled from 'styled-components'
-import apyGreen from '../../assets/svg/questionmark2.svg'
-import deposits from '../../assets/svg/deposits.svg'
+import apyGreen from '../../../assets/svg/questionmark2.svg'
+import deposits from '../../../assets/svg/deposits.svg'
 
 const Container = styled('div')<{ color: string; txt: string }>`
   display: flex;
