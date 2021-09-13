@@ -104,7 +104,7 @@ export default function WithdrawReward({
 
   const parsedTotalStake = tryFormatAmount(farm?.totalStaked, 18)
   const parsedAmount = useMemo(() => {
-    if (lpToken) {
+    if (lpToken && withdrawValue) {
       const withdrawValueWei = new BigNumber(withdrawValue)
         .multipliedBy(10 ** lpToken.decimals)
         .integerValue(BigNumber.ROUND_DOWN)
@@ -148,7 +148,7 @@ export default function WithdrawReward({
         <span>{pairSymbol}</span>
       </InputWrapper>
       <Percentage selectPerecentage={setWithdrawValue} value={parsedTotalStake} />
-      <EstimatedRewards rate={farm?.rewardsInfo[0].rewardRate} />
+      <EstimatedRewards title="Accrued Rewards" value={tryFormatAmount(farm?.rewardsInfo[0].accuruedRewards, 18)} />
       <ButtonPrimary onClick={() => withdraw()}> Withdraw LP Tokens</ButtonPrimary>
     </Container>
   )

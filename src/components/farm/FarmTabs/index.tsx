@@ -32,7 +32,7 @@ const TabGroup = styled.div`
 
 const Tab = styled.button<{ active: any }>`
   flex: 1;
-  font-size: 20px;
+  font-size: 14px;
   cursor: pointer;
   color: white;
   border: 0;
@@ -50,7 +50,7 @@ const Tab = styled.button<{ active: any }>`
       bottom:0;
       top:0;
       border-radius:16px; 
-      padding:3px; 
+      padding:2px; 
       background:linear-gradient(110deg, #b1ffbf 7%, #fff16d);
       -webkit-mask: 
         linear-gradient(#fff 0 0) content-box, 

@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
+import dayjs from 'dayjs'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { useActiveWeb3React } from '../../../hooks'
 import { ButtonError, ButtonPrimary } from '../../Button'
@@ -7,12 +8,14 @@ import { Reward, User } from '../../../utils/farm/constants'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
 import Percentage from './percentage'
-import EstimatedRewards from './modal'
+import RewardCard from './modal'
 import styled from 'styled-components'
 import { useToken } from '../../../hooks/Tokens'
 import { TokenAmount } from '@fuseio/fuse-swap-sdk'
 import BigNumber from 'bignumber.js'
 import { getProgram } from '../../../utils/farm'
+import { Farm } from '../../../constants/farms'
+import { tryFormatDecimalAmount } from '../../../utils'
 
 const Container = styled('div')`
 text-align:left;
@@ -87,23 +90,7 @@ interface Deposit {
   reward: Reward
 }
 
-export default function Deposit({
-  farm
-}: {
-  farm?: {
-    contractAddress: string
-    LPToken: string
-    token0: {
-      symbol: string
-    }
-    token1: {
-      symbol: string
-    }
-    type: string
-    rewardsInfo: any
-    totalStaked: string
-  }
-}) {
+export default function Deposit({ farm }: { farm?: Farm }) {
   const addTransaction = useTransactionAdder()
   const { account, library } = useActiveWeb3React()
   const lpToken = useToken(farm?.LPToken)
@@ -113,7 +100,7 @@ export default function Deposit({
   const pairSymbol = farm?.token0?.symbol + '-' + farm?.token1?.symbol
 
   const parsedAmount = useMemo(() => {
-    if (lpToken) {
+    if (lpToken && depositValue) {
       const depositValueWei = new BigNumber(depositValue)
         .multipliedBy(10 ** lpToken.decimals)
         .integerValue(BigNumber.ROUND_DOWN)
@@ -122,6 +109,27 @@ export default function Deposit({
     }
     return undefined
   }, [depositValue, lpToken])
+
+  const rewardsPerToken = useMemo(() => {
+    if (farm) {
+      const time = farm?.end ? farm?.end - dayjs().unix() : '0'
+      const rewardRate = farm?.rewardsInfo ? farm?.rewardsInfo[0].rewardRate : '0'
+
+      return new BigNumber(time)
+        .multipliedBy(rewardRate)
+        .dividedBy(new BigNumber(farm?.globalTotalStake ?? '0').plus(parsedAmount?.toSignificant() ?? '0'))
+        .toString()
+    }
+    return '0'
+  }, [farm, parsedAmount])
+
+  const estimatedReward = useMemo(() => {
+    return new BigNumber(rewardsPerToken)
+      .multipliedBy(new BigNumber(parsedAmount?.raw.toString() ?? '0').plus(farm?.totalStaked ?? '0'))
+      .toFixed(6)
+  }, [farm?.totalStaked, parsedAmount, rewardsPerToken])
+
+  console.log(rewardsPerToken, estimatedReward, parsedAmount?.toSignificant(), farm?.totalStaked)
 
   const [approval, approveCallback] = useApproveCallback(parsedAmount, farm?.contractAddress)
 
@@ -159,7 +167,7 @@ export default function Deposit({
         <span>{pairSymbol}</span>
       </InputWrapper>
       <Percentage selectPerecentage={setdepositValue} value={lpTokenBalance?.toSignificant()} />
-      <EstimatedRewards rate={farm?.rewardsInfo[0]?.rewardRate} reward={lpToken} />
+      <RewardCard title="Estimated Rewards" value={tryFormatDecimalAmount(estimatedReward, 18)} />
       {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
         <RowBetween marginBottom={20}>
           <ButtonPrimary onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>

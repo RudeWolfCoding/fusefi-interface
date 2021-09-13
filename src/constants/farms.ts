@@ -1,7 +1,7 @@
 import { ChainId } from '@fuseio/fuse-swap-sdk'
 import { BINANCE_CHAIN_ID } from '../connectors'
 
-interface Farm {
+export interface Farm {
   contractAddress: string
   LPToken: string
   type: string
@@ -16,8 +16,10 @@ interface Farm {
   token1?: {
     symbol: string
   }
-  rewardsInf?: any
+  rewardsInfo?: Array<any>
   totalStaked?: string
+  globalTotalStake?: string
+  end?: number
 }
 
 export const FARM_CONTRACTS: {

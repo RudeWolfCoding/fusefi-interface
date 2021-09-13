@@ -12,6 +12,7 @@ async function fetchFarm(
   const rewardProgram = getProgram(contractAddress, library.provider, type)
   const stats = await rewardProgram.getStats(account, LPToken, networkId, rewards)
   const [totalStaked] = await rewardProgram.getStakerInfo(account, rewards[0])
+  const stakingTimes = await rewardProgram.getStakingTimes(rewards[0])
   return {
     contractAddress,
     rewards,
@@ -19,7 +20,8 @@ async function fetchFarm(
     networkId,
     pairName,
     totalStaked,
-    ...stats
+    ...stats,
+    ...stakingTimes
   }
 }
 
@@ -43,15 +45,7 @@ export function useFarm(farmAddress: string) {
     if (account && library) {
       fetchFarm(contract, account, library).then(farm => setFarm(farm))
     }
-  }, [account, contract, library])
-
-  // update farm on blocknumber change
-  useEffect(() => {
-    if (account && library) {
-      fetchFarm(contract, account, library).then(farm => setFarm(farm))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockNumber])
+  }, [account, contract, library, blockNumber])
 
   return farm
 }
@@ -70,14 +64,7 @@ export function useFarms() {
     if (account && library && contracts) {
       fetchFarms(contracts, account, library).then(farms => setFarms(farms))
     }
-  }, [account, contracts, library])
-
-  useEffect(() => {
-    if (account && library && contracts) {
-      fetchFarms(contracts, account, library).then(farms => setFarms(farms))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockNumber])
+  }, [account, contracts, library, blockNumber])
 
   return farms
 }
