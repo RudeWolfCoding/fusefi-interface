@@ -4,9 +4,6 @@ import styled from 'styled-components'
 export const SwapWrapper = styled('div')`
   position: relative;
   padding: 1rem;
-  margin-right: 30%;
-  margin-left: 30%;
-  margin-bottom: 2rem;
   width: 100%;
   background: ${({ theme }) => theme.bg1};
   border: solid 2px #000000;

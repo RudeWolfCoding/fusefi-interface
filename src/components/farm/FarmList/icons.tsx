@@ -14,7 +14,30 @@ import linkweth from '../../../assets/svg/pairs/LINK-WETH.svg'
 import grtweth from '../../../assets/svg/pairs/GRT-WETH.svg'
 import dextfuse from '../../../assets/svg/pairs/DEXT-FUSE.svg'
 
-export default function Icon(props: { name: string; pairName: string }) {
+const Container = styled.div<{ height?: number }>`
+  display: flex;
+  :hover {
+    text-decoration: underline;
+  }
+  > img {
+    height: ${({ height }) => (height ? `${height}px` : '42px')};
+    margin-right: 12px;
+  }
+  > span {
+    cursor: pointer;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+`
+
+type IconProps = {
+  name: string
+  pairName: string
+  height?: number
+}
+
+export default function Icon({ name, pairName, height }: IconProps) {
   const FarmIcons: { [name: string]: any } = {
     'G$/USDC': goodusdc,
     'fUSD/BNB': fusdbnb,
@@ -32,27 +55,10 @@ export default function Icon(props: { name: string; pairName: string }) {
     'DEXT/FUSE': dextfuse
   }
 
-  const Container = styled.div`
-    display: flex;
-    :hover {
-      text-decoration: underline;
-    }
-    > img {
-      height: 42px;
-      margin-right: 12px;
-    }
-    > span {
-      cursor: pointer;
-      line-height: 40px;
-      font-size: 16px;
-      font-weight: 400;
-    }
-  `
-
   return (
-    <Container>
-      <img src={FarmIcons[props.pairName]} alt="" />
-      <span>{props.name}</span>
+    <Container height={height}>
+      <img src={FarmIcons[pairName]} alt="" />
+      <span>{name}</span>
     </Container>
   )
 }

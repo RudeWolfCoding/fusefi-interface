@@ -3,31 +3,28 @@ import styled from 'styled-components'
 
 const Wrapper = styled('div')`
   display: flex;
-  padding-left: 24px;
-  padding-right: 24px;
+  justify-content: center;
   flex: wrap;
-  padding-bottom: 24px;
   margin: auto;
   width: 80%;
   overflow: hidden;
-  text-align: left;
-  justify-content: flex-end;
+  margin-bottom: 24px;
 `
 
 const Selector = styled('button')`
   margin: 2px;
-  padding: 4px;
+  padding: 7px 15px;
   display: inline-block;
   text-align: center;
   justify-content: flex-end;
   color: white;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 18px;
-  width: 100%;
   border-radius: 999px;
   border: solid 2px white;
   background: none;
+  cursor: pointer;
 `
 interface Percentage {
   selectPerecentage: any

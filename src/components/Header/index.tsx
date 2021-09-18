@@ -41,8 +41,6 @@ const AccountElement = styled.div<{ active: boolean }>`
   border-radius: 12px;
   white-space: nowrap;
   width: 100%;
-  border: solid 2px;
-  border-color: ${({ theme }) => theme.bg3};
   :focus {
     border: 1px solid blue;
   }

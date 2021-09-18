@@ -12,8 +12,9 @@ const Base = styled(RebassButton)<{
   borderRadius?: string
   altDisabledStyle?: boolean
 }>`
-  padding: ${({ padding }) => (padding ? padding : '18px')};
+  height: 48px;
   width: ${({ width }) => (width ? width : '100%')};
+  font-size: 16px;
   font-weight: 500;
   text-align: center;
   border-radius: 12px;
@@ -64,11 +65,11 @@ export const ButtonPrimary = styled(Base)`
 `
 
 export const ButtonLight = styled(Base)`
-  border: 2px solid #9fa3c9;
   box-sizing: border-box;
   border-radius: 12px;
-  color: ${({ theme }) => theme.text6};
-  background: ${({ theme, disabled }) => (disabled ? theme.bg1 : theme.bg8)};
+  color: black;
+  font-size: 16px;
+  background: ${({ theme }) => theme.bg8};
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme, disabled }) => !disabled && darken(0.03, theme.primary5)};
     background-color: ${({ theme, disabled }) => !disabled && darken(0.03, theme.primary5)};
@@ -80,11 +81,14 @@ export const ButtonLight = styled(Base)`
     box-shadow: 0 0 0 1pt ${({ theme, disabled }) => !disabled && darken(0.05, theme.primary5)};
     background-color: ${({ theme, disabled }) => !disabled && darken(0.05, theme.primary5)};
   }
+
   :disabled {
+    border: 2px solid #9fa3c9;
+    background: transparent;
+    color: #9fa3c9 !important;
+
     :hover {
-      opacity: 0.3;
-      cursor: pointer;
-      background-color: red;
+      cursor: not-allowed;
       box-shadow: none;
       outline: none;
     }

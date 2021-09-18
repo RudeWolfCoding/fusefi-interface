@@ -30,11 +30,12 @@ const Ramp = styled.div`
   justify-content: space-evenly;
   position: absolute;
   display: flex;
-  width: 85%;
+  width: 80%;
   height: 40px;
-  bottom: 60px;
-  left: 7%;
+  bottom: 65px;
+  left: 10%
   padding: 0px 16px;
+
   > span {
     font-style: normal;
     font-weight: 500;
@@ -69,7 +70,6 @@ const Ramp = styled.div`
 `
 
 const UniIcon = styled.div`
-  padding: 0.45rem;
   > svg {
     padding: 0.35rem;
   }
@@ -94,7 +94,7 @@ const UniIcon = styled.div`
 
 const MenuFlyout = styled.span`
   width: 100%;
-  height: 94vh;
+  height: 96vh;
   background-color: ${({ theme }) => theme.bg1};
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
@@ -109,10 +109,11 @@ const MenuFlyout = styled.span`
 const MenuItemInternal = styled(NavLink).attrs({
   activeClassName
 })`
-  height: 14%;
+  height: 48px;
   text-decoration: none;
-  font-size: 1.05em;
-  padding-left: 0.75rem;
+  font-size: 16px;
+  font-weight: 500;
+  padding-left: 24px;
   display: flex;
   flex-direction: column;
   .icon {
@@ -127,12 +128,6 @@ const MenuItemInternal = styled(NavLink).attrs({
     cursor: pointer;
     text-decoration: none;
     background-color: rgba(17, 18, 25, 0.4);
-    .icon {
-      fill: white;
-    }
-    .icon2 {
-      stroke: white;
-    }
   }
 
   &.${activeClassName} {
@@ -172,12 +167,10 @@ const SubMenuWrapper = styled.div`
 const IconWrapper = styled.div<{ size?: number }>`
   ${({ theme }) => theme.flexColumnNoWrap};
   width: 100%;
-  display: inline;
-  margin-left: 1rem;
-  margin-right: 0.5rem;
-  width: 24px;
-  padding-top: 3%;
-  line-height: 70px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
 `
 
 export default function Sidebar() {
@@ -190,7 +183,7 @@ export default function Sidebar() {
       <MenuFlyout>
         <MenuWrapper>
           <UniIcon>
-            <Logo></Logo>
+            <Logo />
           </UniIcon>
           <MenuItemInternal to="/home">
             <MenuItemWrapper>

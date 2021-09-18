@@ -25,16 +25,18 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
 
 const AnimatedDialogContent = animated(DialogContent)
 // destructure to not pass custom props to Dialog DOM element
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogContent = styled(({ height, minHeight, maxHeight, mobile, isOpen, backgroundColor, ...rest }) => (
-  <AnimatedDialogContent {...rest} />
-)).attrs({
+const StyledDialogContent = styled(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ({ height, minHeight, maxHeight, mobile, isOpen, backgroundColor, maxWidth, ...rest }) => (
+    <AnimatedDialogContent {...rest} />
+  )
+).attrs({
   'aria-label': 'dialog'
 })`
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
-    border: 1px solid ${({ theme, backgroundColor }) => (backgroundColor ? backgroundColor : theme.bg9)};
-    background-color: ${({ theme, backgroundColor }) => (backgroundColor ? backgroundColor : theme.bg9)};
+    border: 1px solid ${({ theme, backgroundColor }) => (backgroundColor ? backgroundColor : theme.bg1)};
+    background-color: ${({ theme, backgroundColor }) => (backgroundColor ? backgroundColor : theme.bg1)};
     box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadow1)};
     padding: 0px;
     width: 50vw;
@@ -42,7 +44,7 @@ const StyledDialogContent = styled(({ height, minHeight, maxHeight, mobile, isOp
 
     align-self: ${({ mobile }) => (mobile ? 'flex-end' : 'center')};
 
-    max-width: 645px;
+    max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : '462px')};
     ${({ height }) =>
       height &&
       css`
@@ -86,6 +88,7 @@ interface ModalProps {
   initialFocusRef?: React.RefObject<any>
   children?: React.ReactNode
   backgroundColor?: string
+  maxWidth?: string
 }
 
 export default function Modal({
@@ -96,7 +99,8 @@ export default function Modal({
   maxHeight = 50,
   initialFocusRef,
   children,
-  backgroundColor
+  backgroundColor,
+  maxWidth
 }: ModalProps) {
   const fadeTransition = useTransition(isOpen, null, {
     config: { duration: 200 },
@@ -136,6 +140,7 @@ export default function Modal({
                 maxHeight={maxHeight}
                 mobile={isMobile}
                 backgroundColor={backgroundColor}
+                maxWidth={maxWidth}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}

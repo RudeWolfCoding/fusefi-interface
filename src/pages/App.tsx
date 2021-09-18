@@ -67,7 +67,7 @@ export default function App() {
         <AppWrapper>
           <LeftMenu>
             <Sticky>
-              <Menu></Menu>
+              <Menu />
             </Sticky>
           </LeftMenu>
           <Content>

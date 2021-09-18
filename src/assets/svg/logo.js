@@ -2,19 +2,16 @@ import React from 'react'
 import image from './logo.svg'
 import styled from 'styled-components'
 
-const Logos = styled.div`
-  > img {
-    padding: 24px;
-    padding-bottom: 0px;
-  }
+const Img = styled.img.attrs({
+  src: image,
+  width: '114px',
+  alt: 'FuseFi Logo'
+})`
+  padding: 24px 0 30px 24px;
 `
 
 function Logo() {
-  return (
-    <Logos>
-      <img src={image} width="155px" alt="Fuse Logo" />
-    </Logos>
-  )
+  return <Img />
 }
 
 export default Logo

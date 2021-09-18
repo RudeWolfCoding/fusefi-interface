@@ -14,7 +14,6 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   overflow: hidden;
-  height: 6vh;
   background-color: #232638;
   z-index: 100;
 }
@@ -22,32 +21,28 @@ const Container = styled.div`
 
 const SocialBar = styled.div`
   display: flex;
-  width: 98%;
-  height: 100%;
   color: white;
   text-align: right;
   justify-content: flex-end;
   align-items: flex-start;
+  padding-right: 32px;
+
   > img {
-    margin-left: 0.75rem;
-    padding-top: 0.75rem;
-    margin-right: 1.25rem;
   }
 `
 
 const Item = styled(ExternalLink)`
-  font-size: 1.25vw;
   color: ${({ theme }) => theme.text2};
-  margin-right: 14px;
+  padding: 4px 0;
+
   :hover {
     color: ${({ theme }) => theme.text1};
     cursor: pointer;
     text-decoration: none;
   }
-  > svg {
-    margin-left: 18px;
-    margin-right: 18px;
-    padding-top: 9px;
+
+  :not(:last-child) {
+    margin-right: 8px;
   }
 `
 

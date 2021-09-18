@@ -27,7 +27,7 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   font-size: 20px;
   font-weight: 500;
   background-color: ${({ selected, theme }) => (selected ? theme.bg1 : theme.bg7)};
-  color: ${({ selected, theme }) => (selected ? theme.text1 : theme.text2)};
+  color: white;
   border-radius: 999px;
   outline: none;
   cursor: pointer;
@@ -35,12 +35,12 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   border: none;
   padding: 0 0.5rem;
   svg path {
-    stroke: ${({ selected, theme }) => (selected ? theme.text1 : theme.text2)};
+    stroke: white;
     stroke-width: 1.5px;
   }
   :focus,
   :hover {
-    background-color: #25435a;
+    background-color: ${({ selected, theme }) => (selected ? darken(0.02, theme.bg1) : darken(0.02, theme.bg7))};
     color: #ffffff;
     svg path {
       stroke: #ffffff;
@@ -87,9 +87,9 @@ const Container = styled.div<{ hideInput: boolean }>`
 `
 
 const StyledTokenName = styled.span<{ active?: boolean }>`
-  ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.75rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
-  font-size:  ${({ active }) => (active ? '20px' : '16px')};
-
+  ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.25rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
+  font-size: 16px;
+  font-weight: 400;
 `
 
 const StyledBalanceMax = styled.button`

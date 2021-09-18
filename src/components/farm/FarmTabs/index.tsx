@@ -15,9 +15,7 @@ const Wrapper = styled('div')`
   min-height: 342px;
   display: flex;
   flex-wrap: wrap;
-  padding: 15%;
-  padding-top: 2%;
-  padding-bottom: 24px;
+  padding: 2% 125px 24px;
   border-radius: 12px;
 `
 
@@ -26,7 +24,7 @@ const TabGroup = styled.div`
   border-radius: 16px;
   width: 100%;
   height: 48px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   background: #111219;
 `
 
@@ -42,7 +40,10 @@ const Tab = styled.button<{ active: any }>`
   border-radius: 0;
   ${({ active }) =>
     active &&
-    `:before{
+    `
+    font-weight: 500;
+    
+    :before{
       content:"";
       position:absolute;
       width: 95%;

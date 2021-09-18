@@ -1,20 +1,19 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Modal from '../Modal'
-import bridgeApy from '../../assets/svg/questionmarkBridge.svg'
+import WhiteQuestionmarkIcon from '../../assets/svg/questionmark-white.svg'
+import PurpleQuestionmarkIcon from '../../assets/svg/questionmark-purple.svg'
 import Icon from '../../assets/svg/base.svg'
 import InfoIcon from '../../assets/svg/infoBridge.svg'
 import binance from '../../assets/svg/pairs/binance.svg'
 import eth from '../../assets/svg/pairs/eth.svg'
 import close from '../../assets/svg/close.svg'
 
-
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   background: ${({ color }) => color};
   border-radius: 12px;
-  padding: 16px;
   padding-bottom: 0px;
   font-size: 16px;
   line-height: 21px;
@@ -34,8 +33,7 @@ export const Backdrop = styled.div`
 
 export const StyledModal = styled.div`
   z-index: 100;
-  padding: 24px;
-  width: 650px;
+  padding: 1rem;
   background: #242637;
   position: relative;
   margin: auto;
@@ -45,12 +43,11 @@ export const Header = styled.div`
   border-radius: 8px 8px 0 0;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 `
 
 export const HeaderText = styled.div`
   display: flex;
-  padding-bottom: 20px;
   color: #fff;
   align-self: center;
   color: lightgray;
@@ -78,16 +75,15 @@ export const Content = styled.div`
 `
 
 const Cards = styled('div')`
-  padding-bottom: 10px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: auto;
   grid-gap: 1rem;
-  margin-bottom: 18px;
+  margin-bottom: 24px;
 `
 
 const Card = styled('div')`
-  padding: 10px;
+  padding: 19px 16px;
   border-radius: 12px;
   background: #393c56;
 `
@@ -99,7 +95,8 @@ const Title = styled('div')`
   font-weight: 500;
   font-size: 24px;
   line-height: 24px;
-  padding-bottom: 10px;
+  margin-bottom: 8px;
+
   > span {
     color: #b5b9d3;
   }
@@ -115,16 +112,13 @@ const Description = styled('div')`
 `
 const Chain = styled('div')`
   display: flex;
-  width: 100%;
-  text-align: center;
-  position: relative;
+  align-items: center;
   margin-bottom: 12px;
 
   > span {
     font-weight: 500;
     font-size: 18px;
-    line-height: 36px;
-    padding-left: 8px;
+    margin-left: 8px;
   }
 `
 const Info = styled('div')`
@@ -163,7 +157,7 @@ const InfoNotice = styled('div')`
   width: 100%;
   text-align: center;
   position: relative;
-  padding: 5px;
+  padding: 10px;
   background: #474b6b99;
   border-radius: 12px;
   margin-top: 12px;
@@ -210,8 +204,9 @@ const Wrapper = styled.div`
   width: 100%;
   text-align: center;
   justify-content: center;
-  margin: 3px;
+  margin-top: 27px;
   position: relative;
+
   > span {
     font-size: 14px;
     font-weight: 400;
@@ -219,22 +214,39 @@ const Wrapper = styled.div`
     padding-left: 10px;
     cursor: pointer;
   }
+
+  .purple-icon {
+    display: block;
+  }
+
+  .white-icon {
+    display: none;
+  }
+
+  :hover {
+    > span {
+      color: white;
+    }
+
+    .purple-icon {
+      display: none;
+    }
+
+    .white-icon {
+      display: block;
+    }
+  }
 `
 
-const ApyIcon = styled.div`
-  border-radius: 999px;
-  background-color: #ffffff17;
-  opacity: 1;
+const IconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #393c57;
   height: 24px;
   width: 24px;
+  border-radius: 50%;
   cursor: pointer;
-  position: relative;
-  > img {
-    opacity: 1;
-    top: 20%;
-    right: 22%;
-    position: absolute;
-  }
 `
 
 export default function BridgeInfo() {
@@ -246,103 +258,99 @@ export default function BridgeInfo() {
           setOpen(true)
         }}
       >
-        <ApyIcon>
-          <img src={bridgeApy} width="14px" height="14px" alt="Bridge Logo"></img>
-        </ApyIcon>
+        <IconWrapper>
+          <img className="purple-icon" src={PurpleQuestionmarkIcon} width="15px" height="15px" alt="Bridge Logo" />
+          <img className="white-icon" src={WhiteQuestionmarkIcon} width="15px" height="15px" alt="Bridge Logo" />
+        </IconWrapper>
         <span>Read about fees and minimum</span>
       </Wrapper>
       <Modal
-        maxHeight={90}
+        maxHeight={95}
         isOpen={isOpen}
+        maxWidth="640px"
         onDismiss={() => {
           setOpen(false)
         }}
       >
-        <Wrapper aria-modal aria-labelledby={'headerText'} tabIndex={-1} role="dialog">
-          <StyledModal>
-            <Header>
-              <HeaderText>
-                <img src={Icon} width="48px" height="48px" alt="Bridge Icon"></img>
-                <span>Bridge Fees</span>
-              </HeaderText>
-            </Header>
-            <Content>
-              <Chain>
-                <img src={eth} alt="ETH Icon" /> <span>Ethereum</span>
-              </Chain>
-              <Cards>
-                <Card>
-                  <Title>Free</Title>
-                  <Description>Deposit Fee</Description>
-                </Card>
+        <StyledModal>
+          <Header>
+            <HeaderText>
+              <img src={Icon} width="48px" height="48px" alt="Bridge Icon"></img>
+              <span>Bridge Fees</span>
+            </HeaderText>
+          </Header>
+          <Content>
+            <Chain>
+              <img src={eth} alt="ETH Icon" /> <span>Ethereum</span>
+            </Chain>
+            <Cards>
+              <Card>
+                <Title>Free</Title>
+                <Description>Deposit Fee</Description>
+              </Card>
 
-                <Card>
-                  <Title>
-                    0.5 <span>%</span>
-                  </Title>
-                  <Description>Withdrawal Fee</Description>
-                </Card>
-                <Card>
-                  <Title>
-                    $1000 <span>&nbsp;USD</span>
-                  </Title>
-                  <Description>Withdrawal Minimum</Description>
-                </Card>
-              </Cards>
-              <Chain>
-                <img src={binance} alt="Binance Icon" /> <span>Binance</span>
-              </Chain>
-              <Cards>
-                <Card>
-                  <Title>Free</Title>
-                  <Description>Deposit Fee</Description>
-                </Card>
-                <Card>
-                  <Title>
-                    0.05 <span>%</span>
-                  </Title>
-                  <Description>Withdrawal Fee</Description>
-                </Card>
-                <Card>
-                  <Title>
-                    $20 <span>&nbsp;USD</span>
-                  </Title>
-                  <Description>Withdrawal Minimum</Description>
-                </Card>
-              </Cards>
-              <Info>
-                <Side>
-                  <img width="20px" src={InfoIcon} alt="Info Icon" />
-                </Side>
-                <InfoText>
-                  <p>The fees are taken to repay the network fees on the Ethereum network.</p>
-                  <p>
-                    Once you transfer your tokens using the bridge you will be gifted FUSE tokens directly to your
-                    wallet which will act as network gas. This will allow you to transact freely on FuseSwap
-                  </p>
-                </InfoText>
-              </Info>
+              <Card>
+                <Title>
+                  0.5 <span>%</span>
+                </Title>
+                <Description>Withdrawal Fee</Description>
+              </Card>
+              <Card>
+                <Title>
+                  $1000 <span>&nbsp;USD</span>
+                </Title>
+                <Description>Withdrawal Minimum</Description>
+              </Card>
+            </Cards>
+            <Chain>
+              <img src={binance} alt="Binance Icon" /> <span>Binance</span>
+            </Chain>
+            <Cards>
+              <Card>
+                <Title>Free</Title>
+                <Description>Deposit Fee</Description>
+              </Card>
+              <Card>
+                <Title>
+                  0.05 <span>%</span>
+                </Title>
+                <Description>Withdrawal Fee</Description>
+              </Card>
+              <Card>
+                <Title>
+                  $20 <span>&nbsp;USD</span>
+                </Title>
+                <Description>Withdrawal Minimum</Description>
+              </Card>
+            </Cards>
+            <Info>
+              <Side>
+                <img width="20px" src={InfoIcon} alt="Info Icon" />
+              </Side>
+              <InfoText>
+                <p>The fees are taken to repay the network fees on the Ethereum network.</p>
+              </InfoText>
+            </Info>
 
-              <InfoNotice>
-                <div>
-                  <img width="20px" src={InfoIcon} alt="Info Icon" />
-                  <span>Important</span>
-                </div>
-                <InfoNoticeText>
-                  Please note that there are minimum limits to bridge the tokens back from Fuse network to Ethereum
-                  network. This is due to the high gas fees on ethereum network.
-                </InfoNoticeText>
-              </InfoNotice>
-              <Close
-                onClick={() => {
-                  setOpen(false)
-                }}
-              >
-                <img src={close} />
-              </Close>
-            </Content>
-          </StyledModal>
-        </Wrapper>
+            <InfoNotice>
+              <div>
+                <img width="20px" src={InfoIcon} alt="Info Icon" />
+                <span>Important</span>
+              </div>
+              <InfoNoticeText>
+                Please note that there are minimum limits to bridge the tokens back from Fuse network to Ethereum
+                network. This is due to the high gas fees on ethereum network.
+              </InfoNoticeText>
+            </InfoNotice>
+            <Close
+              onClick={() => {
+                setOpen(false)
+              }}
+            >
+              <img src={close} alt="close icon" />
+            </Close>
+          </Content>
+        </StyledModal>
       </Modal>
     </Container>
   )

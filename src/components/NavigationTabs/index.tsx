@@ -11,10 +11,7 @@ import QuestionHelper from '../QuestionHelper'
 export const Wrapper = styled('div')`
   position: relative;
   margin-bottom: 15px;
-  padding: 0.25rem;
   width: 100%;
-  margin-left: 30%;
-  margin-right: 30%;
   background: ${({ theme }) => theme.bg1};
   border: solid 2px #000000;
   border-radius: 16px;
@@ -41,13 +38,13 @@ const StyledNavLink = styled(NavLink).attrs({
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
   justify-content: center;
-  height: 3rem;
+  height: 48px;
   border-radius: 3rem;
   outline: none;
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme }) => theme.text3};
-  font-size: 20px;
+  font-size: 16px;
   width: 100%;
 
   &.${activeClassName} {
@@ -77,7 +74,7 @@ const StyledNavLink = styled(NavLink).attrs({
 
 const ActiveText = styled.div`
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
 `
 
 const StyledArrowLeft = styled(ArrowLeft)`
@@ -106,7 +103,7 @@ export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' | 'bridge' })
 export function FindPoolTabs() {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
+      <RowBetween style={{ margin: '16px 0 30px' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
@@ -120,7 +117,7 @@ export function FindPoolTabs() {
 export function AddRemoveTabs({ adding }: { adding: boolean }) {
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
+      <RowBetween style={{ margin: '15px 0' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>

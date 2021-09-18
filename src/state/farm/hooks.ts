@@ -34,10 +34,10 @@ async function fetchFarms(farmList: Array<any>, account?: string, library?: any)
 export function useFarm(farmAddress: string) {
   const { account, chainId, library } = useActiveWeb3React()
   const [farm, setFarm] = useState(null)
-  const blockNumber = useBlockNumber()
 
   const contract = useMemo(() => {
-    if (chainId && farmAddress) return FARM_CONTRACTS[chainId][farmAddress]
+    if (chainId && farmAddress)
+      return FARM_CONTRACTS[chainId][farmAddress] ? FARM_CONTRACTS[chainId][farmAddress] : undefined
     return undefined
   }, [chainId, farmAddress])
 
@@ -45,7 +45,7 @@ export function useFarm(farmAddress: string) {
     if (account && library) {
       fetchFarm(contract, account, library).then(farm => setFarm(farm))
     }
-  }, [account, contract, library, blockNumber])
+  }, [account, contract, library])
 
   return farm
 }
@@ -56,7 +56,7 @@ export function useFarms() {
   const blockNumber = useBlockNumber()
 
   const contracts = useMemo(() => {
-    if (chainId) return Object.values(FARM_CONTRACTS[chainId])
+    if (chainId) return FARM_CONTRACTS[chainId] ? Object.values(FARM_CONTRACTS[chainId]) : undefined
     return undefined
   }, [chainId])
 

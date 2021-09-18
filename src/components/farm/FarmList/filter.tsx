@@ -6,7 +6,6 @@ const Container = styled('div')`
   display: flex;
   position: relative;
   width: 25%;
-  margin-top: 32px;
   margin-bottom: 24px;
   justify-content: space-around;
   background: ${({ theme }) => theme.bg1};
@@ -21,13 +20,13 @@ const Button = styled('div').attrs({
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
   justify-content: center;
-  height: 3rem;
+  height: 48px;
   border-radius: 3rem;
   outline: none;
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme }) => theme.text3};
-  font-size: 20px;
+  font-size: 16px;
   width: 100%;
   position: relative;
   :hover,

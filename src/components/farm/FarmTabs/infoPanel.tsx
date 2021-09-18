@@ -51,8 +51,8 @@ const Icon = styled('div')`
   position: relative;
   > img {
     opacity: 1;
-    top: 20%;
-    right: 22%;
+    top: 5px;
+    right: 5px;
     position: absolute;
   }
 `
@@ -119,7 +119,7 @@ export default function InfoPanel(props: apy) {
     <Container color={props.color} txt={props.txt}>
       <Wrapper>
         <Item>
-          <img src={props.icon} width="18px" height="18px" alt="APY Icon"></img>{' '}
+          <img src={props.icon} width="20px" height="20px" alt="APY Icon"></img>{' '}
         </Item>
         <IconWrapper
           onClick={() => {

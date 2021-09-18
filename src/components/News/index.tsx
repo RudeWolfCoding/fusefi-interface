@@ -9,6 +9,7 @@ export const Container = styled.div`
   background: #202231;
   height: 100%;
   position: relative;
+  padding: 16px;
   > a {
     text-decoration: none;
     color: #ffffff;
@@ -18,8 +19,6 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   font-family: 'Inter';
-  padding-left: 25px;
-  padding-top: 20px;
   font-size: 32px;
   text-align: left;
   font-weight: 600;
@@ -27,10 +26,9 @@ export const Header = styled.div`
   font-style: normal;
   letter-spacing: normal;
   width: 100%;
-  padding-bottom: 8px;
+  margin-bottom: 16px;
 `
 export const Item = styled.div`
-  padding: 10px 30px;
   display: flex;
   flex: 1 1 90%;
   flex-wrap: wrap;
@@ -66,6 +64,10 @@ export const Twitter = styled.div`
   top: 0;
   overflow: hidden;
   width: 99%;
+
+  .timeline-Tweet {
+    padding: 0;
+  }
 `
 
 export default function News() {

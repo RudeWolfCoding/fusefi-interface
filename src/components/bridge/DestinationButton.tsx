@@ -5,8 +5,9 @@ import { BridgeDirection } from '../../state/bridge/hooks'
 
 export const Button = styled.button<{ isActive?: boolean; colorSelect?: string }>`
   display: flex;
+  justify-content: center;
   align-items: center;
-  padding: 8px 16px;
+  height: 48px;
   background: #242637;
   border-radius: 12px;
   border: 2px solid #FFFFFF
@@ -14,7 +15,7 @@ export const Button = styled.button<{ isActive?: boolean; colorSelect?: string }
   max-width: 100%;
   border-width: 2px;
   border-style: solid;
-  color: ${({ color }) => color};
+  color: white;
   font-weight: 500;
   outline: 0;
   
@@ -22,6 +23,7 @@ export const Button = styled.button<{ isActive?: boolean; colorSelect?: string }
     positi;
   }
   &:hover {
+    color: ${({ color }) => color};
     border-color: ${({ color }) => color};
     cursor: pointer;
   }
@@ -35,7 +37,7 @@ export const Button = styled.button<{ isActive?: boolean; colorSelect?: string }
   }
 
   ${({ isActive, color, colorSelect }) =>
-    isActive && `border-color: ${color};background: ${colorSelect}; color: white; opacity: 0.`}
+    isActive && `border-color: ${color};background: ${colorSelect}; color: ${color}; opacity: 0.`}
 `
 
 export default function DestinationButton({

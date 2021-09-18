@@ -50,12 +50,13 @@ const StyledMenuButton = styled.button`
   background-color: transparent;
   margin: 0;
   padding: 0;
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 1rem;
   >span{
     line-height: 42px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     color: #B5B9D3;
+    margin-left: 10px;
   }
   svg path{
     stroke: #B5B9D3;

@@ -10,6 +10,8 @@ export interface Farm {
   pairs: Array<string>
   rewards: Array<string>
   totalReward: number
+  reserve0?: string
+  reserve1?: string
   token0?: {
     symbol: string
   }

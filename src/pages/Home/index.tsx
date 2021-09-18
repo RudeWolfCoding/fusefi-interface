@@ -7,8 +7,8 @@ import styled from 'styled-components'
 import News from '../../components/News'
 
 const Wrap = styled('div')`
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
   margin-bottom: 45px;
   display: flex;
   flex-wrap: wrap;
@@ -26,18 +26,18 @@ const Container = styled('div')`
   margin-bottom: 120px;
 `
 const Item = styled('div')`
-  padding: 1.1%;
   text-align: left;
   display: flex;
   flex-wrap: wrap;
   flex: 1 0 0;
+  margin: 24px 12px;
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
 `
 
 const Tweet = styled('div')`
   z-index: 100;
-  padding: 1.1%;
+  margin: 24px 12px;
   text-align: center;
   display: block;
   overflow: hidden;

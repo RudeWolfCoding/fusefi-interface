@@ -9,7 +9,7 @@ const Wrap = styled.a`
 `
 
 const Container = styled.a`
-  padding: 12px;
+  padding: 16px;
   background-image: linear-gradient(112deg, #b1ffbf 7%, #fff16d);
   width: 100%;
   border-radius: 16px;
@@ -23,58 +23,27 @@ const Container = styled.a`
   }
 `
 const Title = styled.div`
-  width: 100%;
-  margin: auto;
-  text-align: left;
   color: #052235;
-  padding: 15px;
-  padding-bottom: 5px;
-  padding-top: 0px;
-  font-family: Inter;
-  font-size: 32px;
-  font-style: normal;
+  font-size: 29px;
   font-weight: 600;
-  line-height: 39px;
-  letter-spacing: 0px;
-  text-align: left;
 `
 
-const Text = styled.div`
-  width: 100%;
-  font-family: 'Inter';
-  font-size: 32px;
-  line-height: 36px;
-  text-align: left;
-  font-weight: 600;
-  color: #ededed;
-  > img {
-    padding: 10px;
-    margin: auto;
-    width: 135px;
-  }
-`
-
-const Floater = styled.div`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  cursor: pointer;
-}
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
 `
 
 export default function HomeRewards() {
   return (
     <Wrap>
       <Container href="https://rewards.fuse.io/" target="_blank">
-        <Text>
-          <img src={image} alt="Rewards" />
-        </Text>
-        <Title>
-          <span>Check out Fuse rewards on Mainnet and BSC</span>
-        </Title>
-        <Floater>
-          <img src={floater} alt="Go to Rewards icon" />
-        </Floater>
+        <Header>
+          <img src={image} alt="reward icon" width="116px" />
+          <img src={floater} alt="close button" width="40px" />
+        </Header>
+        <Title>Check out Fuse rewards on Mainnet and BSC</Title>
       </Container>
     </Wrap>
   )

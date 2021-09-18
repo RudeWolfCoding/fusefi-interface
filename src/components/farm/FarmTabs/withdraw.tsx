@@ -12,21 +12,20 @@ import { getProgram } from '../../../utils/farm'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 
 const Container = styled('div')`
-text-align:left;
-display: flex;
-flex-wrap: wrap;
->div{
-  width: 100%
-  margin-top: 10px;
-}
+  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  > div {
+    width: 100%;
+  }
 `
 
 const Wrapper = styled('div')`
   display: flex;
   flex: wrap;
-  padding-bottom: 14px;
   margin: auto;
   width: 80%;
+  margin-bottom: 4px;
   overflow: hidden;
   text-align: left;
   justify-content: flex-end;
@@ -37,12 +36,15 @@ const InputWrapper = styled('div')`
   flex: wrap;
   margin: auto;
   border-radius: 12px;
-  padding: 12px;
+  margin-bottom: 8px;
+  padding: 0 16px;
   border: 2px solid white;
+  height: 48px;
   width: 80%;
   overflow: hidden;
   text-align: left;
   justify-content: flex-end;
+
   > span {
     margin: auto;
   }
@@ -53,8 +55,8 @@ const Input = styled('input')`
   font-size: 16px;
   background: none;
   border: none;
-  padding: 0.5rem;
   color: white;
+
   :focus {
     outline: none;
   }
@@ -149,7 +151,7 @@ export default function WithdrawReward({
       </InputWrapper>
       <Percentage selectPerecentage={setWithdrawValue} value={parsedTotalStake} />
       <EstimatedRewards title="Accrued Rewards" value={tryFormatAmount(farm?.rewardsInfo[0].accuruedRewards, 18)} />
-      <ButtonPrimary onClick={() => withdraw()}> Withdraw LP Tokens</ButtonPrimary>
+      <ButtonPrimary onClick={() => withdraw()}>Withdraw</ButtonPrimary>
     </Container>
   )
 }
