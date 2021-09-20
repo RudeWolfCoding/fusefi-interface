@@ -1,37 +1,38 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Questionmark from '../../../assets/svg/questionmark.svg'
+import Questionmark from '../../../assets/svg/questionmark-purple.svg'
 import { ButtonPrimary } from '../../Button'
 import Modal from '../../Modal'
 
 const Icon = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
   background-color: #ffffff1a;
   height: 24px;
   width: 24px;
-  position: relative;
   cursor: pointer;
+
   > img {
-    opacity: 0.5;
-    position: absolute;
-    top: 20%;
-    right: 22%;
-    position: absolute;
+    width: 16px;
+    height: 16px;
   }
 `
 const Icon2 = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
   background-color: #ffffff1a;
-  height: 24px;
-  width: 24px;
+  height: 48px;
+  width: 48px;
   position: relative;
   cursor: pointer;
+
   > img {
-    opacity: 0.5;
-    position: absolute;
-    top: -10%;
-    right: -6%;
-    position: absolute;
+    width: 30px;
+    height: 30px;
   }
 `
 
@@ -92,21 +93,23 @@ export const Content = styled.div`
   max-height: 30rem;
   overflow-x: hidden;
   overflow-y: auto;
+  color: white;
+
   > h1 {
     font-size: 24px;
     font-weight: 600;
+    text-align: left;
   }
   > p {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 21px;
+    text-align: left;
   }
 `
 
 const Item = styled('div')`
   display: flex;
   width: 100%;
-  text-align: center;
   justify-content: flex-end;
   position: relative;
 `
@@ -145,7 +148,7 @@ export default function RewardCard({ title, content, value }: any) {
                   }}
                 >
                   <Icon2>
-                    <img src={Questionmark} width="28px" height="28px" alt="Modal Icon"></img>
+                    <img src={Questionmark} alt="Modal Icon"></img>
                   </Icon2>
                 </Item>
               </HeaderText>

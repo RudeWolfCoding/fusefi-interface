@@ -23,6 +23,17 @@ export const Flex = styled('div')`
   display: flex;
   justify-content: flex-end;
 `
+
+const List = styled.ul`
+  margin-top: 0;
+  padding-left: 25px;
+`
+
+const Button = styled(ButtonTertiary)`
+  padding: 7.5px 14px;
+  height: 32px;
+`
+
 export default function ListUpdatePopup({
   popKey,
   listUrl,
@@ -77,7 +88,7 @@ export default function ListUpdatePopup({
                 An update is available for the token list &quot;{oldList.name}&quot; (
                 {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
               </Text>
-              <ul>
+              <List>
                 {tokensAdded.length > 0 ? (
                   <Item>
                     {tokensAdded.map((token, i) => (
@@ -101,18 +112,18 @@ export default function ListUpdatePopup({
                   </Item>
                 ) : null}
                 <Item>{numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}</Item>
-              </ul>
+              </List>
             </div>
             <Flex>
               <div style={{ marginRight: 12 }}>
-                <ButtonTertiary onClick={handleAcceptUpdate} width={'auto'}>
+                <Button onClick={handleAcceptUpdate} width={'auto'}>
                   Accept
-                </ButtonTertiary>
+                </Button>
               </div>
               <div>
-                <ButtonTertiary onClick={removeThisPopup} width={'auto'}>
+                <Button onClick={removeThisPopup} width={'auto'}>
                   Dismiss
-                </ButtonTertiary>
+                </Button>
               </div>
             </Flex>
           </>

@@ -628,3 +628,5 @@ export function supportRecipientTransfer(currencyId?: string, bridgeDirection?: 
     bridgeType === BridgeType.BSC_FUSE_ERC20_TO_ERC677
   )
 }
+
+export const uppercaseText = (str: string) => str.replace(/[a-z]/g, token => token.toUpperCase())

@@ -79,6 +79,7 @@ export default function Farm(props: RouteComponentProps<{ address: string }>) {
                 label="%"
                 txt="#8E6CC0"
                 color="#473660"
+                content='APY - Annual Percentage Yield (APY) is the estimated yearly yield for tokens locked. Our calculation is " $ locked * (1 year in second)/(total stake in $ * time remaining in seconds).'
               />
             </Item>
             <Item>
@@ -90,6 +91,7 @@ export default function Farm(props: RouteComponentProps<{ address: string }>) {
                 label={` ${farm?.pairName}`}
                 txt="#0684A6"
                 color="#034253"
+                content="Your Deposits - Your deposits shows the total amount of FUSE you have deposited into the Staking Contract."
               />
             </Item>
             <Item>
@@ -101,6 +103,7 @@ export default function Farm(props: RouteComponentProps<{ address: string }>) {
                 icon={rewards}
                 txt="#1C9E7E"
                 color="#0E4F3F"
+                content="Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"
               />
             </Item>
           </Wrapper>

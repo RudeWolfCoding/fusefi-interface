@@ -91,8 +91,8 @@ const StyledMenu = styled.div`
 
 const MenuFlyout = styled.span`
   min-width: 100%;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
   background-color: #111219;
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
@@ -125,9 +125,13 @@ const ModalContentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
+  flex-direction: column;
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 20px;
+`
+
+const ModalContentInnerWrapper = styled.div`
+  padding: 2rem;
 `
 
 export default function SettingsTab() {
@@ -152,7 +156,7 @@ export default function SettingsTab() {
     <StyledMenu ref={node as any}>
       <Modal isOpen={showConfirmation} onDismiss={() => setShowConfirmation(false)} maxHeight={100}>
         <ModalContentWrapper>
-          <RowBetween>
+          <RowBetween padding="1rem 2rem">
             <div />
             <Text fontWeight={500} fontSize={20}>
               Are you sure?
@@ -160,27 +164,29 @@ export default function SettingsTab() {
             <StyledCloseIcon onClick={() => setShowConfirmation(false)} />
           </RowBetween>
           <Break />
-          <Text fontWeight={500} fontSize={20}>
-            Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result in
-            bad rates and lost funds.
-          </Text>
-          <Text fontWeight={600} fontSize={20}>
-            ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.
-          </Text>
-          <ButtonError
-            error={true}
-            padding={'12px'}
-            onClick={() => {
-              if (window.prompt(`Please type the word "confirm" to enable expert mode.`) === 'confirm') {
-                toggleExpertMode()
-                setShowConfirmation(false)
-              }
-            }}
-          >
-            <Text fontSize={14} fontWeight={500} id="confirm-expert-mode">
-              Turn On Expert Mode
+          <ModalContentInnerWrapper>
+            <Text fontWeight={500} fontSize={20} marginBottom={16}>
+              Expert mode turns off the confirm transaction prompt and allows high slippage trades that often result in
+              bad rates and lost funds.
             </Text>
-          </ButtonError>
+            <Text fontWeight={600} fontSize={20} marginBottom={16}>
+              ONLY USE THIS MODE IF YOU KNOW WHAT YOU ARE DOING.
+            </Text>
+            <ButtonError
+              error={true}
+              padding={'12px'}
+              onClick={() => {
+                if (window.prompt(`Please type the word "confirm" to enable expert mode.`) === 'confirm') {
+                  toggleExpertMode()
+                  setShowConfirmation(false)
+                }
+              }}
+            >
+              <Text fontSize={14} fontWeight={500} id="confirm-expert-mode">
+                Turn On Expert Mode
+              </Text>
+            </ButtonError>
+          </ModalContentInnerWrapper>
         </ModalContentWrapper>
       </Modal>
       <StyledMenuButton onClick={toggle} id="open-settings-dialog-button">

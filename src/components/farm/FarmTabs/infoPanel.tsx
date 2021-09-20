@@ -83,7 +83,6 @@ const TitleModal = styled(HeaderText)`
   display: flex;
   width: 100%;
   text-align: center;
-  justify-content: flex-end;
   position: relative;
 `
 
@@ -101,7 +100,7 @@ const IconModal = styled('div')`
     position: absolute;
   }
 `
-interface apy {
+interface InfoPanelProps {
   data: string
   title: string
   label: string
@@ -109,11 +108,10 @@ interface apy {
   txt: string
   icon: string
   apyIcon: string
+  content: string
 }
-export default function InfoPanel(props: apy) {
+export default function InfoPanel(props: InfoPanelProps) {
   const [isOpen, setOpen] = useState(false)
-  const content =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi, lorem varius faucibus. Ultricies odio adipiscing integer nunc, quis etiam vehicula lacus. At venenatis elit orci sit diam amet. Vulputate orci id.'
 
   return (
     <Container color={props.color} txt={props.txt}>
@@ -132,7 +130,8 @@ export default function InfoPanel(props: apy) {
         </IconWrapper>
       </Wrapper>
       <Label>
-        {Number(props.data).toFixed(2)}<span>{props.label}</span>
+        {Number(props.data).toFixed(2)}
+        <span>{props.label}</span>
       </Label>
       <Title txt={props.txt}>{props.title}</Title>
       <Modal
@@ -157,7 +156,7 @@ export default function InfoPanel(props: apy) {
             </Header>
             <Content>
               <h1>What does &quot; {props.title} &quot; mean?</h1>
-              <p>{content}</p>
+              <p>{props.content}</p>
             </Content>
             <ButtonPrimary
               onClick={() => {

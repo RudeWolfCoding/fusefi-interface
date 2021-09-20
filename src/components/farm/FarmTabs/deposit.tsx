@@ -167,7 +167,11 @@ export default function Deposit({ farm }: { farm?: Farm }) {
         <span>{pairSymbol}</span>
       </InputWrapper>
       <Percentage selectPerecentage={setdepositValue} value={lpTokenBalance?.toSignificant()} />
-      <RewardCard title="Estimated Rewards" value={tryFormatDecimalAmount(estimatedReward, 18)} />
+      <RewardCard
+        title="Estimated Rewards"
+        content="Your estimated rewards reflect the amount of $FUSE you are expected to receive by the end of the program assuming there are no changes in deposits"
+        value={tryFormatDecimalAmount(estimatedReward, 18)}
+      />
       {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
         <RowBetween marginBottom={20}>
           <ButtonPrimary onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>

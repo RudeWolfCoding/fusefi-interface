@@ -150,7 +150,11 @@ export default function WithdrawReward({
         <span>{pairSymbol}</span>
       </InputWrapper>
       <Percentage selectPerecentage={setWithdrawValue} value={parsedTotalStake} />
-      <EstimatedRewards title="Accrued Rewards" value={tryFormatAmount(farm?.rewardsInfo[0].accuruedRewards, 18)} />
+      <EstimatedRewards
+        title="Accrued Rewards"
+        content="Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"
+        value={tryFormatAmount(farm?.rewardsInfo[0].accuruedRewards, 18)}
+      />
       <ButtonPrimary onClick={() => withdraw()}>Withdraw</ButtonPrimary>
     </Container>
   )

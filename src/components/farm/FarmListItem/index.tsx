@@ -1,44 +1,9 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import Icon from '../FarmList/icons'
-// import { Flex } from 'rebass'
 import { tryFormatDecimalAmount, tryFormatPercentageAmount } from '../../../utils'
 import { Farm } from '../../../constants/farms'
-import { useHistory } from 'react-router'
-
-// const Container = styled.div`
-//   position: relative;
-//   display: flex;
-//   flex-wrap: wrap;
-//   border-bottom: 1px solid black;
-//   font-weight: 800;
-//   :hover {
-//     background: #111219;
-//   }
-// `
-// const Wrapper = styled('div')`
-//   width: 100%;
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   padding-top: 10px;
-//   padding-bottom: 10px;
-// `
-
-// const Column = styled(Flex)`
-//   text-align: center;
-//   margin: auto;
-//   padding-left: 24px;
-//   line-height: 10px;
-//   font-size: 1.15rem;
-//   font-weight: 300;
-//   flex-wrap: wrap;
-// `
-
-// const Field = styled(Flex)`
-//   color: grey;
-//   display: flex;
-// `
+import { Link, useHistory } from 'react-router-dom'
 
 const Tr = styled.tr`
   border-bottom: 1px solid #111219;
@@ -84,18 +49,33 @@ const Badge = styled.div`
   color: #000;
 `
 
+const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+
+  :hover {
+    text-decoration: underline;
+  }
+`
+
 export default function FarmListItem({ farm }: { farm: Farm }) {
   const history = useHistory()
 
+  const farmPath = `/farm/${farm.contractAddress}`
+
   const selectFarm = useCallback(() => {
-    history.push(`/farm/${farm.contractAddress}`)
-  }, [farm.contractAddress, history])
+    history.push(farmPath)
+  }, [farmPath, history])
 
   return (
     <Tr key={farm.contractAddress}>
       <Td style={{ display: 'flex', alignItems: 'center' }}>
-        <Icon name="" pairName={farm.pairName} /> <br />
-        {farm.pairName}
+        <StyledLink to={farmPath}>
+          <Icon name="" pairName={farm.pairName} />
+          {farm.pairName}
+        </StyledLink>
       </Td>
       <Td style={{ textAlign: 'center' }}>
         <Badge>{farm.rewardsInfo ? tryFormatPercentageAmount(farm.rewardsInfo[0].apyPercent) : 0}%</Badge>

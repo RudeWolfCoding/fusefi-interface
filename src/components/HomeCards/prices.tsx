@@ -4,6 +4,7 @@ import numeral from 'numeral'
 import useFusePrice from '../../hooks/useFusePrice'
 import useFuseswapStats from '../../hooks/useFuseswapStats'
 import Card from '../home/Card'
+import { uppercaseText } from '../../utils'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,8 +24,8 @@ export default function HomePrices() {
   return (
     <Wrapper>
       <Card title="Fuse Price" value={`$${formatNumber(response)} USD`} valueDecimals={2} />
-      <Card title="Total Liquidity" value={formatNumber(totalLiquidityUSD)} />
-      <Card title="Total Volume" value={formatNumber(totalVolumeUSD)} />
+      <Card title="Total Liquidity" value={uppercaseText(formatNumber(totalLiquidityUSD))} />
+      <Card title="Total Volume" value={uppercaseText(formatNumber(totalVolumeUSD))} />
       <Card title="Total Pairs" value={pairCount} />
     </Wrapper>
   )
