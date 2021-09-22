@@ -69,7 +69,7 @@ const Wrapper = styled.div`
   }
 `
 
-const Select = styled('div')`
+const Link = styled.a`
   width: 40%;
   z-index: 1;
   content: 'Select';
@@ -82,9 +82,11 @@ const Select = styled('div')`
   transform-origin: right top 0;
   border-radius: 12px;
   margin: auto;
+  text-decoration: none;
   background: linear-gradient(90deg, #c2f6bf 0%, #f7fa9a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
   :after {
     content: 'asa';
     position: absolute;
@@ -177,8 +179,18 @@ export default function LendingItem(props: any) {
         </Apy>
 
         <Item>
-          <Select onClick={toggle}>Deposit</Select>
-          <Select onClick={toggle}>Borrow</Select>
+          <Link
+            target="_blank"
+            href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/markets"
+          >
+            Deposit
+          </Link>
+          <Link
+            target="_blank"
+            href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/markets"
+          >
+            Borrow
+          </Link>
         </Item>
       </Wrapper>
       <ExpandableWrapper></ExpandableWrapper>

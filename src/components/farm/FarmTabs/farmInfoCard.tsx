@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import styled from 'styled-components'
 import Questionmark from '../../../assets/svg/questionmark-purple.svg'
 import { ButtonPrimary } from '../../Button'
@@ -36,15 +36,14 @@ const Icon2 = styled('div')`
   }
 `
 
-const Container = styled('div')`
+const Container = styled.div<{ width?: string }>`
   background: #111219;
   border-radius: 16px;
   display: flex;
   padding: 16px;
   flex-direction: column;
-  margin: auto;
   margin-bottom: 24px;
-  width: 100%;
+  width: ${({ width }) => (width ? width : '100%')};
   overflow: hidden;
   text-align: left;
   justify-content: flex-end;
@@ -58,7 +57,7 @@ const Container = styled('div')`
     }
   }
 `
-const Wrapper = styled('div')`
+const Wrapper = styled.div`
   display: flex;
   width: 100%;
   text-align: center;
@@ -68,6 +67,7 @@ const Wrapper = styled('div')`
   margin: 3px;
   position: relative;
 `
+
 export const StyledModal = styled.div`
   z-index: 100;
   padding: 24px;
@@ -114,23 +114,40 @@ const Item = styled('div')`
   position: relative;
 `
 
-export default function RewardCard({ title, content, value }: any) {
+const TextWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+`
+
+type FarmInfoCardProps = {
+  title: string
+  content?: string
+  value?: ReactNode
+  width?: string
+  button?: ReactNode
+}
+
+export default function FarmInfoCard({ title, content, value, width, button }: FarmInfoCardProps) {
   const [isOpen, setOpen] = useState(false)
   return (
-    <Container>
+    <Container width={width}>
       <Wrapper>
         <span>Your {title}</span>
-        <Icon
-          onClick={() => {
-            setOpen(true)
-          }}
-        >
-          <img src={Questionmark} width="14px" height="14px" alt="Question icon"></img>
-        </Icon>
+        {content && (
+          <Icon
+            onClick={() => {
+              setOpen(true)
+            }}
+          >
+            <img src={Questionmark} width="14px" height="14px" alt="Question icon"></img>
+          </Icon>
+        )}
       </Wrapper>
-      <p>
-        <span>{value}</span>&nbsp;<span> - WFUSE</span>
-      </p>
+      <TextWrapper>
+        <span>{value}</span>
+        {button}
+      </TextWrapper>
       <Modal
         maxHeight={90}
         isOpen={isOpen}

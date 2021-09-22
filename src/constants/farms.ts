@@ -21,6 +21,8 @@ export interface Farm {
   rewardsInfo?: Array<any>
   totalStaked?: string
   globalTotalStake?: string
+  start?: number
+  duration?: number
   end?: number
 }
 

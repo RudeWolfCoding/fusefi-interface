@@ -8,7 +8,7 @@ import { Reward, User } from '../../../utils/farm/constants'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
 import Percentage from './percentage'
-import RewardCard from './modal'
+import FarmInfoCard from './farmInfoCard'
 import styled from 'styled-components'
 import { useToken } from '../../../hooks/Tokens'
 import { TokenAmount } from '@fuseio/fuse-swap-sdk'
@@ -21,6 +21,10 @@ const Container = styled('div')`
   text-align: left;
   display: flex;
   flex-wrap: wrap;
+  width: 402px;
+  max-width: 100%;
+  margin: 0 auto;
+
   > div {
     width: 100%;
   }
@@ -167,7 +171,7 @@ export default function Deposit({ farm }: { farm?: Farm }) {
         <span>{pairSymbol}</span>
       </InputWrapper>
       <Percentage selectPerecentage={setdepositValue} value={lpTokenBalance?.toSignificant()} />
-      <RewardCard
+      <FarmInfoCard
         title="Estimated Rewards"
         content="Your estimated rewards reflect the amount of $FUSE you are expected to receive by the end of the program assuming there are no changes in deposits"
         value={tryFormatDecimalAmount(estimatedReward, 18)}

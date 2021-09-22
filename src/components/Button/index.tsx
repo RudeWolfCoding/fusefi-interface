@@ -41,7 +41,7 @@ const Base = styled(RebassButton)<{
 
 export const ButtonPrimary = styled(Base)`
   background: ${({ theme }) => theme.bg8};
-  color: ${({ theme }) => theme.text6};
+  color: black;
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
     background-color: ${({ theme }) => darken(0.05, theme.primary1)};

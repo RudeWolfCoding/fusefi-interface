@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useActiveWeb3React } from '../../../hooks'
-import Claim from './claim'
+import Stats from './stats'
 import Withdraw from './withdraw'
 import Deposit from './deposit'
 import { Flex } from 'rebass'
@@ -15,17 +15,18 @@ const Wrapper = styled('div')`
   min-height: 342px;
   display: flex;
   flex-wrap: wrap;
-  padding: 2% 125px 24px;
   border-radius: 12px;
+  padding: 16px 16px 36px;
 `
 
 const TabGroup = styled.div`
   display: flex;
-  border-radius: 16px;
-  width: 100%;
-  height: 48px;
-  margin-bottom: 16px;
   background: #111219;
+  border-radius: 16px;
+  width: 402px;
+  max-width: 100%;
+  height: 48px;
+  margin: 0 auto 16px;
 `
 
 const Tab = styled.button<{ active: any }>`
@@ -38,6 +39,7 @@ const Tab = styled.button<{ active: any }>`
   position: relative;
   background: none;
   border-radius: 0;
+
   ${({ active }) =>
     active &&
     `
@@ -71,7 +73,7 @@ function FarmTab(tab: string, farm: any) {
     case 'Withdraw':
       return <Withdraw farm={farm} />
     case 'Stats':
-      return <Claim farm={farm} />
+      return <Stats farm={farm} />
     default:
       return <div />
   }

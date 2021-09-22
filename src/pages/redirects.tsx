@@ -6,7 +6,7 @@ import { ChainId } from '@fuseio/fuse-swap-sdk'
 export function RedirectToDefault(props: RouteComponentProps) {
   const { chainId } = useActiveWeb3React()
 
-  const path = chainId === ChainId.FUSE ? '/swap' : '/bridge'
+  const path = chainId === ChainId.FUSE ? '/home' : '/bridge'
 
   return (
     <Redirect
