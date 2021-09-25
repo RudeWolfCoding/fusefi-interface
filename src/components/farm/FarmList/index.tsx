@@ -43,6 +43,7 @@ export default function FarmList({ farms }: FarmListProps) {
           <tr>
             <Th>Farm</Th>
             <Th style={{ textAlign: 'center' }}>APY</Th>
+            <Th style={{ textAlign: 'right' }}>Total Staked</Th>
             <Th style={{ textAlign: 'right' }}>TVL</Th>
             <Th style={{ textAlign: 'right' }}>Rewards</Th>
             <Th>&nbsp;</Th>

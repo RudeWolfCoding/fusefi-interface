@@ -5,13 +5,25 @@ import fuse from '../../assets/svg/pairs/fuse.svg'
 
 import styled from 'styled-components'
 import React from 'react'
+import { FUSE_USDC, FUSE_WBTC, FUSE_WETH } from '../../constants'
 
-export default function LendingIcons(props: { name: string; contract: string }) {
-  const Map: { [name: string]: any } = {
-    WBTC: wbtc,
-    WETH: weth,
-    USDC: usdc,
-    FUSE: fuse
+interface LendingIconProps {
+  address: string
+}
+
+export default function LendingIcon({ address }: LendingIconProps) {
+  const IconMap = {
+    [FUSE_WBTC.address]: wbtc,
+    [FUSE_WETH.address]: weth,
+    [FUSE_USDC.address]: usdc,
+    '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE': fuse
+  }
+
+  const NameMap = {
+    [FUSE_WBTC.address]: 'WBTC',
+    [FUSE_WETH.address]: 'WETH',
+    [FUSE_USDC.address]: 'USDC',
+    '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE': 'FUSE'
   }
 
   const Container = styled.div`
@@ -31,8 +43,8 @@ export default function LendingIcons(props: { name: string; contract: string }) 
 
   return (
     <Container>
-      <img src={Map[props.name]} alt="" />
-      <span>{props.name}</span>
+      <img src={IconMap[address]} alt="" />
+      <span>{NameMap[address]}</span>
     </Container>
   )
 }

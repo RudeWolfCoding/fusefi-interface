@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import numeral from 'numeral'
 import Icon from './icons'
-
-const ExpandableWrapper = styled.div`
-  overflow: hidden;
-  width: 100%;
-  display: block;
-`
+import { Market } from '../../state/lending/hooks'
 
 const TitleIcon = styled('div')`
   flex: 1 1 19%;
@@ -109,73 +105,52 @@ const Link = styled.a`
     -webkit-text-fill-color: black;
   }
 `
-const APYField = styled('div')`
+
+const ApyField = styled.div<{ background?: string }>`
   font-family: 'Inter';
-  padding: 0.5rem;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
+  font-size: 16px;
+  padding: 10px;
   text-align: center;
-  color: #4b4b4b;
+  color: black;
   margin: auto;
   border-radius: 999px;
-  background: linear-gradient(0deg, #d0f7d7, #d0f7d7);
+  background: ${({ background }) => background};
 `
 
-const ApyField = styled('div')`
-  font-family: 'Inter';
-  padding: 0.5rem;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #4b4b4b;
-  margin: auto;
-  border-radius: 999px;
-  background: linear-gradient(0deg, #fdffb2, #fdffb2);
-`
+interface LendingMarketProps {
+  market: Market
+}
 
-export default function LendingItem(props: any) {
-  const [contracts, setState] = useState({ ...props.data })
-
-  function toggle() {
-    window.location.replace('/#/lending/' + contracts.contractAddress)
-  }
-  useEffect(() => {
-    setState(props.data)
-
-    return () => {
-      setState(props.data)
-    }
-  }, [props.data])
-
+export default function LendingMarket({ market }: LendingMarketProps) {
   return (
     <Container>
       <Wrapper>
-        <TitleIcon onClick={toggle}>
-          <Icon contract={contracts.contractAddress} name={contracts.asset}></Icon>
+        <TitleIcon>
+          <Icon address={market.underlyingAssetAddress} />
         </TitleIcon>
 
         <Item>
           <p>
-            $ {contracts.size}
+            {numeral(market.liquidity).format('$0a')}
             <span> USD</span>
           </p>
         </Item>
 
         <Item>
           <p>
-            $ {contracts.borrowed}
+            {numeral(market.borrowBalance).format('$0a')}
             <span> USD</span>
           </p>
         </Item>
         <Apy>
-          <APYField>173%</APYField>
+          <ApyField background="linear-gradient(0deg, #d0f7d7, #d0f7d7)">
+            {numeral(market.supplyApy).format('0.0000')}%
+          </ApyField>
         </Apy>
         <Apy>
-          <ApyField>173%</ApyField>
+          <ApyField background="linear-gradient(0deg, #fdffb2, #fdffb2)">
+            {numeral(market.borrowApy).format('0.0000')}%
+          </ApyField>
         </Apy>
 
         <Item>
@@ -193,7 +168,6 @@ export default function LendingItem(props: any) {
           </Link>
         </Item>
       </Wrapper>
-      <ExpandableWrapper></ExpandableWrapper>
     </Container>
   )
 }

@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import Item from './item'
+import numeral from 'numeral'
+import LendingMarket from './LendingMarket'
 import href from '../../assets/svg/href.svg'
+import { Market, useLendingMarkets } from '../../state/lending/hooks'
+import Loader from '../Loaders/table'
 
 const Wrapper = styled('div')`
   display: flex;
@@ -38,11 +41,6 @@ const DateField = styled('div')`
   border-bottom: 1px solid black;
 `
 
-const APYField = styled('div')`
-  flex: 1 1 19%;
-  line-height: 3rem;
-  border-bottom: 1px solid black;
-`
 const SupplyField = styled('div')`
   flex: 1 1 11%;
   line-height: 3rem;
@@ -54,8 +52,12 @@ const Supply = styled('div')`
   background: #0e4f3f;
   padding: 15px;
   margin-right: 10px;
+  > p {
+    margin-bottom: 8px;
+  }
   > span {
     color: #1c9e7e;
+    font-size: 14px;
   }
   :hover {
     filter: brightness(120%);
@@ -67,8 +69,12 @@ const Borrowed = styled('div')`
   background: #473660;
   padding: 15px;
   margin-right: 10px;
+  > p {
+    margin-bottom: 8px;
+  }
   > span {
     color: #8e6cc0;
+    font-size: 14px;
   }
   :hover {
     filter: brightness(120%);
@@ -97,24 +103,27 @@ const Ola = styled('a')`
 `
 
 export default function Lending() {
-  const [filteredPolls] = useState<any[]>([
-    { asset: 'WBTC', size: '120.93M', borrowed: '119.92 M', apy: '176' },
-    { asset: 'WETH', size: '120.93M', borrowed: '119.92 M', apy: '176' },
-    { asset: 'USDC', size: '120.93M', borrowed: '119.92 M', apy: '176' },
-    { asset: 'FUSE', size: '120.93M', borrowed: '119.92 M', apy: '176' }
-  ])
-  const [loading] = useState(false)
+  const lendingMarkets = useLendingMarkets()
+
+  const [supplyBalance, borrowBalance] = useMemo(
+    () =>
+      lendingMarkets.reduce(
+        (memo: any, market: any) => [memo[0] + market.supplyBalance, memo[1] + market.borrowBalance],
+        [0, 0]
+      ),
+    [lendingMarkets]
+  )
 
   return (
     <div>
       <Selector>
         <Supply>
-          <p>$ 999.999.999 USD</p>
+          <p>{numeral(supplyBalance).format('$0,0')} USD</p>
           <span>Network Supply Balance</span>
         </Supply>
         <Borrowed>
-          <p>$ 999.999.999 USD</p>
-          <span>Network Borrowed Balance</span>
+          <p>{numeral(borrowBalance).format('$0,0')} USD</p>
+          <span>Network Borrow Balance</span>
         </Borrowed>
         <Ola href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/network" target="_blank">
           <img
@@ -132,7 +141,6 @@ export default function Lending() {
 
           <DateField>Total Borrowed</DateField>
           <SupplyField>Deposit APY</SupplyField>
-          {loading === true ? <APYField>Borrow APY</APYField> : null}
           <SupplyField>Borrow APR</SupplyField>
 
           <DateField>
@@ -140,12 +148,15 @@ export default function Lending() {
           </DateField>
         </Wrapper>
 
-        {filteredPolls &&
-          filteredPolls.map(poll => (
-            <div key={poll.asset}>
-              <Item data={poll} active={loading}></Item>
+        {lendingMarkets.length ? (
+          lendingMarkets.map((lendingMarket: Market) => (
+            <div key={lendingMarket.underlyingAssetAddress}>
+              <LendingMarket market={lendingMarket} />
             </div>
-          ))}
+          ))
+        ) : (
+          <Loader />
+        )}
       </Container>
     </div>
   )

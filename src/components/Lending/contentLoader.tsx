@@ -1,7 +1,7 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-const ResponsiveArticle = (props: any) => {
+const LendingLoader = (props: any) => {
   return (
     <div>
       <ContentLoader
@@ -19,4 +19,4 @@ const ResponsiveArticle = (props: any) => {
   )
 }
 
-export default ResponsiveArticle
+export default LendingLoader

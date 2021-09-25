@@ -49,6 +49,9 @@ export const BSC_BNB_NATIVE_TO_ERC20_BRIDGE_FOREIGN_ADDRESS = unwrapOrThrow(
 )
 export const BNB_FOREIGN_TOKEN_ADDRESS = unwrapOrThrow('BNB_FOREIGN_TOKEN_ADDRESS')
 
+export const COMPTROLLER_ADDRESS = '0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7'
+export const COMPOUND_LENS_ADDRESS = '0x6EC44309b954376Df93f570618e4B267cB10c00b'
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
