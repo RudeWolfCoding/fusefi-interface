@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useComptrollerContract, useLensContract } from '../../hooks/useContract'
 import useContractCallStatic from '../../hooks/useContractCallStatic'
+import { isObjectEmpty, calculateApy } from '../../utils'
 import { useSingleCallResult } from '../multicall/hooks'
 
 export interface Market {
@@ -11,13 +12,6 @@ export interface Market {
   borrowApy: number
   liquidity: number
   underlyingAssetAddress: any
-}
-
-function calculateApy(ratePerBlock: any) {
-  const ethMantissa = 1e18
-  const blocksPerDay = 86400 / 5
-  const daysPerYear = 365
-  return (Math.pow((ratePerBlock / ethMantissa) * blocksPerDay + 1, daysPerYear) - 1) * 100
 }
 
 function useMarketAddersses(): Array<string> {
@@ -65,8 +59,9 @@ export function useLendingMarkets() {
   const marketsData = useMarketsData(marketAddresses)
 
   return useMemo((): Array<Market> => {
-    return Object.keys(marketsData) && Object.keys(marketPrices)
+    return !isObjectEmpty(marketsData) && !isObjectEmpty(marketPrices)
       ? marketAddresses.map((market: string) => {
+          console.log(marketsData, marketPrices, market)
           const marketData = marketsData[market]
           const underlyingPrice = marketPrices[market]
           const {

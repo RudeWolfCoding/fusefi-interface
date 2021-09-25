@@ -81,7 +81,7 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
         <Badge>{farm.rewardsInfo ? tryFormatPercentageAmount(farm.rewardsInfo[0].apyPercent) : 0}%</Badge>
       </Td>
       <Td style={{ textAlign: 'right' }}>
-        <Text>{tryFormatDecimalAmount(farm.totalStaked, 18)}</Text>
+        <Text>{tryFormatDecimalAmount(farm.totalStaked, 18, 10)}</Text>
       </Td>
       <Td style={{ textAlign: 'right' }}>
         <Text style={{ marginBottom: '2px' }}>
