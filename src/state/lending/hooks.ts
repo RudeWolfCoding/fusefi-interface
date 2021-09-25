@@ -61,7 +61,6 @@ export function useLendingMarkets() {
   return useMemo((): Array<Market> => {
     return !isObjectEmpty(marketsData) && !isObjectEmpty(marketPrices)
       ? marketAddresses.map((market: string) => {
-          console.log(marketsData, marketPrices, market)
           const marketData = marketsData[market]
           const underlyingPrice = marketPrices[market]
           const {
