@@ -1,10 +1,10 @@
 import React from 'react'
-import image from './logo.svg'
+import image from './fusefi-logo.svg'
 import styled from 'styled-components'
 
 const Img = styled.img.attrs({
   src: image,
-  width: '114px',
+  width: '130px',
   alt: 'FuseFi Logo'
 })`
   padding: 24px 0 30px 24px;

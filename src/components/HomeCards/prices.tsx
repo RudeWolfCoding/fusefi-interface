@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 `
 
 export default function HomePrices() {
-  const { response } = useFusePrice()
+  const { response: fusePrice } = useFusePrice()
   const { pairCount, totalLiquidityUSD, totalVolumeUSD } = useFuseswapStats()
 
   const formatNumber = useCallback((value: string) => {
@@ -23,7 +23,7 @@ export default function HomePrices() {
 
   return (
     <Wrapper>
-      <Card title="Fuse Price" value={`$${formatNumber(response)} USD`} valueDecimals={2} />
+      <Card title="Fuse Price" value={`${numeral(fusePrice).format('$0.00a')} USD`} valueDecimals={2} />
       <Card title="Total Liquidity" value={'$' + uppercaseText(formatNumber(totalLiquidityUSD))} />
       <Card title="Total Volume" value={'$' + uppercaseText(formatNumber(totalVolumeUSD))} />
       <Card title="Total Pairs" value={pairCount} />
