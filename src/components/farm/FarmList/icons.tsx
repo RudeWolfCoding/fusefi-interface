@@ -44,6 +44,7 @@ export default function Icon({ name, pairName, height }: IconProps) {
     'KNC/USDC': fusdfuse,
     'fUSD/FUSE': fusdfuse,
     'WETH/FUSE': wethfuse,
+    'ETH/FUSE': wethfuse,
     'WBTC/WETH': wbtcweth,
     'DAI/USDT': daiusdt,
     'OM/USDC': omusdc,

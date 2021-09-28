@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
 import { FARM_CONTRACTS } from '../../constants/farms'
 import { useActiveWeb3React } from '../../hooks'
@@ -13,6 +14,7 @@ async function fetchFarm(
   const stats = await rewardProgram.getStats(account, LPToken, networkId, rewards)
   const [totalStaked] = await rewardProgram.getStakerInfo(account, rewards[0])
   const stakingTimes = await rewardProgram.getStakingTimes(rewards[0])
+  const isExpired = stakingTimes.end < dayjs().unix()
   return {
     contractAddress,
     rewards,
@@ -20,6 +22,7 @@ async function fetchFarm(
     networkId,
     pairName,
     totalStaked,
+    isExpired,
     ...stats,
     ...stakingTimes
   }
