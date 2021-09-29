@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const Img = styled.img.attrs({
   src: image,
-  width: '130px',
+  width: '140px',
   alt: 'FuseFi Logo'
 })`
   padding: 24px 0 30px 24px;

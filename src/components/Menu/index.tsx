@@ -20,6 +20,7 @@ const StyledMenu = styled.div`
   border: none;
   text-align: left;
   z-index: 100;
+  position: relative;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     display: none;
   `};
@@ -159,9 +160,9 @@ const MenuWrapper = styled.div`
 const SubMenuWrapper = styled.div`
   display: flex;
   align-items: flex-end;
-  position: relative;
+  position: absolute;
   width: 100%;
-  height: 40%;
+  bottom: 0;
 `
 
 const IconWrapper = styled.div<{ size?: number }>`
