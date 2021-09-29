@@ -72,7 +72,7 @@ class MiniRpcProvider implements AsyncSendable {
       return
     }
 
-    /*   let json
+    let json
     try {
       json = await response.json()
     } catch (error) {
@@ -98,7 +98,7 @@ class MiniRpcProvider implements AsyncSendable {
           reject(new RequestError(`Received unexpected JSON-RPC response to ${method} request.`, -32000, result))
         }
       }
-    } */
+    }
   }
 
   public readonly sendAsync = (

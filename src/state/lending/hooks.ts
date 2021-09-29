@@ -1,8 +1,6 @@
-import { useMemo } from 'react'
-import { useComptrollerContract, useLensContract } from '../../hooks/useContract'
-import useContractCallStatic from '../../hooks/useContractCallStatic'
+import { useEffect, useMemo, useState } from 'react'
 import { isObjectEmpty, calculateApy } from '../../utils'
-import { useSingleCallResult } from '../multicall/hooks'
+import { getMarketAddresses, getMarketPrices, getMarketsData } from '../../utils/lending'
 
 export interface Market {
   priceUSD: number
@@ -15,42 +13,33 @@ export interface Market {
 }
 
 function useMarketAddersses(): Array<string> {
-  const comptrollerContract = useComptrollerContract()
-  const { result } = useSingleCallResult(comptrollerContract, 'getAllMarkets')
+  const [addresses, setAddresses] = useState([])
 
-  return useMemo(() => {
-    return result ? result[0] : []
-  }, [result])
+  useEffect(() => {
+    getMarketAddresses().then(setAddresses)
+  }, [])
+
+  return addresses
 }
 
 function useMarketPrices(marketAddresses: Array<string>) {
-  const compoundLensContract = useLensContract()
+  const [prices, setPrices] = useState<any>({})
 
-  const { result } = useSingleCallResult(compoundLensContract, 'cTokenUnderlyingPriceAll', [marketAddresses])
+  useEffect(() => {
+    getMarketPrices(marketAddresses).then(setPrices)
+  }, [marketAddresses])
 
-  return useMemo(() => {
-    return result
-      ? result[0].reduce((memo: any, result: any) => {
-          memo[result.cToken] = result.underlyingPrice
-          return memo
-        }, {})
-      : {}
-  }, [result])
+  return prices
 }
 
 function useMarketsData(marketAddresses: Array<string>) {
-  const compoundLensContract = useLensContract()
+  const [marketsData, setMarketsData] = useState<any>({})
 
-  const result: any = useContractCallStatic(compoundLensContract, 'cTokenMetadataAll', marketAddresses)
+  useEffect(() => {
+    getMarketsData(marketAddresses).then(setMarketsData)
+  }, [marketAddresses])
 
-  return useMemo(() => {
-    return result
-      ? result.reduce((memo: any, result: any) => {
-          memo[result.cToken] = result
-          return memo
-        }, {})
-      : {}
-  }, [result])
+  return marketsData
 }
 
 export function useLendingMarkets() {
