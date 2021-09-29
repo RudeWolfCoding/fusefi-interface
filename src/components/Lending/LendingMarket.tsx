@@ -156,13 +156,13 @@ export default function LendingMarket({ market }: LendingMarketProps) {
         <Item>
           <Link
             target="_blank"
-            href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/markets"
+            href="https://app.ola.finance/networks/0x26a562B713648d7F3D1E1031DCc0860A4F3Fa340/markets"
           >
             Deposit
           </Link>
           <Link
             target="_blank"
-            href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/markets"
+            href="https://app.ola.finance/networks/0x26a562B713648d7F3D1E1031DCc0860A4F3Fa340/markets"
           >
             Borrow
           </Link>
