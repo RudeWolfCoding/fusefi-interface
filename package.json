@@ -1,6 +1,6 @@
 {
-  "name": "@uniswap/interface",
-  "description": "Uniswap Interface",
+  "name": "@fuseio/fusefi-interface",
+  "description": "FuseFi Interface",
   "homepage": ".",
   "private": true,
   "devDependencies": {

@@ -9,7 +9,7 @@ export default function useRampWidget() {
     if (!account) return
 
     const widget = new RampInstantSDK({
-      hostAppName: 'FuseSwap',
+      hostAppName: 'FuseFi',
       hostLogoUrl: 'https://fuse-brand-assets.s3.eu-central-1.amazonaws.com/fuse.png',
       swapAsset: 'FUSE_FUSD',
       userAddress: account,

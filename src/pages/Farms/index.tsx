@@ -38,7 +38,7 @@ export default function Farms() {
       <Container>
         <Header>FUSE LP Farm</Header>
         <SubHeader>
-          Please choose your preferred pair, provide liquidity on Fuseswap (Fuse) then deposit your LP tokens and start
+          Please choose your preferred pair, provide liquidity on FuseFi (Fuse) then deposit your LP tokens and start
           earning Fuse.
         </SubHeader>
         <FarmList farms={farms} />

@@ -49,7 +49,7 @@ function BridgeInfo() {
         <RowCenter style={{ alignItems: 'flex-start' }}>
           <TYPE.body fontSize={18} fontWeight={500} textAlign="center" style={{ marginTop: '-3px' }}>
             <InfoIcon />
-            To start using FuseSwap please use the bridge to deposit your tokens Or{' '}
+            To start using FuseFi please use the bridge to deposit your tokens Or{' '}
             {isAddChainEnabled ? (
               <Link id="fuse-connect-open" onClick={() => addChain(FUSE_CHAIN)}>
                 Switch to Fuse Network

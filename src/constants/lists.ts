@@ -1,6 +1,6 @@
 import { unwrapOrThrow } from '../utils'
 
-// the Uniswap Default token list lives here
+// the FuseFi Default token list lives here
 export const QA_BRIDGE_DEFAULT_TOKEN_LIST_URL =
   'https://raw.githubusercontent.com/fuseio/fuseswap-interface/master/src/constants/qa/tokenlist.json'
 export const BETA_BRIDGE_DEFAULT_TOKEN_LIST_URL =

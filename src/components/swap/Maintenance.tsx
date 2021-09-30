@@ -28,7 +28,7 @@ export default function Maintenance() {
             </RowCenter>
             <RowCenter>
               <TYPE.body fontSize={18} fontWeight={500} textAlign="center">
-                FuseSwap is in Maintenance mode. <br /> <ExternalLink href="">Click here</ExternalLink> to learn more.
+                FuseFi is in Maintenance mode. <br /> <ExternalLink href="">Click here</ExternalLink> to learn more.
               </TYPE.body>
             </RowCenter>
           </AutoColumn>
