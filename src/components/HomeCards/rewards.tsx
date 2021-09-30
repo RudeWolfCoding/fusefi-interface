@@ -40,7 +40,7 @@ export default function HomeRewards() {
     <Wrap>
       <Container href="https://rewards.fuse.io/" target="_blank">
         <Header>
-          <img src={image} alt="reward icon" width="116px" />
+          <img src={image} alt="reward icon" width="100px" />
           <img src={floater} alt="close button" width="40px" />
         </Header>
         <Title>Check out Fuse rewards on Mainnet and BSC</Title>

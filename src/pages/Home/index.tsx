@@ -5,6 +5,7 @@ import Analytics from '../../components/HomeCards/analytics'
 import Reward from '../../components/HomeCards/rewards'
 import styled from 'styled-components'
 import News from '../../components/News'
+import FuseCashBanner from '../../components/FuseCashBanner'
 
 const Wrap = styled('div')`
   padding-left: 10%;
@@ -23,7 +24,6 @@ const Container = styled('div')`
   align-content: center;
   margin: auto;
   z-index: 3;
-  margin-bottom: 120px;
 `
 const Item = styled('div')`
   text-align: left;
@@ -62,6 +62,7 @@ export default function HomePage() {
             <Reward />
           </Item>
         </Container>
+        <FuseCashBanner />
       </Wrap>
     </AppBody>
   )

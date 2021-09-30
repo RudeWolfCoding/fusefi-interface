@@ -37,7 +37,7 @@ const Text = styled.p`
   font-size: 16px;
   color: #b5b9d3;
   margin-top: 8px;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 `
 
 const Header = styled.div`
