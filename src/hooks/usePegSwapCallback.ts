@@ -67,7 +67,7 @@ export default function usePegSwapCallback(
       } else if (inputAmount && balance && balance.lessThan(inputAmount)) {
         error = `Insufficient ${inputCurrency.symbol} balance`
       } else if (Number(typedValue) > Number(liquidity)) {
-        error = `Above maximum limit ${liquidity}`
+        error = `Insufficient liquidity`
       } else if (minimum && Number(typedValue) < Number(minimum)) {
         error = `Below minimum limit ${minimum}`
       }
