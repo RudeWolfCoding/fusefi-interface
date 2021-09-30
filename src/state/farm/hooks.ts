@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
 import { FARM_CONTRACTS } from '../../constants/farms'
 import { useActiveWeb3React } from '../../hooks'
+import { tryFormatAmount } from '../../utils'
 import { getProgram } from '../../utils/farm'
 import { useBlockNumber } from '../application/hooks'
 
@@ -15,6 +16,11 @@ async function fetchFarm(
   const [totalStaked] = await rewardProgram.getStakerInfo(account, rewards[0])
   const stakingTimes = await rewardProgram.getStakingTimes(rewards[0])
   const isExpired = stakingTimes.end < dayjs().unix()
+  const durationInDays = stakingTimes.duration / 86400
+  const totalRewards = tryFormatAmount(stats.rewardsInfo[0].totalRewards, 18) ?? 0
+  const rewardsUSDPerDay = stats.rewardsInfo[0].totalRewardsInUSD / durationInDays
+  const rewardsPerDay = Number(totalRewards) / durationInDays
+
   return {
     contractAddress,
     rewards,
@@ -23,6 +29,8 @@ async function fetchFarm(
     pairName,
     totalStaked,
     isExpired,
+    rewardsUSDPerDay,
+    rewardsPerDay,
     ...stats,
     ...stakingTimes
   }

@@ -25,6 +25,8 @@ export interface Farm {
   duration?: number
   end?: number
   isExpired?: boolean
+  rewardsPerDay?: number
+  rewardsUSDPerDay?: number
 }
 
 export const FARM_CONTRACTS: {

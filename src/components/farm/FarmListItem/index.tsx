@@ -93,10 +93,10 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
       </Td>
       <Td style={{ textAlign: 'right' }}>
         <Text style={{ marginBottom: '2px' }}>
-          0 <GreyText>USD / day</GreyText>
+          {farm.rewardsUSDPerDay?.toFixed(0)} <GreyText>USD / day</GreyText>
         </Text>
         <Text>
-          0 <GreyText>FUSE / day</GreyText>
+          {farm.rewardsPerDay?.toFixed(0)} <GreyText>FUSE / day</GreyText>
         </Text>
       </Td>
       <Td style={{ textAlign: 'center' }}>

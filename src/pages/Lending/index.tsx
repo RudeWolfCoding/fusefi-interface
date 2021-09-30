@@ -35,8 +35,8 @@ export default function LendingPage() {
             {' '}
             <h1>Fuse Lending</h1>
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquet mauris volutpat neque congue ullamcorper
-              amet pellentesque sem. Sit in urna.
+              Fuse Lending in partnership with ola.finance allows Fusefi users to borrow or lend their favorite assets
+              with more rewards and lending assets added on a regular basis. Use with fuse.cash for the best experience.
             </span>{' '}
           </Text>
           <Lending />
