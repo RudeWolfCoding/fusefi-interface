@@ -138,7 +138,7 @@ export const ButtonSecondary = styled(Base)`
   }
 `
 export const ButtonTertiary = styled(Base)`
-  border: 2px solid #111219;
+  border: 2px solid ${({ theme }) => theme.secondary4};
   color: ${({ theme }) => theme.bg7};
   font-size: 14px;
   font-weight: 500;

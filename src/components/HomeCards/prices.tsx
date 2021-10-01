@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import numeral from 'numeral'
-import useFusePrice from '../../hooks/useFusePrice'
-import useFuseswapStats from '../../hooks/useFuseswapStats'
+import { ChainId, WETH } from '@fuseio/fuse-swap-sdk'
+import useTokenPrice from '../../hooks/useTokenPrice'
+import useFuseswapFactoryData from '../../hooks/useFuseswapFactoryData'
 import Card from '../home/Card'
 import { uppercaseText } from '../../utils'
 
@@ -14,8 +15,8 @@ const Wrapper = styled.div`
 `
 
 export default function HomePrices() {
-  const { response: fusePrice } = useFusePrice()
-  const { pairCount, totalLiquidityUSD, totalVolumeUSD } = useFuseswapStats()
+  const fusePrice = useTokenPrice(WETH[ChainId.FUSE].address) // use WFUSE
+  const { pairCount, totalLiquidityUSD, totalVolumeUSD } = useFuseswapFactoryData()
 
   const formatNumber = useCallback((value: string) => {
     return numeral(value).format('0.0a')

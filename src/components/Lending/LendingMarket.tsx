@@ -58,7 +58,7 @@ const Wrapper = styled.div`
   font-weight: 800;
   :hover {
     font-weight: 800;
-    background: #111219;
+    background: ${({ theme }) => theme.secondary4};
     opacity: 0.85;
     text-orientation: upright;
     height: 100%;

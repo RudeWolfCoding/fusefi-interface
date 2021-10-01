@@ -26,7 +26,7 @@ import Maintenance from '../../components/swap/Maintenance'
 import MainCard from '../../components/MainCard'
 
 const DarkCard = styled(LightCard)`
-  background: #111219;
+  background: ${({ theme }) => theme.secondary4};
   border: 0;
   font-weight: 500;
 `

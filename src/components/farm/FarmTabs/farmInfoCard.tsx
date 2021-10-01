@@ -37,7 +37,7 @@ const Icon2 = styled('div')`
 `
 
 const Container = styled.div<{ width?: string }>`
-  background: #111219;
+  background: ${({ theme }) => theme.secondary4};
   border-radius: 16px;
   display: flex;
   padding: 16px;

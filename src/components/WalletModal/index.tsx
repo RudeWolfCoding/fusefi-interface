@@ -373,8 +373,10 @@ export default function WalletModal({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to Ethereum? &nbsp;</span>{' '}
-              <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
+              <span>New to crypto? &nbsp;</span>{' '}
+              <ExternalLink href="https://click.fuse.cash/q9FM/f7790d61">
+                Install Fuse.cash and choose WalletConnect
+              </ExternalLink>
             </Blurb>
           )}
         </ContentWrapper>

@@ -87,6 +87,7 @@ export function colors(darkMode: boolean): Colors {
     secondary1: '#019BFF',
     secondary2: '#17000b26',
     secondary3: '#17000b26',
+    secondary4: '#111219',
 
     // other
     red1: '#FF6871',

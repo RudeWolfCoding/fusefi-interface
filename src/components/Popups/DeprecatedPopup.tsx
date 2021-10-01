@@ -23,7 +23,7 @@ const Title = styled('div')`
   line-height: 21px;
   font-size: 16px;
   width: 100%;
-  color: #111219;
+  color: ${({ theme }) => theme.secondary4};
   padding-left: 5px;
 `
 

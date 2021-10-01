@@ -21,7 +21,7 @@ const Wrapper = styled('div')`
 
 const TabGroup = styled.div`
   display: flex;
-  background: #111219;
+  background: ${({ theme }) => theme.secondary4};
   border-radius: 16px;
   width: 402px;
   max-width: 100%;

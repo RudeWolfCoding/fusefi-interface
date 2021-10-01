@@ -18,7 +18,7 @@ const Table = styled.table`
 `
 
 const Th = styled.th`
-  border-bottom: 1px solid #111219;
+  border-bottom: 1px solid ${({ theme }) => theme.secondary4};
   padding 12px 16px;
   font-weight: 500;
 `

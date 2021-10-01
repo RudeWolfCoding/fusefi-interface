@@ -20,7 +20,7 @@ enum DeadlineError {
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  background: #111219;
+  background: ${({ theme }) => theme.secondary4};
 `
 const FancyButton = styled.button`
   color: ${({ theme }) => theme.text1};

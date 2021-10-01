@@ -1,9 +1,9 @@
 import { diffTokenLists, TokenList } from '@fuseio/token-lists'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useContext } from 'react'
 import ReactGA from 'react-ga4'
 import { useDispatch } from 'react-redux'
 import { Text } from 'rebass'
-import styled from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { AppDispatch } from '../../state'
 import { useRemovePopup } from '../../state/application/hooks'
 import { acceptListUpdate } from '../../state/lists/actions'
@@ -15,7 +15,7 @@ import { AutoRow } from '../Row'
 
 export const Item = styled('li')`
   cursor: pointer;
-  color: #111219;
+  color: ${({ theme }) => theme.secondary4};
   font-size: 14px;
   font-weight: 500;
 `
@@ -52,6 +52,7 @@ export default function ListUpdatePopup({
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
   const dispatch = useDispatch<AppDispatch>()
+  const theme = useContext(ThemeContext)
 
   const handleAcceptUpdate = useCallback(() => {
     if (auto) return
@@ -84,7 +85,7 @@ export default function ListUpdatePopup({
         ) : (
           <>
             <div>
-              <Text color={'#111219'} fontSize={'14px'} lineHeight={'18px'} fontWeight={500}>
+              <Text color={theme.secondary4} fontSize={'14px'} lineHeight={'18px'} fontWeight={500}>
                 An update is available for the token list &quot;{oldList.name}&quot; (
                 {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
               </Text>

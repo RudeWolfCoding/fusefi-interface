@@ -4,7 +4,6 @@ import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCall
 import { useActiveWeb3React } from '../../../hooks'
 import { ButtonError, ButtonPrimary } from '../../Button'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { Reward, User } from '../../../utils/farm/constants'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
 import Percentage from './percentage'
@@ -89,12 +88,6 @@ const Balance = styled('div')`
   font-weight: 500;
   line-height: 18px;
 `
-
-interface Deposit {
-  depositValue?: string
-  user: User
-  reward: Reward
-}
 
 export default function Deposit({ farm }: { farm?: Farm }) {
   const addTransaction = useTransactionAdder()

@@ -5,6 +5,7 @@ import { injected, walletconnect } from '../connectors'
 import { unwrapOrThrow } from '../utils'
 
 export const ROUTER_ADDRESS = '0xFB76e9E7d88E308aB530330eD90e84a952570319'
+export const FACTORY_ADDRESS = '0x1d1f1A7280D67246665Bb196F38553b469294f3a'
 
 export const FUSE_ERC20_TO_ERC677_BRIDGE_HOME_ADDRESS = unwrapOrThrow('FUSE_ERC20_TO_ERC677_BRIDGE_HOME_ADDRESS')
 export const FUSE_ERC20_TO_ERC677_BRIDGE_FOREIGN_ADDRESS = unwrapOrThrow('FUSE_ERC20_TO_ERC677_BRIDGE_FOREIGN_ADDRESS')
@@ -51,6 +52,8 @@ export const BNB_FOREIGN_TOKEN_ADDRESS = unwrapOrThrow('BNB_FOREIGN_TOKEN_ADDRES
 
 export const COMPTROLLER_ADDRESS = '0x26a562B713648d7F3D1E1031DCc0860A4F3Fa340'
 export const COMPOUND_LENS_ADDRESS = '0x658aA3a6844517FB52b59847829796CAd90231e4'
+
+export const FUSESWAP_SERVICE_URL = unwrapOrThrow('FUSESWAP_SERVICE_URL')
 
 // a list of tokens by chain
 type ChainTokenList = {

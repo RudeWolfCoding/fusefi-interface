@@ -6,10 +6,10 @@ import { Farm } from '../../../constants/farms'
 import { Link, useHistory } from 'react-router-dom'
 
 const Tr = styled.tr`
-  border-bottom: 1px solid #111219;
+  border-bottom: 1px solid ${({ theme }) => theme.secondary4};
 
   :hover {
-    background-color: #111219;
+    background-color: ${({ theme }) => theme.secondary4};
   }
 `
 

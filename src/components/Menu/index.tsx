@@ -1,13 +1,13 @@
 import React, { useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import Logo from '../../assets/svg/logo.js'
-import Bridge from '../../assets/svg/bridge.js'
-import Pool from '../../assets/svg/pool.js'
-import Swap from '../../assets/svg/swap.js'
-import Farm from '../../assets/svg/farm.js'
-import Home from '../../assets/svg/home.js'
-import Lending from '../../assets/svg/lending.js'
+import LogoIcon from '../../assets/svg/fusefi-logo.svg'
+import { ReactComponent as BridgeIcon } from '../../assets/svg/bridge.svg'
+import { ReactComponent as PoolIcon } from '../../assets/svg/pool.svg'
+import { ReactComponent as SwapIcon } from '../../assets/svg/swap.svg'
+import { ReactComponent as FarmIcon } from '../../assets/svg/farm.svg'
+import { ReactComponent as HomeIcon } from '../../assets/svg/home.svg'
+import { ReactComponent as LendingIcon } from '../../assets/svg/lending.svg'
 import fusd from '../../assets/svg/fuse-dollar.svg'
 import useRampWidget from '../../hooks/useRamp'
 import Settings from '../../components/Settings'
@@ -133,7 +133,7 @@ const MenuItemInternal = styled(NavLink).attrs({
 
   &.${activeClassName} {
     color: white;
-    background-color: #111219;
+    background-color: ${({ theme }) => theme.secondary4};
     .icon {
       fill: white;
     }
@@ -174,6 +174,14 @@ const IconWrapper = styled.div<{ size?: number }>`
   margin-right: 16px;
 `
 
+const Logo = styled.img.attrs({
+  src: LogoIcon,
+  width: '150px',
+  alt: 'FuseFi Logo'
+})`
+  padding: 24px 0 30px 24px;
+`
+
 export default function Sidebar() {
   const node = useRef<HTMLDivElement>()
   const openRampWidget = useRampWidget()
@@ -189,7 +197,7 @@ export default function Sidebar() {
           <MenuItemInternal to="/home">
             <MenuItemWrapper>
               <IconWrapper>
-                <Home />
+                <HomeIcon />
               </IconWrapper>
               <span> Home</span>
             </MenuItemWrapper>
@@ -197,7 +205,7 @@ export default function Sidebar() {
           <MenuItemInternal to="/swap">
             <MenuItemWrapper>
               <IconWrapper>
-                <Swap />
+                <SwapIcon />
               </IconWrapper>
               <span>Swap</span>
             </MenuItemWrapper>
@@ -205,7 +213,7 @@ export default function Sidebar() {
           <MenuItemInternal to="/pool">
             <MenuItemWrapper>
               <IconWrapper>
-                <Pool />
+                <PoolIcon />
               </IconWrapper>
               <span>Pool</span>
             </MenuItemWrapper>
@@ -213,7 +221,7 @@ export default function Sidebar() {
           <MenuItemInternal to="/bridge">
             <MenuItemWrapper>
               <IconWrapper>
-                <Bridge />
+                <BridgeIcon />
               </IconWrapper>
               <span>Bridge</span>
             </MenuItemWrapper>
@@ -221,7 +229,7 @@ export default function Sidebar() {
           <MenuItemInternal to="/farm">
             <MenuItemWrapper>
               <IconWrapper>
-                <Farm />
+                <FarmIcon />
               </IconWrapper>
               <span>Farm</span>
             </MenuItemWrapper>
@@ -229,7 +237,7 @@ export default function Sidebar() {
           <MenuItemInternal to="/lending">
             <MenuItemWrapper>
               <IconWrapper>
-                <Lending />
+                <LendingIcon />
               </IconWrapper>
               <span>Lending</span>
             </MenuItemWrapper>
