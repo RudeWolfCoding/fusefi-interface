@@ -1,1 +1,1 @@
-export const FUSESWAP_SUBGRAPH_URL = 'https://graph.fuse.io/subgraphs/name/fuseio/fuseswap'
+export const FUSESWAP_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/fuseio/fuseswap'
