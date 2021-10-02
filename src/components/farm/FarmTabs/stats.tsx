@@ -26,16 +26,13 @@ type StatsProps = {
   farm?: Farm
 }
 
-const win: any = window
-win.dayjs = dayjs
-
 export default function Stats({ farm }: StatsProps) {
   const dateEnd = useMemo(() => {
     if (farm?.start && farm?.duration) {
       return Date.now() + dayjs.unix(farm?.start + farm?.duration).diff(dayjs())
     }
     return undefined
-  }, [farm?.duration, farm?.start])
+  }, [farm])
 
   return (
     <Container>

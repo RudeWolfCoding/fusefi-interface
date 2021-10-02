@@ -55,7 +55,11 @@ export default function FarmList({ farms }: FarmListProps) {
               .filter(farm => !farm.isExpired === filter)
               .map(farm => <FarmListItem key={farm.contractAddress} farm={farm} />)
           ) : (
-            <Loader />
+            <tr>
+              <td>
+                <Loader />
+              </td>
+            </tr>
           )}
         </tbody>
       </Table>

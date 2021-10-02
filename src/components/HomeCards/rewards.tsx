@@ -6,9 +6,11 @@ import floater from '../../assets/svg/floater2.svg'
 const Wrap = styled.a`
   height: 50%;
   width: 100%;
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
 `
 
-const Container = styled.a`
+const Container = styled.div`
   padding: 16px;
   background-image: linear-gradient(112deg, #b1ffbf 7%, #fff16d);
   width: 100%;
@@ -16,8 +18,6 @@ const Container = styled.a`
   display: flex;
   flex-direction: column;
   position: relative;
-  color: inherit; /* blue colors for links too */
-  text-decoration: inherit; /* no underline */
   :hover {
     background: linear-gradient(110deg, #9bffad 14%, #c2b658);
   }
@@ -37,8 +37,8 @@ const Header = styled.div`
 
 export default function HomeRewards() {
   return (
-    <Wrap>
-      <Container href="https://rewards.fuse.io/" target="_blank">
+    <Wrap href="https://rewards.fuse.io/" target="_blank">
+      <Container>
         <Header>
           <img src={image} alt="reward icon" width="100px" />
           <img src={floater} alt="close button" width="40px" />

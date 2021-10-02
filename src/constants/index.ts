@@ -55,6 +55,8 @@ export const COMPOUND_LENS_ADDRESS = '0x658aA3a6844517FB52b59847829796CAd90231e4
 
 export const FUSESWAP_SERVICE_URL = unwrapOrThrow('FUSESWAP_SERVICE_URL')
 
+export const NATIVE_ADDRESS = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
