@@ -1,21 +1,10 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
+import { Link, useHistory } from 'react-router-dom'
 import Icon from '../FarmList/icons'
 import { tryFormatDecimalAmount, tryFormatPercentageAmount } from '../../../utils'
 import { Farm } from '../../../constants/farms'
-import { Link, useHistory } from 'react-router-dom'
-
-const Tr = styled.tr`
-  border-bottom: 1px solid ${({ theme }) => theme.secondary4};
-
-  :hover {
-    background-color: ${({ theme }) => theme.secondary4};
-  }
-`
-
-const Td = styled.td`
-  padding: 12px 16px;
-`
+import { TBodyTr, TBodyTd } from '../../Table'
 
 const Button = styled.button`
   content: 'Select';
@@ -70,38 +59,38 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
   }, [farmPath, history])
 
   return (
-    <Tr key={farm.contractAddress}>
-      <Td style={{ display: 'flex', alignItems: 'center' }}>
+    <TBodyTr key={farm.contractAddress}>
+      <TBodyTd style={{ display: 'flex', alignItems: 'center' }}>
         <StyledLink to={farmPath}>
           <Icon name="" pairName={farm.pairName} />
           {farm.pairName}
         </StyledLink>
-      </Td>
-      <Td style={{ textAlign: 'center' }}>
+      </TBodyTd>
+      <TBodyTd style={{ textAlign: 'center' }}>
         <Badge>{farm.rewardsInfo ? tryFormatPercentageAmount(farm.rewardsInfo[0].apyPercent) : 0}%</Badge>
-      </Td>
-      <Td style={{ textAlign: 'right' }}>
+      </TBodyTd>
+      <TBodyTd style={{ textAlign: 'right' }}>
         <Text>{tryFormatDecimalAmount(farm.totalStaked, 18, 10)}</Text>
-      </Td>
-      <Td style={{ textAlign: 'right' }}>
+      </TBodyTd>
+      <TBodyTd style={{ textAlign: 'right' }}>
         <Text style={{ marginBottom: '2px' }}>
           {tryFormatDecimalAmount(farm.reserve0, 18)} <GreyText>{farm.token0?.symbol}</GreyText>
         </Text>
         <Text>
           {tryFormatDecimalAmount(farm.reserve1, 18)} <GreyText>{farm.token1?.symbol}</GreyText>
         </Text>
-      </Td>
-      <Td style={{ textAlign: 'right' }}>
+      </TBodyTd>
+      <TBodyTd style={{ textAlign: 'right' }}>
         <Text style={{ marginBottom: '2px' }}>
           {farm.rewardsUSDPerDay?.toFixed(0)} <GreyText>USD / day</GreyText>
         </Text>
         <Text>
           {farm.rewardsPerDay?.toFixed(0)} <GreyText>FUSE / day</GreyText>
         </Text>
-      </Td>
-      <Td style={{ textAlign: 'center' }}>
+      </TBodyTd>
+      <TBodyTd style={{ textAlign: 'center' }}>
         <Button onClick={selectFarm}>Select</Button>
-      </Td>
-    </Tr>
+      </TBodyTd>
+    </TBodyTr>
   )
 }

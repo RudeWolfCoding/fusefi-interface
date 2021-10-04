@@ -53,6 +53,10 @@ const InputWrapper = styled('div')`
   > span {
     margin: auto;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 0;
+  `}
 `
 const Input = styled('input')`
   display: flex;
@@ -106,7 +110,7 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
   const showWithdrawButton = Number(accuruedRewards) > 0
 
   const parsedAmount = useMemo(() => {
-    if (lpToken && withdrawValue) {
+    if (lpToken && withdrawValue && Number(withdrawValue) !== 0 && !isNaN(Number(withdrawValue))) {
       const withdrawValueWei = new BigNumber(withdrawValue)
         .multipliedBy(10 ** lpToken.decimals)
         .integerValue(BigNumber.ROUND_DOWN)
@@ -163,6 +167,7 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
           value={withdrawValue}
           placeholder="0"
           onChange={e => setWithdrawValue(e.target.value)}
+          pattern="^[0-9]*[.,]?[0-9]*$"
         />
         <span>{pairSymbol}</span>
       </InputWrapper>

@@ -5,12 +5,8 @@ import LendingMarket from './LendingMarket'
 import href from '../../assets/svg/href.svg'
 import { Market, useLendingMarkets } from '../../state/lending/hooks'
 import Loader from '../Loaders/table'
+import { Table, TableWrapper, Th } from '../Table'
 
-const Wrapper = styled('div')`
-  display: flex;
-  flex: wrap;
-  font-size: 16px;
-`
 const Container = styled('div')`
   width: 100%;
   font-size: 16px;
@@ -26,25 +22,10 @@ const Selector = styled('div')`
   width: 100%;
   margin-top: 32px;
   margin-bottom: 24px;
-`
 
-const Field = styled('div')`
-  flex: 1 1 19%;
-  line-height: 3rem;
-  border-bottom: 1px solid black;
-  padding-left: 25px;
-  text-align: left;
-`
-const DateField = styled('div')`
-  flex: 1 1 19%;
-  line-height: 3rem;
-  border-bottom: 1px solid black;
-`
-
-const SupplyField = styled('div')`
-  flex: 1 1 11%;
-  line-height: 3rem;
-  border-bottom: 1px solid black;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    flex-direction: column;
+  `}
 `
 
 const Supply = styled('div')`
@@ -62,6 +43,11 @@ const Supply = styled('div')`
   :hover {
     filter: brightness(120%);
   }
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    margin-bottom: 1rem;
+    margin-right: 0;
+  `}
 `
 
 const Borrowed = styled('div')`
@@ -79,6 +65,11 @@ const Borrowed = styled('div')`
   :hover {
     filter: brightness(120%);
   }
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    margin-bottom: 1rem;
+    margin-right: 0;
+  `}
 `
 const Ola = styled('a')`
   display: flex;
@@ -100,6 +91,11 @@ const Ola = styled('a')`
     filter: brightness(120%);
     cursor: pointer;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    margin-bottom: 1rem;
+    margin-right: 0;
+  `}
 `
 
 export default function Lending() {
@@ -135,28 +131,33 @@ export default function Lending() {
         </Ola>
       </Selector>
       <Container>
-        <Wrapper>
-          <Field>Asset</Field>
-          <DateField>Market Size</DateField>
-
-          <DateField>Total Borrowed</DateField>
-          <SupplyField>Deposit APY</SupplyField>
-          <SupplyField>Borrow APR</SupplyField>
-
-          <DateField>
-            <p></p>
-          </DateField>
-        </Wrapper>
-
-        {lendingMarkets.length ? (
-          lendingMarkets.map((lendingMarket: Market) => (
-            <div key={lendingMarket.underlyingAssetAddress}>
-              <LendingMarket market={lendingMarket} />
-            </div>
-          ))
-        ) : (
-          <Loader />
-        )}
+        <TableWrapper>
+          <Table>
+            <thead>
+              <tr>
+                <Th>Asset</Th>
+                <Th>Market Size</Th>
+                <Th>Total Borrowed</Th>
+                <Th>Deposit APY</Th>
+                <Th>Borrow APY</Th>
+                <Th style={{ width: '250px' }}>&nbsp;</Th>
+              </tr>
+            </thead>
+            <tbody>
+              {lendingMarkets.length ? (
+                lendingMarkets.map((lendingMarket: Market) => (
+                  <LendingMarket key={lendingMarket.underlyingAssetAddress} market={lendingMarket} />
+                ))
+              ) : (
+                <tr>
+                  <td>
+                    <Loader />
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </TableWrapper>
       </Container>
     </div>
   )

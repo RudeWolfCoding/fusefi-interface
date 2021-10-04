@@ -57,6 +57,10 @@ const InputWrapper = styled('div')`
   > span {
     margin: auto;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding: 0;
+  `}
 `
 const Input = styled('input')`
   display: flex;
@@ -99,7 +103,7 @@ export default function Deposit({ farm }: { farm?: Farm }) {
   const pairSymbol = farm?.token0?.symbol + '-' + farm?.token1?.symbol
 
   const parsedAmount = useMemo(() => {
-    if (lpToken && depositValue) {
+    if (lpToken && depositValue && Number(depositValue) !== 0 && !isNaN(Number(depositValue))) {
       const depositValueWei = new BigNumber(depositValue)
         .multipliedBy(10 ** lpToken.decimals)
         .integerValue(BigNumber.ROUND_DOWN)
@@ -160,6 +164,7 @@ export default function Deposit({ farm }: { farm?: Farm }) {
           value={depositValue}
           placeholder="0"
           onChange={e => setdepositValue(e.target.value)}
+          pattern="^[0-9]*[.,]?[0-9]*$"
         />
         <span>{pairSymbol}</span>
       </InputWrapper>

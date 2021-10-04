@@ -3,72 +3,11 @@ import styled from 'styled-components'
 import numeral from 'numeral'
 import Icon from './icons'
 import { Market } from '../../state/lending/hooks'
-
-const TitleIcon = styled('div')`
-  flex: 1 1 19%;
-  text-align: center;
-  margin: auto;
-  padding-left: 24px;
-  line-height: 10px;
-  font-weight: 500;
-  font-size: 15px;
-`
-
-const Item = styled('div')`
-  display: flex;
-  flex: 1 1 19%;
-  flex-wrap: wrap;
-  flex-direction: row;
-  text-align: center;
-  margin: auto;
-  line-height: 10px;
-  font-weight: 300;
-  > p {
-    width: 100%;
-    > span {
-      color: #ffffff99;
-    }
-  }
-`
-
-const Apy = styled('div')`
-  display: flex;
-  flex: 1 1 11%;
-  flex-wrap: wrap;
-  flex-direction: row;
-  text-align: center;
-  margin: auto;
-  line-height: 10px;
-  font-weight: 500;
-`
-
-const Container = styled('div')`
-  display: block;
-  width: 100%;
-  font-size: 14px;
-  font-weight: 400;
-`
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  position: relative;
-  border-bottom: 1px solid black;
-  font-weight: 800;
-  :hover {
-    font-weight: 800;
-    background: ${({ theme }) => theme.secondary4};
-    opacity: 0.85;
-    text-orientation: upright;
-    height: 100%;
-  }
-`
+import { TBodyTd, TBodyTr } from '../Table'
 
 const Link = styled.a`
-  width: 40%;
+  width: 90px;
   z-index: 1;
-  content: 'Select';
   font-weight: 500;
   line-height: 17px;
   padding: 7px;
@@ -84,7 +23,7 @@ const Link = styled.a`
   -webkit-text-fill-color: transparent;
 
   :after {
-    content: 'asa';
+    content: '';
     position: absolute;
     z-index: -1;
     top: 0;
@@ -107,14 +46,23 @@ const Link = styled.a`
 `
 
 const ApyField = styled.div<{ background?: string }>`
-  font-family: 'Inter';
   font-size: 16px;
-  padding: 10px;
+  display: inline-block;
+  padding: 5px 10px;
   text-align: center;
   color: black;
   margin: auto;
   border-radius: 999px;
   background: ${({ background }) => background};
+`
+
+const Text = styled.div`
+  font-size: 14px;
+  font-weight: 300;
+`
+
+const GreyText = styled.span`
+  color: #a7a8af;
 `
 
 interface LendingMarketProps {
@@ -123,51 +71,48 @@ interface LendingMarketProps {
 
 export default function LendingMarket({ market }: LendingMarketProps) {
   return (
-    <Container>
-      <Wrapper>
-        <TitleIcon>
-          <Icon address={market.underlyingAssetAddress} />
-        </TitleIcon>
+    <TBodyTr>
+      <TBodyTd>
+        <Icon address={market.underlyingAssetAddress} />
+      </TBodyTd>
+      <TBodyTd>
+        <Text>
+          {numeral(market.liquidity).format('$0a')}
+          <GreyText> USD</GreyText>
+        </Text>
+      </TBodyTd>
+      <TBodyTd>
+        <Text>
+          {numeral(market.borrowBalance).format('$0a')}
+          <GreyText> USD</GreyText>
+        </Text>
+      </TBodyTd>
+      <TBodyTd>
+        <ApyField background="linear-gradient(0deg, #d0f7d7, #d0f7d7)">
+          {numeral(market.supplyApy).format('0.0000')}%
+        </ApyField>
+      </TBodyTd>
+      <TBodyTd>
+        <ApyField background="linear-gradient(0deg, #fdffb2, #fdffb2)">
+          {numeral(market.borrowApy).format('0.0000')}%
+        </ApyField>
+      </TBodyTd>
 
-        <Item>
-          <p>
-            {numeral(market.liquidity).format('$0a')}
-            <span> USD</span>
-          </p>
-        </Item>
-
-        <Item>
-          <p>
-            {numeral(market.borrowBalance).format('$0a')}
-            <span> USD</span>
-          </p>
-        </Item>
-        <Apy>
-          <ApyField background="linear-gradient(0deg, #d0f7d7, #d0f7d7)">
-            {numeral(market.supplyApy).format('0.0000')}%
-          </ApyField>
-        </Apy>
-        <Apy>
-          <ApyField background="linear-gradient(0deg, #fdffb2, #fdffb2)">
-            {numeral(market.borrowApy).format('0.0000')}%
-          </ApyField>
-        </Apy>
-
-        <Item>
-          <Link
-            target="_blank"
-            href="https://app.ola.finance/networks/0x26a562B713648d7F3D1E1031DCc0860A4F3Fa340/markets"
-          >
-            Deposit
-          </Link>
-          <Link
-            target="_blank"
-            href="https://app.ola.finance/networks/0x26a562B713648d7F3D1E1031DCc0860A4F3Fa340/markets"
-          >
-            Borrow
-          </Link>
-        </Item>
-      </Wrapper>
-    </Container>
+      <TBodyTd>
+        <Link
+          target="_blank"
+          href="https://app.ola.finance/networks/0x26a562B713648d7F3D1E1031DCc0860A4F3Fa340/markets"
+          style={{ marginRight: '1rem' }}
+        >
+          Deposit
+        </Link>
+        <Link
+          target="_blank"
+          href="https://app.ola.finance/networks/0x26a562B713648d7F3D1E1031DCc0860A4F3Fa340/markets"
+        >
+          Borrow
+        </Link>
+      </TBodyTd>
+    </TBodyTr>
   )
 }

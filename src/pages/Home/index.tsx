@@ -13,6 +13,11 @@ const Wrap = styled('div')`
   margin-bottom: 45px;
   display: flex;
   flex-wrap: wrap;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    padding-left: 1rem;
+    padding-right: 1rem;
+  `}
 `
 
 const Container = styled('div')`
@@ -24,6 +29,10 @@ const Container = styled('div')`
   align-content: center;
   margin: auto;
   z-index: 3;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    flex-direction: column;
+  `}
 `
 const Item = styled('div')`
   text-align: left;
@@ -40,7 +49,6 @@ const Tweet = styled('div')`
   margin: 24px 12px;
   text-align: center;
   display: block;
-  overflow: hidden;
   width: 100%;
   flex-wrap: wrap;
   flex: 1 0 0;

@@ -12,6 +12,10 @@ const Wrapper = styled.div`
   padding: 19px 16px;
   border-radius: 12px;
   margin: 0 12px;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    margin: 0 0 1rem 0;
+  `}
 `
 
 const ValueWrapper = styled.div`

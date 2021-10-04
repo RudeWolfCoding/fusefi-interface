@@ -4,11 +4,12 @@ import styled from 'styled-components'
 import { Text } from 'rebass'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
-import { Route } from 'react-router-dom'
 import { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
 import { getNativeCurrencySymbol } from '../../utils'
 import { BINANCE_MAINNET_CHAINID, BINANCE_TESTNET_CHAINID } from '../../constants'
+import { ReactComponent as MenuIcon } from '../../assets/svg/ham_menu.svg'
+import { useToggleNavMenu } from '../../state/application/hooks'
 
 const HeaderFrame = styled.div`
   padding-right: 2.6%;
@@ -26,10 +27,8 @@ const HeaderFrame = styled.div`
 
 const HeaderElement = styled.div`
   display: flex;
-  width: 100%;
   align-items: center;
-  margin: auto;
-  padding-left: 42px;
+  margin: auto 1rem;
 `
 
 const AccountElement = styled.div<{ active: boolean }>`
@@ -51,6 +50,10 @@ const TestnetWrapper = styled.div`
   width: fit-content;
   margin-left: 10px;
   pointer-events: auto;
+
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+    display: none;
+  `};
 `
 
 const NetworkCard = styled('div')`
@@ -68,28 +71,16 @@ const HeaderControls = styled.div`
   align-items: center;
 `
 
-const BalanceText = styled(Text)`
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
-  `};
-`
-const BackButton = styled.div`
-  padding-right: 2.6%;
-  width: 100%;
-  top: 0;
-  z-index: 3;
-  font-size: 16px;
-  line-height: 21px;
-  font-weight: 500;
-  :hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-`
+const BalanceText = styled(Text)``
 
-function goBack(url: string) {
-  window.location.replace(url)
-}
+const StyledMenuIcon = styled(MenuIcon)`
+  display: none;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    display: block;
+    cursor: pointer;
+  `}
+`
 
 export const NETWORK_LABELS: any = {
   [ChainId.MAINNET]: 'Ethereum',
@@ -104,21 +95,15 @@ export const NETWORK_LABELS: any = {
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
 
+  const toggleNavMenu = useToggleNavMenu()
+
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 
   return (
     <HeaderFrame>
       <RowBetween style={{ alignItems: 'flex-start' }}>
         <HeaderElement>
-          <Route exact path="/farm/:currencyIdA">
-            <BackButton
-              onClick={() => {
-                goBack('https://v2.fuseswap.com/#/farm')
-              }}
-            >
-              &#8592; Back to the list
-            </BackButton>{' '}
-          </Route>
+          <StyledMenuIcon onClick={() => toggleNavMenu()} />
         </HeaderElement>
         <HeaderControls>
           <HeaderElement>
@@ -127,7 +112,7 @@ export default function Header() {
             </TestnetWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
-                <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
+                <BalanceText pl="0.75rem" pr="0.5rem" fontWeight={500}>
                   {userEthBalance?.toSignificant(4)} {getNativeCurrencySymbol(chainId)}
                 </BalanceText>
               ) : null}
