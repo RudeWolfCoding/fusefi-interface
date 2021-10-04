@@ -89,7 +89,8 @@ export const StyledLink = styled.a`
   cursor: pointer;
   color: ${({ theme }) => theme.primary1};
   font-weight: 500;
-
+  font-size: 14px;
+  line-height: 16px;
   :hover {
     text-decoration: underline;
   }

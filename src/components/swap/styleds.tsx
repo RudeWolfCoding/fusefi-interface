@@ -1,4 +1,4 @@
-import { transparentize } from 'polished'
+import { darken, transparentize } from 'polished'
 import React from 'react'
 import { AlertTriangle } from 'react-feather'
 import styled, { css } from 'styled-components'
@@ -45,9 +45,9 @@ export const ErrorText = styled(Text)<{ severity?: 0 | 1 | 2 | 3 | 4 }>`
 `
 
 export const StyledBalanceMaxMini = styled.button`
-  height: 22px;
-  width: 22px;
-  background-color: ${({ theme }) => theme.bg2};
+  height: 24px;
+  width: 24px;
+  background-color: #393c57;
   border: none;
   border-radius: 50%;
   padding: 0.2rem;
@@ -62,10 +62,10 @@ export const StyledBalanceMaxMini = styled.button`
   float: right;
 
   :hover {
-    background-color: ${({ theme }) => theme.bg3};
+    background-color: ${darken(0.02, '#393c57')};
   }
   :focus {
-    background-color: ${({ theme }) => theme.bg3};
+    background-color: ${darken(0.02, '#393c57')};
     outline: none;
   }
 `
@@ -144,4 +144,10 @@ export const SwapShowAcceptChanges = styled(AutoColumn)`
   padding: 0.5rem;
   border-radius: 12px;
   margin-top: 8px;
+`
+
+export const AppWrapper = styled.div`
+  width: 462px;
+  max-width: 100%;
+  margin: 0 auto;
 `

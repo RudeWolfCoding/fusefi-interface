@@ -1,9 +1,10 @@
 import { Contract } from '@ethersproject/contracts'
 import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
+import { JsonRpcSigner, Web3Provider, JsonRpcProvider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
+import BigNumberJS from 'bignumber.js'
 import {
   ROUTER_ADDRESS,
   BINANCE_ERC20_TO_ERC677_FOREIGN_BRIDGE_ADDRESS,
@@ -192,6 +193,14 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
   return new Contract(address, ABI, getProviderOrSigner(library, account) as any)
 }
 
+export function getReadContract(address: string, ABI: any, provider: JsonRpcProvider): Contract {
+  if (!isAddress(address) || address === AddressZero) {
+    throw Error(`Invalid 'address' parameter '${address}'.`)
+  }
+
+  return new Contract(address, ABI, provider)
+}
+
 // account is optional
 export function getRouterContract(_: number, library: Web3Provider, account?: string): Contract {
   return getContract(ROUTER_ADDRESS, IUniswapV2Router02ABI, library, account)
@@ -287,6 +296,26 @@ export const tryFormatAmount = (amount?: string, deciamls?: number) => {
   }
 
   return undefined
+}
+
+export const tryFormatDecimalAmount = (amount?: string, tokenDecimals = 18, decimals = 0): string | undefined => {
+  if (!amount || !tokenDecimals) return undefined
+
+  try {
+    return new BigNumberJS(amount)
+      .div(10 ** tokenDecimals)
+      .toNumber()
+      .toFixed(decimals)
+  } catch (error) {
+    console.debug(`Failed to format decimal amount: "${amount}"`, error)
+  }
+
+  return undefined
+}
+
+export const tryFormatPercentageAmount = (value?: number, decimals = 0): string | undefined => {
+  if (!value) return undefined
+  return (value * 100).toFixed(decimals)
 }
 
 export async function pollEvent(
@@ -606,4 +635,17 @@ export function supportRecipientTransfer(currencyId?: string, bridgeDirection?: 
     bridgeType === BridgeType.BSC_FUSE_NATIVE ||
     bridgeType === BridgeType.BSC_FUSE_ERC20_TO_ERC677
   )
+}
+
+export const uppercaseText = (str: string) => str.replace(/[a-z]/g, token => token.toUpperCase())
+
+export function calculateApy(ratePerBlock: any) {
+  const ethMantissa = 1e18
+  const blocksPerDay = 86400 / 5
+  const daysPerYear = 365
+  return (Math.pow((ratePerBlock / ethMantissa) * blocksPerDay + 1, daysPerYear) - 1) * 100
+}
+
+export function isObjectEmpty(obj: {}) {
+  return Object.keys(obj).length === 0
 }

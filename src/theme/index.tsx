@@ -8,8 +8,15 @@ import styled, {
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { Colors } from './styled'
+import WebFont from 'webfontloader'
 
 export * from './components'
+
+WebFont.load({
+  google: {
+    families: ['Inter:300,400,700', 'sans-serif']
+  }
+})
 
 const MEDIA_WIDTHS = {
   upToExtraSmall: 500,
@@ -41,7 +48,7 @@ export function colors(darkMode: boolean): Colors {
 
     // text
     text1: '#FFFFFF',
-    text2: '#C6D5DE',
+    text2: '#B5B9D3',
     text3: '#6C7284',
     text4: '#565A69',
     text5: '#2C2F36',
@@ -49,13 +56,13 @@ export function colors(darkMode: boolean): Colors {
     text7: '#D4EEFF',
 
     // backgrounds / greys
-    bg1: '#001522',
-    bg2: '#2C2F36',
-    bg3: '#393D47',
+    bg1: '#242637',
+    bg2: 'black',
+    bg3: '#60646c',
     bg4: '#565A69',
     bg5: '#6C7284',
-    bg6: '#052235',
-    bg7: '#25435A',
+    bg6: 'black',
+    bg7: '#202231',
     bg8: 'linear-gradient(137.27deg, #B1FFBF 3.65%, #FFF16D 100%)',
     bg9: '#212429',
     bg10: '#041E2F',
@@ -67,11 +74,11 @@ export function colors(darkMode: boolean): Colors {
     advancedBG: 'rgba(0,0,0,0.1)',
 
     //primary colors
-    primary1: '#F6F37C',
+    primary1: darkMode ? '#F6F37C' : '#2C2F36',
     primary2: '#3680E7',
     primary3: '#4D8FEA',
     primary4: '#376bad70',
-    primary5: '#153d6f70',
+    primary5: '#E2E6EC',
 
     // color text
     primaryText1: '#6da8ff',
@@ -80,13 +87,14 @@ export function colors(darkMode: boolean): Colors {
     secondary1: '#019BFF',
     secondary2: '#17000b26',
     secondary3: '#17000b26',
+    secondary4: '#111219',
 
     // other
     red1: '#FF6871',
     red2: '#F82D3A',
     green1: '#27AE60',
     yellow1: '#FFE270',
-    yellow2: '#F3841E',
+    yellow2: '#FF6E00',
 
     // dont wanna forget these blue yet
     // blue4: darkMode ? '#153d6f70' : '#C4D9F8',

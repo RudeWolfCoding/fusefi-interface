@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { network } from '../../connectors'
 import { useEagerConnect, useInactiveListener } from '../../hooks'
 import { NetworkContextName } from '../../constants'
-import Loader from '../Loader'
+import Loader from '../Loaders/default'
 
 const MessageWrapper = styled.div`
   display: flex;

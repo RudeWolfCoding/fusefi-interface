@@ -1,16 +1,38 @@
 import { diffTokenLists, TokenList } from '@fuseio/token-lists'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useContext } from 'react'
 import ReactGA from 'react-ga4'
 import { useDispatch } from 'react-redux'
 import { Text } from 'rebass'
+import styled, { ThemeContext } from 'styled-components'
 import { AppDispatch } from '../../state'
 import { useRemovePopup } from '../../state/application/hooks'
 import { acceptListUpdate } from '../../state/lists/actions'
 import { TYPE } from '../../theme'
 import listVersionLabel from '../../utils/listVersionLabel'
-import { ButtonSecondary } from '../Button'
+import { ButtonTertiary } from '../Button'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
+
+export const Item = styled('li')`
+  cursor: pointer;
+  color: ${({ theme }) => theme.secondary4};
+  font-size: 14px;
+  font-weight: 500;
+`
+export const Flex = styled('div')`
+  display: flex;
+  justify-content: flex-end;
+`
+
+const List = styled.ul`
+  margin-top: 0;
+  padding-left: 25px;
+`
+
+const Button = styled(ButtonTertiary)`
+  padding: 7.5px 14px;
+  height: 32px;
+`
 
 export default function ListUpdatePopup({
   popKey,
@@ -30,6 +52,7 @@ export default function ListUpdatePopup({
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
   const dispatch = useDispatch<AppDispatch>()
+  const theme = useContext(ThemeContext)
 
   const handleAcceptUpdate = useCallback(() => {
     if (auto) return
@@ -62,24 +85,24 @@ export default function ListUpdatePopup({
         ) : (
           <>
             <div>
-              <Text>
+              <Text color={theme.secondary4} fontSize={'14px'} lineHeight={'18px'} fontWeight={500}>
                 An update is available for the token list &quot;{oldList.name}&quot; (
                 {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
               </Text>
-              <ul>
+              <List>
                 {tokensAdded.length > 0 ? (
-                  <li>
+                  <Item>
                     {tokensAdded.map((token, i) => (
                       <React.Fragment key={`${token.chainId}-${token.address}`}>
-                        <strong title={token.address}>{token.symbol}</strong>
+                        {token.symbol}
                         {i === tokensAdded.length - 1 ? null : ', '}
                       </React.Fragment>
                     ))}{' '}
                     added
-                  </li>
+                  </Item>
                 ) : null}
                 {tokensRemoved.length > 0 ? (
-                  <li>
+                  <Item>
                     {tokensRemoved.map((token, i) => (
                       <React.Fragment key={`${token.chainId}-${token.address}`}>
                         <strong title={token.address}>{token.symbol}</strong>
@@ -87,19 +110,23 @@ export default function ListUpdatePopup({
                       </React.Fragment>
                     ))}{' '}
                     removed
-                  </li>
+                  </Item>
                 ) : null}
-                {numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}
-              </ul>
+                <Item>{numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}</Item>
+              </List>
             </div>
-            <AutoRow>
-              <div style={{ flexGrow: 1, marginRight: 12 }}>
-                <ButtonSecondary onClick={handleAcceptUpdate}>Accept update</ButtonSecondary>
+            <Flex>
+              <div style={{ marginRight: 12 }}>
+                <Button onClick={handleAcceptUpdate} width={'auto'}>
+                  Accept
+                </Button>
               </div>
-              <div style={{ flexGrow: 1 }}>
-                <ButtonSecondary onClick={removeThisPopup}>Dismiss</ButtonSecondary>
+              <div>
+                <Button onClick={removeThisPopup} width={'auto'}>
+                  Dismiss
+                </Button>
               </div>
-            </AutoRow>
+            </Flex>
           </>
         )}
       </AutoColumn>

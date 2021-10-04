@@ -11,11 +11,13 @@ import UNISOCKS_ABI from '../constants/abis/unisocks.json'
 import WETH_ABI from '../constants/abis/weth.json'
 import BRIDGED_TOKENS_MIGRATOR_ABI from '../constants/abis/bridgedTokenMigrator.json'
 import PEG_SWAP_ABI from '../constants/abis/pegSwap.json'
+import COMPTROLLER_ABI from '../constants/abis/comptroller.json'
+import COMPOUND_LENS_ABI from '../constants/abis/compoundLens.json'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../constants/v1'
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
-import { TOKEN_MIGRATOR_ADDRESS, PEG_SWAP_ADDRESS } from '../constants'
+import { TOKEN_MIGRATOR_ADDRESS, PEG_SWAP_ADDRESS, COMPOUND_LENS_ADDRESS, COMPTROLLER_ADDRESS } from '../constants'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -102,4 +104,12 @@ export function useTokenMigrationContract(): Contract | null {
 
 export function usePegSwapContract(): Contract | null {
   return useContract(PEG_SWAP_ADDRESS, PEG_SWAP_ABI, true)
+}
+
+export function useComptrollerContract(): Contract | null {
+  return useContract(COMPTROLLER_ADDRESS, COMPTROLLER_ABI)
+}
+
+export function useLensContract(): Contract | null {
+  return useContract(COMPOUND_LENS_ADDRESS, COMPOUND_LENS_ABI)
 }

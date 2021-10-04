@@ -1,80 +1,46 @@
 import { ChainId } from '@fuseio/fuse-swap-sdk'
 import React from 'react'
-import { isMobile } from 'react-device-detect'
-import { Text } from 'rebass'
-import { ExternalLink as ExternalLinkIcon } from 'react-feather'
-
 import styled from 'styled-components'
-
-import Logo from '../../assets/images/logo.png'
+import { Text } from 'rebass'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
-
-import { YellowCard } from '../Card'
-import Settings from '../Settings'
-import Menu from '../Menu'
-
+import { Route } from 'react-router-dom'
 import { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
 import { getNativeCurrencySymbol } from '../../utils'
-import { TYPE, ExternalLink } from '../../theme'
 import { BINANCE_MAINNET_CHAINID, BINANCE_TESTNET_CHAINID } from '../../constants'
-import useRampWidget from '../../hooks/useRamp'
-import { darken } from 'polished'
 
 const HeaderFrame = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
+  padding-right: 2.6%;
   width: 100%;
-  top: 40;
-  position: absolute;
+  top: 0;
+  opacity: 0.85;
   z-index: 3;
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    padding: 12px 0 0 0;
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  padding-right:0px;
     width: calc(100%);
+    margin-bottom: 2rem;
     position: relative;
   `};
 `
 
 const HeaderElement = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    flex-wrap: wrap;
-  `};
-`
-
-const HeaderElementWrap = styled.div`
-  display: flex;
-  align-items: center;
-
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin-top: 0.5rem;
-`};
-`
-
-const Title = styled.a`
-  display: flex;
-  align-items: center;
-  pointer-events: auto;
-
-  :hover {
-    cursor: pointer;
-  }
+  margin: auto;
+  padding-left: 42px;
 `
 
 const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
+  height: 39px;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
   border-radius: 12px;
   white-space: nowrap;
   width: 100%;
-
   :focus {
     border: 1px solid blue;
   }
@@ -87,32 +53,19 @@ const TestnetWrapper = styled.div`
   pointer-events: auto;
 `
 
-const NetworkCard = styled(YellowCard)`
+const NetworkCard = styled('div')`
+  border: 2px solid ${({ theme }) => theme.bg3};
+  color: ${({ theme }) => theme.text1};
   width: fit-content;
   margin-right: 10px;
   border-radius: 12px;
   padding: 8px 12px;
 `
 
-const UniIcon = styled.div`
-  img {
-    width: 10.5rem;
-
-    ${({ theme }) => theme.mediaWidth.upToSmall`
-      width: 7.5rem;
-    `}
-  }
-`
-
 const HeaderControls = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    flex-direction: column;
-    align-items: flex-end;
-  `};
 `
 
 const BalanceText = styled(Text)`
@@ -120,67 +73,23 @@ const BalanceText = styled(Text)`
     display: none;
   `};
 `
-
-const HeaderLink = styled(ExternalLink)`
-  display: flex;
-  align-items: center;
-  font-weight: 400;
-  color: white;
-  margin-right: 10px;
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
-  `}
-`
-
-const MobileBalanceElement = styled.div`
-  display: none;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.bg3};
-  margin-top: 0.5rem;
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: flex; 
-  `}
-`
-
-const MobileBalanceText = styled(Text)`
-  padding: 0.5rem;
-  font-weight: 500;
-`
-
-const StyledBuyButton = styled.button`
-  position: relative;
+const BackButton = styled.div`
+  padding-right: 2.6%;
   width: 100%;
-  height: 100%;
-  border: none;
-  background-color: transparent;
-  margin: 0 1rem 0 0;
-  padding: 0;
-  height: 35px;
-  background-color: ${({ theme }) => theme.primary5};
-  color: ${({ theme }) => theme.primaryText1};
-  font-size: 1rem;
+  top: 0;
+  z-index: 3;
+  font-size: 16px;
+  line-height: 21px;
   font-weight: 500;
-
-  padding: 0.15rem 1rem;
-  border-radius: 12px;
-
-  :hover,
-  :focus {
+  :hover {
     cursor: pointer;
-    outline: none;
-    background-color: ${({ theme }) => darken(0.03, theme.primary5)};
+    text-decoration: underline;
   }
-
-  svg {
-    margin-top: 2px;
-  }
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    margin: 0 0 0.5rem 0;
-  `}
 `
+
+function goBack(url: string) {
+  window.location.replace(url)
+}
 
 export const NETWORK_LABELS: any = {
   [ChainId.MAINNET]: 'Ethereum',
@@ -192,37 +101,29 @@ export const NETWORK_LABELS: any = {
   [BINANCE_TESTNET_CHAINID]: 'Binance Testnet',
   [BINANCE_MAINNET_CHAINID]: 'Binance'
 }
-
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
-  const openRampWidget = useRampWidget()
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 
   return (
     <HeaderFrame>
-      <RowBetween style={{ alignItems: 'flex-start' }} padding="1rem 1rem 0 1rem">
+      <RowBetween style={{ alignItems: 'flex-start' }}>
         <HeaderElement>
-          <Title href="." style={{ textDecoration: 'none' }}>
-            <UniIcon>
-              <img src={Logo} alt="logo" />
-            </UniIcon>
-            <TYPE.body fontSize={12} fontWeight={700} marginLeft={2}>
-              BETA
-            </TYPE.body>
-          </Title>
+          <Route exact path="/farm/:currencyIdA">
+            <BackButton
+              onClick={() => {
+                goBack('https://v2.fuseswap.com/#/farm')
+              }}
+            >
+              &#8592; Back to the list
+            </BackButton>{' '}
+          </Route>
         </HeaderElement>
         <HeaderControls>
           <HeaderElement>
-            <StyledBuyButton onClick={openRampWidget}>Buy Fuse Dollar</StyledBuyButton>
-            <HeaderLink target="_blank" href="https://rewards.fuse.io">
-              Farming <ExternalLinkIcon style={{ marginLeft: 5 }} size={14} />
-            </HeaderLink>
-            <HeaderLink target="_blank" href="https://info.fuseswap.com" style={{ marginRight: 0 }}>
-              Analytics <ExternalLinkIcon style={{ marginLeft: 5 }} size={14} />
-            </HeaderLink>
             <TestnetWrapper>
-              {!isMobile && chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
+              {chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
@@ -233,17 +134,6 @@ export default function Header() {
               <Web3Status />
             </AccountElement>
           </HeaderElement>
-          <MobileBalanceElement>
-            {account && userEthBalance ? (
-              <MobileBalanceText>
-                {userEthBalance?.toSignificant(4)} {getNativeCurrencySymbol(chainId)}
-              </MobileBalanceText>
-            ) : null}
-          </MobileBalanceElement>
-          <HeaderElementWrap>
-            <Settings />
-            <Menu />
-          </HeaderElementWrap>
         </HeaderControls>
       </RowBetween>
     </HeaderFrame>

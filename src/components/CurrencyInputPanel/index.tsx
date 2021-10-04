@@ -27,18 +27,25 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   font-size: 20px;
   font-weight: 500;
   background-color: ${({ selected, theme }) => (selected ? theme.bg1 : theme.bg7)};
-  color: ${({ selected, theme }) => (selected ? theme.text1 : theme.white)};
+  color: white;
   border-radius: 999px;
-  box-shadow: ${({ selected }) => (selected ? 'none' : '0px 6px 10px rgba(0, 0, 0, 0.075)')};
   outline: none;
   cursor: pointer;
   user-select: none;
   border: none;
   padding: 0 0.5rem;
-
+  svg path {
+    stroke: white;
+    stroke-width: 1.5px;
+  }
   :focus,
   :hover {
-    background-color: ${({ selected, theme }) => (selected ? theme.bg2 : darken(0.05, theme.bg7))};
+    background-color: ${({ selected, theme }) => (selected ? darken(0.02, theme.bg1) : darken(0.02, theme.bg7))};
+    color: #ffffff;
+    svg path {
+      stroke: #ffffff;
+      stroke-width: 1.5px;
+    }
   }
 `
 
@@ -64,11 +71,6 @@ const Aligner = styled.span`
 const StyledDropDown = styled(DropDown)<{ selected: boolean }>`
   margin: 0 0.25rem 0 0.5rem;
   height: 35%;
-
-  path {
-    stroke: ${({ selected, theme }) => (selected ? theme.text1 : theme.white)};
-    stroke-width: 1.5px;
-  }
 `
 
 const InputPanel = styled.div<{ hideInput?: boolean }>`
@@ -81,27 +83,25 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
 
 const Container = styled.div<{ hideInput: boolean }>`
   border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
-  border: 1px solid ${({ theme }) => theme.bg2};
-  background-color: ${({ theme }) => theme.bg1};
+  background-color: ${({ theme }) => theme.secondary4};
 `
 
 const StyledTokenName = styled.span<{ active?: boolean }>`
-  ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.75rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
-  font-size:  ${({ active }) => (active ? '20px' : '16px')};
-
+  ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.25rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
+  font-size: 16px;
+  font-weight: 400;
 `
 
 const StyledBalanceMax = styled.button`
   height: 28px;
   background-color: ${({ theme }) => theme.bg7};
-  border: 1px solid #3b3e48;
+  border: 0px solid;
   border-radius: 999px;
   font-size: 0.75rem;
-
   font-weight: 500;
   cursor: pointer;
   margin-right: 0.5rem;
-  color: white;
+  color: ${({ theme }) => theme.text1};
   :hover {
     border: 1px solid ${() => darken(0.05, '#3b3e48')};
     background-color: ${({ theme }) => darken(0.05, theme.bg7)};
@@ -114,6 +114,7 @@ const StyledBalanceMax = styled.button`
 
 interface CurrencyInputPanelProps {
   value: string
+  bridge?: boolean
   onUserInput: (value: string) => void
   onMax?: () => void
   showMaxButton: boolean

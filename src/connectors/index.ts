@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers'
+import { Web3Provider, JsonRpcProvider } from '@ethersproject/providers'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@fuseio/web3-react-walletconnect-connector'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
@@ -8,7 +8,7 @@ import { FortmaticConnector } from './Fortmatic'
 import { NetworkConnector } from './NetworkConnector'
 import { unwrapOrThrow } from '../utils'
 
-const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
+export const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
 const FORMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 const PORTIS_ID = process.env.REACT_APP_PORTIS_ID
 const WALLETCONNECT_BRIDGE = process.env.REACT_APP_WALLETCONNECT_BRIDGE
@@ -55,6 +55,8 @@ export const getChainNetworkLibrary = (chainId: number) => {
       return getNetworkLibrary()
   }
 }
+
+export const fuseReadProvider = new JsonRpcProvider(NETWORK_URL)
 
 export const injectedSupportedChainIds = [ETHEREUM_CHAIN_ID, 122, BINANCE_CHAIN_ID]
 

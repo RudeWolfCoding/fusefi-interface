@@ -17,10 +17,9 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
 import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
-import { ButtonSecondary } from '../Button'
 
 import Identicon from '../Identicon'
-import Loader from '../Loader'
+import Loader from '../Loaders/default'
 
 import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
@@ -37,12 +36,14 @@ const IconWrapper = styled.div<{ size?: number }>`
   }
 `
 
-const Web3StatusGeneric = styled(ButtonSecondary)`
+const Web3StatusGeneric = styled('div')`
   ${({ theme }) => theme.flexRowNoWrap}
   width: 100%;
   align-items: center;
   padding: 0.5rem;
   border-radius: 12px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
   cursor: pointer;
   user-select: none;
   :focus {
@@ -61,37 +62,38 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 `
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
-  background-color: ${({ theme }) => theme.primary4};
-  border: none;
-  color: ${({ theme }) => theme.primaryText1};
+  background-color: #52597b;
+  border: 2px solid white;
+  color: white;
   font-weight: 500;
-
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
   :hover,
   :focus {
-    border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-    color: ${({ theme }) => theme.primaryText1};
+    border: 2px solid ${darken(0.05, 'white')};
+    color: ${darken(0.05, 'white')};
   }
 
   ${({ faded }) =>
     faded &&
     css`
-      background-color: ${({ theme }) => theme.primary5};
-      border: 1px solid ${({ theme }) => theme.primary5};
-      color: ${({ theme }) => theme.primaryText1};
+      background-color: #52597b;
+      border: 2px solid white;
+      color: white;
 
       :hover,
       :focus {
-        border: 1px solid ${({ theme }) => darken(0.05, theme.primary4)};
-        color: ${({ theme }) => darken(0.05, theme.primaryText1)};
+        border: 2px solid ${darken(0.05, 'white')};
+        color: ${darken(0.05, 'white')};
       }
     `}
 `
 
 const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
-  background-color: ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg2)};
-  border: 1px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
+  background-color: black;
+  border: 2px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
   color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
-  font-weight: 500;
+  font-weight: 400;
   :hover,
   :focus {
     background-color: ${({ pending, theme }) => (pending ? darken(0.05, theme.primary1) : lighten(0.05, theme.bg2))};

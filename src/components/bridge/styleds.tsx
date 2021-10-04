@@ -20,7 +20,7 @@ export const ArrowWrapper = styled.div`
 `
 
 export const BottomGrouping = styled.div`
-  margin-top: 2rem;
+  margin-top: 40px;
 `
 
 export const Logo = styled.img<{ width?: number }>`
@@ -36,7 +36,7 @@ export const DestinationWrapper = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 24px;
 `
 
 export const ModalLink = styled(Link)`

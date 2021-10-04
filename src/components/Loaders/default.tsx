@@ -13,6 +13,7 @@ const rotate = keyframes`
 
 const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
   animation: 2s ${rotate} linear infinite;
+  margin: auto;
   height: ${({ size }) => size};
   width: ${({ size }) => size};
   path {
