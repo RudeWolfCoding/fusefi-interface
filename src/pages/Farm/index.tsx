@@ -29,14 +29,15 @@ const Container = styled('div')`
     font-weight: 600;
     line-height: 38px;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    padding-left: 1rem;
+    padding-right: 1rem;
+  `}
 `
 
 const Wrapper = styled('div')`
   width: 100%;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
   display: flex;
   flex-wrap: wrap;
   > span {
@@ -44,6 +45,17 @@ const Wrapper = styled('div')`
     font-weight: 600;
   }
 `
+const TabsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  > span {
+    font-size: 32px;
+    font-weight: 600;
+  }
+`
+
 const Item = styled('div')`
   padding: 4px;
   width: 33%;
@@ -107,9 +119,9 @@ export default function Farm(props: RouteComponentProps<{ address: string }>) {
               />
             </Item>
           </Wrapper>
-          <Wrapper style={{ paddingLeft: '4px', paddingRight: '10px' }}>
+          <TabsWrapper>
             <FarmTabs farm={farm} />
-          </Wrapper>
+          </TabsWrapper>
         </Container>
       ) : (
         'Loading'

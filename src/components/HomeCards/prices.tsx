@@ -12,6 +12,10 @@ const Wrapper = styled.div`
   justify-content: space-between;
   width: 100%;
   z-index: 3;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    flex-direction: column;
+  `}
 `
 
 export default function HomePrices() {

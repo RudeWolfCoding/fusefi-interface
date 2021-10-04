@@ -5,7 +5,8 @@ import { darken } from 'polished'
 const Container = styled('div')`
   display: flex;
   position: relative;
-  width: 25%;
+  width: 305px;
+  max-width: 100%;
   margin-bottom: 24px;
   justify-content: space-around;
   background: ${({ theme }) => theme.bg1};

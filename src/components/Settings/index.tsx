@@ -106,12 +106,8 @@ const MenuFlyout = styled.span`
   box-shadow: -2px -4px 10px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: -2px -4px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -2px -4px 10px 0px rgba(0, 0, 0, 0.75);
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    min-width: 18.125rem;
-    right: -46px;
-  `};
   @media only screen and (max-width: 1300px) {
-    padding: 4px;
+    padding: 1rem;
   }
 `
 

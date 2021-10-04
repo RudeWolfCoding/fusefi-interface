@@ -15,6 +15,10 @@ export const Container = styled.div`
     color: #ffffff;
     padding-bottom: 0px;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    height: 400px;
+  `}
 `
 
 export const Header = styled.div`

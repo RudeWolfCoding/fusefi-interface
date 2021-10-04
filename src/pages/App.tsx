@@ -24,6 +24,7 @@ import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Bridge from './Bridge'
 import { RedirectToDefault } from './redirects'
 import Menu from '../components/Menu'
+import MobileNav from '../components/MobileNav'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -65,6 +66,7 @@ export default function App() {
     <Suspense fallback={null}>
       <HashRouter>
         <AppWrapper>
+          <MobileNav />
           <LeftMenu>
             <Sticky>
               <Menu />

@@ -1,5 +1,5 @@
 import { darken, transparentize } from 'polished'
-import React from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 import { AlertTriangle } from 'react-feather'
 import styled, { css } from 'styled-components'
 import { Text } from 'rebass'
@@ -146,8 +146,20 @@ export const SwapShowAcceptChanges = styled(AutoColumn)`
   margin-top: 8px;
 `
 
-export const AppWrapper = styled.div`
-  width: 462px;
-  max-width: 100%;
-  margin: 0 auto;
-`
+export const AppWrapper = ({ children, style }: { children: ReactNode; style?: CSSProperties }) => {
+  const Wrapper = styled.div`
+    width: 462px;
+    max-width: 100%;
+    margin: 0 auto;
+  `
+
+  const WrapperInner = styled.div`
+    margin: 0 1rem;
+  `
+
+  return (
+    <Wrapper style={style}>
+      <WrapperInner>{children}</WrapperInner>
+    </Wrapper>
+  )
+}
