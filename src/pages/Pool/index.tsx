@@ -23,6 +23,7 @@ import { Dots, Wrapper } from '../../components/swap/styleds'
 import SwitchNetwork from '../../components/swap/SwitchNetwork'
 import { UNDER_MAINTENANCE } from '../../constants'
 import Maintenance from '../../components/swap/Maintenance'
+import FusefiBanner from '../../components/FuseFiBanner'
 
 export default function Pool() {
   const theme = useContext(ThemeContext)
@@ -144,6 +145,7 @@ export default function Pool() {
           </AutoColumn>
         </AutoColumn>
       </AppBody>
+      <FusefiBanner margin="1rem 0" />
     </>
   )
 }

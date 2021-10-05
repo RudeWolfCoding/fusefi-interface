@@ -60,6 +60,7 @@ import Maintenance from '../../components/swap/Maintenance'
 import usePegSwapCallback, { PegSwapType } from '../../hooks/usePegSwapCallback'
 import useAddChain from '../../hooks/useAddChain'
 import { FUSE_CHAIN } from '../../constants/chains'
+import FusefiBanner from '../../components/FuseFiBanner'
 
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch()
@@ -615,6 +616,7 @@ export default function Swap() {
         </Wrapper>
       </AppBody>
       <AdvancedSwapDetailsDropdown trade={trade} />
+      <FusefiBanner />
     </>
   )
 }

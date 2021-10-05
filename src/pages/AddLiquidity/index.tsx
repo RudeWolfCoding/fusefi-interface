@@ -42,6 +42,7 @@ import TokenMigrationModal from '../../components/TokenMigration'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import { FUSE_CHAIN } from '../../constants/chains'
 import useAddChain from '../../hooks/useAddChain'
+import FusefiBanner from '../../components/FuseFiBanner'
 
 export default function AddLiquidity({
   match: {
@@ -493,6 +494,8 @@ export default function AddLiquidity({
           <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
         </AutoColumn>
       ) : null}
+
+      <FusefiBanner margin="1rem 0" />
     </>
   )
 }
