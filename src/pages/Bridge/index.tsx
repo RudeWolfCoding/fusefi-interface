@@ -54,7 +54,7 @@ import useAddChain from '../../hooks/useAddChain'
 import AddTokenToMetamaskModal from '../../components/AddTokenToMetamaskModal'
 import MainCard from '../../components/MainCard'
 import BridgeInfo from '../../components/bridge/BridgeInfo'
-import { AppWrapper } from '../../components/swap/styleds'
+import { AppWrapper, AppWrapperInner } from '../../components/swap/styleds'
 
 export default function Bridge() {
   const { account, chainId, library } = useActiveWeb3React()
@@ -234,150 +234,152 @@ export default function Bridge() {
     <>
       <AppBody>
         <AppWrapper>
-          <SwapPoolTabs active={'bridge'} />
-          <MainCard>
-            <Wrapper id="bridge-page">
-              <AutoSwitchNetwork chainId={sourceChain} />
-              <UnsupportedBridgeTokenModal isOpen={modalOpen} setIsOpen={setModalOpen} />
-              <FeeModal isOpen={feeModalOpen} onDismiss={() => setFeeModalOpen(false)} />
-              <TokenMigrationModal
-                token={migrationCurrency}
-                isOpen={migrateModalOpen}
-                onDismiss={() => setMigrateModalOpen(false)}
-                listType="Bridge"
-              />
-              <AddTokenToMetamaskModal
-                isOpen={addTokenModalOpen}
-                setIsOpen={setAddTokenModalOpen}
-                currency={inputCurrency}
-              />
-              {isHome && (
-                <AutoColumn gap="md">
-                  <TYPE.mediumHeader color={theme.text2} fontSize={16}>
-                    Select Destination
-                  </TYPE.mediumHeader>
-                  <DestinationWrapper>
-                    <DestinationButton
-                      text="Ethereum"
-                      logoSrc={ethLogo}
-                      color={theme.ethereum}
-                      colorSelect="rgba(98, 126, 234, 0.2)"
-                      selectedBridgeDirection={bridgeDirection}
-                      bridgeDirection={BridgeDirection.FUSE_TO_ETH}
-                      handleClick={handleDestinationSelect}
-                    />
-                    <TYPE.body fontSize={14} color={theme.text2} fontWeight={500}>
-                      or
-                    </TYPE.body>
-                    <DestinationButton
-                      text="Binance Chain"
-                      logoSrc={bnbLogo}
-                      color={theme.binance}
-                      colorSelect="rgba(243, 186, 47, 0.2)"
-                      selectedBridgeDirection={bridgeDirection}
-                      bridgeDirection={BridgeDirection.FUSE_TO_BSC}
-                      handleClick={handleDestinationSelect}
-                    />
-                  </DestinationWrapper>
-                </AutoColumn>
-              )}
-              <AutoColumn gap={'md'}>
-                <TYPE.mediumHeader color={theme.text2} fontSize={16}>
-                  Select Currency
-                </TYPE.mediumHeader>
-                <CurrencyInputPanel
-                  bridge={true}
-                  label="Amount"
-                  value={formattedAmounts[Field.INPUT]}
-                  onUserInput={onFieldInput}
-                  onCurrencySelect={handleInputCurrencySelect}
-                  onMax={() => {
-                    onFieldInput(maxAmounts[Field.INPUT]?.toExact() ?? '')
-                  }}
-                  currency={currencies[Field.INPUT]}
-                  showMaxButton={!atMaxAmounts[Field.INPUT]}
-                  id="bridge-input-token"
-                  showETH={isHome || isBsc}
+          <AppWrapperInner>
+            <SwapPoolTabs active={'bridge'} />
+            <MainCard>
+              <Wrapper id="bridge-page">
+                <AutoSwitchNetwork chainId={sourceChain} />
+                <UnsupportedBridgeTokenModal isOpen={modalOpen} setIsOpen={setModalOpen} />
+                <FeeModal isOpen={feeModalOpen} onDismiss={() => setFeeModalOpen(false)} />
+                <TokenMigrationModal
+                  token={migrationCurrency}
+                  isOpen={migrateModalOpen}
+                  onDismiss={() => setMigrateModalOpen(false)}
                   listType="Bridge"
                 />
-              </AutoColumn>
-              {recipient && supportRecipient && (
-                <AutoColumn gap="md" style={{ marginTop: '1rem' }}>
-                  <AddressInputPanel
-                    id="recipient"
-                    value={recipient}
-                    onChange={onSetRecipient}
-                    readOnly
-                    chainId={ChainId.FUSE}
-                  />
-                </AutoColumn>
-              )}
-              {!isHome && (
-                <>
-                  <ColumnCenter>
-                    <ArrowWrapper>
-                      <ArrowDown size="16" color={theme.text2} />
-                    </ArrowWrapper>
-                  </ColumnCenter>
-                  <DarkBlueCard>
-                    <Logo src={fuseLogo} alt="fuse logo" />
-                  </DarkBlueCard>
-                </>
-              )}
-              <BottomGrouping>
-                {!account ? (
-                  isAddChainEnabled ? (
-                    <ButtonLight onClick={() => addChain(FUSE_CHAIN)}>Switch to Fuse</ButtonLight>
-                  ) : (
-                    <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
-                  )
-                ) : (
-                  <AutoColumn gap={'md'}>
-                    {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
-                      <RowBetween>
-                        <ButtonPrimary
-                          onClick={approveCallback}
-                          disabled={approval === ApprovalState.PENDING}
-                          width="100%"
-                        >
-                          {approval === ApprovalState.PENDING ? (
-                            <Dots>Approving {currencies[Field.INPUT]?.symbol}</Dots>
-                          ) : (
-                            'Approve ' + currencies[Field.INPUT]?.symbol
-                          )}
-                        </ButtonPrimary>
-                      </RowBetween>
-                    )}
-                    <ButtonError
-                      id="bridge-transfer-button"
-                      onClick={onTransfer}
-                      disabled={approval !== ApprovalState.APPROVED || !!inputError || !!bridgeStatus}
-                      error={approval !== ApprovalState.APPROVED || (!bridgeStatus && !!inputError)}
-                    >
-                      {bridgeStatus ? (
-                        <>
-                          <Loader src={loader} />
-                          <Text fontSize={16} fontWeight={500}>
-                            {bridgeStatus}
-                          </Text>
-                        </>
-                      ) : (
-                        <Text fontSize={16} fontWeight={500}>
-                          {inputError ?? 'Transfer'}
-                        </Text>
-                      )}
-                    </ButtonError>
+                <AddTokenToMetamaskModal
+                  isOpen={addTokenModalOpen}
+                  setIsOpen={setAddTokenModalOpen}
+                  currency={inputCurrency}
+                />
+                {isHome && (
+                  <AutoColumn gap="md">
+                    <TYPE.mediumHeader color={theme.text2} fontSize={16}>
+                      Select Destination
+                    </TYPE.mediumHeader>
+                    <DestinationWrapper>
+                      <DestinationButton
+                        text="Ethereum"
+                        logoSrc={ethLogo}
+                        color={theme.ethereum}
+                        colorSelect="rgba(98, 126, 234, 0.2)"
+                        selectedBridgeDirection={bridgeDirection}
+                        bridgeDirection={BridgeDirection.FUSE_TO_ETH}
+                        handleClick={handleDestinationSelect}
+                      />
+                      <TYPE.body fontSize={14} color={theme.text2} fontWeight={500}>
+                        or
+                      </TYPE.body>
+                      <DestinationButton
+                        text="Binance Chain"
+                        logoSrc={bnbLogo}
+                        color={theme.binance}
+                        colorSelect="rgba(243, 186, 47, 0.2)"
+                        selectedBridgeDirection={bridgeDirection}
+                        bridgeDirection={BridgeDirection.FUSE_TO_BSC}
+                        handleClick={handleDestinationSelect}
+                      />
+                    </DestinationWrapper>
                   </AutoColumn>
                 )}
-              </BottomGrouping>
-              <BridgeInfo />
-            </Wrapper>
-          </MainCard>
-          <BridgeDetails
-            inputCurrencyId={inputCurrencyId}
-            inputAmount={parsedAmounts[Field.INPUT]}
-            bridgeDirection={bridgeDirection}
-          />
+                <AutoColumn gap={'md'}>
+                  <TYPE.mediumHeader color={theme.text2} fontSize={16}>
+                    Select Currency
+                  </TYPE.mediumHeader>
+                  <CurrencyInputPanel
+                    bridge={true}
+                    label="Amount"
+                    value={formattedAmounts[Field.INPUT]}
+                    onUserInput={onFieldInput}
+                    onCurrencySelect={handleInputCurrencySelect}
+                    onMax={() => {
+                      onFieldInput(maxAmounts[Field.INPUT]?.toExact() ?? '')
+                    }}
+                    currency={currencies[Field.INPUT]}
+                    showMaxButton={!atMaxAmounts[Field.INPUT]}
+                    id="bridge-input-token"
+                    showETH={isHome || isBsc}
+                    listType="Bridge"
+                  />
+                </AutoColumn>
+                {recipient && supportRecipient && (
+                  <AutoColumn gap="md" style={{ marginTop: '1rem' }}>
+                    <AddressInputPanel
+                      id="recipient"
+                      value={recipient}
+                      onChange={onSetRecipient}
+                      readOnly
+                      chainId={ChainId.FUSE}
+                    />
+                  </AutoColumn>
+                )}
+                {!isHome && (
+                  <>
+                    <ColumnCenter>
+                      <ArrowWrapper>
+                        <ArrowDown size="16" color={theme.text2} />
+                      </ArrowWrapper>
+                    </ColumnCenter>
+                    <DarkBlueCard>
+                      <Logo src={fuseLogo} alt="fuse logo" />
+                    </DarkBlueCard>
+                  </>
+                )}
+                <BottomGrouping>
+                  {!account ? (
+                    isAddChainEnabled ? (
+                      <ButtonLight onClick={() => addChain(FUSE_CHAIN)}>Switch to Fuse</ButtonLight>
+                    ) : (
+                      <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
+                    )
+                  ) : (
+                    <AutoColumn gap={'md'}>
+                      {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
+                        <RowBetween>
+                          <ButtonPrimary
+                            onClick={approveCallback}
+                            disabled={approval === ApprovalState.PENDING}
+                            width="100%"
+                          >
+                            {approval === ApprovalState.PENDING ? (
+                              <Dots>Approving {currencies[Field.INPUT]?.symbol}</Dots>
+                            ) : (
+                              'Approve ' + currencies[Field.INPUT]?.symbol
+                            )}
+                          </ButtonPrimary>
+                        </RowBetween>
+                      )}
+                      <ButtonError
+                        id="bridge-transfer-button"
+                        onClick={onTransfer}
+                        disabled={approval !== ApprovalState.APPROVED || !!inputError || !!bridgeStatus}
+                        error={approval !== ApprovalState.APPROVED || (!bridgeStatus && !!inputError)}
+                      >
+                        {bridgeStatus ? (
+                          <>
+                            <Loader src={loader} />
+                            <Text fontSize={16} fontWeight={500}>
+                              {bridgeStatus}
+                            </Text>
+                          </>
+                        ) : (
+                          <Text fontSize={16} fontWeight={500}>
+                            {inputError ?? 'Transfer'}
+                          </Text>
+                        )}
+                      </ButtonError>
+                    </AutoColumn>
+                  )}
+                </BottomGrouping>
+                <BridgeInfo />
+              </Wrapper>
+            </MainCard>
+            <BridgeDetails
+              inputCurrencyId={inputCurrencyId}
+              inputAmount={parsedAmounts[Field.INPUT]}
+              bridgeDirection={bridgeDirection}
+            />
+          </AppWrapperInner>
         </AppWrapper>
       </AppBody>
     </>

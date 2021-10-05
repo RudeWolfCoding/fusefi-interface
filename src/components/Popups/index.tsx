@@ -5,12 +5,15 @@ import { AutoColumn } from '../Column'
 import PopupItem from './PopupItem'
 
 const MobilePopupWrapper = styled.div<{ height: string | number }>`
-  position: relative;
+  position: absolute;
+  top: 50px;
   max-width: 100%;
   height: ${({ height }) => height};
   margin: ${({ height }) => (height ? '0 auto;' : 0)};
   margin-bottom: ${({ height }) => (height ? '20px' : 0)}};
   margin-top: 20px;
+  z-index: 999;
+  width: 100%;
 
   display: none;
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -19,6 +22,7 @@ const MobilePopupWrapper = styled.div<{ height: string | number }>`
 `
 
 const MobilePopupInner = styled.div`
+  width: 100%;
   height: 99%;
   overflow-x: auto;
   overflow-y: hidden;

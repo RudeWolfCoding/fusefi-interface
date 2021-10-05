@@ -30,7 +30,6 @@ export const Popup = styled.div`
   overflow: hidden;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    min-width: 290px;
     margin-bottom: 20px;
   `}
 `

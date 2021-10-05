@@ -9,6 +9,7 @@ import { ReactComponent as PoolIcon } from '../../assets/svg/pool.svg'
 import { ReactComponent as SwapIcon } from '../../assets/svg/swap.svg'
 import { ReactComponent as FarmIcon } from '../../assets/svg/farm.svg'
 import { ReactComponent as LendingIcon } from '../../assets/svg/lending.svg'
+import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance_icon.svg'
 import SettingsTab from '../Settings'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
@@ -19,15 +20,17 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
   top: 0;
   bottom: 0;
   width: 100%;
-  justify-content: space-between;
   z-index: 150;
 `
 
 const Header = styled.div`
   padding: 1rem;
+  margin-bottom: 40px;
 `
 
-const Body = styled.div``
+const Body = styled.div`
+  margin-bottom: 40px;
+`
 
 const Footer = styled.div`
   #open-settings-dialog-button {
@@ -37,6 +40,7 @@ const Footer = styled.div`
 
 const StyledCloseIcon = styled(CloseIcon)`
   cursor: pointer;
+  margin-left: 21px;
 `
 
 const StyledLink = styled(Link)`
@@ -116,6 +120,14 @@ export default function MobileNav() {
               <LendingIcon />
             </IconWrapper>
             Lending
+          </LinkContent>
+        </StyledLink>
+        <StyledLink to="/governance" onClick={() => toggleNavMenu()}>
+          <LinkContent>
+            <IconWrapper>
+              <GovernanceIcon />
+            </IconWrapper>
+            Governance
           </LinkContent>
         </StyledLink>
       </Body>
