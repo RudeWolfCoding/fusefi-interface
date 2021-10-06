@@ -12,7 +12,7 @@ const MainWrapper = styled.div`
   flex-wrap: wrap;
   margin: 0 auto;
   position: relative;
-  z-index: 100;
+  z-index: 10;
 `
 const ContentWrapper = styled.div`
   margin-right: 10px;

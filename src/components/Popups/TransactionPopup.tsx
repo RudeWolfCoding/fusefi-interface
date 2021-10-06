@@ -15,6 +15,11 @@ const Row = styled(AutoRow)`
   flex-wrap: wrap;
   justify-content: flex-end;
 `
+const StyledExternalLink = styled(ExternalLink)`
+  margin-top: 1rem;
+  color: black;
+`
+
 export default function TransactionPopup({
   hash,
   success,
@@ -42,9 +47,9 @@ export default function TransactionPopup({
       </RowNoFlex>
       <Row>
         {chainId && (
-          <ExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
+          <StyledExternalLink href={getExplorerLink(chainId, hash, 'transaction')}>
             {getExplorerLinkText(chainId)}
-          </ExternalLink>
+          </StyledExternalLink>
         )}
       </Row>
     </>

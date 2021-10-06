@@ -16,6 +16,10 @@ const Container = styled.div`
   overflow: hidden;
   background-color: #232638;
   z-index: 100;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `}
 }
 `
 

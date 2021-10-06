@@ -75,6 +75,7 @@ export default function App() {
           <Content>
             <Route exact strict path="/home" component={Background} />
             <Route component={GoogleAnalyticsReporter} />
+            <Popups />
             <Container>
               <Web3ReactManager>
                 <Switch>
@@ -98,7 +99,6 @@ export default function App() {
                 </Switch>
               </Web3ReactManager>
             </Container>
-            <Popups />
           </Content>
         </AppWrapper>
       </HashRouter>

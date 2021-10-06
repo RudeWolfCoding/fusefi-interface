@@ -8,6 +8,7 @@ import { ReactComponent as SwapIcon } from '../../assets/svg/swap.svg'
 import { ReactComponent as FarmIcon } from '../../assets/svg/farm.svg'
 import { ReactComponent as HomeIcon } from '../../assets/svg/home.svg'
 import { ReactComponent as LendingIcon } from '../../assets/svg/lending.svg'
+import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance_icon.svg'
 import fusd from '../../assets/svg/fuse-dollar.svg'
 import useRampWidget from '../../hooks/useRamp'
 import Settings from '../../components/Settings'
@@ -176,7 +177,7 @@ const IconWrapper = styled.div<{ size?: number }>`
 
 const Logo = styled.img.attrs({
   src: LogoIcon,
-  width: '150px',
+  width: '200px',
   alt: 'FuseFi Logo'
 })`
   padding: 24px 0 30px 24px;
@@ -240,6 +241,14 @@ export default function Sidebar() {
                 <LendingIcon />
               </IconWrapper>
               <span>Lending</span>
+            </MenuItemWrapper>
+          </MenuItemInternal>
+          <MenuItemInternal to="/governance">
+            <MenuItemWrapper>
+              <IconWrapper>
+                <GovernanceIcon />
+              </IconWrapper>
+              <span>Governance</span>
             </MenuItemWrapper>
           </MenuItemInternal>
         </MenuWrapper>
