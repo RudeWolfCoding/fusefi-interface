@@ -10,10 +10,10 @@ import { useCurrency } from '../../hooks/Tokens'
 const AdvancedDetailsFooter = styled.div<{ show: boolean }>`
   width: 100%;
   margin: auto;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-radius: 16px;
   color: ${({ theme }) => theme.text2};
-  background-color: ${({ theme }) => theme.advancedBG};
+  background-color: ${({ theme }) => theme.bg1};
+  margin-top: 1rem;
   z-index: -1;
   display: ${({ show }) => (show ? 'flex' : 'none')};
   transition: transform 300ms ease-in-out;
@@ -39,7 +39,7 @@ function BridgeDetails({
 
   return (
     <AdvancedDetailsFooter show={show}>
-      <RowBetween style={{ flexWrap: 'wrap' }}>
+      <RowBetween style={{ flexWrap: 'wrap', padding: '0.5rem 1rem' }}>
         <RowFixed>
           <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
             Bridge Fee
