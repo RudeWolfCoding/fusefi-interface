@@ -6,7 +6,6 @@ import { ButtonDropdownLight } from '../../components/Button'
 import { LightCard } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
 import CurrencyLogo from '../../components/CurrencyLogo'
-import FusefiBanner from '../../components/FuseFiBanner'
 import { FindPoolTabs } from '../../components/NavigationTabs'
 import { MinimalPositionCard } from '../../components/PositionCard'
 import Row from '../../components/Row'
@@ -191,7 +190,6 @@ export default function PoolFinder() {
           showETH
         />
       </AppBody>
-      <FusefiBanner margin="1rem 0" />
     </>
   )
 }

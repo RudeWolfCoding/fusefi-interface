@@ -42,7 +42,6 @@ import { Field } from '../../state/burn/actions'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
-import FusefiBanner from '../../components/FuseFiBanner'
 
 export default function RemoveLiquidity({
   history,
@@ -699,8 +698,6 @@ export default function RemoveLiquidity({
           <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
         </AutoColumn>
       ) : null}
-
-      <FusefiBanner margin="1rem 0" />
     </>
   )
 }

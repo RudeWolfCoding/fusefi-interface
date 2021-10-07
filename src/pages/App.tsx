@@ -21,6 +21,7 @@ import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import { RightFlashIcon, LeftFlashIcon } from '../components/FlashIcon'
 import Bridge from './Bridge'
 import { RedirectToDefault } from './redirects'
+import FusefiBanner from '../components/FuseFiBanner'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -70,6 +71,7 @@ export default function App() {
           <Popups />
           <LeftFlashIcon />
           <BodyWrapper>
+            <FusefiBanner margin="0 0 1rem 0" />
             <Web3ReactManager>
               <Switch>
                 <Route exact strict path="/swap" component={Swap} />

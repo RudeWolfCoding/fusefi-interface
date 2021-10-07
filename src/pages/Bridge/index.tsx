@@ -60,7 +60,6 @@ import AddressInputPanel from '../../components/AddressInputPanel'
 import { FUSE_CHAIN } from '../../constants/chains'
 import useAddChain from '../../hooks/useAddChain'
 import AddTokenToMetamaskModal from '../../components/AddTokenToMetamaskModal'
-import FusefiBanner from '../../components/FuseFiBanner'
 
 export default function Bridge() {
   const { account, chainId, library } = useActiveWeb3React()
@@ -405,7 +404,6 @@ export default function Bridge() {
         inputAmount={parsedAmounts[Field.INPUT]}
         bridgeDirection={bridgeDirection}
       />
-      <FusefiBanner />
     </>
   )
 }
