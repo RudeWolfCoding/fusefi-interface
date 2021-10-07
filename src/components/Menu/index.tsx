@@ -183,6 +183,12 @@ const Logo = styled.img.attrs({
   padding: 24px 0 30px 24px;
 `
 
+const WhiteText = styled.span`
+  color: white;
+  font-size: 12px;
+  margin-left: 5px;
+`
+
 export default function Sidebar() {
   const node = useRef<HTMLDivElement>()
   const openRampWidget = useRampWidget()
@@ -249,6 +255,7 @@ export default function Sidebar() {
                 <GovernanceIcon />
               </IconWrapper>
               <span>Governance</span>
+              <WhiteText>Soon</WhiteText>
             </MenuItemWrapper>
           </MenuItemInternal>
         </MenuWrapper>

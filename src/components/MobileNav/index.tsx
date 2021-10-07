@@ -64,6 +64,12 @@ const IconWrapper = styled.div`
   width: 20px;
 `
 
+const WhiteText = styled.span`
+  color: white;
+  font-size: 12px;
+  margin-left: 5px;
+`
+
 export default function MobileNav() {
   const navMenuOpen = useNavMenuOpen()
   const toggleNavMenu = useToggleNavMenu()
@@ -127,7 +133,7 @@ export default function MobileNav() {
             <IconWrapper>
               <GovernanceIcon />
             </IconWrapper>
-            Governance
+            Governance <WhiteText>Soon</WhiteText>
           </LinkContent>
         </StyledLink>
       </Body>
