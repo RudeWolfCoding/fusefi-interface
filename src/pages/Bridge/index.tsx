@@ -12,7 +12,8 @@ import {
   useBridgeStatus,
   useDetectBridgeDirection,
   BridgeDirection,
-  useDefaultsFromURLSearch
+  useDefaultsFromURLSearch,
+  useAddBridgeTransaction
 } from '../../state/bridge/hooks'
 import { Field } from '../../state/bridge/actions'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
@@ -55,6 +56,7 @@ import AddTokenToMetamaskModal from '../../components/AddTokenToMetamaskModal'
 import MainCard from '../../components/MainCard'
 import BridgeInfo from '../../components/bridge/BridgeInfo'
 import { AppWrapper, AppWrapperInner } from '../../components/swap/styleds'
+import ClaimTransferModal from '../../components/ClaimTransferModal'
 
 export default function Bridge() {
   const { account, chainId, library } = useActiveWeb3React()
@@ -74,7 +76,7 @@ export default function Bridge() {
 
   const [migrationCurrency, setMigrationCurrency] = useState<Currency | undefined>()
 
-  const { independentField, typedValue, recipient } = useBridgeState()
+  const { independentField, typedValue, recipient, currentBridgeTransaction } = useBridgeState()
 
   const {
     currencies,
@@ -91,7 +93,13 @@ export default function Bridge() {
 
   const { updateCompletedBridgeTransfer } = useUserActionHandlers()
 
-  const { onFieldInput, onSelectBridgeDirection, onSelectCurrency, onSetRecipient } = useBridgeActionHandlers()
+  const {
+    onFieldInput,
+    onSelectBridgeDirection,
+    onSelectCurrency,
+    onSetRecipient,
+    onSetCurrentBridgeTransaction
+  } = useBridgeActionHandlers()
 
   // unsupportedBridge modal
   const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -101,6 +109,8 @@ export default function Bridge() {
   const [migrateModalOpen, setMigrateModalOpen] = useState(false)
 
   const [addTokenModalOpen, setAddTokenModalOpen] = useState(false)
+
+  const [claimTransferModalOpen, setClaimTransferModalOpen] = useState(false)
 
   const formattedAmounts = {
     [independentField]: typedValue
@@ -129,6 +139,8 @@ export default function Bridge() {
   const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.INPUT], approvalAddress)
 
   const addTransaction = useTransactionAdder()
+
+  const addBridgeTransaction = useAddBridgeTransaction()
 
   const supportRecipient = useMemo(() => {
     return supportRecipientTransfer(inputCurrencyId, bridgeDirection) && !isHome
@@ -165,6 +177,12 @@ export default function Bridge() {
       if (response) {
         if (isEtheruem || isBsc) {
           await fuseApi.fund(account)
+        }
+
+        if (bridgeDirection === BridgeDirection.FUSE_TO_ETH) {
+          addBridgeTransaction(response.hash)
+          onSetCurrentBridgeTransaction(response.hash)
+          setClaimTransferModalOpen(true)
         }
 
         onSetRecipient('')
@@ -251,6 +269,11 @@ export default function Bridge() {
                   isOpen={addTokenModalOpen}
                   setIsOpen={setAddTokenModalOpen}
                   currency={inputCurrency}
+                />
+                <ClaimTransferModal
+                  isOpen={claimTransferModalOpen}
+                  onDismiss={() => setClaimTransferModalOpen(false)}
+                  txHash={currentBridgeTransaction}
                 />
                 {isHome && (
                   <AutoColumn gap="md">

@@ -9,7 +9,9 @@ import {
   BridgeTransactionStatus,
   selectBridgeDirection,
   selectCurrency,
-  setRecipient
+  setRecipient,
+  addBridgeTransaction,
+  setCurrentBridgeTransaction
 } from './actions'
 import { Currency, CurrencyAmount, ChainId, Token } from '@fuseio/fuse-swap-sdk'
 import { useCurrencyBalances } from '../wallet/hooks'
@@ -198,6 +200,7 @@ export function useBridgeActionHandlers(): {
   onSelectBridgeDirection: (direction: BridgeDirection) => void
   onSelectCurrency: (currencyId: string | undefined) => void
   onSetRecipient: (recipient: string) => void
+  onSetCurrentBridgeTransaction: (txHash: string) => void
 } {
   const dispatch = useDispatch<AppDispatch>()
 
@@ -229,7 +232,14 @@ export function useBridgeActionHandlers(): {
     [dispatch]
   )
 
-  return { onFieldInput, onSelectBridgeDirection, onSelectCurrency, onSetRecipient }
+  const onSetCurrentBridgeTransaction = useCallback(
+    (txHash: string) => {
+      dispatch(setCurrentBridgeTransaction(txHash))
+    },
+    [dispatch]
+  )
+
+  return { onFieldInput, onSelectBridgeDirection, onSelectCurrency, onSetRecipient, onSetCurrentBridgeTransaction }
 }
 
 export function useBridgeFee(
@@ -359,4 +369,17 @@ export function useDefaultsFromURLSearch() {
     sourceChain,
     recipient
   }
+}
+
+export function useAddBridgeTransaction() {
+  const dispatch = useDispatch()
+
+  const addBridgeTransactionCallback = useCallback(
+    txHash => {
+      dispatch(addBridgeTransaction(txHash))
+    },
+    [dispatch]
+  )
+
+  return addBridgeTransactionCallback
 }

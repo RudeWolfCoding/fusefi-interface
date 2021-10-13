@@ -12,7 +12,9 @@ import {
   confirmTokenTransferSuccess,
   transferError,
   selectBridgeDirection,
-  setRecipient
+  setRecipient,
+  setCurrentBridgeTransaction,
+  addBridgeTransaction
 } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
 import { BridgeDirection } from './hooks'
@@ -27,6 +29,8 @@ export interface BridgeState {
   readonly bridgeTransactionStatus: BridgeTransactionStatus
   readonly confirmations: number
   readonly bridgeDirection?: BridgeDirection
+  readonly currentBridgeTransaction: string
+  readonly bridgeTransactions: Array<string>
 }
 
 const initialState: BridgeState = {
@@ -37,7 +41,9 @@ const initialState: BridgeState = {
   },
   recipient: '',
   bridgeTransactionStatus: BridgeTransactionStatus.INITIAL,
-  confirmations: 0
+  confirmations: 0,
+  currentBridgeTransaction: '',
+  bridgeTransactions: []
 }
 
 export default createReducer<BridgeState>(initialState, builder =>
@@ -116,5 +122,11 @@ export default createReducer<BridgeState>(initialState, builder =>
         ...state,
         recipient
       }
+    })
+    .addCase(addBridgeTransaction, (state, { payload }) => {
+      state.bridgeTransactions = [...state.bridgeTransactions, payload]
+    })
+    .addCase(setCurrentBridgeTransaction, (state, { payload: currentBridgeTransaction }) => {
+      state.currentBridgeTransaction = currentBridgeTransaction
     })
 )

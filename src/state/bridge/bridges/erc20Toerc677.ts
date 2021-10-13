@@ -143,7 +143,6 @@ export default class Erc20ToErc677Bridge extends TokenBridge {
       let response
       if (this.isHome) {
         response = await this.transferToForeign()
-        await this.watchForeignBridge()
       } else {
         response = await this.transferToHome()
         await this.waitForTransaction(response.hash, DEFAULT_CONFIRMATIONS_LIMIT)

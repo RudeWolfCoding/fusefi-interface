@@ -33,3 +33,7 @@ export const transferError = createAction('bridge/transferError')
 export const selectBridgeDirection = createAction<{ direction: BridgeDirection }>('bridge/selectBridgeDirection')
 
 export const setRecipient = createAction<string>('bridge/setRecipient')
+
+export const addBridgeTransaction = createAction<string>('bridge/addBridgeTransaction')
+
+export const setCurrentBridgeTransaction = createAction<string>('bridge/setCurrentBridgeTransaction')
