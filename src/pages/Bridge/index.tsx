@@ -180,8 +180,12 @@ export default function Bridge() {
         }
 
         if (bridgeDirection === BridgeDirection.FUSE_TO_ETH) {
-          addBridgeTransaction(response.hash)
-          onSetCurrentBridgeTransaction(response.hash)
+          const bridgeTransaction = {
+            txHash: response.hash,
+            bridgeDirection
+          }
+          addBridgeTransaction(bridgeTransaction)
+          onSetCurrentBridgeTransaction(bridgeTransaction)
           setClaimTransferModalOpen(true)
         }
 
@@ -270,11 +274,13 @@ export default function Bridge() {
                   setIsOpen={setAddTokenModalOpen}
                   currency={inputCurrency}
                 />
-                <ClaimTransferModal
-                  isOpen={claimTransferModalOpen}
-                  onDismiss={() => setClaimTransferModalOpen(false)}
-                  txHash={currentBridgeTransaction}
-                />
+                {currentBridgeTransaction && (
+                  <ClaimTransferModal
+                    isOpen={claimTransferModalOpen}
+                    onDismiss={() => setClaimTransferModalOpen(false)}
+                    bridgeTransaction={currentBridgeTransaction}
+                  />
+                )}
                 {isHome && (
                   <AutoColumn gap="md">
                     <TYPE.mediumHeader color={theme.text2} fontSize={16}>
@@ -375,7 +381,7 @@ export default function Bridge() {
                       <ButtonError
                         id="bridge-transfer-button"
                         onClick={onTransfer}
-                        disabled={approval !== ApprovalState.APPROVED || !!inputError || !!bridgeStatus}
+                        disabled={approval !== ApprovalState.APPROVED || !!inputError}
                         error={approval !== ApprovalState.APPROVED || (!bridgeStatus && !!inputError)}
                       >
                         {bridgeStatus ? (

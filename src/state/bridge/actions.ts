@@ -15,6 +15,11 @@ export enum BridgeTransactionStatus {
   CONFIRM_TOKEN_TRANSFER_SUCCESS
 }
 
+export interface BridgeTransaction {
+  txHash: string
+  bridgeDirection: BridgeDirection
+}
+
 export const selectCurrency = createAction<{ field: Field; currencyId: string | undefined }>('bridge/selectCurrency')
 export const typeInput = createAction<{ field: Field; typedValue: string }>('bridge/typeInput')
 
@@ -34,6 +39,10 @@ export const selectBridgeDirection = createAction<{ direction: BridgeDirection }
 
 export const setRecipient = createAction<string>('bridge/setRecipient')
 
-export const addBridgeTransaction = createAction<string>('bridge/addBridgeTransaction')
+export const addBridgeTransaction = createAction<{ txHash: string; bridgeDirection: BridgeDirection }>(
+  'bridge/addBridgeTransaction'
+)
 
-export const setCurrentBridgeTransaction = createAction<string>('bridge/setCurrentBridgeTransaction')
+export const setCurrentBridgeTransaction = createAction<{ txHash: string; bridgeDirection: BridgeDirection }>(
+  'bridge/setCurrentBridgeTransaction'
+)

@@ -24,7 +24,8 @@ import {
   BNB_FOREIGN_TOKEN_ADDRESS,
   BSC_BNB_NATIVE_TO_ERC20_BRIDGE_HOME_ADDRESS,
   BSC_BNB_NATIVE_TO_ERC20_BRIDGE_FOREIGN_ADDRESS,
-  FUSE_BLOCK_PER_YEAR
+  FUSE_BLOCK_PER_YEAR,
+  ETH_FUSE_FOREIGN_AMB
 } from '../constants'
 import {
   ChainId,
@@ -59,10 +60,12 @@ import BscNativeToErcBridge from '../state/bridge/bridges/bscNativeToErc'
 import FeeManagerAMBNativetoErc20 from '../constants/abis/feeManagerAMBNativeToErc20.json'
 import HomeAMBNativeToErc20ABI from '../constants/abis/homeAMBNativeToErc20.json'
 import ForeignAMBNativeToErc20ABI from '../constants/abis/foreignAMBNativeToErc20.json'
+import ForeignAmbABI from '../constants/abis/foreignAmb.json'
 import { HOME_TO_FOREIGN_FEE_TYPE_HASH } from '../constants/bridge'
-import { getChainNetworkLibrary, getNetworkLibrary } from '../connectors'
+import { ETHEREUM_CHAIN_ID, getChainNetworkLibrary, getNetworkLibrary } from '../connectors'
 import { BNB } from '../data/Currency'
 import BscBnbNativeToErc20Bridge from '../state/bridge/bridges/bscBnbNativeToErc20'
+import { utils } from 'ethers'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -268,6 +271,10 @@ export function getForeignAMBNativeToErc20Contract(address: string, library: Web
   return getContract(address, ForeignAMBNativeToErc20ABI, library, account)
 }
 
+export function getForeignAmbContract(address: string, library: Web3Provider, account?: string) {
+  return getContract(address, ForeignAmbABI, library, account)
+}
+
 export function getCurrencySymbol(currency: Currency | null | undefined, chainId: number | undefined) {
   if (chainId === ChainId.MAINNET || chainId === ChainId.ROPSTEN) {
     if (currency === FUSE) {
@@ -462,6 +469,27 @@ export function getApprovalAddress(tokenAddress?: string, bridgeDirection?: Brid
   }
 }
 
+export function getChainIds(bridgeDirection: BridgeDirection): { foreignChain: number; homeChain: number } | null {
+  switch (bridgeDirection) {
+    case BridgeDirection.FUSE_TO_ETH:
+      return {
+        foreignChain: ETHEREUM_CHAIN_ID,
+        homeChain: ChainId.FUSE
+      }
+    default:
+      return null
+  }
+}
+
+export function getForeignAmbAddress(bridgeDirection: BridgeDirection) {
+  switch (bridgeDirection) {
+    case BridgeDirection.FUSE_TO_ETH:
+      return ETH_FUSE_FOREIGN_AMB
+    default:
+      return null
+  }
+}
+
 export function unwrapOrThrow(envName: string) {
   const value = process.env[`REACT_APP_${envName}`]
   if (!value) {
@@ -652,4 +680,33 @@ export function calculateDistributionApy(incentiveSpeed: any, borrowBalance: any
 
 export function isObjectEmpty(obj: {}) {
   return Object.keys(obj).length === 0
+}
+
+function strip0x(input: string) {
+  return input.replace(/^0x/, '')
+}
+
+function signatureToVRS(rawSignature: string) {
+  const signature = strip0x(rawSignature)
+  const v = signature.substr(64 * 2)
+  const r = signature.substr(0, 32 * 2)
+  const s = signature.substr(32 * 2, 32 * 2)
+  return { v, r, s }
+}
+
+export function packSignatures(signatures: Array<string>) {
+  const vrsSignatures = signatures.map(s => signatureToVRS(s))
+  const length = strip0x(utils.hexValue(vrsSignatures.length))
+  const msgLength = length.length === 1 ? `0${length}` : length
+
+  let v = ''
+  let r = ''
+  let s = ''
+  vrsSignatures.forEach(e => {
+    v = v.concat(e.v)
+    r = r.concat(e.r)
+    s = s.concat(e.s)
+  })
+
+  return `0x${msgLength}${v}${r}${s}`
 }

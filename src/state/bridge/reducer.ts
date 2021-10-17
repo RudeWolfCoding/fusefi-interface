@@ -14,7 +14,8 @@ import {
   selectBridgeDirection,
   setRecipient,
   setCurrentBridgeTransaction,
-  addBridgeTransaction
+  addBridgeTransaction,
+  BridgeTransaction
 } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
 import { BridgeDirection } from './hooks'
@@ -29,8 +30,8 @@ export interface BridgeState {
   readonly bridgeTransactionStatus: BridgeTransactionStatus
   readonly confirmations: number
   readonly bridgeDirection?: BridgeDirection
-  readonly currentBridgeTransaction: string
-  readonly bridgeTransactions: Array<string>
+  readonly currentBridgeTransaction?: BridgeTransaction
+  readonly bridgeTransactions: Array<BridgeTransaction>
 }
 
 const initialState: BridgeState = {
@@ -42,7 +43,6 @@ const initialState: BridgeState = {
   recipient: '',
   bridgeTransactionStatus: BridgeTransactionStatus.INITIAL,
   confirmations: 0,
-  currentBridgeTransaction: '',
   bridgeTransactions: []
 }
 

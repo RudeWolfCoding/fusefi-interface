@@ -1,17 +1,33 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
-import { ETHEREUM_AMB_SUBGRAPH_URL, FUSESWAP_SUBGRAPH_URL, FUSE_AMB_SUBGRAPH_URL } from '../constants/subgraphs'
+import {
+  BSC_FUSE_AMB_SUBGRAPH_URL,
+  ETH_FUSE_AMB_SUBGRAPH_URL,
+  FUSESWAP_SUBGRAPH_URL,
+  FUSE_BSC_AMB_SUBGRAPH_URL,
+  FUSE_ETH_AMB_SUBGRAPH_URL
+} from '../constants/subgraphs'
 
 export const fuseswapSubgraphClient = new ApolloClient({
   uri: FUSESWAP_SUBGRAPH_URL,
   cache: new InMemoryCache()
 })
 
-export const ethereumAmbSubgraphClient = new ApolloClient({
-  uri: ETHEREUM_AMB_SUBGRAPH_URL,
+export const ethFuseAmbSubgraphClient = new ApolloClient({
+  uri: ETH_FUSE_AMB_SUBGRAPH_URL,
   cache: new InMemoryCache()
 })
 
-export const fuseAmbSubgraphClient = new ApolloClient({
-  uri: FUSE_AMB_SUBGRAPH_URL,
+export const fuseEthAmbSubgraphClient = new ApolloClient({
+  uri: FUSE_ETH_AMB_SUBGRAPH_URL,
+  cache: new InMemoryCache()
+})
+
+export const fuseBscAmbSubgraphClient = new ApolloClient({
+  uri: FUSE_BSC_AMB_SUBGRAPH_URL,
+  cache: new InMemoryCache()
+})
+
+export const bscFuseAmbSubgraphClient = new ApolloClient({
+  uri: BSC_FUSE_AMB_SUBGRAPH_URL,
   cache: new InMemoryCache()
 })

@@ -18,7 +18,9 @@ export const getFuseswapFactoryData = async () => {
   return result?.data?.uniswapFactory
 }
 
-export const getMessageFromTxHash = async (subgraph: ApolloClient<any>, txHash: string) => {
+export const getMessageFromTxHash = async (txHash: string, subgraph: ApolloClient<any> | null) => {
+  if (!subgraph) return null
+
   const result = await subgraph.query({
     query: gql`
       {
@@ -31,10 +33,9 @@ export const getMessageFromTxHash = async (subgraph: ApolloClient<any>, txHash: 
           }
         }
       }
-    `
+    `,
+    fetchPolicy: 'no-cache'
   })
-
-  console.log(result, subgraph)
 
   return result.data &&
     result.data.userRequestForSignatures &&
@@ -47,19 +48,18 @@ export const getMessageFromTxHash = async (subgraph: ApolloClient<any>, txHash: 
     : null
 }
 
-export const getMessageStatus = async (subgraph: ApolloClient<any>, messageId: string) => {
+export const getStatusFromTxHash = async (messageId: string, subgraph: ApolloClient<any> | null) => {
+  if (!subgraph) return null
+
   const result = await subgraph.query({
     query: gql`
-      query getRelayedMessages($messageId: String!) {
-        relayedMessages(where: { messageId_contains: $messageId }, first: 1) {
-          txHash
+      {
+        relayedMessages(where: { messageId_contains: "${messageId}" }, first: 1) {
           id
         }
       }
     `,
-    variables: {
-      messageId
-    }
+    fetchPolicy: 'no-cache'
   })
 
   return result.data && result.data.relayedMessages && result.data.relayedMessages.length > 0
