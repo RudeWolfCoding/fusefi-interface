@@ -640,10 +640,9 @@ export function supportRecipientTransfer(currencyId?: string, bridgeDirection?: 
 export const uppercaseText = (str: string) => str.replace(/[a-z]/g, token => token.toUpperCase())
 
 export function calculateApy(ratePerBlock: any) {
-  const ethMantissa = 1e18
-  const blocksPerDay = 86400 / 5
+  const blocksPerDay = 86400
   const daysPerYear = 365
-  return (Math.pow((ratePerBlock / ethMantissa) * blocksPerDay + 1, daysPerYear) - 1) * 100
+  return (ratePerBlock / 1e18) * blocksPerDay * daysPerYear * 100
 }
 
 export function isObjectEmpty(obj: {}) {
