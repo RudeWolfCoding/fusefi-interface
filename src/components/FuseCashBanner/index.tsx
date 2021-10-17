@@ -51,10 +51,10 @@ export default function FuseCashBanner() {
         <Title>Works best with Fuse Cash</Title>
         <Text>Download the easiest DeFi wallet and connect using WalletConnect</Text>
         <div>
-          <AppStoreLink href="https://click.fuse.cash/q9FM/f7790d61">
+          <AppStoreLink href="https://get.fuse.cash/mrxn/dfb1a810">
             <AppStoreIcon src={appStoreIcon} alt="App Store" />
           </AppStoreLink>
-          <AppStoreLink href="https://click.fuse.cash/q9FM/f7790d61">
+          <AppStoreLink href="https://get.fuse.cash/mrxn/dfb1a810">
             <AppStoreIcon src={playStoreIcon} alt="Google Play" />
           </AppStoreLink>
         </div>
