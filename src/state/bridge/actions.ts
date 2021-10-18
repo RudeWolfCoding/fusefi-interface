@@ -43,6 +43,6 @@ export const addBridgeTransaction = createAction<{ txHash: string; bridgeDirecti
   'bridge/addBridgeTransaction'
 )
 
-export const setCurrentBridgeTransaction = createAction<{ txHash: string; bridgeDirection: BridgeDirection }>(
+export const setCurrentBridgeTransaction = createAction<{ txHash: string; bridgeDirection: BridgeDirection } | null>(
   'bridge/setCurrentBridgeTransaction'
 )

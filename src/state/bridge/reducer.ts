@@ -30,7 +30,7 @@ export interface BridgeState {
   readonly bridgeTransactionStatus: BridgeTransactionStatus
   readonly confirmations: number
   readonly bridgeDirection?: BridgeDirection
-  readonly currentBridgeTransaction?: BridgeTransaction
+  readonly currentBridgeTransaction: BridgeTransaction | null
   readonly bridgeTransactions: Array<BridgeTransaction>
 }
 
@@ -43,7 +43,8 @@ const initialState: BridgeState = {
   recipient: '',
   bridgeTransactionStatus: BridgeTransactionStatus.INITIAL,
   confirmations: 0,
-  bridgeTransactions: []
+  bridgeTransactions: [],
+  currentBridgeTransaction: null
 }
 
 export default createReducer<BridgeState>(initialState, builder =>

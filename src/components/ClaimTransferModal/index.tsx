@@ -12,6 +12,7 @@ import Modal from '../Modal'
 import { RowCenter } from '../Row'
 import { ButtonPrimary } from '../Button'
 import { useTransactionAdder } from '../../state/transactions/hooks'
+import { useBridgeActionHandlers } from '../../state/bridge/hooks'
 
 interface ClaimTransferModalProps {
   isOpen: boolean
@@ -32,6 +33,7 @@ export default function ClaimTransferModal({
   const foreignAmbAddress = useMemo(() => getForeignAmbAddress(bridgeDirection), [bridgeDirection])
 
   const addTransaction = useTransactionAdder()
+  const { onSetCurrentBridgeTransaction } = useBridgeActionHandlers()
 
   useEffect(() => {
     async function getMessage() {
@@ -74,6 +76,9 @@ export default function ClaimTransferModal({
         summary: 'Claimed bridge tokens'
       })
 
+      setMessage(null)
+      setExecutionStatus(false)
+      onSetCurrentBridgeTransaction(null)
       onDismiss()
     } catch (e) {
       console.error(e)

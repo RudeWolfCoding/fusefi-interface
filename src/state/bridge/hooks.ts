@@ -201,7 +201,7 @@ export function useBridgeActionHandlers(): {
   onSelectBridgeDirection: (direction: BridgeDirection) => void
   onSelectCurrency: (currencyId: string | undefined) => void
   onSetRecipient: (recipient: string) => void
-  onSetCurrentBridgeTransaction: (bridgeTransaction: BridgeTransaction) => void
+  onSetCurrentBridgeTransaction: (bridgeTransaction: BridgeTransaction | null) => void
 } {
   const dispatch = useDispatch<AppDispatch>()
 
@@ -234,7 +234,7 @@ export function useBridgeActionHandlers(): {
   )
 
   const onSetCurrentBridgeTransaction = useCallback(
-    (bridgeTransaction: BridgeTransaction) => {
+    (bridgeTransaction: BridgeTransaction | null) => {
       dispatch(setCurrentBridgeTransaction(bridgeTransaction))
     },
     [dispatch]
