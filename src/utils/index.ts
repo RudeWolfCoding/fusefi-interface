@@ -23,7 +23,8 @@ import {
   BINANCE_CHAIN_ID,
   BNB_FOREIGN_TOKEN_ADDRESS,
   BSC_BNB_NATIVE_TO_ERC20_BRIDGE_HOME_ADDRESS,
-  BSC_BNB_NATIVE_TO_ERC20_BRIDGE_FOREIGN_ADDRESS
+  BSC_BNB_NATIVE_TO_ERC20_BRIDGE_FOREIGN_ADDRESS,
+  FUSE_BLOCK_PER_YEAR
 } from '../constants'
 import {
   ChainId,
@@ -639,10 +640,14 @@ export function supportRecipientTransfer(currencyId?: string, bridgeDirection?: 
 
 export const uppercaseText = (str: string) => str.replace(/[a-z]/g, token => token.toUpperCase())
 
-export function calculateApy(ratePerBlock: any) {
+export function calculateBaseApy(ratePerBlock: any) {
   const blocksPerDay = 86400
   const daysPerYear = 365
   return (ratePerBlock / 1e18) * blocksPerDay * daysPerYear * 100
+}
+
+export function calculateDistributionApy(incentiveSpeed: any, borrowBalance: any, fusePriceUSD: any) {
+  return (((incentiveSpeed / 1e18) * FUSE_BLOCK_PER_YEAR * fusePriceUSD) / borrowBalance) * 100
 }
 
 export function isObjectEmpty(obj: {}) {

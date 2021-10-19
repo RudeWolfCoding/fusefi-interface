@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { isObjectEmpty, calculateApy } from '../../utils'
+import { FUSE_MARKET } from '../../constants'
+import { isObjectEmpty, calculateBaseApy, calculateDistributionApy } from '../../utils'
 import { getMarketAddresses, getMarketPrices, getMarketsData } from '../../utils/lending'
 
 export interface Market {
@@ -61,17 +62,26 @@ export function useLendingMarkets() {
             totalCash,
             underlyingDecimals,
             cTokenDecimals,
-            underlyingAssetAddress
+            underlyingAssetAddress,
+            incentiveBorrowSpeed,
+            incentiveSupplySpeed
           } = marketData
 
+          const fusePriceUSD = marketPrices[FUSE_MARKET] / Math.pow(10, 36 - 18)
           const priceUSD = underlyingPrice / Math.pow(10, 36 - underlyingDecimals)
           const borrowBalance = (totalBorrows / Math.pow(10, underlyingDecimals)) * priceUSD
           const supplyBalance =
             (totalSupply / Math.pow(10, cTokenDecimals)) *
             (exchangeRateCurrent / Math.pow(10, 18 + (underlyingDecimals - cTokenDecimals))) *
             priceUSD
-          const supplyApy = calculateApy(supplyRatePerBlock)
-          const borrowApy = calculateApy(borrowRatePerBlock)
+
+          const supplyBaseApy = calculateBaseApy(supplyRatePerBlock)
+          const borrowBaseApy = calculateBaseApy(borrowRatePerBlock)
+          const supplyDistributionApy = calculateDistributionApy(incentiveSupplySpeed, supplyBalance, fusePriceUSD)
+          const borrowDistributionApy = calculateDistributionApy(incentiveBorrowSpeed, borrowBalance, fusePriceUSD)
+
+          const supplyApy = supplyBaseApy + supplyDistributionApy
+          const borrowApy = borrowDistributionApy - borrowBaseApy
           const liquidity = (totalCash / Math.pow(10, underlyingDecimals)) * priceUSD
 
           return {
