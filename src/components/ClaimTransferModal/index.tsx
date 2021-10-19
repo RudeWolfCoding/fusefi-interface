@@ -3,7 +3,6 @@ import { ReactComponent as BridgeIcon } from '../../assets/svg/bridge-icon2.svg'
 import { getMessageFromTxHash, getStatusFromTxHash } from '../../graphql/queries'
 import { getForeignAmbSubgraph, getHomeAmbSubgraph } from '../../graphql/utils'
 import { useActiveWeb3React } from '../../hooks'
-import { BridgeTransaction } from '../../state/bridge/actions'
 import { TYPE } from '../../theme'
 import { getChainIds, getForeignAmbAddress, getForeignAmbContract, packSignatures } from '../../utils'
 import { AutoColumn } from '../Column'
@@ -13,6 +12,7 @@ import { RowCenter } from '../Row'
 import { ButtonPrimary } from '../Button'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useBridgeActionHandlers } from '../../state/bridge/hooks'
+import { BridgeTransaction } from '../../state/bridge/reducer'
 
 interface ClaimTransferModalProps {
   isOpen: boolean
@@ -23,7 +23,7 @@ interface ClaimTransferModalProps {
 export default function ClaimTransferModal({
   isOpen,
   onDismiss,
-  bridgeTransaction: { txHash, bridgeDirection }
+  bridgeTransaction: { homeTxHash, bridgeDirection }
 }: ClaimTransferModalProps) {
   const { chainId, account, library } = useActiveWeb3React()
   const [message, setMessage] = useState<any>(null)
@@ -33,11 +33,11 @@ export default function ClaimTransferModal({
   const foreignAmbAddress = useMemo(() => getForeignAmbAddress(bridgeDirection), [bridgeDirection])
 
   const addTransaction = useTransactionAdder()
-  const { onSetCurrentBridgeTransaction } = useBridgeActionHandlers()
+  const { onSetCurrentBridgeTransaction, onFinalizeBridgeTransaction } = useBridgeActionHandlers()
 
   useEffect(() => {
     async function getMessage() {
-      const msg = await getMessageFromTxHash(txHash, getHomeAmbSubgraph(bridgeDirection))
+      const msg = await getMessageFromTxHash(homeTxHash, getHomeAmbSubgraph(bridgeDirection))
       if (msg && msg.signatures) {
         setMessage(msg)
       }
@@ -45,12 +45,12 @@ export default function ClaimTransferModal({
 
     let intervalId: any
 
-    if (txHash && !message) {
+    if (homeTxHash && !message) {
       intervalId = setInterval(getMessage, 5000)
     }
 
     return () => clearInterval(intervalId)
-  }, [bridgeDirection, message, txHash])
+  }, [bridgeDirection, message, homeTxHash])
 
   useEffect(() => {
     async function getStatus() {
@@ -66,7 +66,7 @@ export default function ClaimTransferModal({
   }, [bridgeDirection, message])
 
   async function onClaim() {
-    if (!library || !account || !message || !foreignAmbAddress || executionStatus) return
+    if (!library || !account || !message || !foreignAmbAddress || !homeTxHash || executionStatus) return
 
     try {
       const foreignAmb = getForeignAmbContract(foreignAmbAddress, library, account)
@@ -79,6 +79,7 @@ export default function ClaimTransferModal({
       setMessage(null)
       setExecutionStatus(false)
       onSetCurrentBridgeTransaction(null)
+      onFinalizeBridgeTransaction(homeTxHash, response.hash)
       onDismiss()
     } catch (e) {
       console.error(e)

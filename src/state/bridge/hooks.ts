@@ -1,7 +1,7 @@
 import { AppState, AppDispatch } from '../index'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Sentry from '@sentry/react'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAsyncMemo } from 'use-async-memo'
 import {
   typeInput,
@@ -12,7 +12,7 @@ import {
   setRecipient,
   addBridgeTransaction,
   setCurrentBridgeTransaction,
-  BridgeTransaction
+  finalizeBridgeTransaction
 } from './actions'
 import { Currency, CurrencyAmount, ChainId, Token } from '@fuseio/fuse-swap-sdk'
 import { useCurrencyBalances } from '../wallet/hooks'
@@ -30,7 +30,8 @@ import {
   getBscFuseInverseLibrary,
   isAddress,
   calculateBnbNativeAMBBridgeFee,
-  getBnbNativeAMBBridgeFee
+  getBnbNativeAMBBridgeFee,
+  getUnclaimedTransaction
 } from '../../utils'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import {
@@ -38,6 +39,7 @@ import {
   BINANCE_CHAIN_ID,
   BINANCE_ERC20_TO_ERC677_HOME_BRIDGE_ADDRESS
 } from '../../constants'
+import { BridgeTransaction } from './reducer'
 
 export enum BridgeType {
   ETH_FUSE_NATIVE = 'ETH_FUSE_NATIVE',
@@ -202,6 +204,7 @@ export function useBridgeActionHandlers(): {
   onSelectCurrency: (currencyId: string | undefined) => void
   onSetRecipient: (recipient: string) => void
   onSetCurrentBridgeTransaction: (bridgeTransaction: BridgeTransaction | null) => void
+  onFinalizeBridgeTransaction: (homeTxHash: string, foreignTxHash: string) => void
 } {
   const dispatch = useDispatch<AppDispatch>()
 
@@ -240,7 +243,21 @@ export function useBridgeActionHandlers(): {
     [dispatch]
   )
 
-  return { onFieldInput, onSelectBridgeDirection, onSelectCurrency, onSetRecipient, onSetCurrentBridgeTransaction }
+  const onFinalizeBridgeTransaction = useCallback(
+    (homeTxHash: string, foreignTxHash: string) => {
+      dispatch(finalizeBridgeTransaction({ homeTxHash, foreignTxHash }))
+    },
+    [dispatch]
+  )
+
+  return {
+    onFieldInput,
+    onSelectBridgeDirection,
+    onSelectCurrency,
+    onSetRecipient,
+    onSetCurrentBridgeTransaction,
+    onFinalizeBridgeTransaction
+  }
 }
 
 export function useBridgeFee(
@@ -383,4 +400,19 @@ export function useAddBridgeTransaction() {
   )
 
   return addBridgeTransactionCallback
+}
+
+export function useUnclaimedTransaction() {
+  const { bridgeTransactions } = useBridgeState()
+  const [unclaimedTransaction, setUnclaimedTransaction] = useState<any>(null)
+
+  useEffect(() => {
+    getUnclaimedTransaction(bridgeTransactions).then(transaction => {
+      if (transaction) {
+        setUnclaimedTransaction(transaction)
+      }
+    })
+  }, [bridgeTransactions])
+
+  return unclaimedTransaction
 }

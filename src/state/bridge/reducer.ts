@@ -15,10 +15,16 @@ import {
   setRecipient,
   setCurrentBridgeTransaction,
   addBridgeTransaction,
-  BridgeTransaction
+  finalizeBridgeTransaction
 } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
 import { BridgeDirection } from './hooks'
+
+export interface BridgeTransaction {
+  foreignTxHash?: string
+  homeTxHash?: string
+  bridgeDirection: BridgeDirection
+}
 
 export interface BridgeState {
   readonly independentField: Field
@@ -129,5 +135,17 @@ export default createReducer<BridgeState>(initialState, builder =>
     })
     .addCase(setCurrentBridgeTransaction, (state, { payload: currentBridgeTransaction }) => {
       state.currentBridgeTransaction = currentBridgeTransaction
+    })
+    .addCase(finalizeBridgeTransaction, (state, { payload: { homeTxHash, foreignTxHash } }) => {
+      const idx = state.bridgeTransactions.findIndex(tx => tx.homeTxHash === homeTxHash)
+
+      const tx = state.bridgeTransactions[idx]
+      if (!tx) return
+      tx.foreignTxHash = foreignTxHash
+
+      const transactions = state.bridgeTransactions.slice()
+      transactions.splice(idx, 1, tx)
+
+      state.bridgeTransactions = transactions
     })
 )

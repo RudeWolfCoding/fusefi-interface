@@ -66,6 +66,9 @@ import { ETHEREUM_CHAIN_ID, getChainNetworkLibrary, getNetworkLibrary } from '..
 import { BNB } from '../data/Currency'
 import BscBnbNativeToErc20Bridge from '../state/bridge/bridges/bscBnbNativeToErc20'
 import { utils } from 'ethers'
+import { BridgeTransaction } from '../state/bridge/reducer'
+import { getMessageFromTxHash, getStatusFromTxHash } from '../graphql/queries'
+import { getForeignAmbSubgraph, getHomeAmbSubgraph } from '../graphql/utils'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -709,4 +712,30 @@ export function packSignatures(signatures: Array<string>) {
   })
 
   return `0x${msgLength}${v}${r}${s}`
+}
+
+async function getBridgeTransactionStatus({ homeTxHash, bridgeDirection }: BridgeTransaction) {
+  const message = await getMessageFromTxHash(homeTxHash, getHomeAmbSubgraph(bridgeDirection))
+  if (message) {
+    const executionStatus = await getStatusFromTxHash(message.msgId, getForeignAmbSubgraph(bridgeDirection))
+    return executionStatus ? true : false
+  }
+  return false
+}
+
+export async function getUnclaimedTransaction(
+  bridgeTransactions: Array<BridgeTransaction>
+): Promise<BridgeTransaction | undefined> {
+  const unclaimedTransactions = bridgeTransactions.filter(bridgeTransaction => !bridgeTransaction.foreignTxHash)
+
+  let bridgeTransaction
+  for (const tx of unclaimedTransactions) {
+    const status = await getBridgeTransactionStatus(tx)
+    if (!status) {
+      bridgeTransaction = tx
+      break
+    }
+  }
+
+  return bridgeTransaction
 }

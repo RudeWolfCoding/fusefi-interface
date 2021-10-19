@@ -18,8 +18,8 @@ export const getFuseswapFactoryData = async () => {
   return result?.data?.uniswapFactory
 }
 
-export const getMessageFromTxHash = async (txHash: string, subgraph: ApolloClient<any> | null) => {
-  if (!subgraph) return null
+export const getMessageFromTxHash = async (txHash: string | undefined, subgraph: ApolloClient<any> | null) => {
+  if (!subgraph || !txHash) return null
 
   const result = await subgraph.query({
     query: gql`

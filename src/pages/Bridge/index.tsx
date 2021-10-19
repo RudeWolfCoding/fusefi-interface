@@ -13,7 +13,8 @@ import {
   useDetectBridgeDirection,
   BridgeDirection,
   useDefaultsFromURLSearch,
-  useAddBridgeTransaction
+  useAddBridgeTransaction,
+  useUnclaimedTransaction
 } from '../../state/bridge/hooks'
 import { Field } from '../../state/bridge/actions'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
@@ -181,7 +182,7 @@ export default function Bridge() {
 
         if (bridgeDirection === BridgeDirection.FUSE_TO_ETH) {
           const bridgeTransaction = {
-            txHash: response.hash,
+            homeTxHash: response.hash,
             bridgeDirection
           }
           addBridgeTransaction(bridgeTransaction)
@@ -237,6 +238,15 @@ export default function Bridge() {
     },
     [onSelectCurrency]
   )
+
+  // check if we have unconfirmed transactions
+  const unclaimedTransaction = useUnclaimedTransaction()
+  useEffect(() => {
+    if (unclaimedTransaction) {
+      onSetCurrentBridgeTransaction(unclaimedTransaction)
+      setClaimTransferModalOpen(true)
+    }
+  }, [onSetCurrentBridgeTransaction, unclaimedTransaction])
 
   // set defaults from url params
 
