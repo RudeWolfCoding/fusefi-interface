@@ -87,8 +87,7 @@ export default function ClaimTransferModal({
   }
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    <Modal isOpen={isOpen} onDismiss={() => {}}>
+    <Modal isOpen={isOpen} onDismiss={onDismiss}>
       <AutoColumn gap="md" style={{ padding: '20px', width: '100%' }}>
         <TYPE.mediumHeader fontWeight={500} textAlign="center" paddingBottom="1rem">
           Claim your tokens
