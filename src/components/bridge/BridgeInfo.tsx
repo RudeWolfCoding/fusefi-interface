@@ -204,7 +204,7 @@ const Wrapper = styled.div`
   width: 100%;
   text-align: center;
   justify-content: center;
-  margin-top: 27px;
+  margin-top: 16px;
   position: relative;
 
   > span {
@@ -291,13 +291,13 @@ export default function BridgeInfo() {
 
               <Card>
                 <Title>
-                  0.5 <span>%</span>
+                  0.05 <span>%</span>
                 </Title>
                 <Description>Withdrawal Fee</Description>
               </Card>
               <Card>
                 <Title>
-                  $1000 <span>&nbsp;USD</span>
+                  $100 <span>&nbsp;USD</span>
                 </Title>
                 <Description>Withdrawal Minimum</Description>
               </Card>

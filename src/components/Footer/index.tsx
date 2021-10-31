@@ -49,7 +49,7 @@ export default function Footer() {
   return (
     <Container>
       <SocialBar>
-        <Item id="link" href="https://fuseswap.com" style={{ color: '#52597B' }}>
+        <Item id="link" href="https://fuseswap.com">
           Use old version
         </Item>
         <Item id="link" href="https://github.com/fuseio">
