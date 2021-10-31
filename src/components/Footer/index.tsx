@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import telegram from '../../assets/svg/telegram.svg'
-import discord from '../../assets/svg/discord.svg'
 import twitter from '../../assets/svg/twitter.svg'
-import medium from '../../assets/svg/medium.svg'
 import github from '../../assets/svg/github.svg'
 
 import { ExternalLink } from '../../theme'
@@ -28,11 +26,8 @@ const SocialBar = styled.div`
   color: white;
   text-align: right;
   justify-content: flex-end;
-  align-items: flex-start;
+  align-items: center;
   padding-right: 32px;
-
-  > img {
-  }
 `
 
 const Item = styled(ExternalLink)`
@@ -54,19 +49,16 @@ export default function Footer() {
   return (
     <Container>
       <SocialBar>
-        <Item id="link" href="https://medium.com/fusenet">
-          <img src={medium} alt="Medium icon" />
+        <Item id="link" href="https://fuseswap.com" style={{ color: '#52597B' }}>
+          Use old version
         </Item>
         <Item id="link" href="https://github.com/fuseio">
           <img src={github} alt="Github icon" />
         </Item>
-        <Item id="link" href="https://twitter.com/fuse_network">
+        <Item id="link" href="https://t.me/fuseswap">
           <img src={telegram} alt="Telegram icon" />
         </Item>
-        <Item id="link" href="https://discord.com/invite/jpPMeSZ">
-          <img src={discord} alt="Discord icon" />
-        </Item>
-        <Item id="link" href="https://t.me/fuseswap">
+        <Item id="link" href="https://twitter.com/Fuse_Fi">
           <img src={twitter} alt="Twitter icon" />
         </Item>
       </SocialBar>

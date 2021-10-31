@@ -271,7 +271,7 @@ export default function Bridge() {
                         or
                       </TYPE.body>
                       <DestinationButton
-                        text="Binance Chain"
+                        text="Binance Smart Chain"
                         logoSrc={bnbLogo}
                         color={theme.binance}
                         colorSelect="rgba(243, 186, 47, 0.2)"
