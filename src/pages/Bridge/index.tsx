@@ -411,7 +411,7 @@ export default function Bridge() {
                   )}
                 </BottomGrouping>
                 <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
-                  Important! - Mainnet claim fees apply and will be paid by the user, be aware of the gas costs
+                  Important! - Ethereum claim fees apply and will be paid by the user, be aware of the gas costs
                 </TYPE.main>
                 <BridgeInfo />
               </Wrapper>
