@@ -33,3 +33,19 @@ export const transferError = createAction('bridge/transferError')
 export const selectBridgeDirection = createAction<{ direction: BridgeDirection }>('bridge/selectBridgeDirection')
 
 export const setRecipient = createAction<string>('bridge/setRecipient')
+
+export const addBridgeTransaction = createAction<{
+  foreignTxHash?: string
+  homeTxHash?: string
+  bridgeDirection: BridgeDirection
+}>('bridge/addBridgeTransaction')
+
+export const setCurrentBridgeTransaction = createAction<{
+  foreignTxHash?: string
+  homeTxHash?: string
+  bridgeDirection: BridgeDirection
+} | null>('bridge/setCurrentBridgeTransaction')
+
+export const finalizeBridgeTransaction = createAction<{ homeTxHash: string; foreignTxHash: string }>(
+  'bridge/finalizeBridgeTransaction'
+)

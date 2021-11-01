@@ -67,7 +67,7 @@ abstract class TokenBridge {
 
   get transactionSummary(): string {
     return this.isHome
-      ? 'Your tokens were transferred successfully to Ethereum please switch to Ethereum to use them'
+      ? 'Your tokens were transferred successfully to Ethereum please switch to Ethereum to claim them'
       : 'Your tokens were transferred successfully to Fuse please switch to Fuse to use them'
   }
 

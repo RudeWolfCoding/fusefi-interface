@@ -11,8 +11,10 @@ import lists from './lists/reducer'
 import burn from './burn/reducer'
 import multicall from './multicall/reducer'
 import bridge from './bridge/reducer'
+import { BridgeTransactionStatus } from './bridge/actions'
+import { Field } from './bridge/actions'
 
-const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
+const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists', 'bridge.bridgeTransactions']
 
 const store = configureStore({
   reducer: {
@@ -27,7 +29,23 @@ const store = configureStore({
     bridge
   },
   middleware: [...getDefaultMiddleware({ thunk: false, serializableCheck: false }), save({ states: PERSISTED_KEYS })],
-  preloadedState: load({ states: PERSISTED_KEYS })
+  preloadedState: load({
+    states: PERSISTED_KEYS,
+    preloadedState: {
+      bridge: {
+        independentField: Field.INPUT,
+        typedValue: '',
+        [Field.INPUT]: {
+          currencyId: ''
+        },
+        recipient: '',
+        bridgeTransactionStatus: BridgeTransactionStatus.INITIAL,
+        confirmations: 0,
+        currentBridgeTransaction: null,
+        bridgeTransactions: []
+      }
+    }
+  })
 })
 
 store.dispatch(updateVersion())

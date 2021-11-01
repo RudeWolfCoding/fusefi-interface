@@ -121,32 +121,6 @@ const Chain = styled('div')`
     margin-left: 8px;
   }
 `
-const Info = styled('div')`
-  padding-bottom: 10px;
-  display: flex;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-`
-const Side = styled('div')`
-  display: flex;
-  width: 5%;
-  text-align: center;
-  align-items: flex-start;
-  justify-content: space-around;
-`
-const InfoText = styled('div')`
-  padding-bottom: 10px;
-  width: 95%;
-  text-align: left;
-  > p {
-    margin: 0;
-    font-weight: 400;
-  }
-`
 
 const InfoNotice = styled('div')`
   display: flex;
@@ -204,7 +178,7 @@ const Wrapper = styled.div`
   width: 100%;
   text-align: center;
   justify-content: center;
-  margin-top: 27px;
+  margin-top: 16px;
   position: relative;
 
   > span {
@@ -291,13 +265,13 @@ export default function BridgeInfo() {
 
               <Card>
                 <Title>
-                  0.5 <span>%</span>
+                  0.05 <span>%</span>
                 </Title>
                 <Description>Withdrawal Fee</Description>
               </Card>
               <Card>
                 <Title>
-                  $1000 <span>&nbsp;USD</span>
+                  $100 <span>&nbsp;USD</span>
                 </Title>
                 <Description>Withdrawal Minimum</Description>
               </Card>
@@ -323,14 +297,6 @@ export default function BridgeInfo() {
                 <Description>Withdrawal Minimum</Description>
               </Card>
             </Cards>
-            <Info>
-              <Side>
-                <img width="20px" src={InfoIcon} alt="Info Icon" />
-              </Side>
-              <InfoText>
-                <p>The fees are taken to repay the network fees on the Ethereum network.</p>
-              </InfoText>
-            </Info>
 
             <InfoNotice>
               <div>

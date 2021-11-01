@@ -62,6 +62,9 @@ export const FUSE_MARKET = '0x025B0ff0920298e087308F3b2de0CF6399685909'
 export const FUSE_BLOCKS_PER_MINUTE = 12
 export const FUSE_BLOCK_PER_YEAR = FUSE_BLOCKS_PER_MINUTE * 60 * 24 * 365
 
+export const ETH_FUSE_FOREIGN_AMB = unwrapOrThrow('ETH_FUSE_FOREIGN_AMB')
+export const BSC_FUSE_FOREIGN_AMB = unwrapOrThrow('BSC_FUSE_FOREIGN_AMB')
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]

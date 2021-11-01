@@ -12,7 +12,9 @@ import {
   useBridgeStatus,
   useDetectBridgeDirection,
   BridgeDirection,
-  useDefaultsFromURLSearch
+  useDefaultsFromURLSearch,
+  useAddBridgeTransaction,
+  useUnclaimedTransaction
 } from '../../state/bridge/hooks'
 import { Field } from '../../state/bridge/actions'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
@@ -55,6 +57,7 @@ import AddTokenToMetamaskModal from '../../components/AddTokenToMetamaskModal'
 import MainCard from '../../components/MainCard'
 import BridgeInfo from '../../components/bridge/BridgeInfo'
 import { AppWrapper, AppWrapperInner } from '../../components/swap/styleds'
+import ClaimTransferModal from '../../components/ClaimTransferModal'
 
 export default function Bridge() {
   const { account, chainId, library } = useActiveWeb3React()
@@ -74,7 +77,7 @@ export default function Bridge() {
 
   const [migrationCurrency, setMigrationCurrency] = useState<Currency | undefined>()
 
-  const { independentField, typedValue, recipient } = useBridgeState()
+  const { independentField, typedValue, recipient, currentBridgeTransaction } = useBridgeState()
 
   const {
     currencies,
@@ -91,7 +94,13 @@ export default function Bridge() {
 
   const { updateCompletedBridgeTransfer } = useUserActionHandlers()
 
-  const { onFieldInput, onSelectBridgeDirection, onSelectCurrency, onSetRecipient } = useBridgeActionHandlers()
+  const {
+    onFieldInput,
+    onSelectBridgeDirection,
+    onSelectCurrency,
+    onSetRecipient,
+    onSetCurrentBridgeTransaction
+  } = useBridgeActionHandlers()
 
   // unsupportedBridge modal
   const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -101,6 +110,8 @@ export default function Bridge() {
   const [migrateModalOpen, setMigrateModalOpen] = useState(false)
 
   const [addTokenModalOpen, setAddTokenModalOpen] = useState(false)
+
+  const [claimTransferModalOpen, setClaimTransferModalOpen] = useState(false)
 
   const formattedAmounts = {
     [independentField]: typedValue
@@ -129,6 +140,8 @@ export default function Bridge() {
   const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.INPUT], approvalAddress)
 
   const addTransaction = useTransactionAdder()
+
+  const addBridgeTransaction = useAddBridgeTransaction()
 
   const supportRecipient = useMemo(() => {
     return supportRecipientTransfer(inputCurrencyId, bridgeDirection) && !isHome
@@ -165,6 +178,16 @@ export default function Bridge() {
       if (response) {
         if (isEtheruem || isBsc) {
           await fuseApi.fund(account)
+        }
+
+        if (bridgeDirection === BridgeDirection.FUSE_TO_ETH) {
+          const bridgeTransaction = {
+            homeTxHash: response.hash,
+            bridgeDirection
+          }
+          addBridgeTransaction(bridgeTransaction)
+          onSetCurrentBridgeTransaction(bridgeTransaction)
+          setClaimTransferModalOpen(true)
         }
 
         onSetRecipient('')
@@ -216,6 +239,15 @@ export default function Bridge() {
     [onSelectCurrency]
   )
 
+  // check if we have unconfirmed transactions
+  const unclaimedTransaction = useUnclaimedTransaction()
+  useEffect(() => {
+    if (unclaimedTransaction) {
+      onSetCurrentBridgeTransaction(unclaimedTransaction)
+      setClaimTransferModalOpen(true)
+    }
+  }, [onSetCurrentBridgeTransaction, unclaimedTransaction])
+
   // set defaults from url params
 
   useEffect(() => {
@@ -252,6 +284,13 @@ export default function Bridge() {
                   setIsOpen={setAddTokenModalOpen}
                   currency={inputCurrency}
                 />
+                {currentBridgeTransaction && (
+                  <ClaimTransferModal
+                    isOpen={claimTransferModalOpen}
+                    onDismiss={() => setClaimTransferModalOpen(false)}
+                    bridgeTransaction={currentBridgeTransaction}
+                  />
+                )}
                 {isHome && (
                   <AutoColumn gap="md">
                     <TYPE.mediumHeader color={theme.text2} fontSize={16}>
@@ -271,7 +310,7 @@ export default function Bridge() {
                         or
                       </TYPE.body>
                       <DestinationButton
-                        text="Binance Chain"
+                        text="Binance Smart Chain"
                         logoSrc={bnbLogo}
                         color={theme.binance}
                         colorSelect="rgba(243, 186, 47, 0.2)"
@@ -352,7 +391,7 @@ export default function Bridge() {
                       <ButtonError
                         id="bridge-transfer-button"
                         onClick={onTransfer}
-                        disabled={approval !== ApprovalState.APPROVED || !!inputError || !!bridgeStatus}
+                        disabled={approval !== ApprovalState.APPROVED || !!inputError}
                         error={approval !== ApprovalState.APPROVED || (!bridgeStatus && !!inputError)}
                       >
                         {bridgeStatus ? (
@@ -371,6 +410,9 @@ export default function Bridge() {
                     </AutoColumn>
                   )}
                 </BottomGrouping>
+                <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
+                  Important! - Ethereum claim fees apply and will be paid by the user, be aware of the gas costs
+                </TYPE.main>
                 <BridgeInfo />
               </Wrapper>
             </MainCard>
