@@ -271,7 +271,7 @@ export default function BridgeInfo() {
               </Card>
               <Card>
                 <Title>
-                  $100 <span>&nbsp;USD</span>
+                  $1000 <span>&nbsp;USD</span>
                 </Title>
                 <Description>Withdrawal Minimum</Description>
               </Card>

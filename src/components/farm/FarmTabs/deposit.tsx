@@ -108,7 +108,13 @@ export default function Deposit({ farm }: { farm?: Farm }) {
         .multipliedBy(10 ** lpToken.decimals)
         .integerValue(BigNumber.ROUND_DOWN)
         .toString()
-      return new TokenAmount(lpToken, depositValueWei)
+
+      try {
+        return new TokenAmount(lpToken, depositValueWei)
+      } catch (error) {
+        console.error(error)
+        setdepositValue('0')
+      }
     }
     return undefined
   }, [depositValue, lpToken])

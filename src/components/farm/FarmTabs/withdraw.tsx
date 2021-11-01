@@ -115,7 +115,13 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
         .multipliedBy(10 ** lpToken.decimals)
         .integerValue(BigNumber.ROUND_DOWN)
         .toString()
-      return new TokenAmount(lpToken, withdrawValueWei)
+
+      try {
+        return new TokenAmount(lpToken, withdrawValueWei)
+      } catch (error) {
+        console.error(error)
+        setWithdrawValue('0')
+      }
     }
     return undefined
   }, [withdrawValue, lpToken])
