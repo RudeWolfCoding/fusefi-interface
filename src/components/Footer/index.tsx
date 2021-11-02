@@ -50,7 +50,7 @@ export default function Footer() {
     <Container>
       <SocialBar>
         <Item id="link" href="https://v1.fuseswap.com">
-          Fuseswap
+          Use V1
         </Item>
         <Item id="link" href="https://github.com/fuseio">
           <img src={github} alt="Github icon" />
