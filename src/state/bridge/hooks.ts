@@ -31,7 +31,8 @@ import {
   isAddress,
   calculateBnbNativeAMBBridgeFee,
   getBnbNativeAMBBridgeFee,
-  getUnclaimedTransaction
+  getUnclaimedTransaction,
+  getBridgeTransactionStatus
 } from '../../utils'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import {
@@ -404,15 +405,25 @@ export function useAddBridgeTransaction() {
 
 export function useUnclaimedTransaction() {
   const { bridgeTransactions } = useBridgeState()
+  const { onFinalizeBridgeTransaction } = useBridgeActionHandlers()
   const [unclaimedTransaction, setUnclaimedTransaction] = useState<any>(null)
 
   useEffect(() => {
-    getUnclaimedTransaction(bridgeTransactions).then(transaction => {
+    async function getTransaction() {
+      const transaction = await getUnclaimedTransaction(bridgeTransactions)
       if (transaction) {
-        setUnclaimedTransaction(transaction)
+        const status = await getBridgeTransactionStatus(transaction)
+
+        if (status && transaction.homeTxHash) {
+          onFinalizeBridgeTransaction(transaction.homeTxHash, status.id)
+        } else {
+          setUnclaimedTransaction(transaction)
+        }
       }
-    })
-  }, [bridgeTransactions])
+    }
+
+    getTransaction()
+  }, [bridgeTransactions, onFinalizeBridgeTransaction])
 
   return unclaimedTransaction
 }

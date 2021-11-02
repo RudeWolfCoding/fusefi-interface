@@ -714,28 +714,18 @@ export function packSignatures(signatures: Array<string>) {
   return `0x${msgLength}${v}${r}${s}`
 }
 
-async function getBridgeTransactionStatus({ homeTxHash, bridgeDirection }: BridgeTransaction) {
+export async function getBridgeTransactionStatus({ homeTxHash, bridgeDirection }: BridgeTransaction) {
   const message = await getMessageFromTxHash(homeTxHash, getHomeAmbSubgraph(bridgeDirection))
   if (message) {
     const executionStatus = await getStatusFromTxHash(message.msgId, getForeignAmbSubgraph(bridgeDirection))
-    return executionStatus ? true : false
+    return executionStatus ? executionStatus : null
   }
-  return false
+  return null
 }
 
 export async function getUnclaimedTransaction(
   bridgeTransactions: Array<BridgeTransaction>
-): Promise<BridgeTransaction | undefined> {
+): Promise<BridgeTransaction | null> {
   const unclaimedTransactions = bridgeTransactions.filter(bridgeTransaction => !bridgeTransaction.foreignTxHash)
-
-  let bridgeTransaction
-  for (const tx of unclaimedTransactions) {
-    const status = await getBridgeTransactionStatus(tx)
-    if (!status) {
-      bridgeTransaction = tx
-      break
-    }
-  }
-
-  return bridgeTransaction
+  return unclaimedTransactions.length > 0 ? unclaimedTransactions[0] : null
 }
