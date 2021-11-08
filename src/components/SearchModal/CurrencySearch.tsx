@@ -23,7 +23,7 @@ import { useTokenComparator } from './sorting'
 import { PaddedColumn, SearchInput, Separator } from './styleds'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { useBridgeState, BridgeDirection } from '../../state/bridge/hooks'
-import { FUSE_BNB } from '../../constants'
+import { FUSE_BNB, FUSE_BUSD } from '../../constants'
 
 interface CurrencySearchProps {
   isOpen: boolean
@@ -83,7 +83,7 @@ export function CurrencySearch({
           token => (token as WrappedTokenInfo).tokenInfo?.isMultiBridge || token.address === FUSE_BNB.address
         )
       : listType === 'Bridge'
-      ? tokens.filter(token => token.address !== FUSE_BNB.address)
+      ? tokens.filter(token => token.address !== FUSE_BNB.address && token.address !== FUSE_BUSD.address)
       : tokens
   }, [allTokens, listType, showMultiBridgeTokens])
 
