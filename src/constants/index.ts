@@ -120,6 +120,14 @@ export const FUSE_FUSD = new Token(
   'Fuse Dollar'
 )
 
+export const FUSE_BUSD = new Token(
+  ChainId.FUSE,
+  '0x6a5F6A8121592BeCd6747a38d67451B310F7f156',
+  18,
+  'BUSD',
+  'Binance USD on Fuse'
+)
+
 export const FUSE_BNB = new Token(ChainId.FUSE, BNB_FOREIGN_TOKEN_ADDRESS, 18, 'BNB', 'BNB on Fuse')
 
 const WETH_ONLY: ChainTokenList = {
