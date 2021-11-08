@@ -422,7 +422,9 @@ export default function Bridge() {
                       <ButtonError
                         id="bridge-transfer-button"
                         onClick={onTransfer}
-                        disabled={approval !== ApprovalState.APPROVED || !!inputError || isAccountContract}
+                        disabled={
+                          approval !== ApprovalState.APPROVED || !!inputError || !!bridgeStatus || isAccountContract
+                        }
                         error={
                           approval !== ApprovalState.APPROVED || (!bridgeStatus && !!inputError) || isAccountContract
                         }
