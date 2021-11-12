@@ -18,11 +18,12 @@ import {
   finalizeBridgeTransaction
 } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
-import { BridgeDirection } from './hooks'
+import { BridgeDirection, BridgeType } from './hooks'
 
 export interface BridgeTransaction {
   foreignTxHash?: string
   homeTxHash?: string
+  bridgeType?: BridgeType
   bridgeDirection: BridgeDirection
 }
 

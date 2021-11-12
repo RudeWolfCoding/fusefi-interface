@@ -67,8 +67,9 @@ import { BNB } from '../data/Currency'
 import BscBnbNativeToErc20Bridge from '../state/bridge/bridges/bscBnbNativeToErc20'
 import { utils } from 'ethers'
 import { BridgeTransaction } from '../state/bridge/reducer'
-import { getMessageFromTxHash, getStatusFromTxHash } from '../graphql/queries'
+import { getMessageFromTxHash, getNativeStatusFromTxHash, getStatusFromTxHash } from '../graphql/queries'
 import { getForeignAmbSubgraph, getHomeAmbSubgraph } from '../graphql/utils'
+import { ethFuseNativeSubgraphClient } from '../graphql/client'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -697,6 +698,27 @@ function signatureToVRS(rawSignature: string) {
   return { v, r, s }
 }
 
+function nativeSignatureToVRS(signature: string) {
+  signature = strip0x(signature)
+  const v = parseInt(signature.substr(64 * 2), 16)
+  const r = `0x${signature.substr(0, 32 * 2)}`
+  const s = `0x${signature.substr(32 * 2, 32 * 2)}`
+  return { v, r, s }
+}
+
+export function getNativeTransactionSignatures(signatures: Array<string>) {
+  const [v, r, s]: any = [[], [], []]
+
+  for (const signature of signatures) {
+    const sig = nativeSignatureToVRS(signature)
+    v.push(sig.v)
+    r.push(sig.r)
+    s.push(sig.s)
+  }
+
+  return [v, r, s]
+}
+
 export function packSignatures(signatures: Array<string>) {
   const vrsSignatures = signatures.map(s => signatureToVRS(s))
   const length = strip0x(utils.hexValue(vrsSignatures.length))
@@ -714,7 +736,7 @@ export function packSignatures(signatures: Array<string>) {
   return `0x${msgLength}${v}${r}${s}`
 }
 
-export async function getBridgeTransactionStatus({ homeTxHash, bridgeDirection }: BridgeTransaction) {
+export async function getAmbBridgeTransactionStatus({ homeTxHash, bridgeDirection }: BridgeTransaction) {
   const message = await getMessageFromTxHash(homeTxHash, getHomeAmbSubgraph(bridgeDirection))
   if (message) {
     const executionStatus = await getStatusFromTxHash(message.msgId, getForeignAmbSubgraph(bridgeDirection))
@@ -723,9 +745,30 @@ export async function getBridgeTransactionStatus({ homeTxHash, bridgeDirection }
   return null
 }
 
-export async function getUnclaimedTransaction(
+export async function getNativeBridgeTransactionStatus({ homeTxHash }: BridgeTransaction) {
+  if (!homeTxHash) return
+
+  const status = await getNativeStatusFromTxHash(homeTxHash, ethFuseNativeSubgraphClient)
+  return status ? status : null
+}
+
+export async function getUnclaimedAmbTransaction(
   bridgeTransactions: Array<BridgeTransaction>
 ): Promise<BridgeTransaction | null> {
-  const unclaimedTransactions = bridgeTransactions.filter(bridgeTransaction => !bridgeTransaction.foreignTxHash)
+  const unclaimedTransactions = bridgeTransactions.filter(
+    bridgeTransaction =>
+      !bridgeTransaction.foreignTxHash &&
+      (bridgeTransaction.bridgeType === BridgeType.ETH_FUSE_ERC20_TO_ERC677 ||
+        bridgeTransaction.bridgeType === BridgeType.ETH_FUSE_ERC677_TO_ERC677)
+  )
+  return unclaimedTransactions.length > 0 ? unclaimedTransactions[0] : null
+}
+
+export async function getUnclaimedNativeTransaction(
+  bridgeTransactions: Array<BridgeTransaction>
+): Promise<BridgeTransaction | null> {
+  const unclaimedTransactions = bridgeTransactions.filter(
+    bridgeTransaction => !bridgeTransaction.foreignTxHash && bridgeTransaction.bridgeType === BridgeType.ETH_FUSE_NATIVE
+  )
   return unclaimedTransactions.length > 0 ? unclaimedTransactions[0] : null
 }

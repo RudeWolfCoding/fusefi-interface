@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
-import { BridgeDirection } from './hooks'
+import { BridgeDirection, BridgeType } from './hooks'
 
 export enum Field {
   INPUT = 'INPUT'
@@ -37,12 +37,14 @@ export const setRecipient = createAction<string>('bridge/setRecipient')
 export const addBridgeTransaction = createAction<{
   foreignTxHash?: string
   homeTxHash?: string
+  bridgeType?: BridgeType
   bridgeDirection: BridgeDirection
 }>('bridge/addBridgeTransaction')
 
 export const setCurrentBridgeTransaction = createAction<{
   foreignTxHash?: string
   homeTxHash?: string
+  bridgeType?: BridgeType
   bridgeDirection: BridgeDirection
 } | null>('bridge/setCurrentBridgeTransaction')
 

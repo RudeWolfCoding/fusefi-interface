@@ -14,7 +14,8 @@ import {
   BridgeDirection,
   useDefaultsFromURLSearch,
   useAddBridgeTransaction,
-  useUnclaimedTransaction
+  useUnclaimedAmbBridgeTransaction,
+  useUnclaimedNativeBridgeTransaction
 } from '../../state/bridge/hooks'
 import { Field } from '../../state/bridge/actions'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
@@ -44,7 +45,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../state'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import BridgeDetails from '../../components/bridge/BridgeDetails'
-import { getBridge, getApprovalAddress, supportRecipientTransfer } from '../../utils'
+import { getBridge, getApprovalAddress, supportRecipientTransfer, getBridgeType } from '../../utils'
 import DestinationButton from '../../components/bridge/DestinationButton'
 import FeeModal from '../../components/FeeModal'
 import TokenMigrationModal from '../../components/TokenMigration'
@@ -57,7 +58,8 @@ import AddTokenToMetamaskModal from '../../components/AddTokenToMetamaskModal'
 import MainCard from '../../components/MainCard'
 import BridgeInfo from '../../components/bridge/BridgeInfo'
 import { AppWrapper, AppWrapperInner } from '../../components/swap/styleds'
-import ClaimTransferModal from '../../components/ClaimTransferModal'
+import ClaimAmbTransferModal from '../../components/ClaimAmbTransferModal'
+import ClaimNativeTransferModal from '../../components/ClaimNativeTransferModal'
 
 export default function Bridge() {
   const { account, chainId, library } = useActiveWeb3React()
@@ -181,9 +183,11 @@ export default function Bridge() {
         }
 
         if (bridgeDirection === BridgeDirection.FUSE_TO_ETH) {
+          const bridgeType = getBridgeType(inputCurrencyId, bridgeDirection)
           const bridgeTransaction = {
             homeTxHash: response.hash,
-            bridgeDirection
+            bridgeDirection,
+            bridgeType
           }
           addBridgeTransaction(bridgeTransaction)
           onSetCurrentBridgeTransaction(bridgeTransaction)
@@ -240,13 +244,21 @@ export default function Bridge() {
   )
 
   // check if we have unconfirmed transactions
-  const unclaimedTransaction = useUnclaimedTransaction()
+  const unclaimedAmbTransaction = useUnclaimedAmbBridgeTransaction()
   useEffect(() => {
-    if (unclaimedTransaction) {
-      onSetCurrentBridgeTransaction(unclaimedTransaction)
+    if (unclaimedAmbTransaction) {
+      onSetCurrentBridgeTransaction(unclaimedAmbTransaction)
       setClaimTransferModalOpen(true)
     }
-  }, [onSetCurrentBridgeTransaction, unclaimedTransaction])
+  }, [onSetCurrentBridgeTransaction, unclaimedAmbTransaction])
+
+  const unclaimedNativeBridgeTransaction = useUnclaimedNativeBridgeTransaction()
+  useEffect(() => {
+    if (unclaimedNativeBridgeTransaction) {
+      onSetCurrentBridgeTransaction(unclaimedNativeBridgeTransaction)
+      setClaimTransferModalOpen(true)
+    }
+  }, [onSetCurrentBridgeTransaction, unclaimedNativeBridgeTransaction])
 
   // set defaults from url params
 
@@ -285,7 +297,14 @@ export default function Bridge() {
                   currency={inputCurrency}
                 />
                 {currentBridgeTransaction && (
-                  <ClaimTransferModal
+                  <ClaimAmbTransferModal
+                    isOpen={claimTransferModalOpen}
+                    onDismiss={() => setClaimTransferModalOpen(false)}
+                    bridgeTransaction={currentBridgeTransaction}
+                  />
+                )}
+                {currentBridgeTransaction && (
+                  <ClaimNativeTransferModal
                     isOpen={claimTransferModalOpen}
                     onDismiss={() => setClaimTransferModalOpen(false)}
                     bridgeTransaction={currentBridgeTransaction}

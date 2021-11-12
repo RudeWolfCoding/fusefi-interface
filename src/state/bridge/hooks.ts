@@ -31,8 +31,10 @@ import {
   isAddress,
   calculateBnbNativeAMBBridgeFee,
   getBnbNativeAMBBridgeFee,
-  getUnclaimedTransaction,
-  getBridgeTransactionStatus
+  getUnclaimedAmbTransaction,
+  getUnclaimedNativeTransaction,
+  getAmbBridgeTransactionStatus,
+  getNativeBridgeTransactionStatus
 } from '../../utils'
 import useParsedQueryString from '../../hooks/useParsedQueryString'
 import {
@@ -403,16 +405,41 @@ export function useAddBridgeTransaction() {
   return addBridgeTransactionCallback
 }
 
-export function useUnclaimedTransaction() {
+export function useUnclaimedNativeBridgeTransaction() {
   const { bridgeTransactions } = useBridgeState()
   const { onFinalizeBridgeTransaction } = useBridgeActionHandlers()
   const [unclaimedTransaction, setUnclaimedTransaction] = useState<any>(null)
 
   useEffect(() => {
     async function getTransaction() {
-      const transaction = await getUnclaimedTransaction(bridgeTransactions)
+      const transaction = await getUnclaimedNativeTransaction(bridgeTransactions)
       if (transaction) {
-        const status = await getBridgeTransactionStatus(transaction)
+        const status = await getNativeBridgeTransactionStatus(transaction)
+
+        if (status && transaction.homeTxHash) {
+          onFinalizeBridgeTransaction(transaction.homeTxHash, status.id)
+        } else {
+          setUnclaimedTransaction(transaction)
+        }
+      }
+    }
+
+    getTransaction()
+  }, [bridgeTransactions, onFinalizeBridgeTransaction])
+
+  return unclaimedTransaction
+}
+
+export function useUnclaimedAmbBridgeTransaction() {
+  const { bridgeTransactions } = useBridgeState()
+  const { onFinalizeBridgeTransaction } = useBridgeActionHandlers()
+  const [unclaimedTransaction, setUnclaimedTransaction] = useState<any>(null)
+
+  useEffect(() => {
+    async function getTransaction() {
+      const transaction = await getUnclaimedAmbTransaction(bridgeTransactions)
+      if (transaction) {
+        const status = await getAmbBridgeTransactionStatus(transaction)
 
         if (status && transaction.homeTxHash) {
           onFinalizeBridgeTransaction(transaction.homeTxHash, status.id)
