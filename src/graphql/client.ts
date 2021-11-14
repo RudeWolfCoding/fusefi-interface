@@ -4,7 +4,9 @@ import {
   ETH_FUSE_AMB_SUBGRAPH_URL,
   FUSESWAP_SUBGRAPH_URL,
   FUSE_BSC_AMB_SUBGRAPH_URL,
-  FUSE_ETH_AMB_SUBGRAPH_URL
+  FUSE_ETH_AMB_SUBGRAPH_URL,
+  FUSE_ETH_NATIVE_BRIDGE_SUBGRAPH_URL,
+  ETH_FUSE_NATIVE_BRIDGE_SUBGRAPH_URL
 } from '../constants/subgraphs'
 
 export const fuseswapSubgraphClient = new ApolloClient({
@@ -29,5 +31,15 @@ export const fuseBscAmbSubgraphClient = new ApolloClient({
 
 export const bscFuseAmbSubgraphClient = new ApolloClient({
   uri: BSC_FUSE_AMB_SUBGRAPH_URL,
+  cache: new InMemoryCache()
+})
+
+export const fuseEthNativeSubgraphClient = new ApolloClient({
+  uri: FUSE_ETH_NATIVE_BRIDGE_SUBGRAPH_URL,
+  cache: new InMemoryCache()
+})
+
+export const ethFuseNativeSubgraphClient = new ApolloClient({
+  uri: ETH_FUSE_NATIVE_BRIDGE_SUBGRAPH_URL,
   cache: new InMemoryCache()
 })

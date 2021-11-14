@@ -14,17 +14,17 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useBridgeActionHandlers } from '../../state/bridge/hooks'
 import { BridgeTransaction } from '../../state/bridge/reducer'
 
-interface ClaimTransferModalProps {
+interface ClaimAmbTransferModalProps {
   isOpen: boolean
   onDismiss: () => void
   bridgeTransaction: BridgeTransaction
 }
 
-export default function ClaimTransferModal({
+export default function ClaimAmbTransferModal({
   isOpen,
   onDismiss,
   bridgeTransaction: { homeTxHash, bridgeDirection }
-}: ClaimTransferModalProps) {
+}: ClaimAmbTransferModalProps) {
   const { chainId, account, library } = useActiveWeb3React()
   const [message, setMessage] = useState<any>(null)
   const [executionStatus, setExecutionStatus] = useState<any>(false)
@@ -67,7 +67,6 @@ export default function ClaimTransferModal({
 
   async function onClaim() {
     if (!library || !account || !message || !foreignAmbAddress || !homeTxHash || executionStatus) return
-
     try {
       const foreignAmb = getForeignAmbContract(foreignAmbAddress, library, account)
       const response = await foreignAmb.executeSignatures(message.msgData, packSignatures(message.signatures))
