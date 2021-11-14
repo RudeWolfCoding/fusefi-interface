@@ -121,7 +121,7 @@ export default function Lending() {
           <p>{numeral(borrowBalance).format('$0,0')} USD</p>
           <span>Network Borrow Balance</span>
         </Borrowed>
-        <Ola href="https://app.ola.finance/networks/0x5809FAB2Bf39efae6DD8691B7F90c468c234A1A7/network" target="_blank">
+        <Ola href="https://app.ola.finance/networks/0x26a562B713648d7F3D1E1031DCc0860A4F3Fa340/markets" target="_blank">
           <img
             src="https://app.ola.finance/assets/images/ola/ola_symbol_clear.png"
             width="75px;"
