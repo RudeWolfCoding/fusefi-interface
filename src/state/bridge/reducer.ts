@@ -37,7 +37,8 @@ export interface BridgeState {
   readonly bridgeTransactionStatus: BridgeTransactionStatus
   readonly confirmations: number
   readonly bridgeDirection?: BridgeDirection
-  readonly currentBridgeTransaction: BridgeTransaction | null
+  readonly currentAmbBridgeTransaction: BridgeTransaction | null
+  readonly currentNativeBridgeTransaction: BridgeTransaction | null
   readonly bridgeTransactions: Array<BridgeTransaction>
 }
 
@@ -51,7 +52,8 @@ const initialState: BridgeState = {
   bridgeTransactionStatus: BridgeTransactionStatus.INITIAL,
   confirmations: 0,
   bridgeTransactions: [],
-  currentBridgeTransaction: null
+  currentAmbBridgeTransaction: null,
+  currentNativeBridgeTransaction: null
 }
 
 export default createReducer<BridgeState>(initialState, builder =>
@@ -135,7 +137,14 @@ export default createReducer<BridgeState>(initialState, builder =>
       state.bridgeTransactions = [...state.bridgeTransactions, payload]
     })
     .addCase(setCurrentBridgeTransaction, (state, { payload: currentBridgeTransaction }) => {
-      state.currentBridgeTransaction = currentBridgeTransaction
+      if (
+        currentBridgeTransaction?.bridgeType === BridgeType.ETH_FUSE_ERC20_TO_ERC677 ||
+        currentBridgeTransaction?.bridgeType === BridgeType.ETH_FUSE_ERC677_TO_ERC677
+      ) {
+        state.currentAmbBridgeTransaction = currentBridgeTransaction
+      } else if (currentBridgeTransaction?.bridgeType === BridgeType.ETH_FUSE_NATIVE) {
+        state.currentNativeBridgeTransaction = currentBridgeTransaction
+      }
     })
     .addCase(finalizeBridgeTransaction, (state, { payload: { homeTxHash, foreignTxHash } }) => {
       const idx = state.bridgeTransactions.findIndex(tx => tx.homeTxHash === homeTxHash)

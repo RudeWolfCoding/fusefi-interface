@@ -79,7 +79,13 @@ export default function Bridge() {
 
   const [migrationCurrency, setMigrationCurrency] = useState<Currency | undefined>()
 
-  const { independentField, typedValue, recipient, currentBridgeTransaction } = useBridgeState()
+  const {
+    independentField,
+    typedValue,
+    recipient,
+    currentAmbBridgeTransaction,
+    currentNativeBridgeTransaction
+  } = useBridgeState()
 
   const {
     currencies,
@@ -296,18 +302,18 @@ export default function Bridge() {
                   setIsOpen={setAddTokenModalOpen}
                   currency={inputCurrency}
                 />
-                {currentBridgeTransaction && (
+                {currentAmbBridgeTransaction && (
                   <ClaimAmbTransferModal
                     isOpen={claimTransferModalOpen}
                     onDismiss={() => setClaimTransferModalOpen(false)}
-                    bridgeTransaction={currentBridgeTransaction}
+                    bridgeTransaction={currentAmbBridgeTransaction}
                   />
                 )}
-                {currentBridgeTransaction && (
+                {currentNativeBridgeTransaction && (
                   <ClaimNativeTransferModal
                     isOpen={claimTransferModalOpen}
                     onDismiss={() => setClaimTransferModalOpen(false)}
-                    bridgeTransaction={currentBridgeTransaction}
+                    bridgeTransaction={currentNativeBridgeTransaction}
                   />
                 )}
                 {isHome && (

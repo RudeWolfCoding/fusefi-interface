@@ -41,7 +41,8 @@ const store = configureStore({
         recipient: '',
         bridgeTransactionStatus: BridgeTransactionStatus.INITIAL,
         confirmations: 0,
-        currentBridgeTransaction: null,
+        currentAmbBridgeTransaction: null,
+        currentNativeBridgeTransaction: null,
         bridgeTransactions: []
       }
     }
