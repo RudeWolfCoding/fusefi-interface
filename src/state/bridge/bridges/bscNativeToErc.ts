@@ -1,7 +1,7 @@
 import { TransactionResponse } from '@ethersproject/providers'
 import * as Sentry from '@sentry/react'
 import TokenBridge from './tokenBridge'
-import { getERC677TokenContract, calculateGasMargin, pollEvent, getContract } from '../../../utils'
+import { getERC677TokenContract, calculateGasMargin, pollEvent, getContract, isContract } from '../../../utils'
 import {
   tokenTransferSuccess,
   tokenTransferPending,
@@ -49,6 +49,8 @@ export default class BscNativeToErcBridge extends TokenBridge {
     const args = [address]
     const value = this.amount.raw.toString()
 
+    if (!isContract(this.library, contract.address)) throw Error('Transferring to EOA')
+
     const estimatedGas = await contract.estimateGas.relayTokens(...args, { value })
     const response = await contract.relayTokens(...args, { gasLimit: calculateGasMargin(estimatedGas), value })
 
@@ -62,6 +64,8 @@ export default class BscNativeToErcBridge extends TokenBridge {
 
     const contract = getERC677TokenContract(this.tokenAddress, this.library, this.account)
     const args = [this.foreignBridgeAddress, this.amount.raw.toString(), []]
+
+    if (!isContract(this.library, contract.address)) throw Error('Transferring to EOA')
 
     const estimatedGas = await contract.estimateGas.transferAndCall(...args, {})
     const response = await contract.transferAndCall(...args, { gasLimit: calculateGasMargin(estimatedGas) })
