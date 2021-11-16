@@ -772,3 +772,8 @@ export async function getUnclaimedNativeTransaction(
   )
   return unclaimedTransactions.length > 0 ? unclaimedTransactions[0] : null
 }
+
+export async function isContract(library: Web3Provider, address: string): Promise<boolean> {
+  const code = await library.getCode(address)
+  return code === '0x' ? false : true
+}
