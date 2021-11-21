@@ -278,6 +278,26 @@ export const FARM_CONTRACTS: {
       rewards: ['0x0BE9e53fd7EDaC9F859882AfdDa116645287C629'],
       totalReward: 70000,
       type: 'multi'
+    },
+    '0x39ce2B1f8e73Ae1FE4eb3aeCC0D68B8855bb24F7': {
+      networkId: 122,
+      pairName: 'FUSE/BUSD',
+      contractAddress: '0x39ce2B1f8e73Ae1FE4eb3aeCC0D68B8855bb24F7',
+      LPToken: '0x2e7DeDEfC1b40eb2C935A5d07ACDb8F8a9B2A91D',
+      pairs: ['0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', '0x6a5f6a8121592becd6747a38d67451b310f7f156'],
+      rewards: ['0x0BE9e53fd7EDaC9F859882AfdDa116645287C629'],
+      totalReward: 150000,
+      type: 'multi'
+    },
+    '0x38D4e6Df715b968B49579F64eCA15B12FB972884': {
+      networkId: 122,
+      pairName: 'FUSE/USDC',
+      contractAddress: '0x38D4e6Df715b968B49579F64eCA15B12FB972884',
+      LPToken: '0x9f17b1895633E855b8b1C1D0Ade9B3B72EB0590C',
+      pairs: ['0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', '0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5'],
+      rewards: ['0x0BE9e53fd7EDaC9F859882AfdDa116645287C629'],
+      totalReward: 150000,
+      type: 'multi'
     }
   },
 
