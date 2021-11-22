@@ -13,6 +13,7 @@ import wethusdc from '../../../assets/svg/pairs/WETH-USDC.svg'
 import linkweth from '../../../assets/svg/pairs/LINK-WETH.svg'
 import grtweth from '../../../assets/svg/pairs/GRT-WETH.svg'
 import dextfuse from '../../../assets/svg/pairs/DEXT-FUSE.svg'
+import fuseBusd from '../../../assets/images/fuse-busd.png'
 
 const Container = styled.div<{ height?: number }>`
   display: flex;
@@ -53,7 +54,9 @@ export default function Icon({ name, pairName, height }: IconProps) {
     'WETH/USDC': wethusdc,
     'LINK/WETH': linkweth,
     'GRT/WETH': grtweth,
-    'DEXT/FUSE': dextfuse
+    'DEXT/FUSE': dextfuse,
+    'FUSE/USDC': usdcfuse,
+    'FUSE/BUSD': fuseBusd
   }
 
   return (

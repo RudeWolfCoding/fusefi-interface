@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { useActiveWeb3React } from '../../../hooks'
-import { ButtonError, ButtonPrimary } from '../../Button'
+import { ButtonError, ButtonLight, ButtonPrimary } from '../../Button'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
@@ -15,6 +15,7 @@ import BigNumber from 'bignumber.js'
 import { getProgram } from '../../../utils/farm'
 import { Farm } from '../../../constants/farms'
 import { tryFormatDecimalAmount } from '../../../utils'
+import { useWalletModalToggle } from '../../../state/application/hooks'
 
 const Container = styled('div')`
   text-align: left;
@@ -96,6 +97,7 @@ const Balance = styled('div')`
 export default function Deposit({ farm }: { farm?: Farm }) {
   const addTransaction = useTransactionAdder()
   const { account, library } = useActiveWeb3React()
+  const toggleWalletModal = useWalletModalToggle()
   const lpToken = useToken(farm?.LPToken)
   const [depositValue, setdepositValue] = useState('0')
   const lpTokenBalance = useTokenBalance(account ?? undefined, lpToken ?? undefined)
@@ -180,16 +182,22 @@ export default function Deposit({ farm }: { farm?: Farm }) {
         content="Your estimated rewards reflect the amount of $FUSE you are expected to receive by the end of the program assuming there are no changes in deposits"
         value={tryFormatDecimalAmount(estimatedReward, 18)}
       />
-      {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
-        <RowBetween marginBottom={20}>
-          <ButtonPrimary onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
-            {approval === ApprovalState.PENDING ? <span>Approving</span> : 'Approve '}
-          </ButtonPrimary>
-        </RowBetween>
+      {!account ? (
+        <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
+      ) : (
+        <>
+          {(approval === ApprovalState.NOT_APPROVED || approval === ApprovalState.PENDING) && (
+            <RowBetween marginBottom={20}>
+              <ButtonPrimary onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
+                {approval === ApprovalState.PENDING ? <span>Approving</span> : 'Approve '}
+              </ButtonPrimary>
+            </RowBetween>
+          )}
+          <ButtonError onClick={() => deposit()} disabled={approval !== ApprovalState.APPROVED}>
+            Deposit
+          </ButtonError>
+        </>
       )}
-      <ButtonError onClick={() => deposit()} disabled={approval !== ApprovalState.APPROVED}>
-        Deposit
-      </ButtonError>
     </Container>
   )
 }
