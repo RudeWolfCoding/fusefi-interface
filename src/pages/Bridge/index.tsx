@@ -45,7 +45,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../state'
 import { useTransactionAdder } from '../../state/transactions/hooks'
 import BridgeDetails from '../../components/bridge/BridgeDetails'
-import { getBridge, getApprovalAddress, supportRecipientTransfer, getBridgeType } from '../../utils'
+import { getBridge, getApprovalAddress, supportRecipientTransfer, getBridgeType, isContract } from '../../utils'
 import DestinationButton from '../../components/bridge/DestinationButton'
 import FeeModal from '../../components/FeeModal'
 import TokenMigrationModal from '../../components/TokenMigration'
@@ -60,6 +60,7 @@ import BridgeInfo from '../../components/bridge/BridgeInfo'
 import { AppWrapper, AppWrapperInner } from '../../components/swap/styleds'
 import ClaimAmbTransferModal from '../../components/ClaimAmbTransferModal'
 import ClaimNativeTransferModal from '../../components/ClaimNativeTransferModal'
+import { useAsyncMemo } from 'use-async-memo'
 
 export default function Bridge() {
   const { account, chainId, library } = useActiveWeb3React()
@@ -249,6 +250,11 @@ export default function Bridge() {
     [onSelectCurrency]
   )
 
+  const isAccountContract = useAsyncMemo(() => {
+    if (!library || !account) return null
+    return isContract(library, account)
+  }, [library, account])
+
   // check if we have unconfirmed transactions
   const unclaimedAmbTransaction = useUnclaimedAmbBridgeTransaction()
   useEffect(() => {
@@ -435,6 +441,12 @@ export default function Bridge() {
                     </AutoColumn>
                   )}
                 </BottomGrouping>
+                {isAccountContract && (
+                  <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
+                    Important! - We currently dont support bridge transactions sent from a contract. Your funds are
+                    probably going to get lost if you transfer.
+                  </TYPE.main>
+                )}
                 {bridgeDirection === BridgeDirection.FUSE_TO_ETH && (
                   <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
                     Important! - Ethereum claim fees apply and will be paid by the user, be aware of the gas costs
