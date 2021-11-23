@@ -1,7 +1,8 @@
 import React, { useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import LogoIcon from '../../assets/svg/fusefi-logo.svg'
+import Lottie from 'react-lottie-player'
+import LogoIcon from '../../assets/svg/fusefi-wordmark.svg'
 import { ReactComponent as BridgeIcon } from '../../assets/svg/bridge.svg'
 import { ReactComponent as PoolIcon } from '../../assets/svg/pool.svg'
 import { ReactComponent as SwapIcon } from '../../assets/svg/swap.svg'
@@ -12,6 +13,7 @@ import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance_ic
 import fusd from '../../assets/svg/fuse-dollar.svg'
 import useRampWidget from '../../hooks/useRamp'
 import Settings from '../../components/Settings'
+import fusefiAnimation from '../../assets/animation/fusefi-logo.json'
 
 const activeClassName = 'ACTIVE'
 const StyledMenu = styled.div`
@@ -72,6 +74,9 @@ const Ramp = styled.div`
 `
 
 const UniIcon = styled.div`
+  display: flex;
+  align-items: center;
+
   > svg {
     padding: 0.35rem;
   }
@@ -177,10 +182,11 @@ const IconWrapper = styled.div<{ size?: number }>`
 
 const Logo = styled.img.attrs({
   src: LogoIcon,
-  width: '200px',
+  width: '90px',
   alt: 'FuseFi Logo'
 })`
-  padding: 24px 0 30px 24px;
+  padding: 24px 0 30px 0;
+  margin-left: -20px;
 `
 
 const WhiteText = styled.span`
@@ -199,6 +205,7 @@ export default function Sidebar() {
       <MenuFlyout>
         <MenuWrapper>
           <UniIcon>
+            <Lottie animationData={fusefiAnimation} speed={0.75} style={{ width: '100px' }} play />
             <Logo />
           </UniIcon>
           <MenuItemInternal to="/home">
