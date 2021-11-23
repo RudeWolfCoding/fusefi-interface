@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useActiveWeb3React } from '../../../hooks'
-import { ButtonPrimary } from '../../Button'
+import { ButtonLight, ButtonPrimary } from '../../Button'
 import InfoCard from './farmInfoCard'
 import Percentage from './percentage'
 import styled from 'styled-components'
@@ -11,6 +11,7 @@ import { useToken } from '../../../hooks/Tokens'
 import { getProgram } from '../../../utils/farm'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { Farm } from '../../../constants/farms'
+import { useWalletModalToggle } from '../../../state/application/hooks'
 
 const Container = styled('div')`
   text-align: left;
@@ -100,6 +101,7 @@ const ClaimButton = styled.button`
 
 export default function WithdrawReward({ farm }: { farm?: Farm }) {
   const { account, library } = useActiveWeb3React()
+  const toggleWalletModal = useWalletModalToggle()
   const addTransaction = useTransactionAdder()
   const [withdrawValue, setWithdrawValue] = useState('0')
   const lpToken = useToken(farm?.LPToken)
@@ -184,7 +186,11 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
         value={accuruedRewards}
         button={showWithdrawButton && <ClaimButton onClick={() => claim()}>Claim</ClaimButton>}
       />
-      <ButtonPrimary onClick={() => withdraw()}>Withdraw</ButtonPrimary>
+      {!account ? (
+        <ButtonLight onClick={() => toggleWalletModal()}>Connect Wallet</ButtonLight>
+      ) : (
+        <ButtonPrimary onClick={() => withdraw()}>Withdraw</ButtonPrimary>
+      )}
     </Container>
   )
 }

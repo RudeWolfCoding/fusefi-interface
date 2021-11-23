@@ -1,19 +1,20 @@
+import { ChainId } from '@fuseio/fuse-swap-sdk'
 import dayjs from 'dayjs'
+import { ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
+import { getChainNetworkLibrary } from '../../connectors'
 import { FARM_CONTRACTS } from '../../constants/farms'
 import { useActiveWeb3React } from '../../hooks'
 import { tryFormatAmount } from '../../utils'
 import { getProgram } from '../../utils/farm'
 import { useBlockNumber } from '../application/hooks'
 
-async function fetchFarm(
-  { contractAddress, rewards, LPToken, networkId, type, pairName }: any,
-  account: string,
-  library: any
-) {
-  const rewardProgram = getProgram(contractAddress, library.provider, type)
-  const stats = await rewardProgram.getStats(account, LPToken, networkId, rewards)
-  const [totalStaked] = await rewardProgram.getStakerInfo(account, rewards[0])
+async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, pairName }: any, account?: string) {
+  const accountAddress = account || ethers.constants.AddressZero
+  const networkLibrary = getChainNetworkLibrary(networkId)
+  const rewardProgram = getProgram(contractAddress, networkLibrary.provider, type)
+  const stats = await rewardProgram.getStats(accountAddress, LPToken, networkId, rewards)
+  const [totalStaked] = await rewardProgram.getStakerInfo(accountAddress, rewards[0])
   const stakingTimes = await rewardProgram.getStakingTimes(rewards[0])
   const isExpired = stakingTimes.end < dayjs().unix()
   const durationInDays = stakingTimes.duration / 86400
@@ -36,46 +37,40 @@ async function fetchFarm(
   }
 }
 
-async function fetchFarms(farmList: Array<any>, account?: string, library?: any) {
-  if (!account || !library) return []
-  const farms = await Promise.all(farmList.map(farm => fetchFarm(farm, account, library)))
+async function fetchFarms(farmList: Array<any>, account?: string) {
+  const farms = await Promise.all(farmList.map(farm => fetchFarm(farm, account)))
   return farms
 }
 
 export function useFarm(farmAddress: string) {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const [farm, setFarm] = useState(null)
 
   const contract = useMemo(() => {
-    if (chainId && farmAddress)
-      return FARM_CONTRACTS[chainId][farmAddress] ? FARM_CONTRACTS[chainId][farmAddress] : undefined
+    if (farmAddress)
+      return FARM_CONTRACTS[ChainId.FUSE][farmAddress] ? FARM_CONTRACTS[ChainId.FUSE][farmAddress] : undefined
     return undefined
-  }, [chainId, farmAddress])
+  }, [farmAddress])
 
   useEffect(() => {
-    if (account && library) {
-      fetchFarm(contract, account, library).then(farm => setFarm(farm))
-    }
-  }, [account, contract, library])
+    fetchFarm(contract, account ?? undefined).then(farm => setFarm(farm))
+  }, [account, contract])
 
   return farm
 }
 
 export function useFarms() {
-  const { chainId, library, account } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const [farms, setFarms] = useState<any>([])
   const blockNumber = useBlockNumber()
 
-  const contracts = useMemo(() => {
-    if (chainId) return FARM_CONTRACTS[chainId] ? Object.values(FARM_CONTRACTS[chainId]) : undefined
-    return undefined
-  }, [chainId])
+  const contracts = useMemo(() => Object.values(FARM_CONTRACTS[ChainId.FUSE]), [])
 
   useEffect(() => {
-    if (account && library && contracts) {
-      fetchFarms(contracts, account, library).then(farms => setFarms(farms))
+    if (contracts) {
+      fetchFarms(contracts, account ?? undefined).then(farms => setFarms(farms))
     }
-  }, [account, contracts, library, blockNumber])
+  }, [account, contracts, blockNumber])
 
   return farms
 }
