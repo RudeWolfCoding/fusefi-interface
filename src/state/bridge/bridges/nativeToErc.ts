@@ -69,6 +69,9 @@ export default class NativeToErcBridge extends TokenBridge {
   }
 
   async transferToHome(): Promise<TransactionResponse> {
+    if (this.chainId !== ETHEREUM_CHAIN_ID)
+      throw new Error(`Chain not supported for nativeToErc bridge transaction, chainId: ${this.chainId}`)
+
     this.dispatch(tokenTransferPending())
 
     const contract = getERC677TokenContract(this.tokenAddress, this.library, this.account)
