@@ -7,7 +7,6 @@ import { FARM_CONTRACTS } from '../../constants/farms'
 import { useActiveWeb3React } from '../../hooks'
 import { tryFormatAmount } from '../../utils'
 import { getProgram } from '../../utils/farm'
-import { useBlockNumber } from '../application/hooks'
 
 async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, pairName }: any, account?: string) {
   const accountAddress = account || ethers.constants.AddressZero
@@ -38,8 +37,7 @@ async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, p
 }
 
 async function fetchFarms(farmList: Array<any>, account?: string) {
-  const farms = await Promise.all(farmList.map(farm => fetchFarm(farm, account)))
-  return farms
+  return await Promise.all(farmList.map(farm => fetchFarm(farm, account)))
 }
 
 export function useFarm(farmAddress: string) {
@@ -59,18 +57,17 @@ export function useFarm(farmAddress: string) {
   return farm
 }
 
-export function useFarms() {
+export function useFarms(chainId: number) {
   const { account } = useActiveWeb3React()
   const [farms, setFarms] = useState<any>([])
-  const blockNumber = useBlockNumber()
-
-  const contracts = useMemo(() => Object.values(FARM_CONTRACTS[ChainId.FUSE]), [])
 
   useEffect(() => {
+    setFarms([])
+    const contracts = Object.values(FARM_CONTRACTS[chainId])
     if (contracts) {
       fetchFarms(contracts, account ?? undefined).then(farms => setFarms(farms))
     }
-  }, [account, contracts, blockNumber])
+  }, [account, chainId])
 
   return farms
 }

@@ -5,6 +5,7 @@ import Filter from './filter'
 import FarmListItem from '../FarmListItem'
 import { Farm } from '../../../constants/farms'
 import { TableWrapper, Table, Th } from '../../Table'
+import { FUSE_CHAIN_ID } from '../../../connectors'
 
 const Wrap = styled.div`
   width: 100%;
@@ -13,17 +14,18 @@ const Wrap = styled.div`
 
 type FarmListProps = {
   farms: Array<Farm>
+  setChainId: any
 }
 
-export default function FarmList({ farms }: FarmListProps) {
-  const [filter, setFilter] = useState<boolean>(true)
-
+export default function FarmList({ farms, setChainId }: FarmListProps) {
+  const [filter, setFilter] = useState<number>(FUSE_CHAIN_ID)
   return (
     <Wrap>
       <Filter
-        active={filter}
-        callBack={(active: boolean) => {
-          setFilter(active)
+        chainId={filter}
+        callBack={(chainId: number) => {
+          setFilter(chainId)
+          setChainId(chainId)
         }}
       />
       <TableWrapper>
@@ -34,14 +36,13 @@ export default function FarmList({ farms }: FarmListProps) {
               <Th style={{ textAlign: 'center' }}>APY</Th>
               <Th style={{ textAlign: 'right' }}>Total Staked</Th>
               <Th style={{ textAlign: 'right' }}>TVL</Th>
-              <Th style={{ textAlign: 'right' }}>Rewards</Th>
-              <Th>&nbsp;</Th>
+              <Th style={{ textAlign: 'right' }}>Rewards (Day)</Th>
             </tr>
           </thead>
           <tbody>
             {farms.length > 0 ? (
               farms
-                .filter(farm => !farm.isExpired === filter)
+                .filter(farm => (farm.networkId === filter))
                 .map(farm => <FarmListItem key={farm.contractAddress} farm={farm} />)
             ) : (
               <tr>

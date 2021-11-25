@@ -13,12 +13,11 @@ const FORMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 const PORTIS_ID = process.env.REACT_APP_PORTIS_ID
 const WALLETCONNECT_BRIDGE = process.env.REACT_APP_WALLETCONNECT_BRIDGE
 
-export const NETWORK_CHAIN_ID: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '1')
-
+export const FUSE_CHAIN_ID: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '1')
 export const ETHEREUM_CHAIN_ID = parseInt(unwrapOrThrow('ETHEREUM_CHAIN_ID'))
+export const BINANCE_CHAIN_ID = parseInt(unwrapOrThrow('BINANCE_CHAIN_ID'))
 const ETHEREUM_NETWORK_URL = unwrapOrThrow('ETHEREUM_NETWORK_URL')
 const BINANCE_NETWORK_URL = unwrapOrThrow('BINANCE_NETWORK_URL')
-export const BINANCE_CHAIN_ID = parseInt(unwrapOrThrow('BINANCE_CHAIN_ID'))
 
 if (typeof NETWORK_URL === 'undefined') {
   throw new Error(`REACT_APP_NETWORK_URL must be a defined environment variable`)
@@ -29,7 +28,7 @@ if (typeof BINANCE_NETWORK_URL === 'undefined') {
 }
 
 export const network = new NetworkConnector({
-  urls: { [NETWORK_CHAIN_ID]: NETWORK_URL }
+  urls: { [FUSE_CHAIN_ID]: NETWORK_URL }
 })
 
 let networkLibrary: Web3Provider | undefined
@@ -68,7 +67,7 @@ export const injected = new InjectedConnector({
 export const walletconnect = new WalletConnectConnector({
   rpc: {
     [ETHEREUM_CHAIN_ID]: ETHEREUM_NETWORK_URL,
-    [NETWORK_CHAIN_ID]: NETWORK_URL,
+    [FUSE_CHAIN_ID]: NETWORK_URL,
     [BINANCE_CHAIN_ID]: BINANCE_NETWORK_URL
   },
   bridge: WALLETCONNECT_BRIDGE,

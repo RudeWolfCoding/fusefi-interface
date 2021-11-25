@@ -28,6 +28,7 @@ export const TBodyTr = styled.tr`
 
   :hover {
     background-color: ${({ theme }) => theme.secondary4};
+    cursor: pointer;
   }
 `
 
