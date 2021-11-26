@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
-import { addPopup, PopupContent, removePopup, toggleWalletModal, toggleSettingsMenu, toggleNavMenu } from './actions'
+import { addPopup, PopupContent, removePopup, toggleWalletModal, toggleSettingsMenu, toggleNavMenu, toggleClaimModal } from './actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppState } from '../index'
 
@@ -35,6 +35,15 @@ export function useNavMenuOpen(): boolean {
 export function useToggleNavMenu(): () => void {
   const dispatch = useDispatch()
   return useCallback(() => dispatch(toggleNavMenu()), [dispatch])
+}
+
+export function useClaimModalOpen(): boolean {
+  return useSelector((state: AppState) => state.application.claimModalOpen)
+}
+
+export function useToggleClaimModal(): () => void {
+  const dispatch = useDispatch()
+  return useCallback(() => dispatch(toggleClaimModal()), [dispatch])
 }
 
 // returns a function that allows adding a popup

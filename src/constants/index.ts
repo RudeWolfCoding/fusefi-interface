@@ -65,6 +65,12 @@ export const FUSE_BLOCK_PER_YEAR = FUSE_BLOCKS_PER_MINUTE * 60 * 24 * 365
 export const ETH_FUSE_FOREIGN_AMB = unwrapOrThrow('ETH_FUSE_FOREIGN_AMB')
 export const BSC_FUSE_FOREIGN_AMB = unwrapOrThrow('BSC_FUSE_FOREIGN_AMB')
 
+export const MERKLE_DISTRIBUTOR_INFO_URL = unwrapOrThrow('MERKLE_DISTRIBUTOR_INFO_URL')
+
+export const MERKLE_DISTRIBUTOR_ADDRESS = unwrapOrThrow('MERKLE_DISTRIBUTOR_ADDRESS')
+
+export const VOLT_ADDRESS = unwrapOrThrow('VOLT_ADDRESS')
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
@@ -129,6 +135,8 @@ export const FUSE_BUSD = new Token(
 )
 
 export const FUSE_BNB = new Token(ChainId.FUSE, BNB_FOREIGN_TOKEN_ADDRESS, 18, 'BNB', 'BNB on Fuse')
+
+export const VOLT = new Token(ChainId.FUSE, VOLT_ADDRESS, 18, 'VOLT', 'Volt Token')
 
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
