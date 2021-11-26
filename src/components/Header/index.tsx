@@ -1,7 +1,7 @@
 import { ChainId } from '@fuseio/fuse-swap-sdk'
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from 'rebass'
+import { Button, Text } from 'rebass'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 import { RowBetween } from '../Row'
@@ -9,7 +9,7 @@ import Web3Status from '../Web3Status'
 import { getNativeCurrencySymbol } from '../../utils'
 import { BINANCE_MAINNET_CHAINID, BINANCE_TESTNET_CHAINID } from '../../constants'
 import { ReactComponent as MenuIcon } from '../../assets/svg/ham_menu.svg'
-import { useToggleNavMenu } from '../../state/application/hooks'
+import { useToggleClaimModal, useToggleNavMenu } from '../../state/application/hooks'
 
 const HeaderFrame = styled.div`
   padding-right: 2.6%;
@@ -39,7 +39,6 @@ const AccountElement = styled.div<{ active: boolean }>`
   background: linear-gradient(93.58deg, #3ad8a4 -105.35%, #f3fc1f 103.54%);
   border-radius: 5px;
   white-space: nowrap;
-  width: 100%;
   :focus {
     border: 1px solid blue;
   }
@@ -95,6 +94,13 @@ const StyledMenuIcon = styled(MenuIcon)`
   `}
 `
 
+const StyledButton = styled(Button)`
+  background-color: ${({ theme }) => theme.primary1};
+  color: black !important;
+  border-radius: 12px !important;
+  cursor: pointer;
+`
+
 export const NETWORK_LABELS: any = {
   [ChainId.MAINNET]: 'Ethereum',
   [ChainId.RINKEBY]: 'Rinkeby',
@@ -110,6 +116,8 @@ export default function Header() {
 
   const toggleNavMenu = useToggleNavMenu()
 
+  const toggleClaimModal = useToggleClaimModal()
+
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 
   return (
@@ -120,6 +128,7 @@ export default function Header() {
         </HeaderElement>
         <HeaderControls>
           <HeaderElement>
+            <StyledButton onClick={() => toggleClaimModal()}>VOLT</StyledButton>
             <TestnetWrapper>
               {chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>

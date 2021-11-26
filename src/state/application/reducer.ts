@@ -6,7 +6,8 @@ import {
   toggleWalletModal,
   toggleSettingsMenu,
   updateBlockNumber,
-  toggleNavMenu
+  toggleNavMenu,
+  toggleClaimModal
 } from './actions'
 
 type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>
@@ -17,6 +18,7 @@ export interface ApplicationState {
   walletModalOpen: boolean
   settingsMenuOpen: boolean
   navMenuOpen: boolean
+  claimModalOpen: boolean
 }
 
 const initialState: ApplicationState = {
@@ -24,7 +26,8 @@ const initialState: ApplicationState = {
   popupList: [],
   walletModalOpen: false,
   settingsMenuOpen: false,
-  navMenuOpen: false
+  navMenuOpen: false,
+  claimModalOpen: false
 }
 
 export default createReducer(initialState, builder =>
@@ -45,6 +48,9 @@ export default createReducer(initialState, builder =>
     })
     .addCase(toggleNavMenu, state => {
       state.navMenuOpen = !state.navMenuOpen
+    })
+    .addCase(toggleClaimModal, state => {
+      state.claimModalOpen = !state.claimModalOpen
     })
     .addCase(addPopup, (state, { payload: { content, key, removeAfterMs = 15000 } }) => {
       state.popupList = (key ? state.popupList.filter(popup => popup.key !== key) : state.popupList).concat([
