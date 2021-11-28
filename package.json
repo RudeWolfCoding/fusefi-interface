@@ -129,7 +129,6 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "react-countdown": "^2.3.2",
-    "react-lottie-player": "^1.4.1",
-    "use-http": "^1.0.26"
+    "react-lottie-player": "^1.4.1"
   }
 }
