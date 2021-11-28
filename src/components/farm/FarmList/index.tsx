@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Loader from '../../Loaders/table'
 import Filter from './filter'
 import FarmListItem from '../FarmListItem'
-import { Farm } from '../../../constants/farms'
 import { TableWrapper, Table, Th } from '../../Table'
 import { FUSE_CHAIN_ID } from '../../../connectors'
 
@@ -13,11 +12,12 @@ const Wrap = styled.div`
 `
 
 type FarmListProps = {
-  farms: Array<Farm>
-  setChainId: any
+  farms: any
+  selectedNetwork: any
+  isLoading: any
 }
 
-export default function FarmList({ farms, setChainId }: FarmListProps) {
+export default function FarmList({ farms, isLoading, selectedNetwork }: FarmListProps) {
   const [filter, setFilter] = useState<number>(FUSE_CHAIN_ID)
   return (
     <Wrap>
@@ -25,7 +25,7 @@ export default function FarmList({ farms, setChainId }: FarmListProps) {
         chainId={filter}
         callBack={(chainId: number) => {
           setFilter(chainId)
-          setChainId(chainId)
+          selectedNetwork(chainId)
         }}
       />
       <TableWrapper>
@@ -40,17 +40,17 @@ export default function FarmList({ farms, setChainId }: FarmListProps) {
             </tr>
           </thead>
           <tbody>
-            {farms.length > 0 ? (
-              farms
-                .filter(farm => (farm.networkId === filter))
-                .map(farm => <FarmListItem key={farm.contractAddress} farm={farm} />)
-            ) : (
+            {isLoading ? (
               <tr>
                 <td>
                   <Loader />
                 </td>
               </tr>
-            )}
+            ) : farms?.length ? (
+              farms
+                .filter((farm: any) => farm.networkId === filter)
+                .map((farm: any) => <FarmListItem key={farm.contractAddress} farm={farm} />)
+            ) : <tr><td></td></tr> }
           </tbody>
         </Table>
       </TableWrapper>

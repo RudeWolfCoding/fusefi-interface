@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import AppBody from '../AppBody'
 import FarmList from '../../components/farm/FarmList'
 import { useFarms } from '../../state/farm/hooks'
-import { FUSE_CHAIN_ID } from '../../connectors'
+import { BINANCE_CHAIN_ID, ETHEREUM_CHAIN_ID, FUSE_CHAIN_ID } from '../../connectors'
 
 const Container = styled.div`
   display: flex;
@@ -32,17 +32,30 @@ const SubHeader = styled.p`
 `
 
 export default function Farms() {
-  const [chainId, setChain] = useState(FUSE_CHAIN_ID)
-  const farms = useFarms(chainId)
+  const [fuseFarms, isLoading] = useFarms(FUSE_CHAIN_ID)
+  const [bscFarms] = useFarms(BINANCE_CHAIN_ID)
+  const [ethFarms] = useFarms(ETHEREUM_CHAIN_ID)
+  const [network, setNetwork] = useState(FUSE_CHAIN_ID)
+  let farms: any
+
+  switch (network) {
+    case ETHEREUM_CHAIN_ID:
+      farms = ethFarms
+      break
+    case BINANCE_CHAIN_ID:
+      farms = bscFarms
+      break
+    case FUSE_CHAIN_ID:
+      farms = fuseFarms
+      break
+  }
 
   return (
     <AppBody>
       <Container>
         <Header>Farm</Header>
-        <SubHeader>
-          Let's farm FUSE and VOLTS with your LP tokens!
-        </SubHeader>
-        <FarmList farms={farms} setChainId={(id: number) => setChain(id)} />
+        <SubHeader>Let&apos;s farm FUSE and VOLTS with your LP tokens!</SubHeader>
+        <FarmList farms={farms} isLoading={isLoading} selectedNetwork={(chainId: number) => setNetwork(chainId)} />
       </Container>
     </AppBody>
   )
