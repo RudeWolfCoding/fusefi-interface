@@ -5,22 +5,7 @@ import Icon from '../FarmList/icons'
 import { tryFormatDecimalAmount, tryFormatPercentageAmount } from '../../../utils'
 import { Farm } from '../../../constants/farms'
 import { TBodyTr, TBodyTd } from '../../Table'
-
-const Button = styled.button`
-  content: 'Select';
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 17px;
-  padding: 7px;
-  padding-left: 16px;
-  padding-right: 16px;
-  background: linear-gradient(90deg, #c2f6bf 0%, #f7fa9a 100%), #52597b;
-  border: 0;
-  border-radius: 12px;
-  text-align: center;
-  color: black;
-  cursor: pointer;
-`
+import lightningIcon from '../../../assets/svg/lightning-icon.svg'
 
 const Text = styled.div`
   font-size: 14px;
@@ -30,12 +15,18 @@ const GreyText = styled.span`
   color: #a7a8af;
 `
 
-const Badge = styled.div`
-  display: inline-block;
-  background-color: #d0f7d7;
-  padding: 5px 10px;
-  border-radius: 100px;
-  color: #000;
+const NeonText = styled.span`
+  color: #1afb2a;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 4px;
+`
+
+const LightningIcon = styled.i`
+  background: url(${lightningIcon}) no-repeat;
+  height: 22px;
+  width: 14px;
+  position: absolute;
 `
 
 const StyledLink = styled(Link)`
@@ -51,7 +42,6 @@ const StyledLink = styled(Link)`
 
 export default function FarmListItem({ farm }: { farm: Farm }) {
   const history = useHistory()
-
   const farmPath = `/farm/${farm.contractAddress}`
 
   const selectFarm = useCallback(() => {
@@ -59,15 +49,16 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
   }, [farmPath, history])
 
   return (
-    <TBodyTr key={farm.contractAddress}>
+    <TBodyTr key={farm.contractAddress} onClick={selectFarm}>
       <TBodyTd style={{ display: 'flex', alignItems: 'center' }}>
         <StyledLink to={farmPath}>
           <Icon name="" pairName={farm.pairName} />
-          {farm.pairName}
+          {farm.pairName.replace('/', ' - ')}
         </StyledLink>
       </TBodyTd>
       <TBodyTd style={{ textAlign: 'center' }}>
-        <Badge>{farm.rewardsInfo ? tryFormatPercentageAmount(farm.rewardsInfo[0].apyPercent) : 0}%</Badge>
+        <NeonText>{farm.rewardsInfo ? tryFormatPercentageAmount(farm.rewardsInfo[0].apyPercent) : 0}%</NeonText>
+        <LightningIcon></LightningIcon>
       </TBodyTd>
       <TBodyTd style={{ textAlign: 'right' }}>
         <Text>{tryFormatDecimalAmount(farm.totalStaked, 18, 10)}</Text>
@@ -82,14 +73,11 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
       </TBodyTd>
       <TBodyTd style={{ textAlign: 'right' }}>
         <Text style={{ marginBottom: '2px' }}>
-          {farm.rewardsUSDPerDay?.toFixed(0)} <GreyText>USD / day</GreyText>
+          {farm.rewardsUSDPerDay?.toFixed(0)} <GreyText>USD</GreyText>
         </Text>
         <Text>
-          {farm.rewardsPerDay?.toFixed(0)} <GreyText>FUSE / day</GreyText>
+          {farm.rewardsPerDay?.toFixed(0)} <GreyText>FUSE</GreyText>
         </Text>
-      </TBodyTd>
-      <TBodyTd style={{ textAlign: 'center' }}>
-        <Button onClick={selectFarm}>Select</Button>
       </TBodyTd>
     </TBodyTr>
   )

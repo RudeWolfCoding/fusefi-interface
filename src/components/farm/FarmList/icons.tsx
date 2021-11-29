@@ -3,6 +3,7 @@ import React from 'react'
 import wethfuse from '../../../assets/svg/pairs/WETH-FUSE.svg'
 import goodusdc from '../../../assets/svg/pairs/G$-USDC.svg'
 import fusdbnb from '../../../assets/svg/pairs/FUSD-BNB.svg'
+import fusebnb from '../../../assets/svg/pairs/FUSE-BNB.svg'
 import fusdfuse from '../../../assets/svg/pairs/FUSD-FUSE.svg'
 import wbtcweth from '../../../assets/svg/pairs/WBTC-WETH.svg'
 import daiusdt from '../../../assets/svg/pairs/DAI-USDT.svg'
@@ -56,7 +57,8 @@ export default function Icon({ name, pairName, height }: IconProps) {
     'GRT/WETH': grtweth,
     'DEXT/FUSE': dextfuse,
     'FUSE/USDC': usdcfuse,
-    'FUSE/BUSD': fuseBusd
+    'FUSE/BUSD': fuseBusd,
+    'FUSE/BNB': fusebnb
   }
 
   return (

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import AppBody from '../AppBody'
 import FarmList from '../../components/farm/FarmList'
 import { useFarms } from '../../state/farm/hooks'
+import { FUSE_CHAIN_ID } from '../../connectors'
 
 const Container = styled.div`
   display: flex;
@@ -31,17 +32,14 @@ const SubHeader = styled.p`
 `
 
 export default function Farms() {
-  const farms = useFarms()
+  const [farms, isLoading] = useFarms(FUSE_CHAIN_ID)
 
   return (
     <AppBody>
       <Container>
-        <Header>FUSE LP Farm</Header>
-        <SubHeader>
-          Please choose your preferred pair, provide liquidity on FuseFi (Fuse) then deposit your LP tokens and start
-          earning Fuse.
-        </SubHeader>
-        <FarmList farms={farms} />
+        <Header>Farm</Header>
+        <SubHeader>Let&apos;s farm FUSE and VOLTS with your LP tokens!</SubHeader>
+        <FarmList farms={farms} isLoading={isLoading} />
       </Container>
     </AppBody>
   )

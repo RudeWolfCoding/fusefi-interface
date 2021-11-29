@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
+import { BINANCE_CHAIN_ID, ETHEREUM_CHAIN_ID, FUSE_CHAIN_ID } from '../../../connectors'
+import fuseLogo from '../../../assets/svg/logos/fuse-small-logo.svg'
+import ethereumLogo from '../../../assets/svg/logos/ethereum-small-logo.svg'
+import binanceLogo from '../../../assets/svg/logos/binance-small-logo.svg'
 
 const Container = styled('div')`
   display: flex;
+  justify-content: flex-end;
   position: relative;
-  width: 305px;
   max-width: 100%;
   margin-bottom: 24px;
-  justify-content: space-around;
-  background: ${({ theme }) => theme.bg1};
   border: solid 2px #000000;
-  border-radius: 16px;
+  border-radius: 5px;
 `
 const activeClassName = 'active'
 
@@ -20,65 +22,87 @@ const Button = styled('div').attrs({
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
-  justify-content: center;
-  height: 48px;
-  border-radius: 3rem;
+  justify-content: flex-start;
+  height: 45px;
+  border-radius: 5px;
+  border: 1px solid #fff;
   outline: none;
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme }) => theme.text3};
-  font-size: 16px;
-  width: 100%;
+  color: ${({ theme }) => theme.text1};
+  font-size: 14px;
+  width: 126px;
   position: relative;
   :hover,
   :focus {
     color: ${({ theme }) => darken(0.1, theme.text1)};
   }
   &.${activeClassName} {
-    border-radius: 12px;
     font-weight: 500;
+    border: none;
     color: ${({ theme }) => theme.text1};
     :before {
+      background: linear-gradient(90deg, #3ad889, #f3fc1f);
       content: '';
       position: absolute;
       width: 100%;
       top: 0;
       bottom: 0;
-      border-radius: 16px;
+      border-radius: 5px;
       padding: 3px;
-      background: linear-gradient(110deg, #b1ffbf 7%, #fff16d);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: destination-out;
       mask-composite: exclude;
     }
   }
+
+  &:nth-child(2) {
+    margin: 0 7px;
+  }
+`
+const LogoIcon = styled.img`
+  padding: 0 10px;
+`
+
+const LogoText = styled.small`
+  padding: 0 10px;
+`
+const ButtonWrapper = styled.div`
+  display: flex;
+  margin: 5px 0;
 `
 interface Filter {
+  chainId: number
   callBack: any
-  active: boolean
 }
 
-export default function Filter(props: Filter) {
-  const [isActive, setActive] = useState(true)
+export default function Filter({ callBack, chainId }: Filter) {
+  const [chain, setChain] = useState<number>(chainId)
 
-  function toggle(active: boolean) {
-    setActive(active)
-    props.callBack(active)
+  function selectChain(chainId: number) {
+    setChain(chainId)
+    callBack(chainId)
   }
 
   return (
     <Container>
-      <Button
-        className={isActive ? 'active' : ''}
-        onClick={() => {
-          toggle(true)
-        }}
-      >
-        Active
-      </Button>
-      <Button className={!isActive ? 'active' : ''} onClick={() => toggle(false)}>
-        Expired
-      </Button>
+      <div>
+        <small>Showing pool on</small>
+        <ButtonWrapper>
+          <Button className={chain === FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(FUSE_CHAIN_ID)}>
+            <LogoIcon src={fuseLogo}></LogoIcon>
+            <LogoText>Fuse</LogoText>
+          </Button>
+          <Button className={chain === BINANCE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(BINANCE_CHAIN_ID)}>
+            <LogoIcon src={binanceLogo}></LogoIcon>
+            <LogoText>BSC</LogoText>
+          </Button>
+          <Button className={chain === ETHEREUM_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(ETHEREUM_CHAIN_ID)}>
+            <LogoIcon src={ethereumLogo}></LogoIcon>
+            <span>Ethereum</span>
+          </Button>
+        </ButtonWrapper>
+      </div>
     </Container>
   )
 }

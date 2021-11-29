@@ -1,13 +1,14 @@
-import { ChainId } from '@fuseio/fuse-swap-sdk'
 import dayjs from 'dayjs'
 import { ethers } from 'ethers'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getChainNetworkLibrary } from '../../connectors'
-import { FARM_CONTRACTS } from '../../constants/farms'
 import { useActiveWeb3React } from '../../hooks'
 import { tryFormatAmount } from '../../utils'
 import { getProgram } from '../../utils/farm'
-import { useBlockNumber } from '../application/hooks'
+import axios from 'axios'
+import { FARMS_CONTRACTS_URL } from '../../constants/farms'
+
+let networkContracts: any = []
 
 async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, pairName }: any, account?: string) {
   const accountAddress = account || ethers.constants.AddressZero
@@ -37,20 +38,29 @@ async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, p
   }
 }
 
-async function fetchFarms(farmList: Array<any>, account?: string) {
-  const farms = await Promise.all(farmList.map(farm => fetchFarm(farm, account)))
-  return farms
+async function fetchNetworksContracts() {
+  const contractsUrl = FARMS_CONTRACTS_URL
+  const { data: { contracts } } = await axios.get(contractsUrl)
+  networkContracts = Object.assign({}, ...Object.values(contracts))
+  const multiContracts = Object.values(networkContracts).filter((contract: any) => contract.type === 'multi')
+  return multiContracts
+}
+
+async function fetchFarms(account?: string) {
+  try {
+    const multiContracts = await fetchNetworksContracts()
+    return await Promise.all(Object.values(multiContracts).map((farm: any) => fetchFarm(farm, account)))
+  } catch (error) {
+    console.error(error)
+    return []
+  }
 }
 
 export function useFarm(farmAddress: string) {
   const { account } = useActiveWeb3React()
   const [farm, setFarm] = useState(null)
 
-  const contract = useMemo(() => {
-    if (farmAddress)
-      return FARM_CONTRACTS[ChainId.FUSE][farmAddress] ? FARM_CONTRACTS[ChainId.FUSE][farmAddress] : undefined
-    return undefined
-  }, [farmAddress])
+  const contract = networkContracts[farmAddress] ? networkContracts[farmAddress] : undefined
 
   useEffect(() => {
     fetchFarm(contract, account ?? undefined).then(farm => setFarm(farm))
@@ -59,18 +69,18 @@ export function useFarm(farmAddress: string) {
   return farm
 }
 
-export function useFarms() {
+export function useFarms(chainId: number) {
   const { account } = useActiveWeb3React()
   const [farms, setFarms] = useState<any>([])
-  const blockNumber = useBlockNumber()
-
-  const contracts = useMemo(() => Object.values(FARM_CONTRACTS[ChainId.FUSE]), [])
+  const [isLoading, setLoading] = useState<any>(true)
 
   useEffect(() => {
-    if (contracts) {
-      fetchFarms(contracts, account ?? undefined).then(farms => setFarms(farms))
-    }
-  }, [account, contracts, blockNumber])
+    setLoading(true)
+    fetchFarms(account ?? undefined).then(data => {
+      setLoading(false)
+      setFarms(data)
+    })
+  }, [account, chainId])
 
-  return farms
+  return [farms, isLoading]
 }
