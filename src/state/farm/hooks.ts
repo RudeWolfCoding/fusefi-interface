@@ -37,7 +37,7 @@ async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, p
   }
 }
 
-async function fetchNetworksContracts(chainId: number) {
+async function fetchNetworksContracts() {
   const contractsUrl = 'https://raw.githubusercontent.com/fuseio/fuse-lp-rewards/master/config/default.json'
   const { data: { contracts } } = await axios.get(contractsUrl)
   networkContracts = Object.assign({}, ...Object.values(contracts))
@@ -45,9 +45,9 @@ async function fetchNetworksContracts(chainId: number) {
   return multiContracts
 }
 
-async function fetchFarms(chainId: number, account?: string) {
+async function fetchFarms(account?: string) {
   try {
-    const multiContracts = await fetchNetworksContracts(chainId)
+    const multiContracts = await fetchNetworksContracts()
     return await Promise.all(Object.values(multiContracts).map((farm: any) => fetchFarm(farm, account)))
   } catch (error) {
     console.error(error)
@@ -77,7 +77,7 @@ export function useFarms(chainId: number) {
 
   useEffect(() => {
     setLoading(true)
-    fetchFarms(chainId, account ?? undefined).then(data => {
+    fetchFarms(account ?? undefined).then(data => {
       setLoading(false)
       setFarms(data)
     })

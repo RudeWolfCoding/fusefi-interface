@@ -13,11 +13,10 @@ const Wrap = styled.div`
 
 type FarmListProps = {
   farms: any
-  selectedNetwork: any
   isLoading: any
 }
 
-export default function FarmList({ farms, isLoading, selectedNetwork }: FarmListProps) {
+export default function FarmList({ farms, isLoading }: FarmListProps) {
   const [filter, setFilter] = useState<number>(FUSE_CHAIN_ID)
   return (
     <Wrap>
@@ -25,7 +24,6 @@ export default function FarmList({ farms, isLoading, selectedNetwork }: FarmList
         chainId={filter}
         callBack={(chainId: number) => {
           setFilter(chainId)
-          selectedNetwork(chainId)
         }}
       />
       <TableWrapper>
