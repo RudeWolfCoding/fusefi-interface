@@ -1,11 +1,12 @@
 import dayjs from 'dayjs'
 import { ethers } from 'ethers'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getChainNetworkLibrary } from '../../connectors'
 import { useActiveWeb3React } from '../../hooks'
 import { tryFormatAmount } from '../../utils'
 import { getProgram } from '../../utils/farm'
 import axios from 'axios'
+import { FARMS_CONTRACTS_URL } from '../../constants/farms'
 
 let networkContracts: any = []
 
@@ -38,7 +39,7 @@ async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, p
 }
 
 async function fetchNetworksContracts() {
-  const contractsUrl = 'https://raw.githubusercontent.com/fuseio/fuse-lp-rewards/master/config/default.json'
+  const contractsUrl = FARMS_CONTRACTS_URL
   const { data: { contracts } } = await axios.get(contractsUrl)
   networkContracts = Object.assign({}, ...Object.values(contracts))
   const multiContracts = Object.values(networkContracts).filter((contract: any) => contract.type === 'multi')
@@ -59,9 +60,7 @@ export function useFarm(farmAddress: string) {
   const { account } = useActiveWeb3React()
   const [farm, setFarm] = useState(null)
 
-  const contract = useMemo(() => {
-    return networkContracts[farmAddress] ? networkContracts[farmAddress] : undefined
-  }, [farmAddress])
+  const contract = networkContracts[farmAddress] ? networkContracts[farmAddress] : undefined
 
   useEffect(() => {
     fetchFarm(contract, account ?? undefined).then(farm => setFarm(farm))
