@@ -422,8 +422,10 @@ export default function Bridge() {
                       <ButtonError
                         id="bridge-transfer-button"
                         onClick={onTransfer}
-                        disabled={approval !== ApprovalState.APPROVED || !!inputError}
-                        error={approval !== ApprovalState.APPROVED || (!bridgeStatus && !!inputError)}
+                        disabled={approval !== ApprovalState.APPROVED || !!inputError || isAccountContract}
+                        error={
+                          approval !== ApprovalState.APPROVED || (!bridgeStatus && !!inputError) || isAccountContract
+                        }
                       >
                         {bridgeStatus ? (
                           <>
@@ -443,8 +445,8 @@ export default function Bridge() {
                 </BottomGrouping>
                 {isAccountContract && (
                   <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
-                    Important! - We currently dont support bridge transactions sent from a contract. Your funds are
-                    probably going to get lost if you transfer.
+                    Important! - We currently dont support bridge transactions sent from a wallet contract (like
+                    FuseCash). Your funds are probably going to get lost if you transfer.
                   </TYPE.main>
                 )}
                 {bridgeDirection === BridgeDirection.FUSE_TO_ETH && (
