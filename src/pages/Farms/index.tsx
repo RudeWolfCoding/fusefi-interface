@@ -38,7 +38,7 @@ export default function Farms() {
     <AppBody>
       <Container>
         <Header>Farm</Header>
-        <SubHeader>Let&apos;s farm FUSE and VOLTS with your LP tokens!</SubHeader>
+        <SubHeader>Let&apos;s farm FUSE with LP tokens!</SubHeader>
         <FarmList farms={farms} isLoading={isLoading} />
       </Container>
     </AppBody>
