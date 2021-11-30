@@ -112,7 +112,7 @@ export default function MobileNav() {
             Bridge
           </LinkContent>
         </StyledLink>
-        <StyledLink to="/farm" onClick={() => toggleNavMenu()}>
+        <StyledLink to="/farm/122" onClick={() => toggleNavMenu()}>
           <LinkContent>
             <IconWrapper>
               <FarmIcon />

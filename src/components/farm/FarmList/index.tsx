@@ -1,31 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Loader from '../../Loaders/table'
-import Filter from './filter'
 import FarmListItem from '../FarmListItem'
 import { TableWrapper, Table, Th } from '../../Table'
-import { FUSE_CHAIN_ID } from '../../../connectors'
+// import { RouteComponentProps } from 'react-router-dom'
+import { useFarms } from '../../../state/farm/hooks'
+// import { FUSE_CHAIN_ID } from '../../../connectors'
 
 const Wrap = styled.div`
   width: 100%;
   margin-bottom: 25px;
 `
 
-type FarmListProps = {
-  farms: any
-  isLoading: any
-}
+export default function FarmList({ networkId } : any ) {
 
-export default function FarmList({ farms, isLoading }: FarmListProps) {
-  const [filter, setFilter] = useState<number>(FUSE_CHAIN_ID)
+  const [farms, isLoading] = useFarms()
+
   return (
     <Wrap>
-      <Filter
-        chainId={filter}
-        callBack={(chainId: number) => {
-          setFilter(chainId)
-        }}
-      />
       <TableWrapper>
         <Table>
           <thead>
@@ -46,7 +38,7 @@ export default function FarmList({ farms, isLoading }: FarmListProps) {
               </tr>
             ) : farms?.length ? (
               farms
-                .filter((farm: any) => farm.networkId === filter && !farm.isExpired)
+                .filter((farm: any) => farm.networkId == networkId && !farm.isExpired)
                 .map((farm: any) => <FarmListItem key={farm.contractAddress} farm={farm} />)
             ) : <tr><td></td></tr> }
           </tbody>

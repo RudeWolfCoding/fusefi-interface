@@ -69,7 +69,7 @@ export function useFarm(farmAddress: string) {
   return farm
 }
 
-export function useFarms(chainId: number) {
+export function useFarms() {
   const { account } = useActiveWeb3React()
   const [farms, setFarms] = useState<any>([])
   const [isLoading, setLoading] = useState<any>(true)
@@ -80,7 +80,7 @@ export function useFarms(chainId: number) {
       setLoading(false)
       setFarms(data)
     })
-  }, [account, chainId])
+  }, [account])
 
   return [farms, isLoading]
 }

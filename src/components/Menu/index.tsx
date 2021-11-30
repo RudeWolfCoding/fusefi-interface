@@ -240,7 +240,7 @@ export default function Sidebar() {
               <span>Bridge</span>
             </MenuItemWrapper>
           </MenuItemInternal>
-          <MenuItemInternal to="/farm">
+          <MenuItemInternal to="/farm/122">
             <MenuItemWrapper>
               <IconWrapper>
                 <FarmIcon />

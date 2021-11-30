@@ -1,17 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
 import { BINANCE_CHAIN_ID, ETHEREUM_CHAIN_ID, FUSE_CHAIN_ID } from '../../../connectors'
 import fuseLogo from '../../../assets/svg/logos/fuse-small-logo.svg'
 import ethereumLogo from '../../../assets/svg/logos/ethereum-small-logo.svg'
 import binanceLogo from '../../../assets/svg/logos/binance-small-logo.svg'
+import { useHistory } from 'react-router-dom'
 
 const Container = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  max-width: 100%;
-  margin-bottom: 24px;
   border: solid 2px #000000;
   border-radius: 5px;
 `
@@ -22,7 +18,7 @@ const Button = styled('div').attrs({
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   height: 45px;
   border-radius: 5px;
   border: 1px solid #fff;
@@ -31,24 +27,25 @@ const Button = styled('div').attrs({
   text-decoration: none;
   color: ${({ theme }) => theme.text1};
   font-size: 14px;
-  width: 126px;
+  width: 8rem;
   position: relative;
   :hover,
   :focus {
     color: ${({ theme }) => darken(0.1, theme.text1)};
   }
   &.${activeClassName} {
-    font-weight: 500;
+    font-weight: bold;
     border: none;
+    text-align: center;
     color: ${({ theme }) => theme.text1};
     :before {
       background: linear-gradient(90deg, #3ad889, #f3fc1f);
       content: '';
       position: absolute;
+      border-radius: 5px;
       width: 100%;
       top: 0;
       bottom: 0;
-      border-radius: 5px;
       padding: 3px;
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: destination-out;
@@ -59,50 +56,60 @@ const Button = styled('div').attrs({
   &:nth-child(2) {
     margin: 0 7px;
   }
+
+  &:nth-child(3) {
+    small { 
+      margin-left: 30px;
+    }
+  }
 `
 const LogoIcon = styled.img`
-  padding: 0 10px;
+  padding: 0 5px;
+  position: absolute;
+  left: 5px;
 `
 
 const LogoText = styled.small`
-  padding: 0 10px;
+  font-size: 14px;
 `
 const ButtonWrapper = styled.div`
   display: flex;
   margin: 5px 0;
 `
-interface Filter {
-  chainId: number
-  callBack: any
-}
 
-export default function Filter({ callBack, chainId }: Filter) {
-  const [chain, setChain] = useState<number>(chainId)
+const SubTitle = styled.small`
+  font-weight: lighter;
+`
+const Wrapper = styled.div`
+  margin-top: 20px;
+`
 
-  function selectChain(chainId: number) {
-    setChain(chainId)
-    callBack(chainId)
+export default function Filter({ network }: any) {
+  const history = useHistory()
+
+  const selectChain = (chainId: number) => {
+    history.push(`/farm/${chainId}`)
   }
 
   return (
     <Container>
-      <div>
-        <small>Showing pool on</small>
+      <Wrapper>
+        <SubTitle>Showing pool on</SubTitle>
         <ButtonWrapper>
-          <Button className={chain === FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(FUSE_CHAIN_ID)}>
-            <LogoIcon src={fuseLogo}></LogoIcon>
-            <LogoText>Fuse</LogoText>
-          </Button>
-          <Button className={chain === BINANCE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(BINANCE_CHAIN_ID)}>
-            <LogoIcon src={binanceLogo}></LogoIcon>
-            <LogoText>BSC</LogoText>
-          </Button>
-          <Button className={chain === ETHEREUM_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(ETHEREUM_CHAIN_ID)}>
-            <LogoIcon src={ethereumLogo}></LogoIcon>
-            <span>Ethereum</span>
-          </Button>
+            <Button className={network == FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(FUSE_CHAIN_ID)}>
+              <LogoIcon src={fuseLogo}></LogoIcon>
+              <LogoText>Fuse</LogoText>
+            </Button>
+            <Button className={network == BINANCE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(BINANCE_CHAIN_ID)}>
+              <LogoIcon src={binanceLogo}></LogoIcon>
+              <LogoText>BSC</LogoText>
+            </Button>
+            <Button className={network == ETHEREUM_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(ETHEREUM_CHAIN_ID)}>
+              <LogoIcon src={ethereumLogo}></LogoIcon>
+              <LogoText>Ethereum</LogoText>
+            </Button>
         </ButtonWrapper>
-      </div>
+      </Wrapper>
     </Container>
   )
 }
