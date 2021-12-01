@@ -36,7 +36,7 @@ const StyledLink = styled(Link)`
 export default function FarmListItem({ farm }: { farm: Farm }) {
   const history = useHistory()
   const farmPath = `/farm/${farm.networkId}/${farm.contractAddress}`
-  
+
   const selectFarm = () => {
     history.push(farmPath)
   }
@@ -51,7 +51,7 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
       </TBodyTd>
       <TBodyTd style={{ textAlign: 'center' }}>
         <NeonText>{farm.rewardsInfo ? tryFormatPercentageAmount(farm.rewardsInfo[0].apyPercent) : 0}%</NeonText>
-        <img src={lightningIcon} />
+        <img src={lightningIcon} alt="lightning icon" />
       </TBodyTd>
       <TBodyTd style={{ textAlign: 'right' }}>
         <Text>{tryFormatDecimalAmount(farm.totalStaked, 18, 10)}</Text>

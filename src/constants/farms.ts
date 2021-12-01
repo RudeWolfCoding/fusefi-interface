@@ -34,4 +34,4 @@ export const FARM_REWARD_TOKENS = {
   }
 }
 
-export const FARMS_CONTRACTS_URL ='https://raw.githubusercontent.com/fuseio/fuse-lp-rewards/master/config/default.json'
+export const FARMS_CONTRACTS_URL = 'https://raw.githubusercontent.com/fuseio/fuse-lp-rewards/master/config/default.json'

@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import AppBody from '../AppBody'
 import Filter from '../../components/farm/FarmList/filter'
 import FarmList from '../../components/farm/FarmList'
-import { useLocation } from 'react-router'
+// import { useLocation } from 'react-router'
+import { useParams } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -34,20 +35,19 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
 `
 export default function Farms() {
-  const  { pathname } = useLocation()
-  const networkId = pathname.split('/')[2]
+  const { networkId }: { networkId: string } = useParams()
 
   return (
     <AppBody>
       <Container>
-          <Wrapper>
-            <div>
-              <Header>Farm</Header>
-              <SubHeader>Let&apos;s farm FUSE with your LP tokens!</SubHeader>
-            </div>
-            <Filter network={networkId}/>
-          </Wrapper>
-          <FarmList networkId={networkId}/>
+        <Wrapper>
+          <div>
+            <Header>Farm</Header>
+            <SubHeader>Let&apos;s farm FUSE with your LP tokens!</SubHeader>
+          </div>
+          <Filter networkId={Number(networkId)} />
+        </Wrapper>
+        <FarmList networkId={Number(networkId)} />
       </Container>
     </AppBody>
   )

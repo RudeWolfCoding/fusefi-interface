@@ -58,7 +58,7 @@ const Button = styled('div').attrs({
   }
 
   &:nth-child(3) {
-    small { 
+    small {
       margin-left: 30px;
     }
   }
@@ -84,7 +84,7 @@ const Wrapper = styled.div`
   margin-top: 20px;
 `
 
-export default function Filter({ network }: any) {
+export default function Filter({ networkId }: { networkId: number }) {
   const history = useHistory()
 
   const selectChain = (chainId: number) => {
@@ -96,18 +96,24 @@ export default function Filter({ network }: any) {
       <Wrapper>
         <SubTitle>Showing pool on</SubTitle>
         <ButtonWrapper>
-            <Button className={network == FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(FUSE_CHAIN_ID)}>
-              <LogoIcon src={fuseLogo}></LogoIcon>
-              <LogoText>Fuse</LogoText>
-            </Button>
-            <Button className={network == BINANCE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(BINANCE_CHAIN_ID)}>
-              <LogoIcon src={binanceLogo}></LogoIcon>
-              <LogoText>BSC</LogoText>
-            </Button>
-            <Button className={network == ETHEREUM_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(ETHEREUM_CHAIN_ID)}>
-              <LogoIcon src={ethereumLogo}></LogoIcon>
-              <LogoText>Ethereum</LogoText>
-            </Button>
+          <Button className={networkId === FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(FUSE_CHAIN_ID)}>
+            <LogoIcon src={fuseLogo}></LogoIcon>
+            <LogoText>Fuse</LogoText>
+          </Button>
+          <Button
+            className={networkId === BINANCE_CHAIN_ID ? 'active' : ''}
+            onClick={() => selectChain(BINANCE_CHAIN_ID)}
+          >
+            <LogoIcon src={binanceLogo}></LogoIcon>
+            <LogoText>BSC</LogoText>
+          </Button>
+          <Button
+            className={networkId === ETHEREUM_CHAIN_ID ? 'active' : ''}
+            onClick={() => selectChain(ETHEREUM_CHAIN_ID)}
+          >
+            <LogoIcon src={ethereumLogo}></LogoIcon>
+            <LogoText>Ethereum</LogoText>
+          </Button>
         </ButtonWrapper>
       </Wrapper>
     </Container>
