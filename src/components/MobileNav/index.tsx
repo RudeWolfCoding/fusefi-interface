@@ -11,6 +11,7 @@ import { ReactComponent as FarmIcon } from '../../assets/svg/farm.svg'
 import { ReactComponent as LendingIcon } from '../../assets/svg/lending.svg'
 import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance_icon.svg'
 import SettingsTab from '../Settings'
+import { FUSE_CHAIN_ID } from '../../connectors'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
@@ -112,7 +113,7 @@ export default function MobileNav() {
             Bridge
           </LinkContent>
         </StyledLink>
-        <StyledLink to="/farm/122" onClick={() => toggleNavMenu()}>
+        <StyledLink to={`/farm/${FUSE_CHAIN_ID}`} onClick={() => toggleNavMenu()}>
           <LinkContent>
             <IconWrapper>
               <FarmIcon />

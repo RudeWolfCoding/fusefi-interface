@@ -87,8 +87,8 @@ const Wrapper = styled.div`
 export default function Filter({ networkId }: { networkId: number }) {
   const history = useHistory()
 
-  const selectChain = (chainId: number) => {
-    history.push(`/farm/${chainId}`)
+  const selectNetwork = (network: number) => {
+    history.push(`/farm/${network}`)
   }
 
   return (
@@ -96,20 +96,20 @@ export default function Filter({ networkId }: { networkId: number }) {
       <Wrapper>
         <SubTitle>Showing pool on</SubTitle>
         <ButtonWrapper>
-          <Button className={networkId === FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectChain(FUSE_CHAIN_ID)}>
+          <Button className={networkId === FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectNetwork(networkId)}>
             <LogoIcon src={fuseLogo}></LogoIcon>
             <LogoText>Fuse</LogoText>
           </Button>
           <Button
             className={networkId === BINANCE_CHAIN_ID ? 'active' : ''}
-            onClick={() => selectChain(BINANCE_CHAIN_ID)}
+            onClick={() => selectNetwork(BINANCE_CHAIN_ID)}
           >
             <LogoIcon src={binanceLogo}></LogoIcon>
             <LogoText>BSC</LogoText>
           </Button>
           <Button
             className={networkId === ETHEREUM_CHAIN_ID ? 'active' : ''}
-            onClick={() => selectChain(ETHEREUM_CHAIN_ID)}
+            onClick={() => selectNetwork(ETHEREUM_CHAIN_ID)}
           >
             <LogoIcon src={ethereumLogo}></LogoIcon>
             <LogoText>Ethereum</LogoText>
