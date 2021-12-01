@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import AppBody from '../AppBody'
+import Filter from '../../components/farm/FarmList/filter'
 import FarmList from '../../components/farm/FarmList'
-import { useFarms } from '../../state/farm/hooks'
-import { FUSE_CHAIN_ID } from '../../connectors'
+import { useParams } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -19,27 +19,34 @@ const Container = styled.div`
 const Header = styled.h1`
   font-size: 32px;
   font-weight: 600;
-  margin-top: 0;
-  margin-bottom: 12px;
+  margin: 0px;
 `
 
-const SubHeader = styled.p`
+const SubHeader = styled.div`
   font-size: 16px;
-  width: 544px;
-  max-width: 100%;
   margin-top: 0;
-  margin-bottom: 32px;
+  margin-bottom: px;
 `
-
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+`
 export default function Farms() {
-  const [farms, isLoading] = useFarms(FUSE_CHAIN_ID)
+  const { networkId }: { networkId: string } = useParams()
 
   return (
     <AppBody>
       <Container>
-        <Header>Farm</Header>
-        <SubHeader>Let&apos;s farm FUSE with LP tokens!</SubHeader>
-        <FarmList farms={farms} isLoading={isLoading} />
+        <Wrapper>
+          <div>
+            <Header>Farm</Header>
+            <SubHeader>Let&apos;s farm FUSE with your LP tokens!</SubHeader>
+          </div>
+          <Filter networkId={Number(networkId)} />
+        </Wrapper>
+        <FarmList networkId={Number(networkId)} />
       </Container>
     </AppBody>
   )

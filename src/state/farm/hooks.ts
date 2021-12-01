@@ -40,7 +40,9 @@ async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, p
 
 async function fetchNetworksContracts() {
   const contractsUrl = FARMS_CONTRACTS_URL
-  const { data: { contracts } } = await axios.get(contractsUrl)
+  const {
+    data: { contracts }
+  } = await axios.get(contractsUrl)
   networkContracts = Object.assign({}, ...Object.values(contracts))
   const multiContracts = Object.values(networkContracts).filter((contract: any) => contract.type === 'multi')
   return multiContracts
@@ -69,7 +71,7 @@ export function useFarm(farmAddress: string) {
   return farm
 }
 
-export function useFarms(chainId: number) {
+export function useFarms() {
   const { account } = useActiveWeb3React()
   const [farms, setFarms] = useState<any>([])
   const [isLoading, setLoading] = useState<any>(true)
@@ -80,7 +82,7 @@ export function useFarms(chainId: number) {
       setLoading(false)
       setFarms(data)
     })
-  }, [account, chainId])
+  }, [account])
 
   return [farms, isLoading]
 }

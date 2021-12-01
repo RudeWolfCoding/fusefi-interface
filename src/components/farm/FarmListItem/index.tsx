@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Link, useHistory } from 'react-router-dom'
 import Icon from '../FarmList/icons'
@@ -20,15 +20,8 @@ const NeonText = styled.span`
   font-size: 16px;
   font-weight: bold;
   margin: 0 4px;
+  vertical-align: top;
 `
-
-const LightningIcon = styled.i`
-  background: url(${lightningIcon}) no-repeat;
-  height: 22px;
-  width: 14px;
-  position: absolute;
-`
-
 const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
@@ -42,11 +35,11 @@ const StyledLink = styled(Link)`
 
 export default function FarmListItem({ farm }: { farm: Farm }) {
   const history = useHistory()
-  const farmPath = `/farm/${farm.contractAddress}`
+  const farmPath = `/farm/${farm.networkId}/${farm.contractAddress}`
 
-  const selectFarm = useCallback(() => {
+  const selectFarm = () => {
     history.push(farmPath)
-  }, [farmPath, history])
+  }
 
   return (
     <TBodyTr key={farm.contractAddress} onClick={selectFarm}>
@@ -58,7 +51,7 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
       </TBodyTd>
       <TBodyTd style={{ textAlign: 'center' }}>
         <NeonText>{farm.rewardsInfo ? tryFormatPercentageAmount(farm.rewardsInfo[0].apyPercent) : 0}%</NeonText>
-        <LightningIcon></LightningIcon>
+        <img src={lightningIcon} alt="lightning icon" />
       </TBodyTd>
       <TBodyTd style={{ textAlign: 'right' }}>
         <Text>{tryFormatDecimalAmount(farm.totalStaked, 18, 10)}</Text>

@@ -14,6 +14,7 @@ import fusd from '../../assets/svg/fuse-dollar.svg'
 import useRampWidget from '../../hooks/useRamp'
 import Settings from '../../components/Settings'
 import fusefiAnimation from '../../assets/animation/fusefi-logo.json'
+import { FUSE_CHAIN_ID } from '../../connectors'
 
 const activeClassName = 'ACTIVE'
 const StyledMenu = styled.div`
@@ -240,7 +241,7 @@ export default function Sidebar() {
               <span>Bridge</span>
             </MenuItemWrapper>
           </MenuItemInternal>
-          <MenuItemInternal to="/farm">
+          <MenuItemInternal to={`/farm/${FUSE_CHAIN_ID}`}>
             <MenuItemWrapper>
               <IconWrapper>
                 <FarmIcon />
