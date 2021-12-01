@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import AppBody from '../AppBody'
 import Filter from '../../components/farm/FarmList/filter'
 import FarmList from '../../components/farm/FarmList'
-// import { useLocation } from 'react-router'
 import { useParams } from 'react-router-dom'
 
 const Container = styled.div`
