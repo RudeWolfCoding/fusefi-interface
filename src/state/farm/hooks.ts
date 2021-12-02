@@ -43,7 +43,7 @@ async function fetchNetworksContracts() {
   const {
     data: { contracts }
   } = await axios.get(contractsUrl)
-  networkContracts = Object.assign({}, ...Object.values(contracts))
+  networkContracts = Object.assign({}, ...Object.values(contracts), contracts?.bsc?.pancake)
   const multiContracts = Object.values(networkContracts).filter((contract: any) => contract.type === 'multi')
   return multiContracts
 }
