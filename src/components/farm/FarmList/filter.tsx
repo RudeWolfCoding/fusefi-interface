@@ -96,7 +96,7 @@ export default function Filter({ networkId }: { networkId: number }) {
       <Wrapper>
         <SubTitle>Showing pool on</SubTitle>
         <ButtonWrapper>
-          <Button className={networkId === FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectNetwork(networkId)}>
+          <Button className={networkId === FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectNetwork(FUSE_CHAIN_ID)}>
             <LogoIcon src={fuseLogo}></LogoIcon>
             <LogoText>Fuse</LogoText>
           </Button>
