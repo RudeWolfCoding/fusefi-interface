@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import Lottie from 'react-lottie-player'
-import LogoIcon from '../../assets/svg/fusefi-wordmark.svg'
+import LogoIcon from '../../assets/svg/fuse_sub.svg'
+import Logo from '../../assets/svg/fusefi-wordmark.svg'
 import { ReactComponent as BridgeIcon } from '../../assets/svg/bridge.svg'
 import { ReactComponent as PoolIcon } from '../../assets/svg/pool.svg'
 import { ReactComponent as SwapIcon } from '../../assets/svg/swap.svg'
@@ -13,7 +13,6 @@ import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance_ic
 import fusd from '../../assets/svg/fuse-dollar.svg'
 import useRampWidget from '../../hooks/useRamp'
 import Settings from '../../components/Settings'
-import fusefiAnimation from '../../assets/animation/fusefi-logo.json'
 import { FUSE_CHAIN_ID } from '../../connectors'
 
 const activeClassName = 'ACTIVE'
@@ -77,7 +76,8 @@ const Ramp = styled.div`
 const UniIcon = styled.div`
   display: flex;
   align-items: center;
-
+  flex-wrap: wrap;
+  justify-content: center;
   > svg {
     padding: 0.35rem;
   }
@@ -181,13 +181,21 @@ const IconWrapper = styled.div<{ size?: number }>`
   margin-right: 16px;
 `
 
-const Logo = styled.img.attrs({
-  src: LogoIcon,
+const LogoImage = styled.img.attrs({
+  src: Logo,
   width: '90px',
   alt: 'FuseFi Logo'
 })`
-  padding: 24px 0 30px 0;
-  margin-left: -20px;
+  padding: 16px 0 16px 0;
+`
+
+const LogoIconImage = styled.img.attrs({
+  src: LogoIcon,
+  width: '50px',
+  alt: 'FuseFi Logo'
+})`
+  margin-right: 15px;
+  padding: 16px 0 16px 0;
 `
 
 const WhiteText = styled.span`
@@ -206,8 +214,7 @@ export default function Sidebar() {
       <MenuFlyout>
         <MenuWrapper>
           <UniIcon>
-            <Lottie animationData={fusefiAnimation} speed={0.75} style={{ width: '100px' }} play />
-            <Logo />
+          <LogoIconImage /> <LogoImage />
           </UniIcon>
           <MenuItemInternal to="/home">
             <MenuItemWrapper>
