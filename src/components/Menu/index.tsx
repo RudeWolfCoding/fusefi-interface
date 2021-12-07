@@ -214,7 +214,7 @@ export default function Sidebar() {
       <MenuFlyout>
         <MenuWrapper>
           <UniIcon>
-          <LogoIconImage /> <LogoImage />
+            <LogoIconImage /> <LogoImage />
           </UniIcon>
           <MenuItemInternal to="/home">
             <MenuItemWrapper>

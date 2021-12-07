@@ -79,7 +79,7 @@ function FarmTab(tab: string, farm: any) {
   }
 }
 
-export default ({ farm }: any) => {
+export default function FarmTabIndex({ farm }: any) {
   const [activeTab, setActiveTab] = useState(tabs[0])
   const { chainId } = useActiveWeb3React()
   if (chainId === 122) {
