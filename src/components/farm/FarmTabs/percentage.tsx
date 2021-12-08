@@ -34,7 +34,7 @@ interface Percentage {
 export default function Percentage({ value, selectPerecentage }: Percentage) {
   function selectPercentage(amount: number) {
     const calculated = (Number(value) * amount) / 100
-    selectPerecentage(calculated)
+    selectPerecentage(String(calculated))
   }
 
   return (
