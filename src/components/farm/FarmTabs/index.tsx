@@ -5,6 +5,8 @@ import Stats from './stats'
 import Withdraw from './withdraw'
 import Deposit from './deposit'
 import { Flex } from 'rebass'
+import { Farm } from '../../../constants/farms'
+import { NETWORK_LABELS } from '../../Header'
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -79,23 +81,22 @@ function FarmTab(tab: string, farm: any) {
   }
 }
 
-export default function FarmTabIndex({ farm }: any) {
+export default function FarmTabIndex({ farm }: { farm?: Farm }) {
   const [activeTab, setActiveTab] = useState(tabs[0])
   const { chainId } = useActiveWeb3React()
-  if (chainId === 122) {
-    return (
-      <Wrapper>
-        <TabGroup>
-          {tabs.map(tab => (
-            <Tab key={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)}>
-              {tab}
-            </Tab>
-          ))}
-        </TabGroup>
-        {FarmTab(activeTab, farm)}
-      </Wrapper>
-    )
-  } else {
-    return <Flex padding={'15px'}>Please, switch to Fuse Network to interact with LP Farm</Flex>
-  }
+
+  return chainId == farm?.networkId ? (
+    <Wrapper>
+      <TabGroup>
+        {tabs.map(tab => (
+          <Tab key={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)}>
+            {tab}
+          </Tab>
+        ))}
+      </TabGroup>
+      {FarmTab(activeTab, farm)}
+    </Wrapper>
+  ) : (
+    <Flex padding={'15px'}>Please, switch to {farm && NETWORK_LABELS[farm.networkId]} to interact with LP Farm</Flex>
+  )
 }
