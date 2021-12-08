@@ -85,7 +85,7 @@ export default function FarmTabIndex({ farm }: { farm?: Farm }) {
   const [activeTab, setActiveTab] = useState(tabs[0])
   const { chainId } = useActiveWeb3React()
 
-  return chainId == farm?.networkId ? (
+  return chainId === farm?.networkId ? (
     <Wrapper>
       <TabGroup>
         {tabs.map(tab => (
