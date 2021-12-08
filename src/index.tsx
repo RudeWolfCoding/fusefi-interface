@@ -50,7 +50,8 @@ if (typeof SENTRY_DSN === 'string' && isProduction()) {
     dsn: SENTRY_DSN,
     autoSessionTracking: true,
     integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 1
+    tracesSampleRate: 1,
+    ignoreErrors: [/^underlying network changed\.?$/, /^Failed to send batch call\.?$/]
   })
 }
 

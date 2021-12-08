@@ -15,7 +15,11 @@ import { useBlockNumber } from '../application/hooks'
 
 let networkContracts: { [key: string]: Farm } | null = null
 
-async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, pairName }: any, account?: string) {
+async function fetchFarm(farm?: Farm, account?: string) {
+  if (!farm) return
+
+  const { contractAddress, rewards, LPToken, networkId, type, pairName } = farm
+
   const accountAddress = account || ethers.constants.AddressZero
   const networkLibrary = getChainNetworkLibrary(networkId)
   const rewardProgram = getProgram(contractAddress, networkLibrary.provider, type)
@@ -79,7 +83,8 @@ export function useFarm(farmAddress: string) {
       }
 
       if (networkContracts && networkContracts[farmAddress]) {
-        fetchFarm(networkContracts[farmAddress], account ?? undefined).then(farm => setFarm(farm))
+        const farm = await fetchFarm(networkContracts[farmAddress], account ?? undefined)
+        if (farm) setFarm(farm)
       }
     }
 
