@@ -7,7 +7,7 @@ import ReactGA from 'react-ga4'
 import { Provider } from 'react-redux'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
-import { NetworkContextName } from './constants'
+import { NetworkContextName, SENTRY_IGNORE_ERRORS } from './constants'
 import './i18n'
 import App from './pages/App'
 import store from './state'
@@ -51,7 +51,7 @@ if (typeof SENTRY_DSN === 'string' && isProduction()) {
     autoSessionTracking: true,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: 1,
-    ignoreErrors: [/^underlying network changed\.?$/, /^Failed to send batch call\.?$/]
+    ignoreErrors: SENTRY_IGNORE_ERRORS
   })
 }
 

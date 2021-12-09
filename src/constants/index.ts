@@ -287,3 +287,14 @@ export const BETTER_TRADE_LINK_THRESHOLD = new Percent(JSBI.BigInt(75), JSBI.Big
 export const UNSUPPORTED_BRIDGE_TOKENS = ['WFUSE']
 
 export const GAS_PRICE = process.env.REACT_APP_GAS_PRICE ?? '1000000000'
+
+export const SENTRY_IGNORE_ERRORS = [
+  /^underlying network changed\.?$/,
+  /^Failed to send batch call\.?$/,
+  /^call revert exception\.?$/,
+  /^The transaction cannot succeed due to error: undefined\.?$/,
+  /^No RPC Url available for chainId\.?$/,
+  /^The Internet connection appears to be offline\.?$/,
+  /^cancelled\.?$/,
+  /^Non-Error promise rejection captured with keys: code\.?$/ // usually rpc errors
+]
