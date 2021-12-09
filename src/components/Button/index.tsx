@@ -83,12 +83,9 @@ export const ButtonLight = styled(Base)`
   }
 
   :disabled {
-    border: 2px solid #9fa3c9;
-    background: transparent;
-    color: #9fa3c9 !important;
+    cursor: not-allowed;
 
     :hover {
-      cursor: not-allowed;
       box-shadow: none;
       outline: none;
     }
@@ -293,6 +290,16 @@ export const ButtonPrimaryLightStyle = styled.button`
 `}
 `
 
+export const ButtonErrorStyle = styled(Base)`
+  background: transparent;
+  border: 2px solid #9fa3c9;
+  color: #9fa3c9 !important;
+
+  :disabled {
+    cursor: not-allowed;
+  }
+`
+
 export function ButtonConfirmed({
   confirmed,
   altDisabledStyle,
@@ -313,8 +320,12 @@ export function ButtonDark({ dark, ...rest }: { dark?: boolean } & ButtonProps) 
   }
 }
 
-export function ButtonError({ ...rest }: { error?: boolean } & ButtonProps) {
-  return <ButtonLight {...rest} />
+export function ButtonError({ error, ...rest }: { error?: boolean } & ButtonProps) {
+  if (error) {
+    return <ButtonErrorStyle {...rest} />
+  } else {
+    return <ButtonLight {...rest} />
+  }
 }
 
 export function ButtonDropdown({ disabled = false, children, ...rest }: { disabled?: boolean } & ButtonProps) {
