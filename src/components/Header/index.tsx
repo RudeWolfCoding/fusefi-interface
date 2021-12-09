@@ -33,7 +33,6 @@ const HeaderElement = styled.div`
 
 const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
-  height: 39px;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
@@ -57,12 +56,13 @@ const TestnetWrapper = styled.div`
 `
 
 const NetworkCard = styled('div')`
-  border: 2px solid ${({ theme }) => theme.bg3};
-  color: ${({ theme }) => theme.text1};
+  height: 24px;
+  border: 1px solid #808080;
+  color: #808080;
   width: fit-content;
   margin-right: 10px;
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-radius: 5px;
+  padding: 1px 12px;
 `
 
 const HeaderControls = styled.div`

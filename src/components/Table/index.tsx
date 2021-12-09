@@ -28,10 +28,10 @@ export const Th = styled.th`
 `
 
 export const TBodyTr = styled.tr`
-  border-bottom: 1px solid ${({ theme }) => theme.secondary4};
+  border-bottom: 3px solid ${({ theme }) => theme.black};
 
   :hover {
-    background-color: ${({ theme }) => theme.secondary4};
+    background-color: ${({ theme }) => theme.black};
     cursor: pointer;
   }
 `

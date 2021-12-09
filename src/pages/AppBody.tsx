@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import Footer from '../components/Footer'
 import Header from '../components/Header'
 
 export const BodyWrapper = styled.div`
@@ -36,7 +35,6 @@ export default function AppBody({ children }: { children: React.ReactNode }) {
         <MobileNav />
         {children}
       </BodyWrapper>
-      <Footer />
     </div>
   )
 }

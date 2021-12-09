@@ -4,7 +4,7 @@ import { darken, lighten } from 'polished'
 import React, { useMemo } from 'react'
 import { Activity } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import CoinbaseWalletIcon from '../../assets/images/coinbaseWalletIcon.svg'
 import FortmaticIcon from '../../assets/images/fortmaticIcon.png'
 import PortisIcon from '../../assets/images/portisIcon.png'
@@ -25,6 +25,7 @@ import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
 import useAddChain from '../../hooks/useAddChain'
 import { FUSE_CHAIN } from '../../constants/chains'
+import { ReactComponent as Wallet } from '../../assets/svg/walletConnect.svg'
 
 const IconWrapper = styled.div<{ size?: number }>`
   ${({ theme }) => theme.flexColumnNoWrap};
@@ -38,6 +39,9 @@ const IconWrapper = styled.div<{ size?: number }>`
 
 const Web3StatusGeneric = styled('div')`
   ${({ theme }) => theme.flexRowNoWrap}
+  background: linear-gradient(93.58deg, #3AD8A4 -105.35%, #F3FC1F 103.54%);
+  height: 24px;
+  color: black;
   align-items: center;
   padding: 0.5rem;
   border-radius: 12px;
@@ -61,37 +65,17 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 `
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
-  background-color: #52597b;
-  border: 2px solid white;
-  color: white;
   font-weight: 500;
+  height: 24px;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
-  :hover,
-  :focus {
-    border: 2px solid ${darken(0.05, 'white')};
-    color: ${darken(0.05, 'white')};
+  & > * {
+    stroke: black;
   }
-
-  ${({ faded }) =>
-    faded &&
-    css`
-      background-color: #52597b;
-      border: 2px solid white;
-      color: white;
-
-      :hover,
-      :focus {
-        border: 2px solid ${darken(0.05, 'white')};
-        color: ${darken(0.05, 'white')};
-      }
-    `}
 `
 
 const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
-  background-color: black;
   border: 2px solid ${({ pending, theme }) => (pending ? theme.primary1 : theme.bg3)};
-  color: ${({ pending, theme }) => (pending ? theme.white : theme.text1)};
   font-weight: 400;
   :hover,
   :focus {
@@ -222,7 +206,7 @@ function Web3StatusInner() {
 
     return (
       <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-        <Text>{t('Connect to a wallet')}</Text>
+        <Wallet /> <span>{t('Connect wallet')}</span>
       </Web3StatusConnect>
     )
   }

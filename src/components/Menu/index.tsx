@@ -1,19 +1,25 @@
 import React, { useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import LogoIcon from '../../assets/svg/fuse_sub.svg'
-import Logo from '../../assets/svg/fusefi-wordmark.svg'
+import LogoIcon from '../../assets/svg/fusefi-wordmark.svg'
 import { ReactComponent as BridgeIcon } from '../../assets/svg/bridge.svg'
 import { ReactComponent as PoolIcon } from '../../assets/svg/pool.svg'
 import { ReactComponent as SwapIcon } from '../../assets/svg/swap.svg'
 import { ReactComponent as FarmIcon } from '../../assets/svg/farm.svg'
 import { ReactComponent as HomeIcon } from '../../assets/svg/home.svg'
-import { ReactComponent as LendingIcon } from '../../assets/svg/lending.svg'
-import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance_icon.svg'
-import fusd from '../../assets/svg/fuse-dollar.svg'
+import { ReactComponent as LendingIcon } from '../../assets/svg/lend.svg'
+import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance.svg'
+import { ReactComponent as Analytics } from '../../assets/svg/analyticsMenu.svg'
+import { ReactComponent as Wallet } from '../../assets/svg/wallet.svg'
+
+import telegram from '../../assets/svg/telegram.svg'
+import twitter from '../../assets/svg/twitter.svg'
+import github from '../../assets/svg/github.svg'
+import { ReactComponent as FUSD } from '../../assets/svg/fuse-dollar.svg'
 import useRampWidget from '../../hooks/useRamp'
 import Settings from '../../components/Settings'
 import { FUSE_CHAIN_ID } from '../../connectors'
+import { ExternalLink } from '../../theme'
 
 const activeClassName = 'ACTIVE'
 const StyledMenu = styled.div`
@@ -32,14 +38,10 @@ const StyledMenu = styled.div`
 const Ramp = styled.div`
   cursor: pointer;
   justify-content: space-evenly;
-  position: absolute;
   display: flex;
   width: 80%;
-  height: 40px;
-  bottom: 65px;
-  left: 10%
-  padding: 0px 16px;
-
+  height: 48px;
+  width: 100%;
   > span {
     font-style: normal;
     font-weight: 500;
@@ -49,20 +51,6 @@ const Ramp = styled.div`
     background: linear-gradient(90deg, #c2f6bf 0%, #f7fa9a 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-  }
-  ::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 12px;
-    padding: 2px;
-    background: linear-gradient(90deg, #c2f6bf 0%, #f7fa9a 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
   }
   div {
     display: flex;
@@ -83,7 +71,7 @@ const UniIcon = styled.div`
   }
   > svg #icon {
     padding: 0.35rem;
-
+    stroke-width: 1px;
     stroke: ${({ theme }) => theme.text2};
     ${({ theme }) => theme.mediaWidth.upToSmall`
       width: 7.5rem;
@@ -91,7 +79,7 @@ const UniIcon = styled.div`
   }
   > svg #icon2 {
     padding: 0.35rem;
-
+    stroke-width: 2px;
     fill: ${({ theme }) => theme.text2};
     ${({ theme }) => theme.mediaWidth.upToSmall`
       width: 7.5rem;
@@ -102,7 +90,7 @@ const UniIcon = styled.div`
 
 const MenuFlyout = styled.span`
   width: 100%;
-  height: 96vh;
+  height: 100vh;
   background-color: ${({ theme }) => theme.bg1};
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
     0px 24px 32px rgba(0, 0, 0, 0.01);
@@ -114,25 +102,26 @@ const MenuFlyout = styled.span`
   color: white;
 `
 
-const MenuItemInternal = styled(NavLink).attrs({
-  activeClassName
-})`
+const MenuItem = styled.a`
+  width: 100%;
   height: 48px;
   text-decoration: none;
+  font-family: Inter;
   font-size: 16px;
-  font-weight: 500;
-  padding-left: 24px;
+  font-weight: 300;
+  padding-left: 21px;
   display: flex;
   flex-direction: column;
   .icon {
-    fill: #b5b9d3;
+    stroke: white;
+    stroke-width: 1;
   }
   .icon2 {
-    stroke: #b5b9d3;
+    stroke: white;
+    stroke-width: 0;
   }
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.white};
   :hover {
-    color: ${({ theme }) => theme.text2};
     cursor: pointer;
     text-decoration: none;
     background-color: rgba(17, 18, 25, 0.4);
@@ -142,10 +131,52 @@ const MenuItemInternal = styled(NavLink).attrs({
     color: white;
     background-color: ${({ theme }) => theme.secondary4};
     .icon {
-      fill: white;
+      stroke-width: 2px;
     }
     .icon2 {
       stroke: white;
+      stroke-width: 2px;
+    }
+  }
+`
+
+const MenuItemInternal = styled(NavLink).attrs({
+  activeClassName
+})`
+  width: 100%;
+  height: 48px;
+  text-decoration: none;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 300;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  .icon {
+    stroke: white;
+    stroke-width: 1;
+  }
+  .icon2 {
+    stroke: white;
+    stroke-width: 0;
+  }
+  color: ${({ theme }) => theme.white};
+  :hover {
+    cursor: pointer;
+    text-decoration: none;
+    background-color: rgba(17, 18, 25, 0.4);
+  }
+
+  &.${activeClassName} {
+    color: white;
+    font-weight: 500;
+    background-color: ${({ theme }) => theme.secondary4};
+    .icon {
+      stroke-width: 2px;
+    }
+    .icon2 {
+      stroke: white;
+      stroke-width: 2px;
     }
   }
 `
@@ -166,10 +197,11 @@ const MenuWrapper = styled.div`
 
 const SubMenuWrapper = styled.div`
   display: flex;
-  align-items: flex-end;
-  position: absolute;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 40%;
   width: 100%;
-  bottom: 0;
 `
 
 const IconWrapper = styled.div<{ size?: number }>`
@@ -181,27 +213,31 @@ const IconWrapper = styled.div<{ size?: number }>`
   margin-right: 16px;
 `
 
-const LogoImage = styled.img.attrs({
-  src: Logo,
-  width: '90px',
-  alt: 'FuseFi Logo'
-})`
-  padding: 16px 0 16px 0;
-`
-
-const LogoIconImage = styled.img.attrs({
+const Logo = styled.img.attrs({
   src: LogoIcon,
-  width: '50px',
+  width: '180px',
   alt: 'FuseFi Logo'
 })`
-  margin-right: 15px;
-  padding: 16px 0 16px 0;
+  padding: 25px 0 25px 0;
 `
+const Links = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 12px;
+  padding-left: 24px;
+`
+const Item = styled(ExternalLink)`
+  color: #8f9197;
+  padding: 4px 0;
+  :hover {
+    color: ${({ theme }) => theme.white};
+    cursor: pointer;
+    text-decoration: none;
+  }
 
-const WhiteText = styled.span`
-  color: white;
-  font-size: 12px;
-  margin-left: 5px;
+  :not(:last-child) {
+    margin-right: 8px;
+  }
 `
 
 export default function Sidebar() {
@@ -214,7 +250,7 @@ export default function Sidebar() {
       <MenuFlyout>
         <MenuWrapper>
           <UniIcon>
-          <LogoIconImage /> <LogoImage />
+            <Logo />
           </UniIcon>
           <MenuItemInternal to="/home">
             <MenuItemWrapper>
@@ -267,21 +303,52 @@ export default function Sidebar() {
           <MenuItemInternal to="/governance">
             <MenuItemWrapper>
               <IconWrapper>
+                <Wallet />
+              </IconWrapper>
+              <span>Wallet</span>
+            </MenuItemWrapper>
+          </MenuItemInternal>
+          <MenuItemInternal to="/wallet">
+            <MenuItemWrapper>
+              <IconWrapper>
                 <GovernanceIcon />
               </IconWrapper>
               <span>Governance</span>
-              <WhiteText>Soon</WhiteText>
             </MenuItemWrapper>
           </MenuItemInternal>
         </MenuWrapper>
         <SubMenuWrapper>
-          <Settings />
+          <MenuItemInternal to="//lending">
+            <MenuItemWrapper>
+              <IconWrapper>
+                <Analytics />
+              </IconWrapper>
+              <span>Analytics</span>
+            </MenuItemWrapper>
+          </MenuItemInternal>
           <Ramp onClick={openRampWidget}>
-            <div>
-              <img src={fusd} width="24px" height="24px" alt="Fuse Dollar" />
-            </div>
-            <span>Buy Fuse Dollar</span>{' '}
+            <MenuItem>
+              <MenuItemWrapper>
+                <IconWrapper>
+                  <FUSD />
+                </IconWrapper>
+                <span>Get Fuse Dollar</span>
+              </MenuItemWrapper>
+            </MenuItem>
           </Ramp>
+          <Settings />
+
+          <Links>
+            <Item id="link" href="https://github.com/fuseio">
+              <img src={github} alt="Github icon" />
+            </Item>
+            <Item id="link" href="https://t.me/fuseswap">
+              <img src={telegram} alt="Telegram icon" />
+            </Item>
+            <Item id="link" href="https://twitter.com/Fuse_Fi">
+              <img src={twitter} alt="Twitter icon" />
+            </Item>
+          </Links>
         </SubMenuWrapper>
       </MenuFlyout>
     </StyledMenu>
