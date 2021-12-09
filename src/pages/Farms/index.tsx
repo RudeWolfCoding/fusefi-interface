@@ -4,6 +4,7 @@ import AppBody from '../AppBody'
 import Filter from '../../components/farm/FarmList/filter'
 import FarmList from '../../components/farm/FarmList'
 import { useParams } from 'react-router-dom'
+import { ExternalLink } from '../../theme'
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +43,10 @@ export default function Farms() {
         <Wrapper>
           <div>
             <Header>Farm</Header>
-            <SubHeader>Let&apos;s farm FUSE with your LP tokens!</SubHeader>
+            <SubHeader>
+              Let&apos;s farm FUSE with your LP tokens!{' '}
+              <ExternalLink href="https://oldrewards.fuse.io">(Click here for the old faming page)</ExternalLink>
+            </SubHeader>
           </div>
           <Filter networkId={Number(networkId)} />
         </Wrapper>
