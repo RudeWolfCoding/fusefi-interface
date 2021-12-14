@@ -15,6 +15,7 @@ import linkweth from '../../../assets/svg/pairs/LINK-WETH.svg'
 import grtweth from '../../../assets/svg/pairs/GRT-WETH.svg'
 import dextfuse from '../../../assets/svg/pairs/DEXT-FUSE.svg'
 import fuseBusd from '../../../assets/images/fuse-busd.png'
+import fuseGooddollar from '../../../assets/svg/coins-pair-fuse-gooddollar.svg'
 
 const Container = styled.div<{ height?: number }>`
   display: flex;
@@ -58,7 +59,8 @@ export default function Icon({ name, pairName, height }: IconProps) {
     'DEXT/FUSE': dextfuse,
     'FUSE/USDC': usdcfuse,
     'FUSE/BUSD': fuseBusd,
-    'FUSE/BNB': fusebnb
+    'FUSE/BNB': fusebnb,
+    'FUSE/G$': fuseGooddollar
   }
 
   return (
