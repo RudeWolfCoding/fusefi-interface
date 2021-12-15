@@ -101,10 +101,10 @@
     "webfontloader": "^1.6.28"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start:prod": "env-cmd -f .env.production react-scripts start",
+    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "start:prod": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env.production react-scripts start",
     "start:beta": "env-cmd -f .env.beta react-scripts start",
-    "build": "react-scripts build",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",

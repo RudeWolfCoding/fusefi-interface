@@ -67,6 +67,7 @@ const UniIcon = styled.div`
   justify-content: center;
   > svg {
     padding: 0.35rem;
+    padding-bottom: 30px;
   }
   > svg #icon {
     padding: 0.35rem;
@@ -243,7 +244,7 @@ const Logo = styled.img.attrs({
   width: '180px',
   alt: 'FuseFi Logo'
 })`
-  padding: 25px 0 25px 0;
+  padding: 25px 0 30px 0;
 `
 const Links = styled.div`
   display: flex;

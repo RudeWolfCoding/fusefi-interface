@@ -42,6 +42,7 @@ const Web3StatusGeneric = styled('div')`
   ${({ theme }) => theme.flexRowNoWrap}
   background: linear-gradient(93.58deg, #3AD8A4 -105.35%, #F3FC1F 103.54%);
   color: black;
+  padding: 0px 11px 0px 11px;
   font-weight: 400;
   align-items: center;
   border-radius: 5px;

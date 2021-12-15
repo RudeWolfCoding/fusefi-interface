@@ -20,8 +20,7 @@ const Button = styled('div').attrs({
   align-items: center;
   justify-content: center;
   height: 45px;
-  border-radius: 5px;
-  border: 1px solid #fff;
+  border-radius: 10px;
   outline: none;
   cursor: pointer;
   text-decoration: none;
@@ -29,6 +28,8 @@ const Button = styled('div').attrs({
   font-size: 14px;
   width: 8rem;
   position: relative;
+  margin: 6px 5px 6px 5px;
+  z-index: 100;
   :hover,
   :focus {
     color: ${({ theme }) => darken(0.1, theme.text1)};
@@ -37,44 +38,42 @@ const Button = styled('div').attrs({
     font-weight: bold;
     border: none;
     text-align: center;
-    color: ${({ theme }) => theme.text1};
-    :before {
-      background: linear-gradient(90deg, #3ad889, #f3fc1f);
-      content: '';
-      position: absolute;
-      border-radius: 5px;
-      width: 100%;
-      top: 0;
-      bottom: 0;
-      padding: 3px;
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-  }
-
-  &:nth-child(2) {
-    margin: 0 7px;
-  }
-
-  &:nth-child(3) {
-    small {
-      margin-left: 30px;
-    }
+    background: linear-gradient(93.58deg, #3ad8a4 -105.35%, #f3fc1f 103.54%);
+    border-radius: 9px;
+    color: ${({ theme }) => theme.black};
   }
 `
 const LogoIcon = styled.img`
   padding: 0 5px;
-  position: absolute;
-  left: 5px;
+  height: 26px;
 `
 
 const LogoText = styled.small`
-  font-size: 14px;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
 `
 const ButtonWrapper = styled.div`
   display: flex;
+  position: relative;
   margin: 5px 0;
+  background: #4a4a4e;
+  border-radius: 10px;
+  :after {
+    background: linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%);
+    content: '';
+    position: absolute;
+    border-radius: 10px;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: -1.5px;
+    padding: 2px;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
 `
 
 const SubTitle = styled.small`
