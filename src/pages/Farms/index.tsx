@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 `
 
 const Link = styled.a`
-  padding-left: 10px
+  padding-left: 3px
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;

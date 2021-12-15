@@ -28,7 +28,7 @@ export const Th = styled.th`
 `
 
 export const TBodyTr = styled.tr`
-  border-bottom: 3px solid ${({ theme }) => theme.black};
+  border-bottom: 3.5px outset ${({ theme }) => theme.black};
 
   :hover {
     background-color: ${({ theme }) => theme.black};

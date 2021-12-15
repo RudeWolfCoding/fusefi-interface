@@ -10,7 +10,6 @@ import { ReactComponent as HomeIcon } from '../../assets/svg/home.svg'
 import { ReactComponent as LendingIcon } from '../../assets/svg/lend.svg'
 import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance.svg'
 import { ReactComponent as Analytics } from '../../assets/svg/analyticsMenu.svg'
-import { ReactComponent as Wallet } from '../../assets/svg/wallet.svg'
 
 import telegram from '../../assets/svg/telegram.svg'
 import twitter from '../../assets/svg/twitter.svg'
@@ -181,6 +180,32 @@ const MenuItemInternal = styled(NavLink).attrs({
   }
 `
 
+const MenuItemExternal = styled(ExternalLink)`
+  width: 100%;
+  height: 48px;
+  text-decoration: none;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 300;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  .icon {
+    stroke: white;
+    stroke-width: 1;
+  }
+  .icon2 {
+    stroke: white;
+    stroke-width: 0;
+  }
+  color: ${({ theme }) => theme.white};
+  :hover {
+    cursor: pointer;
+    text-decoration: none;
+    background-color: rgba(17, 18, 25, 0.4);
+  }
+`
+
 const MenuItemWrapper = styled.div`
   display: flex;
   height: 100%
@@ -300,14 +325,6 @@ export default function Sidebar() {
               <span>Lending</span>
             </MenuItemWrapper>
           </MenuItemInternal>
-          <MenuItemInternal to="/governance">
-            <MenuItemWrapper>
-              <IconWrapper>
-                <Wallet />
-              </IconWrapper>
-              <span>Wallet</span>
-            </MenuItemWrapper>
-          </MenuItemInternal>
           <MenuItemInternal to="/wallet">
             <MenuItemWrapper>
               <IconWrapper>
@@ -318,14 +335,14 @@ export default function Sidebar() {
           </MenuItemInternal>
         </MenuWrapper>
         <SubMenuWrapper>
-          <MenuItemInternal to="//lending">
+          <MenuItemExternal id="link" href="https://info.fuseswap.com/">
             <MenuItemWrapper>
               <IconWrapper>
                 <Analytics />
               </IconWrapper>
               <span>Analytics</span>
             </MenuItemWrapper>
-          </MenuItemInternal>
+          </MenuItemExternal>
           <Ramp onClick={openRampWidget}>
             <MenuItem>
               <MenuItemWrapper>

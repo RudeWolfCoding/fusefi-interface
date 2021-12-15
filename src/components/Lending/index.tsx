@@ -27,7 +27,9 @@ const Selector = styled('div')`
     flex-direction: column;
   `}
 `
-
+const Tr = styled('tr')`
+  border-bottom: 3.5px outset ${({ theme }) => theme.black};
+`
 const Supply = styled('div')`
   border-radius: 12px;
   background: #0e4f3f;
@@ -134,14 +136,14 @@ export default function Lending() {
         <TableWrapper>
           <Table>
             <thead>
-              <tr>
+              <Tr>
                 <Th>Asset</Th>
                 <Th>Market Size</Th>
                 <Th>Total Borrowed</Th>
                 <Th>Deposit APY</Th>
                 <Th>Borrow APY</Th>
                 <Th style={{ width: '250px' }}>&nbsp;</Th>
-              </tr>
+              </Tr>
             </thead>
             <tbody>
               {lendingMarkets.length ? (

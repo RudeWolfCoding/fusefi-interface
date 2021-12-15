@@ -35,8 +35,8 @@ const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
-  border-radius: 12px;
+  background: linear-gradient(93.58deg, #3ad8a4 -105.35%, #f3fc1f 103.54%);
+  border-radius: 5px;
   white-space: nowrap;
   width: 100%;
   :focus {
@@ -60,6 +60,8 @@ const NetworkCard = styled('div')`
   border: 1px solid #808080;
   color: #808080;
   width: fit-content;
+  font-size: 14px;
+  line-height: 19px;
   margin-right: 10px;
   border-radius: 5px;
   padding: 1px 12px;
@@ -71,7 +73,17 @@ const HeaderControls = styled.div`
   align-items: center;
 `
 
-const BalanceText = styled(Text)``
+const BalanceText = styled(Text)<{ active: boolean }>`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  ${({ active }) => (active ? '  padding-right: 8px; padding-left: 8px;' : '')}
+`
 
 const StyledMenuIcon = styled(MenuIcon)`
   display: none;
@@ -111,11 +123,16 @@ export default function Header() {
               {chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-              {account && userEthBalance ? (
-                <BalanceText pl="0.75rem" pr="0.5rem" fontWeight={500}>
+              {chainId && account && userEthBalance ? (
+                <BalanceText active={account ? true : false} pl="0.75rem" pr="0.5rem" fontWeight={500}>
                   {userEthBalance?.toSignificant(4)} {getNativeCurrencySymbol(chainId)}
                 </BalanceText>
-              ) : null}
+              ) : (
+                <BalanceText active={account ? true : false} fontWeight={500}>
+                  {' '}
+                  {account ? 'Loading..' : ''}
+                </BalanceText>
+              )}
               <Web3Status />
             </AccountElement>
           </HeaderElement>

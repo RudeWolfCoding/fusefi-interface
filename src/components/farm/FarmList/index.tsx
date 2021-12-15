@@ -9,8 +9,8 @@ const Wrap = styled.div`
   width: 100%;
   margin-bottom: 25px;
 `
-const Tr = styled.div`
-  border-bottom: 3px solid black;
+const Tr = styled.tr`
+  border-bottom: 3.5px outset black;
 `
 export default function FarmList({ networkId }: { networkId: number }) {
   const [farms, isLoading] = useFarms()
