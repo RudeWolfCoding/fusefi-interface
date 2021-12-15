@@ -30,7 +30,6 @@ export default function LendingIcon({ address }: LendingIconProps) {
     [NATIVE_ADDRESS]: 'FUSE',
     [FUSE_FUSD.address]: 'fUSD',
     [FUSE_BUSD.address]: 'BUSD'
-
   }
 
   const Container = styled.div`

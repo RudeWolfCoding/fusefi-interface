@@ -4,7 +4,7 @@ import AppBody from '../AppBody'
 import Filter from '../../components/farm/FarmList/filter'
 import FarmList from '../../components/farm/FarmList'
 import { useParams } from 'react-router-dom'
-import {ReactComponent as Arrow} from '../../assets/svg/arrow.svg'
+import { ReactComponent as Arrow } from '../../assets/svg/arrow.svg'
 
 const Container = styled.div`
   display: flex;
@@ -58,7 +58,12 @@ export default function Farms() {
           <div>
             <Header>Farm</Header>
             <SubHeader>Let&apos;s farm FUSE and VOLT with your LP tokens!</SubHeader>
-            <SubHeader><Arrow /> <Link href="https://app.gitbook.com/o/-LdmeTBjede0-BcSd0W0/s/-MjTjRg6s-Uep2Adcd_1/tutorials-and-guides/what-are-lp-tokens">What are LP Tokens </Link></SubHeader>
+            <SubHeader>
+              <Arrow />{' '}
+              <Link href="https://app.gitbook.com/o/-LdmeTBjede0-BcSd0W0/s/-MjTjRg6s-Uep2Adcd_1/tutorials-and-guides/what-are-lp-tokens">
+                What are LP Tokens{' '}
+              </Link>
+            </SubHeader>
           </div>
           <Filter networkId={Number(networkId)} />
         </Wrapper>
