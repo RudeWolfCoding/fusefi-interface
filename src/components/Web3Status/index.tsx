@@ -44,7 +44,6 @@ const Web3StatusGeneric = styled('div')`
   color: black;
   font-weight: 400;
   align-items: center;
-  padding: 0.325rem 0.325rem;
   border-radius: 5px;
   cursor: pointer;
   user-select: none;
@@ -69,8 +68,6 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
   font-weight: 500;
   height: 32px;
-  padding-top: 32px;
-
   & > * {
     stroke: black;
   }
@@ -81,6 +78,7 @@ const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
   border-radius: 5px;
   background: black;
   color: white;
+  height: 32px;
   border-radius: 0px 5px 5px 0px;
   :hover,
   :focus {
@@ -130,7 +128,7 @@ const SOCK = (
 function StatusIcon({ connector }: { connector: AbstractConnector }) {
   if (connector === injected) {
     return (
-      <IconWrapper size={12} margin={2}>
+      <IconWrapper size={12} margin={5}>
         <img src={ConnectStatus} alt={''} />
       </IconWrapper>
     )
