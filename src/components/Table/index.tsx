@@ -19,7 +19,7 @@ export const Table = styled.table`
 
 export const Th = styled.th`
   border-bottom: 1px solid ${({ theme }) => theme.secondary4};
-  padding 23px 16px;
+  padding: 23px 22px;
   font-weight: 500;
 
   :nth-child(1) {
@@ -37,5 +37,5 @@ export const TBodyTr = styled.tr`
 `
 
 export const TBodyTd = styled.td`
-  padding: 12px 16px;
+  padding: 12px 20px;
 `

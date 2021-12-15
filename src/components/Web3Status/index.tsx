@@ -42,8 +42,9 @@ const Web3StatusGeneric = styled('div')`
   ${({ theme }) => theme.flexRowNoWrap}
   background: linear-gradient(93.58deg, #3AD8A4 -105.35%, #F3FC1F 103.54%);
   color: black;
+  font-weight: 400;
   align-items: center;
-  padding: 0.15rem 0.15rem;
+  padding: 0.325rem 0.325rem;
   border-radius: 5px;
   cursor: pointer;
   user-select: none;
@@ -67,7 +68,9 @@ const Web3StatusError = styled(Web3StatusGeneric)`
 
 const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
   font-weight: 500;
-  height: 24px;
+  height: 32px;
+  padding-top: 32px;
+
   & > * {
     stroke: black;
   }
@@ -77,6 +80,7 @@ const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
   border: 2px solid #b5f043;
   border-radius: 5px;
   background: black;
+  color: white;
   border-radius: 0px 5px 5px 0px;
   :hover,
   :focus {
@@ -96,7 +100,6 @@ const Text = styled.p`
   margin: 0 0.5rem 0 0.25rem;
   font-size: 1rem;
   width: fit-content;
-  color: white;
   font-weight: 300;
   font-family: Inter;
   font-size: 12px;

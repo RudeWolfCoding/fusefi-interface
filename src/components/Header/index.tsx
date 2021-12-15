@@ -13,6 +13,7 @@ import { useToggleNavMenu } from '../../state/application/hooks'
 
 const HeaderFrame = styled.div`
   padding-right: 2.6%;
+  padding-top: 32px;
   width: 100%;
   top: 0;
   opacity: 0.85;
@@ -56,12 +57,12 @@ const TestnetWrapper = styled.div`
 `
 
 const NetworkCard = styled('div')`
-  height: 24px;
+  height: 32px;
   border: 1px solid #808080;
   color: #808080;
   width: fit-content;
-  font-size: 14px;
-  line-height: 19px;
+  font-size: 16px;
+  line-height: 28px;
   margin-right: 10px;
   border-radius: 5px;
   padding: 1px 12px;

@@ -108,7 +108,7 @@ const MenuItem = styled.a`
   font-family: Inter;
   font-size: 16px;
   font-weight: 300;
-  padding-left: 21px;
+  padding-left: 40px;
   display: flex;
   flex-direction: column;
   .icon {
@@ -148,7 +148,7 @@ const MenuItemInternal = styled(NavLink).attrs({
   font-family: Inter;
   font-size: 16px;
   font-weight: 300;
-  padding-left: 24px;
+  padding-left: 40px;
   display: flex;
   flex-direction: column;
   .icon {
@@ -187,7 +187,7 @@ const MenuItemExternal = styled(ExternalLink)`
   font-family: Inter;
   font-size: 16px;
   font-weight: 300;
-  padding-left: 24px;
+  padding-left: 40px;
   display: flex;
   flex-direction: column;
   .icon {
@@ -249,7 +249,7 @@ const Links = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 12px;
-  padding-left: 24px;
+  padding-left: 40px;
 `
 const Item = styled(ExternalLink)`
   color: #8f9197;

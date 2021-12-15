@@ -15,6 +15,8 @@ const Container = styled.div`
   padding-right: 5%;
   margin-bottom: 45px;
   text-align: left;
+  min-height: 80vh;
+  justify-content: center;
 `
 
 const Header = styled.h1`
@@ -34,6 +36,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   margin-bottom: 10px;
   flex-wrap: wrap;
+  margin-top: 50px;
+}
 `
 
 const Link = styled.a`
@@ -61,7 +65,7 @@ export default function Farms() {
             <SubHeader>
               <Arrow />{' '}
               <Link href="https://app.gitbook.com/o/-LdmeTBjede0-BcSd0W0/s/-MjTjRg6s-Uep2Adcd_1/tutorials-and-guides/what-are-lp-tokens">
-                What are LP Tokens{' '}
+                What are LP Tokens?{' '}
               </Link>
             </SubHeader>
           </div>

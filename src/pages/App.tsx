@@ -34,7 +34,7 @@ const AppWrapper = styled.div`
 `
 const LeftMenu = styled.div`
   height: 100vh;
-  flex: 0 0 224px;
+  flex: 0 0 260px;
   order: -1;
   ${({ theme }) => theme.mediaWidth.upToSmall`display: none;flex: 0 0 0`};
   ${({ theme }) => theme.mediaWidth.upToMedium`display: none;flex: 0 0 22%`};
@@ -44,14 +44,13 @@ const Sticky = styled.div`
   position: fixed;
   position: -webkit-fixed;
   top: 0;
-  width: 224px;
+  width: 260px;
   height: 100vh;
   ${({ theme }) => theme.mediaWidth.upToSmall`display: none;`};
 `
 const Content = styled.div`
   background: black;
   order: 1;
-  padding-top: 1rem;
   width: 100%;
   position: relative;
 `

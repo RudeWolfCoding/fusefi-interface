@@ -48,7 +48,7 @@ const StyledMenuButton = styled.button`
   background-color: transparent;
   margin: 0;
   padding: 0;
-  padding: 0.15rem 1rem;
+  padding: 0.15rem 32px;
   font-wight: 100;
   >span{
     line-height: 42px;

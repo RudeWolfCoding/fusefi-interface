@@ -45,7 +45,7 @@ export const ErrorText = styled(Text)<{ severity?: 0 | 1 | 2 | 3 | 4 }>`
 `
 
 export const StyledBalanceMaxMini = styled.button`
-  height: 24px;
+  height: 32px;
   width: 24px;
   background-color: #393c57;
   border: none;
