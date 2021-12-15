@@ -15,7 +15,7 @@ import linkweth from '../../../assets/svg/pairs/LINK-WETH.svg'
 import grtweth from '../../../assets/svg/pairs/GRT-WETH.svg'
 import dextfuse from '../../../assets/svg/pairs/DEXT-FUSE.svg'
 import fuseBusd from '../../../assets/images/fuse-busd.png'
-import goodfuse from '../../../assets/images/G_FUSE.png'
+import fuseGooddollar from '../../../assets/svg/coins-pair-fuse-gooddollar.svg'
 
 const Container = styled.div<{ height?: number }>`
   display: flex;
@@ -43,7 +43,6 @@ type IconProps = {
 export default function Icon({ name, pairName, height }: IconProps) {
   const FarmIcons: { [name: string]: any } = {
     'G$/USDC': goodusdc,
-    'FUSE/G$': goodfuse,
     'fUSD/BNB': fusdbnb,
     'KNC/USDC': fusdfuse,
     'fUSD/FUSE': fusdfuse,
@@ -60,7 +59,8 @@ export default function Icon({ name, pairName, height }: IconProps) {
     'DEXT/FUSE': dextfuse,
     'FUSE/USDC': usdcfuse,
     'FUSE/BUSD': fuseBusd,
-    'FUSE/BNB': fusebnb
+    'FUSE/BNB': fusebnb,
+    'FUSE/G$': fuseGooddollar
   }
 
   return (

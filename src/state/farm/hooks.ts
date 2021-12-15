@@ -1,16 +1,25 @@
 import dayjs from 'dayjs'
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getChainNetworkLibrary } from '../../connectors'
 import { useActiveWeb3React } from '../../hooks'
-import { tryFormatAmount } from '../../utils'
+import { tryFormatAmount, tryFormatDecimalAmount } from '../../utils'
 import { getProgram } from '../../utils/farm'
 import axios from 'axios'
-import { FARMS_CONTRACTS_URL } from '../../constants/farms'
+import { Farm, FARMS_CONTRACTS_URL } from '../../constants/farms'
+import { useToken } from '../../hooks/Tokens'
+import { useTokenBalance } from '../wallet/hooks'
+import { tryParseAmount } from '../swap/hooks'
+import BigNumber from 'bignumber.js'
+import { useBlockNumber } from '../application/hooks'
 
-let networkContracts: any = []
+let networkContracts: { [key: string]: Farm } | null = null
 
-async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, pairName }: any, account?: string) {
+async function fetchFarm(farm?: Farm, account?: string) {
+  if (!farm) return
+
+  const { contractAddress, rewards, LPToken, networkId, type, pairName } = farm
+
   const accountAddress = account || ethers.constants.AddressZero
   const networkLibrary = getChainNetworkLibrary(networkId)
   const rewardProgram = getProgram(contractAddress, networkLibrary.provider, type)
@@ -39,13 +48,17 @@ async function fetchFarm({ contractAddress, rewards, LPToken, networkId, type, p
 }
 
 async function fetchNetworksContracts() {
-  const contractsUrl = FARMS_CONTRACTS_URL
   const {
     data: { contracts }
-  } = await axios.get(contractsUrl)
+  } = await axios.get(FARMS_CONTRACTS_URL)
+
   networkContracts = Object.assign({}, ...Object.values(contracts), contracts?.bsc?.pancake)
-  const multiContracts = Object.values(networkContracts).filter((contract: any) => contract.type === 'multi')
-  return multiContracts
+  if (networkContracts) {
+    const multiContracts = Object.values(networkContracts).filter((contract: any) => contract.type === 'multi')
+    return multiContracts
+  } else {
+    return []
+  }
 }
 
 async function fetchFarms(account?: string) {
@@ -61,12 +74,22 @@ async function fetchFarms(account?: string) {
 export function useFarm(farmAddress: string) {
   const { account } = useActiveWeb3React()
   const [farm, setFarm] = useState(null)
-
-  const contract = networkContracts[farmAddress] ? networkContracts[farmAddress] : undefined
+  const blockNumber = useBlockNumber()
 
   useEffect(() => {
-    fetchFarm(contract, account ?? undefined).then(farm => setFarm(farm))
-  }, [account, contract])
+    async function fetchFarmInfo() {
+      if (networkContracts === null) {
+        await fetchNetworksContracts()
+      }
+
+      if (networkContracts && networkContracts[farmAddress]) {
+        const farm = await fetchFarm(networkContracts[farmAddress], account ?? undefined)
+        if (farm) setFarm(farm)
+      }
+    }
+
+    fetchFarmInfo()
+  }, [account, farmAddress, blockNumber])
 
   return farm
 }
@@ -85,4 +108,54 @@ export function useFarms() {
   }, [account])
 
   return [farms, isLoading]
+}
+
+export function useDepositDerivedInfo(farm?: Farm, typedValue?: string) {
+  const { account } = useActiveWeb3React()
+
+  const token = useToken(farm?.LPToken)
+  const tokenBalance = useTokenBalance(account ?? undefined, token ?? undefined)
+
+  const parsedAmount = tryParseAmount(typedValue, token ?? undefined)
+  const time = farm?.end ? farm?.end - dayjs().unix() : '0'
+  const rewardRate = farm?.rewardsInfo ? farm?.rewardsInfo[0].rewardRate : '0'
+
+  const rewardsPerToken = useMemo(() => {
+    if (farm) {
+      return new BigNumber(time)
+        .multipliedBy(rewardRate)
+        .dividedBy(new BigNumber(farm?.globalTotalStake ?? '0').plus(parsedAmount?.toSignificant() ?? '0'))
+        .toString()
+    }
+    return '0'
+  }, [farm, parsedAmount, rewardRate, time])
+
+  const estimatedReward = useMemo(() => {
+    return new BigNumber(rewardsPerToken)
+      .multipliedBy(new BigNumber(parsedAmount?.raw.toString() ?? '0').plus(farm?.totalStaked ?? '0'))
+      .toFixed(6)
+  }, [farm, parsedAmount, rewardsPerToken])
+
+  return {
+    tokenBalance,
+    parsedAmount,
+    rewardsPerToken,
+    estimatedReward
+  }
+}
+
+export function useWithdrawDerivedInfo(farm?: Farm, typedValue?: string) {
+  const token = useToken(farm?.LPToken)
+
+  const parsedTotalStaked = tryFormatAmount(farm?.totalStaked, 18)
+  const parsedAmount = tryParseAmount(typedValue, token ?? undefined)
+  const accuruedRewards = farm?.rewardsInfo ? tryFormatDecimalAmount(farm?.rewardsInfo[0].accuruedRewards, 18, 2) : '0'
+  const hasAccuruedRewards = Number(accuruedRewards) > 0
+
+  return {
+    parsedTotalStaked,
+    parsedAmount,
+    accuruedRewards,
+    hasAccuruedRewards
+  }
 }

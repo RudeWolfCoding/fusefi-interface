@@ -1,7 +1,6 @@
 import React, { useRef, useContext, useState } from 'react'
 import { Settings, X } from 'react-feather'
 import styled from 'styled-components'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { useUserSlippageTolerance, useExpertModeManager, useUserDeadline } from '../../state/user/hooks'
 import TransactionSettings from '../TransactionSettings'
 import { RowBetween } from '../Row'
@@ -143,8 +142,6 @@ export default function SettingsTab() {
 
   // show confirmation view before turning on
   const [showConfirmation, setShowConfirmation] = useState(false)
-
-  useOnClickOutside(node, open ? toggle : undefined)
 
   return (
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451

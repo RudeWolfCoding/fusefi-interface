@@ -1,17 +1,14 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useActiveWeb3React } from '../../../hooks'
 import { ButtonLight, ButtonPrimary } from '../../Button'
 import InfoCard from './farmInfoCard'
 import Percentage from './percentage'
 import styled from 'styled-components'
-import { tryFormatAmount, tryFormatDecimalAmount } from '../../../utils'
-import { TokenAmount } from '@fuseio/fuse-swap-sdk'
-import BigNumber from 'bignumber.js'
-import { useToken } from '../../../hooks/Tokens'
 import { getProgram } from '../../../utils/farm'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
 import { Farm } from '../../../constants/farms'
 import { useWalletModalToggle } from '../../../state/application/hooks'
+import { useWithdrawDerivedInfo } from '../../../state/farm/hooks'
 
 const Container = styled('div')`
   text-align: left;
@@ -101,32 +98,18 @@ const ClaimButton = styled.button`
 
 export default function WithdrawReward({ farm }: { farm?: Farm }) {
   const { account, library } = useActiveWeb3React()
-  const toggleWalletModal = useWalletModalToggle()
-  const addTransaction = useTransactionAdder()
-  const [withdrawValue, setWithdrawValue] = useState('0')
-  const lpToken = useToken(farm?.LPToken)
+  const [typedValue, setTypedValue] = useState('')
+
+  const { parsedAmount, parsedTotalStaked, hasAccuruedRewards, accuruedRewards } = useWithdrawDerivedInfo(
+    farm,
+    typedValue
+  )
 
   const pairSymbol = farm?.token0?.symbol + '-' + farm?.token1?.symbol
-  const parsedTotalStake = tryFormatAmount(farm?.totalStaked, 18)
-  const accuruedRewards = farm?.rewardsInfo ? tryFormatDecimalAmount(farm?.rewardsInfo[0].accuruedRewards, 18, 2) : '0'
-  const showWithdrawButton = Number(accuruedRewards) > 0
 
-  const parsedAmount = useMemo(() => {
-    if (lpToken && withdrawValue && Number(withdrawValue) !== 0 && !isNaN(Number(withdrawValue))) {
-      const withdrawValueWei = new BigNumber(withdrawValue)
-        .multipliedBy(10 ** lpToken.decimals)
-        .integerValue(BigNumber.ROUND_DOWN)
-        .toString()
+  const toggleWalletModal = useWalletModalToggle()
 
-      try {
-        return new TokenAmount(lpToken, withdrawValueWei)
-      } catch (error) {
-        console.error(error)
-        setWithdrawValue('0')
-      }
-    }
-    return undefined
-  }, [withdrawValue, lpToken])
+  const addTransaction = useTransactionAdder()
 
   const withdraw = useCallback(async () => {
     if (!farm || !library || !parsedAmount || !account) return
@@ -138,6 +121,8 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
       addTransaction(formattedReponse, {
         summary: `Withdrew from ${pairSymbol} farm`
       })
+
+      setTypedValue('')
     } catch (e) {
       console.error(e)
     }
@@ -161,9 +146,9 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
     <Container>
       <Wrapper>
         <Text>Balance</Text>{' '}
-        {parsedTotalStake && (
+        {parsedTotalStaked && (
           <Balance>
-            <span>{parsedTotalStake || '-'} </span> &nbsp; <span>{pairSymbol}</span>
+            <span>{parsedTotalStaked || '-'} </span> &nbsp; <span>{pairSymbol}</span>
           </Balance>
         )}
       </Wrapper>
@@ -172,19 +157,19 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
           type="text"
           name="withdrawLP"
           id="withdrawal"
-          value={withdrawValue}
+          value={typedValue}
           placeholder="0"
-          onChange={e => setWithdrawValue(e.target.value)}
+          onChange={e => setTypedValue(e.target.value)}
           pattern="^[0-9]*[.,]?[0-9]*$"
         />
         <span>{pairSymbol}</span>
       </InputWrapper>
-      <Percentage selectPerecentage={setWithdrawValue} value={parsedTotalStake} />
+      <Percentage selectPerecentage={setTypedValue} value={parsedTotalStaked} />
       <InfoCard
         title="Accrued Rewards"
         content="Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"
         value={accuruedRewards}
-        button={showWithdrawButton && <ClaimButton onClick={() => claim()}>Claim</ClaimButton>}
+        button={hasAccuruedRewards && <ClaimButton onClick={() => claim()}>Claim</ClaimButton>}
       />
       {!account ? (
         <ButtonLight onClick={() => toggleWalletModal()}>Connect Wallet</ButtonLight>

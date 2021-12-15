@@ -1,21 +1,17 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import dayjs from 'dayjs'
+import React, { useCallback, useState } from 'react'
+import styled from 'styled-components'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { useActiveWeb3React } from '../../../hooks'
 import { ButtonError, ButtonLight, ButtonPrimary } from '../../Button'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { useTokenBalance } from '../../../state/wallet/hooks'
 import { RowBetween } from '../../Row'
 import Percentage from './percentage'
 import FarmInfoCard from './farmInfoCard'
-import styled from 'styled-components'
-import { useToken } from '../../../hooks/Tokens'
-import { TokenAmount } from '@fuseio/fuse-swap-sdk'
-import BigNumber from 'bignumber.js'
 import { getProgram } from '../../../utils/farm'
 import { Farm } from '../../../constants/farms'
 import { tryFormatDecimalAmount } from '../../../utils'
 import { useWalletModalToggle } from '../../../state/application/hooks'
+import { useDepositDerivedInfo } from '../../../state/farm/hooks'
 
 const Container = styled('div')`
   text-align: left;
@@ -95,52 +91,17 @@ const Balance = styled('div')`
 `
 
 export default function Deposit({ farm }: { farm?: Farm }) {
-  const addTransaction = useTransactionAdder()
   const { account, library } = useActiveWeb3React()
-  const toggleWalletModal = useWalletModalToggle()
-  const lpToken = useToken(farm?.LPToken)
-  const [depositValue, setdepositValue] = useState('0')
-  const lpTokenBalance = useTokenBalance(account ?? undefined, lpToken ?? undefined)
+  const [typedValue, setTypedValue] = useState('')
+  const { tokenBalance, parsedAmount, estimatedReward } = useDepositDerivedInfo(farm, typedValue)
 
   const pairSymbol = farm?.token0?.symbol + '-' + farm?.token1?.symbol
 
-  const parsedAmount = useMemo(() => {
-    if (lpToken && depositValue && Number(depositValue) !== 0 && !isNaN(Number(depositValue))) {
-      const depositValueWei = new BigNumber(depositValue)
-        .multipliedBy(10 ** lpToken.decimals)
-        .integerValue(BigNumber.ROUND_DOWN)
-        .toString()
-
-      try {
-        return new TokenAmount(lpToken, depositValueWei)
-      } catch (error) {
-        console.error(error)
-        setdepositValue('0')
-      }
-    }
-    return undefined
-  }, [depositValue, lpToken])
-
-  const rewardsPerToken = useMemo(() => {
-    if (farm) {
-      const time = farm?.end ? farm?.end - dayjs().unix() : '0'
-      const rewardRate = farm?.rewardsInfo ? farm?.rewardsInfo[0].rewardRate : '0'
-
-      return new BigNumber(time)
-        .multipliedBy(rewardRate)
-        .dividedBy(new BigNumber(farm?.globalTotalStake ?? '0').plus(parsedAmount?.toSignificant() ?? '0'))
-        .toString()
-    }
-    return '0'
-  }, [farm, parsedAmount])
-
-  const estimatedReward = useMemo(() => {
-    return new BigNumber(rewardsPerToken)
-      .multipliedBy(new BigNumber(parsedAmount?.raw.toString() ?? '0').plus(farm?.totalStaked ?? '0'))
-      .toFixed(6)
-  }, [farm, parsedAmount, rewardsPerToken])
-
   const [approval, approveCallback] = useApproveCallback(parsedAmount, farm?.contractAddress)
+
+  const toggleWalletModal = useWalletModalToggle()
+
+  const addTransaction = useTransactionAdder()
 
   const deposit = useCallback(async () => {
     if (!farm || !library || !parsedAmount || !account) return
@@ -152,15 +113,17 @@ export default function Deposit({ farm }: { farm?: Farm }) {
     addTransaction(formattedReponse, {
       summary: `Deposited ${pairSymbol} farm`
     })
+
+    setTypedValue('')
   }, [account, addTransaction, library, pairSymbol, parsedAmount, farm])
 
   return (
     <Container>
       <Wrapper>
         <Text>Balance</Text>{' '}
-        {lpTokenBalance && (
+        {tokenBalance && (
           <Balance>
-            <span>{lpTokenBalance?.toSignificant()} </span> &nbsp; <span>{pairSymbol}</span>
+            <span>{tokenBalance?.toSignificant(6)} </span> &nbsp; <span>{pairSymbol}</span>
           </Balance>
         )}
       </Wrapper>
@@ -169,14 +132,16 @@ export default function Deposit({ farm }: { farm?: Farm }) {
           type="text"
           name="withdrawLP"
           id="withdrawal"
-          value={depositValue}
+          value={typedValue}
           placeholder="0"
-          onChange={e => setdepositValue(e.target.value)}
+          onChange={e => setTypedValue(e.target.value)}
           pattern="^[0-9]*[.,]?[0-9]*$"
         />
         <span>{pairSymbol}</span>
       </InputWrapper>
-      <Percentage selectPerecentage={setdepositValue} value={lpTokenBalance?.toSignificant()} />
+
+      <Percentage selectPerecentage={setTypedValue} value={tokenBalance?.toSignificant(6)} />
+
       <FarmInfoCard
         title="Estimated Rewards"
         content="Your estimated rewards reflect the amount of $FUSE you are expected to receive by the end of the program assuming there are no changes in deposits"
