@@ -265,6 +265,12 @@ const Item = styled(ExternalLink)`
     margin-right: 8px;
   }
 `
+const WhiteText = styled.span`
+  color: gray;
+  font-size: 12px;
+  margin-left: 5px;
+  margin-bottom: 25px;
+`
 
 export default function Sidebar() {
   const node = useRef<HTMLDivElement>()
@@ -332,6 +338,7 @@ export default function Sidebar() {
                 <GovernanceIcon />
               </IconWrapper>
               <span>Governance</span>
+              <WhiteText>Coming Soon</WhiteText>
             </MenuItemWrapper>
           </MenuItemInternal>
         </MenuWrapper>

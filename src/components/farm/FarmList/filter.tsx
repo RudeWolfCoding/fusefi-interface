@@ -20,7 +20,7 @@ const Button = styled('div').attrs({
   align-items: center;
   justify-content: center;
   height: 45px;
-  border-radius: 10px;
+  border-radius: 100px;
   outline: none;
   cursor: pointer;
   text-decoration: none;
@@ -77,7 +77,7 @@ const ButtonWrapper = styled.div`
 `
 
 const SubTitle = styled.small`
-  font-weight: lighter;
+  font-weight: normal;
 `
 const Wrapper = styled.div`
   margin-top: 20px;
