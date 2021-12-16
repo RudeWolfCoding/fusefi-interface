@@ -16,7 +16,7 @@ const Container = styled.div`
   margin-bottom: 45px;
   text-align: left;
   min-height: 80vh;
-  justify-content: center;
+  justify-content: flex-start;
 `
 
 const Header = styled.h1`
