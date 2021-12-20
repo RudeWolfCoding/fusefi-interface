@@ -5,6 +5,7 @@ import Filter from '../../components/farm/FarmList/filter'
 import FarmList from '../../components/farm/FarmList'
 import { useParams } from 'react-router-dom'
 import { ReactComponent as Arrow } from '../../assets/svg/arrow.svg'
+import { ReactComponent as LinkIcon } from '../../assets/svg/link.svg'
 
 const Container = styled.div`
   display: flex;
@@ -51,6 +52,20 @@ const Link = styled.a`
     text-decoration: underline;
   }
 `
+const Text = styled.a`
+  display: block;
+  font-weight: 500;
+  font-family: 'Inter';
+  font-size: 13px;
+  line-height: 14px;
+  text-align: right;
+  color: #f3fc1f;
+  text-decoration: none;
+  :hover {
+    text-decoration: underline;
+  }
+`
+
 
 export default function Farms() {
   const { networkId }: { networkId: string } = useParams()
@@ -72,6 +87,9 @@ export default function Farms() {
           <Filter networkId={Number(networkId)} />
         </Wrapper>
         <FarmList networkId={Number(networkId)} />
+        <Text href="https://oldrewards.fuse.io/">
+          Old farming page <LinkIcon />
+        </Text>
       </Container>
     </AppBody>
   )

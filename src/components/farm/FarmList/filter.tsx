@@ -39,7 +39,7 @@ const Button = styled('div').attrs({
     border: none;
     text-align: center;
     background: linear-gradient(93.58deg, #3ad8a4 -105.35%, #f3fc1f 103.54%);
-    border-radius: 9px;
+    border-radius: 15px;
     color: ${({ theme }) => theme.black};
   }
 `
@@ -59,16 +59,16 @@ const ButtonWrapper = styled.div`
   position: relative;
   margin: 5px 0;
   background: #4a4a4e;
-  border-radius: 10px;
+  border-radius: 20px;
   :after {
     background: linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%);
     content: '';
     position: absolute;
-    border-radius: 10px;
-    width: 100%;
+    border-radius: 20px;
+    width: 99.75%;
     top: 0;
     bottom: 0;
-    left: -1.5px;
+    left: -1.15px;
     padding: 2px;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out;

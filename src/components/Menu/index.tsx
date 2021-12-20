@@ -241,11 +241,13 @@ const IconWrapper = styled.div<{ size?: number }>`
 
 const Logo = styled.img.attrs({
   src: LogoIcon,
-  width: '180px',
+  width: '205px',
   alt: 'FuseFi Logo'
 })`
-  padding: 25px 0 30px 0;
+  padding: 25px 0 30px 0px;
+  margin-left: 25px;
 `
+
 const Links = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -266,12 +268,15 @@ const Item = styled(ExternalLink)`
   }
 `
 const WhiteText = styled.span`
-  color: gray;
-  font-size: 12px;
+  color: #b5b9d3;
+  font-size: 10px;
   margin-left: 5px;
-  margin-bottom: 25px;
+  font-weight: 500;
+  line-height: 14px;
 `
-
+const GreyText = styled.span`
+  color: gray;
+`
 export default function Sidebar() {
   const node = useRef<HTMLDivElement>()
   const openRampWidget = useRampWidget()
@@ -337,8 +342,8 @@ export default function Sidebar() {
               <IconWrapper>
                 <GovernanceIcon />
               </IconWrapper>
-              <span>Governance</span>
-              <WhiteText>Coming Soon</WhiteText>
+              <GreyText>Governance</GreyText>
+              <WhiteText>soon</WhiteText>
             </MenuItemWrapper>
           </MenuItemInternal>
         </MenuWrapper>

@@ -7,11 +7,9 @@ import { useFarms } from '../../../state/farm/hooks'
 
 const Wrap = styled.div`
   width: 100%;
-  margin-bottom: 25px;
+  margin-bottom: 12px;
 `
-const Tr = styled.tr`
-  border-bottom: 3.5px outset black;
-`
+
 export default function FarmList({ networkId }: { networkId: number }) {
   const [farms, isLoading] = useFarms()
 
@@ -20,13 +18,13 @@ export default function FarmList({ networkId }: { networkId: number }) {
       <TableWrapper>
         <Table>
           <thead>
-            <Tr>
+            <TBodyTr>
               <Th>Farm</Th>
               <Th style={{ textAlign: 'center' }}>APY</Th>
               <Th style={{ textAlign: 'right' }}>Total Staked</Th>
               <Th style={{ textAlign: 'right' }}>TVL</Th>
               <Th style={{ textAlign: 'right' }}>Rewards (Day)</Th>
-            </Tr>
+            </TBodyTr>
           </thead>
           <tbody>
             {isLoading ? (

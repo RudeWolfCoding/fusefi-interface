@@ -6,11 +6,10 @@ export const TableWrapper = styled.div`
 
 export const Table = styled.table`
   background: #232638;
-  border-radius: 16px;
+  border-radius: 14px;
   font-size: 16px;
   width: 100%;
-  border-collapse: collapse;
-
+  border-spacing: 0px;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     table-layout: fixed;
     width: 1000px;
@@ -18,7 +17,7 @@ export const Table = styled.table`
 `
 
 export const Th = styled.th`
-  border-bottom: 1px solid ${({ theme }) => theme.secondary4};
+  border-bottom: 2.5px solid ${({ theme }) => theme.secondary4};
   padding: 23px 22px;
   font-weight: 500;
 
@@ -28,8 +27,6 @@ export const Th = styled.th`
 `
 
 export const TBodyTr = styled.tr`
-  border-bottom: 3.5px outset ${({ theme }) => theme.black};
-
   :hover {
     background-color: ${({ theme }) => theme.black};
     cursor: pointer;
@@ -38,4 +35,5 @@ export const TBodyTr = styled.tr`
 
 export const TBodyTd = styled.td`
   padding: 12px 20px;
+  border-bottom: 2.5px solid black;
 `

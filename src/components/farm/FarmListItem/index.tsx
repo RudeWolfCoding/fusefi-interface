@@ -43,7 +43,7 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
 
   return (
     <TBodyTr key={farm.contractAddress} onClick={selectFarm}>
-      <TBodyTd style={{ display: 'flex', alignItems: 'center' }}>
+      <TBodyTd >
         <StyledLink to={farmPath}>
           <Icon name="" pairName={farm.pairName} />
           {farm.pairName.replace('/', ' - ')}

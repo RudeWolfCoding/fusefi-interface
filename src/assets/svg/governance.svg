@@ -1,8 +1,8 @@
-<svg className='icon' xmlns="http://www.w3.org/2000/svg" width="28" height="26" viewBox="0 0 28 28" fill="none">
-<path d="M2.86951 8.86973L2.62593 8.43308C2.4271 8.54399 2.3283 8.77523 2.3856 8.99557C2.4429 9.21592 2.64183 9.36973 2.86951 9.36973V8.86973ZM21.1304 8.86973V9.36973C21.3561 9.36973 21.5538 9.2185 21.6129 9.00065C21.672 8.78281 21.5778 8.55237 21.3831 8.43829L21.1304 8.86973ZM12.2226 3.65234L12.4753 3.2209C12.3225 3.13139 12.1337 3.12941 11.9791 3.21569L12.2226 3.65234ZM2.86951 9.36973H21.1304V8.36973H2.86951V9.36973ZM21.3831 8.43829L12.4753 3.2209L11.9699 4.08379L20.8777 9.30118L21.3831 8.43829ZM11.9791 3.21569L2.62593 8.43308L3.11308 9.30639L12.4662 4.089L11.9791 3.21569Z" stroke="white" stroke-width="0.5px"/>
-<path d="M5.47845 8.87018V19.305" stroke="white"/>
-<path d="M10.2609 8.87018V19.305" stroke="white"/>
-<path d="M18.9564 8.87018V19.305" stroke="white"/>
-<path d="M15 8.87012V19.3049" stroke="white"/>
-<path d="M3 19L21 19" stroke="white" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
+<path d="M19 17L1 17" stroke="white" stroke-opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 8V16" stroke="white" stroke-opacity="0.5" stroke-linecap="square" stroke-linejoin="round"/>
+<path d="M12 8V16" stroke="white" stroke-opacity="0.5" stroke-linecap="square" stroke-linejoin="round"/>
+<path d="M8 8V16" stroke="white" stroke-opacity="0.5" stroke-linecap="square" stroke-linejoin="round"/>
+<path d="M3 8V16" stroke="white" stroke-opacity="0.5" stroke-linecap="square" stroke-linejoin="round"/>
+<path d="M19 7H1L10.3214 1L19 7Z" stroke="white" stroke-opacity="0.5" stroke-linejoin="round"/>
 </svg>
