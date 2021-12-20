@@ -12,10 +12,23 @@ const Wrapper = styled.div`
   justify-content: space-between;
   width: 100%;
   z-index: 3;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     flex-direction: column;
   `}
+
+  div:nth-child(1) {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+div:nth-child(4) {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
 `
 
 export default function HomePrices() {

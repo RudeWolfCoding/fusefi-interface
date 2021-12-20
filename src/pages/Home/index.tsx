@@ -39,14 +39,14 @@ const Item = styled('div')`
   display: flex;
   flex-wrap: wrap;
   flex: 1 0 0;
-  margin: 24px 12px;
+  margin: 9px 4.5px;
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
 `
 
 const Tweet = styled('div')`
   z-index: 100;
-  margin: 24px 12px;
+  margin: 9px 4.5px;
   text-align: center;
   display: block;
   width: 100%;

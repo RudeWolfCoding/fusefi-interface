@@ -10,8 +10,7 @@ const Wrapper = styled.div`
   background: #202231;
   color: white;
   padding: 19px 16px;
-  border-radius: 12px;
-  margin: 0 12px;
+  margin: 0 2.5px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     margin: 0 0 1rem 0;

@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import appStoreIcon from '../../assets/svg/appstore_button.svg'
 import playStoreIcon from '../../assets/svg/googleplay_button.svg'
-import fusefiAppIcon from '../../assets/svg/fusefi-app.svg'
 import { ExternalLink } from '../../theme'
 
 const MainWrapper = styled.div`
@@ -16,6 +15,7 @@ const MainWrapper = styled.div`
 `
 const ContentWrapper = styled.div`
   margin-right: 10px;
+  margin-top: 50px;
 `
 
 const Title = styled.h1`
@@ -35,13 +35,12 @@ const AppStoreLink = styled(ExternalLink)`
   display: inline-block;
 `
 
-const AppStoreIcon = styled.img``
+const AppStoreIcon = styled.img`
+  margin-right: 15px;
+`
 
-const FuseAppIcon = styled.img.attrs({
-  src: fusefiAppIcon,
-  alt: 'Fusefi App'
-})`
-  height: 100px;
+const StoreWrap = styled.div`
+  margin-top: 25px;
 `
 
 export default function FuseCashBanner() {
@@ -50,16 +49,15 @@ export default function FuseCashBanner() {
       <ContentWrapper>
         <Title>Works best with Fuse Cash</Title>
         <Text>Download the easiest DeFi wallet and connect using WalletConnect</Text>
-        <div>
+        <StoreWrap>
           <AppStoreLink href="https://get.fuse.cash/mrxn/dfb1a810">
             <AppStoreIcon src={appStoreIcon} alt="App Store" />
           </AppStoreLink>
           <AppStoreLink href="https://get.fuse.cash/mrxn/dfb1a810">
             <AppStoreIcon src={playStoreIcon} alt="Google Play" />
           </AppStoreLink>
-        </div>
+        </StoreWrap>
       </ContentWrapper>
-      <FuseAppIcon />
     </MainWrapper>
   )
 }

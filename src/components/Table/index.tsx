@@ -26,7 +26,9 @@ export const Th = styled.th`
   }
 `
 
-export const TBodyTr = styled.tr`
+export const TBodyTr = styled.tr``
+
+export const Tr = styled.tr`
   :hover {
     background-color: ${({ theme }) => theme.black};
     cursor: pointer;
@@ -35,5 +37,5 @@ export const TBodyTr = styled.tr`
 
 export const TBodyTd = styled.td`
   padding: 12px 20px;
-  border-bottom: 2.5px solid black;
+  border-bottom: 2.75px solid black;
 `

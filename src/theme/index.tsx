@@ -14,7 +14,7 @@ export * from './components'
 
 WebFont.load({
   google: {
-    families: ['Inter:300,400,700', 'sans-serif']
+    families: ['Inter:300,400,700', 'Anton: 300, 400, 700', 'sans-serif']
   }
 })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Loader from '../../Loaders/table'
 import FarmListItem from '../FarmListItem'
-import { TableWrapper, Table, Th, TBodyTr } from '../../Table'
+import { TableWrapper, Table, Th, TBodyTr, Tr } from '../../Table'
 import { useFarms } from '../../../state/farm/hooks'
 
 const Wrap = styled.div`
@@ -28,11 +28,11 @@ export default function FarmList({ networkId }: { networkId: number }) {
           </thead>
           <tbody>
             {isLoading ? (
-              <TBodyTr>
+              <Tr>
                 <td>
                   <Loader />
                 </td>
-              </TBodyTr>
+              </Tr>
             ) : farms?.length ? (
               farms
                 .filter((farm: any) => farm.networkId === networkId && !farm.isExpired)
