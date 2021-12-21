@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   color: white;
   padding: 10px 16px;
   margin: 0 2.5px;
-
   ${({ theme }) => theme.mediaWidth.upToMedium`
     margin: 0 0 1rem 0;
   `}
@@ -41,7 +40,7 @@ const Title = styled.p`
   font-size: 16px;
   margin: 0;
   color: #b5b9d3;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 `
 
 type CardProps = {
@@ -54,7 +53,6 @@ type CardProps = {
 export default function Card({ title, value, valueSuffix }: CardProps) {
   return (
     <Wrapper>
-
       <Title>{title}</Title>
       <ValueWrapper>
         <ValueSuffix>{valueSuffix}</ValueSuffix>
