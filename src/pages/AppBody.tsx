@@ -30,9 +30,7 @@ export default function AppBody({ children }: { children: React.ReactNode }) {
     <Container>
       <Header />
       <MobileNav />
-      <BodyWrapper>
-        {children}
-      </BodyWrapper>
+      <BodyWrapper>{children}</BodyWrapper>
     </Container>
   )
 }

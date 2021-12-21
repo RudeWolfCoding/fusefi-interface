@@ -45,7 +45,7 @@ const Title = styled.span`
   line-height: 30px;
   text-align: center;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background: linear-gradient(272.32deg, #F3FC1F 35.52%, #3AD889 118.98%);
+  background: linear-gradient(272.32deg, #f3fc1f 35.52%, #3ad889 118.98%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `

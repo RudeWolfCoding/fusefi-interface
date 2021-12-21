@@ -66,7 +66,6 @@ const Text = styled.a`
   }
 `
 
-
 export default function Farms() {
   const { networkId }: { networkId: string } = useParams()
 

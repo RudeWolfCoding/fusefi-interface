@@ -5,8 +5,7 @@ declare module 'jazzicon' {
 }
 
 declare module 'fortmatic'
-declare module "*.otf"
-
+declare module '*.otf'
 
 interface Window {
   ethereum?: {
