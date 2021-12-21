@@ -13,13 +13,15 @@ const Wrap = styled.a`
 
 const Container = styled.div`
   padding: 16px;
+  padding-top: 36px;
+  padding-bottom: 36px;
   background: #242637;
   width: 100%;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   position: relative;
-  :after {
+  :before {
     background: linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%);
     content: '';
     position: absolute;
@@ -34,12 +36,13 @@ const Container = styled.div`
     mask-composite: exclude;
   }
 `
-const Title = styled.div`
-  font-family: Anton;
+const Title = styled.span`
+  padding-right: 5px;
+  font-family: Newake;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 24px;
-  line-height: 36px;
+  line-height: 30px;
   text-align: center;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background: linear-gradient(272.32deg, #F3FC1F 35.52%, #3AD889 118.98%);
@@ -49,14 +52,18 @@ const Title = styled.div`
 
 const Flash = styled.div`
   position: absolute;
-  top: 0;
-  right: 10%;
+  top: 1.25%;
+  right: 2%;
 `
 
 const ArrowSkew = styled.div`
   position: absolute;
-  top: 20%;
+  bottom: 10%;
   left: 0;
+`
+
+const TextIcon = styled.div`
+  text-align: center;
 `
 
 export default function HomeRewards() {
@@ -65,14 +72,16 @@ export default function HomeRewards() {
       <Container>
         <Flash>
           {' '}
-          <img src={FlashIcon}></img>{' '}
+          <img src={FlashIcon} alt="Flash"></img>{' '}
         </Flash>
         <ArrowSkew>
           {' '}
-          <img src={ArrowSkewed}></img>{' '}
+          <img src={ArrowSkewed} alt="Arrow"></img>{' '}
         </ArrowSkew>
         <Title>Frictionless DEFI is coming</Title>
-        <Title>Join the waitlist  <Arrow /></Title>
+        <TextIcon>
+          <Title>Join the waitlist </Title> <Arrow />
+        </TextIcon>
       </Container>
     </Wrap>
   )

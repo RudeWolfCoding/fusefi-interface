@@ -9,6 +9,7 @@ import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { Colors } from './styled'
 import WebFont from 'webfontloader'
+import Newwake from '../assets/fonts/NewakeFont_Regular.otf'
 
 export * from './components'
 
@@ -221,9 +222,23 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
+@font-face {
+  font-family: Newake;
+  font-style: normal;
+  font-weight: 400;
+  src: url(${Newwake});
+}
 `
 
 export const ThemedGlobalStyle = createGlobalStyle`
+@font-face {
+  font-family: Newake;
+  font-style: normal;
+  font-weight: 400;
+  src: url(${Newwake});
+}
+
 html {
   color: ${({ theme }) => theme.text1};
   background-color: ${({ theme }) => theme.bg2};

@@ -8,12 +8,12 @@ import News from '../../components/News'
 import FuseCashBanner from '../../components/FuseCashBanner'
 
 const Wrap = styled('div')`
+  margin-top: 3.25%;
   padding-left: 10%;
   padding-right: 10%;
-  margin-bottom: 45px;
+  margin-bottom: 15px;
   display: flex;
   flex-wrap: wrap;
-
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding-left: 1rem;
     padding-right: 1rem;
@@ -70,8 +70,8 @@ export default function HomePage() {
             <Reward />
           </Item>
         </Container>
-        <FuseCashBanner />
       </Wrap>
+      <FuseCashBanner />
     </AppBody>
   )
 }

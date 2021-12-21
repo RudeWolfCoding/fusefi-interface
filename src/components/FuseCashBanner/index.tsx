@@ -15,7 +15,8 @@ const MainWrapper = styled.div`
 `
 const ContentWrapper = styled.div`
   margin-right: 10px;
-  margin-top: 50px;
+  margin-bottom: 25px;
+  text-align: center;
 `
 
 const Title = styled.h1`
@@ -29,6 +30,7 @@ const Text = styled.p`
   justify-content: center;
   align-items: center;
   margin: 5px 0;
+  padding-top: 5px;
 `
 
 const AppStoreLink = styled(ExternalLink)`

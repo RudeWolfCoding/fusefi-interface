@@ -2,7 +2,6 @@ import React, { Suspense } from 'react'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Popups from '../components/Popups'
-import Background from '../components/Background'
 import { HashRouter, Switch, Route } from 'react-router-dom'
 import Web3ReactManager from '../components/Web3ReactManager'
 import AddLiquidity from './AddLiquidity'
@@ -72,7 +71,6 @@ export default function App() {
             </Sticky>
           </LeftMenu>
           <Content>
-            <Route exact strict path="/home" component={Background} />
             <Route component={GoogleAnalyticsReporter} />
             <Popups />
             <Container>

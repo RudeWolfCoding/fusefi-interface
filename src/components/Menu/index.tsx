@@ -241,11 +241,10 @@ const IconWrapper = styled.div<{ size?: number }>`
 
 const Logo = styled.img.attrs({
   src: LogoIcon,
-  width: '205px',
+  width: '210px',
   alt: 'FuseFi Logo'
 })`
   padding: 25px 0 30px 0px;
-  margin-left: 25px;
 `
 
 const Links = styled.div`
