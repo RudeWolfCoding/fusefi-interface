@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import Icon from '../FarmList/icons'
 import { tryFormatDecimalAmount, tryFormatPercentageAmount } from '../../../utils'
 import { Farm } from '../../../constants/farms'
-import { TBodyTr, TBodyTd } from '../../Table'
+import { Tr, TBodyTd } from '../../Table'
 import lightningIcon from '../../../assets/svg/lightning-icon.svg'
 
 const Text = styled.div`
@@ -29,7 +29,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 
   :hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 `
 
@@ -42,8 +42,8 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
   }
 
   return (
-    <TBodyTr key={farm.contractAddress} onClick={selectFarm}>
-      <TBodyTd style={{ display: 'flex', alignItems: 'center' }}>
+    <Tr key={farm.contractAddress} onClick={selectFarm}>
+      <TBodyTd>
         <StyledLink to={farmPath}>
           <Icon name="" pairName={farm.pairName} />
           {farm.pairName.replace('/', ' - ')}
@@ -72,6 +72,6 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
           {farm.rewardsPerDay?.toFixed(0)} <GreyText>FUSE</GreyText>
         </Text>
       </TBodyTd>
-    </TBodyTr>
+    </Tr>
   )
 }

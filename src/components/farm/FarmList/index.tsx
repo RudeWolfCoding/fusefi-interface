@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import Loader from '../../Loaders/table'
 import FarmListItem from '../FarmListItem'
-import { TableWrapper, Table, Th } from '../../Table'
+import { TableWrapper, Table, Th, TBodyTr, Tr } from '../../Table'
 import { useFarms } from '../../../state/farm/hooks'
 
 const Wrap = styled.div`
   width: 100%;
-  margin-bottom: 25px;
+  margin-bottom: 12px;
 `
 
 export default function FarmList({ networkId }: { networkId: number }) {
@@ -28,19 +28,19 @@ export default function FarmList({ networkId }: { networkId: number }) {
           </thead>
           <tbody>
             {isLoading ? (
-              <tr>
+              <Tr>
                 <td>
                   <Loader />
                 </td>
-              </tr>
+              </Tr>
             ) : farms?.length ? (
               farms
                 .filter((farm: any) => farm.networkId === networkId && !farm.isExpired)
-                .map((farm: any) => <FarmListItem key={farm.contractAddress} farm={farm} />)
+                .map((farm: any) => <FarmListItem key={farm.conTBodyTractAddress} farm={farm} />)
             ) : (
-              <tr>
+              <TBodyTr>
                 <td></td>
-              </tr>
+              </TBodyTr>
             )}
           </tbody>
         </Table>

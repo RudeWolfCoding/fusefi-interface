@@ -6,11 +6,10 @@ export const TableWrapper = styled.div`
 
 export const Table = styled.table`
   background: #232638;
-  border-radius: 16px;
+  border-radius: 14px;
   font-size: 16px;
   width: 100%;
-  border-collapse: collapse;
-
+  border-spacing: 0px;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     table-layout: fixed;
     width: 1000px;
@@ -18,8 +17,8 @@ export const Table = styled.table`
 `
 
 export const Th = styled.th`
-  border-bottom: 1px solid ${({ theme }) => theme.secondary4};
-  padding 23px 16px;
+  border-bottom: 2.5px solid ${({ theme }) => theme.secondary4};
+  padding: 23px 22px;
   font-weight: 500;
 
   :nth-child(1) {
@@ -28,14 +27,20 @@ export const Th = styled.th`
 `
 
 export const TBodyTr = styled.tr`
-  border-bottom: 1px solid ${({ theme }) => theme.secondary4};
-
   :hover {
-    background-color: ${({ theme }) => theme.secondary4};
+    background-color: ${({ theme }) => theme.black};
+    cursor: pointer;
+  }
+`
+
+export const Tr = styled.tr`
+  :hover {
+    background-color: ${({ theme }) => theme.black};
     cursor: pointer;
   }
 `
 
 export const TBodyTd = styled.td`
-  padding: 12px 16px;
+  padding: 12px 20px;
+  border-bottom: 2.75px solid black;
 `

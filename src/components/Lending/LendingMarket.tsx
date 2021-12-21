@@ -32,13 +32,13 @@ const Link = styled.a`
     bottom: 0;
     padding: 2px;
     border-radius: 12px;
-    background: linear-gradient(90deg, #c2f6bf 0%, #f7fa9a 100%), #52597b;
+    background: linear-gradient(90deg, #c2f6bf 0%, #f7fa9a 100%), #8f9197;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
   }
   :hover {
-    background: linear-gradient(90deg, #c2f6bf 0%, #f7fa9a 100%), #52597b;
+    background: linear-gradient(90deg, #c2f6bf 0%, #f7fa9a 100%), #8f9197;
     color: black;
     -webkit-background-clip: none;
     -webkit-text-fill-color: black;

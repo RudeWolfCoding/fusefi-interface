@@ -21,7 +21,8 @@ const StyledMenuIcon = styled(Settings)`
   padding-right: 0px;
   padding-left: 0px;
   > * {
-    stroke: #b5b9d3;
+    stroke: white;
+    stroke-width: 1px;
   }
 `
 
@@ -44,22 +45,21 @@ const StyledMenuButton = styled.button`
   width: 100%;
   height: 48px;
   border: none;
-  border-top: 1px solid ${({ theme }) => theme.secondary4};
-  border-bottom: 1px solid ${({ theme }) => theme.secondary4};
   background-color: transparent;
   margin: 0;
   padding: 0;
-  padding: 0.15rem 1rem;
+  padding: 0.15rem 32px;
+  font-wight: 100;
   >span{
     line-height: 42px;
     font-size: 16px;
-    font-weight: 500;
-    color: #B5B9D3;
+    font-weight: 300;
+    color: white;
     margin-left: 10px;
   }
   svg path{
-    stroke: #B5B9D3;
-    stroke-width: 1.5px;
+    stroke: white;
+    stroke-width: 1px;
     margin-top: 2px;
   }
   :hover,
@@ -81,7 +81,6 @@ const StyledMenu = styled.div`
   height: 100%;
   width: 100%;
   height: 48px;
-  position: absolute;
   bottom: 0;
   left: 0;
   border: none;

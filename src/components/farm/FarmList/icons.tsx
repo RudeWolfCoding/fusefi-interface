@@ -65,7 +65,7 @@ export default function Icon({ name, pairName, height }: IconProps) {
 
   return (
     <Container height={height}>
-      <img src={FarmIcons[pairName]} alt="" />
+      <img src={FarmIcons[pairName]} alt={FarmIcons[pairName]} />
       <span>{name}</span>
     </Container>
   )

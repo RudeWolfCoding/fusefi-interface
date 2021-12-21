@@ -8,12 +8,12 @@ import News from '../../components/News'
 import FuseCashBanner from '../../components/FuseCashBanner'
 
 const Wrap = styled('div')`
+  margin-top: 7.5%;
   padding-left: 10%;
   padding-right: 10%;
-  margin-bottom: 45px;
+  margin-bottom: 15px;
   display: flex;
   flex-wrap: wrap;
-
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding-left: 1rem;
     padding-right: 1rem;
@@ -39,14 +39,14 @@ const Item = styled('div')`
   display: flex;
   flex-wrap: wrap;
   flex: 1 0 0;
-  margin: 24px 12px;
+  margin: 9px 4.5px;
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
 `
 
 const Tweet = styled('div')`
   z-index: 100;
-  margin: 24px 12px;
+  margin: 9px 4.5px;
   text-align: center;
   display: block;
   width: 100%;
@@ -70,8 +70,8 @@ export default function HomePage() {
             <Reward />
           </Item>
         </Container>
-        <FuseCashBanner />
       </Wrap>
+      <FuseCashBanner />
     </AppBody>
   )
 }

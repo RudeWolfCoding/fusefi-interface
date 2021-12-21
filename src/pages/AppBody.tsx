@@ -1,21 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import Footer from '../components/Footer'
 import Header from '../components/Header'
+
+export const Container = styled.div`
+  height: 100%;
+`
 
 export const BodyWrapper = styled.div`
   margin: 0;
-  min-height: 100%;
+  min-height: 90.5%;
   width: 100%;
-  display: flex; /* body is the outer flex container */
-  flex-flow: row wrap;
-  text-align: center;
-  @media only screen and (max-width: 1440px) {
-    margin-top: 1.75%;
-  }
-  @media only screen and (min-width: 1442px) {
-    margin-top: 2.75%;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 export const MobileNav = styled.div`
@@ -30,13 +27,10 @@ export const MobileNav = styled.div`
  */
 export default function AppBody({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <Container>
       <Header />
-      <BodyWrapper>
-        <MobileNav />
-        {children}
-      </BodyWrapper>
-      <Footer />
-    </div>
+      <MobileNav />
+      <BodyWrapper>{children}</BodyWrapper>
+    </Container>
   )
 }

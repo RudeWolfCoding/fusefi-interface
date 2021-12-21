@@ -9,10 +9,8 @@ const Wrapper = styled.div`
   align-items: flex-start;
   background: #202231;
   color: white;
-  padding: 19px 16px;
-  border-radius: 12px;
-  margin: 0 12px;
-
+  padding: 10px 16px;
+  margin: 0 2.5px;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     margin: 0 0 1rem 0;
   `}
@@ -21,7 +19,6 @@ const Wrapper = styled.div`
 const ValueWrapper = styled.div`
   font-size: 24px;
   font-weight: 500;
-  margin-bottom: 24px;
 `
 
 const Value = styled(animated.h2)`
@@ -43,6 +40,7 @@ const Title = styled.p`
   font-size: 16px;
   margin: 0;
   color: #b5b9d3;
+  margin-bottom: 24px;
 `
 
 type CardProps = {
@@ -55,11 +53,11 @@ type CardProps = {
 export default function Card({ title, value, valueSuffix }: CardProps) {
   return (
     <Wrapper>
-      <ValueWrapper>
-        <Value>{value}</Value>
-        <ValueSuffix>{valueSuffix}</ValueSuffix>
-      </ValueWrapper>
       <Title>{title}</Title>
+      <ValueWrapper>
+        <ValueSuffix>{valueSuffix}</ValueSuffix>
+        <Value>{value}</Value>
+      </ValueWrapper>
     </Wrapper>
   )
 }

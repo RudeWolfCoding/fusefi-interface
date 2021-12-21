@@ -3,10 +3,11 @@ import wbtc from '../../assets/svg/pairs/wbtc.svg'
 import usdc from '../../assets/svg/pairs/usdc.svg'
 import fuse from '../../assets/svg/pairs/fuse.svg'
 import fusd from '../../assets/svg/fuse-dollar.svg'
+import busd from '../../assets/svg/pairs/busd.svg'
 
 import styled from 'styled-components'
 import React from 'react'
-import { FUSE_FUSD, FUSE_USDC, FUSE_WBTC, FUSE_WETH, NATIVE_ADDRESS } from '../../constants'
+import { FUSE_FUSD, FUSE_BUSD, FUSE_USDC, FUSE_WBTC, FUSE_WETH, NATIVE_ADDRESS } from '../../constants'
 
 interface LendingIconProps {
   address: string
@@ -18,7 +19,8 @@ export default function LendingIcon({ address }: LendingIconProps) {
     [FUSE_WETH.address]: weth,
     [FUSE_USDC.address]: usdc,
     [NATIVE_ADDRESS]: fuse,
-    [FUSE_FUSD.address]: fusd
+    [FUSE_FUSD.address]: fusd,
+    [FUSE_BUSD.address]: busd
   }
 
   const NameMap = {
@@ -26,7 +28,8 @@ export default function LendingIcon({ address }: LendingIconProps) {
     [FUSE_WETH.address]: 'WETH',
     [FUSE_USDC.address]: 'USDC',
     [NATIVE_ADDRESS]: 'FUSE',
-    [FUSE_FUSD.address]: 'fUSD'
+    [FUSE_FUSD.address]: 'fUSD',
+    [FUSE_BUSD.address]: 'BUSD'
   }
 
   const Container = styled.div`

@@ -4,17 +4,18 @@ import analytics from '../../assets/svg/analytics.svg'
 import floater from '../../assets/svg/floater.svg'
 
 const Container = styled.a`
-  padding: 16px;
+  padding: 20px;
   position: relative;
   display: table;
   background: #202231;
   background-image: url(${analytics});
   background-repeat: no-repeat;
+  background-size: contain;
   background-position: bottom;
   width: 100%;
   padding-bottom: 0px;
   border-radius: 16px;
-  margin-bottom: 25px;
+  margin-bottom: 9px;
   position: relative;
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */

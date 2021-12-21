@@ -8,10 +8,7 @@ import {
   isAddress,
   shortenAddress,
   calculateGasMargin,
-  basisPointsToPercent,
-  isCustomBridgeToken,
-  getForeignCustomBridgeAddress,
-  getHomeCustomBridgeAddress
+  basisPointsToPercent
 } from '.'
 
 describe('utils', () => {
