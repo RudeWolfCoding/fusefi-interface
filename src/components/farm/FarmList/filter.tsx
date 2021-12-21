@@ -93,7 +93,7 @@ export default function Filter({ networkId }: { networkId: number }) {
   return (
     <Container>
       <Wrapper>
-        <SubTitle>Showing pool on</SubTitle>
+        <SubTitle>Showing pools on</SubTitle>
         <ButtonWrapper>
           <Button className={networkId === FUSE_CHAIN_ID ? 'active' : ''} onClick={() => selectNetwork(FUSE_CHAIN_ID)}>
             <LogoIcon src={fuseLogo}></LogoIcon>

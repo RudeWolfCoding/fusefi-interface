@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 const ValueWrapper = styled.div`
   font-size: 24px;
   font-weight: 500;
-  margin-bottom: 24px;
 `
 
 const Value = styled(animated.h2)`
@@ -42,6 +41,7 @@ const Title = styled.p`
   font-size: 16px;
   margin: 0;
   color: #b5b9d3;
+  margin-bottom: 26px;
 `
 
 type CardProps = {
@@ -54,11 +54,12 @@ type CardProps = {
 export default function Card({ title, value, valueSuffix }: CardProps) {
   return (
     <Wrapper>
+
+      <Title>{title}</Title>
       <ValueWrapper>
         <ValueSuffix>{valueSuffix}</ValueSuffix>
         <Value>{value}</Value>
       </ValueWrapper>
-      <Title>{title}</Title>
     </Wrapper>
   )
 }
