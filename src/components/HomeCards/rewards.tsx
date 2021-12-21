@@ -13,8 +13,8 @@ const Wrap = styled.a`
 
 const Container = styled.div`
   padding: 16px;
-  padding-top: 36px;
-  padding-bottom: 36px;
+  padding-top: 54px;
+  padding-bottom: 54px;
   background: #242637;
   width: 100%;
   border-radius: 16px;

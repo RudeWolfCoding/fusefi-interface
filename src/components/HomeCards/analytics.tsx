@@ -9,7 +9,8 @@ const Container = styled.a`
   display: table;
   background: #202231;
   background-image: url(${analytics});
-  background-repeat: repeat-x;
+  background-repeat: no-repeat;
+  background-size: contain;
   background-position: bottom;
   width: 100%;
   padding-bottom: 0px;
