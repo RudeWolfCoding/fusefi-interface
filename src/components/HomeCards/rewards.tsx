@@ -26,10 +26,10 @@ const Container = styled.div`
     content: '';
     position: absolute;
     border-radius: 20px;
-    width: 99.75%;
+    width: 99.1%;
     top: 0;
     bottom: 0;
-    left: -1.15px;
+    left: -0.15px;
     padding: 2px;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out;
@@ -41,8 +41,8 @@ const Title = styled.span`
   font-family: Newake;
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 30px;
+  font-size: 30px;
+  line-height: 36px;
   text-align: center;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background: linear-gradient(272.32deg, #f3fc1f 35.52%, #3ad889 118.98%);

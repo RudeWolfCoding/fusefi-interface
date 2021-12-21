@@ -15,7 +15,6 @@ const MainWrapper = styled.div`
 `
 const ContentWrapper = styled.div`
   margin-right: 10px;
-  margin-bottom: 25px;
   text-align: center;
 `
 

@@ -8,7 +8,7 @@ import News from '../../components/News'
 import FuseCashBanner from '../../components/FuseCashBanner'
 
 const Wrap = styled('div')`
-  margin-top: 3.25%;
+  margin-top: 7.75%;
   padding-left: 10%;
   padding-right: 10%;
   margin-bottom: 15px;

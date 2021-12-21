@@ -152,5 +152,5 @@ export const AppWrapper = styled.div`
 `
 
 export const AppWrapperInner = styled.div`
-  margin: 0 1rem;
+  margin: 5rem 1rem;
 `

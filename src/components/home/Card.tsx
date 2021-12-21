@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   background: #202231;
   color: white;
-  padding: 19px 16px;
+  padding: 10px 16px;
   margin: 0 2.5px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -55,8 +55,8 @@ export default function Card({ title, value, valueSuffix }: CardProps) {
   return (
     <Wrapper>
       <ValueWrapper>
-        <Value>{value}</Value>
         <ValueSuffix>{valueSuffix}</ValueSuffix>
+        <Value>{value}</Value>
       </ValueWrapper>
       <Title>{title}</Title>
     </Wrapper>
