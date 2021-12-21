@@ -18,13 +18,13 @@ export default function FarmList({ networkId }: { networkId: number }) {
       <TableWrapper>
         <Table>
           <thead>
-            <TBodyTr>
+            <tr>
               <Th>Farm</Th>
               <Th style={{ textAlign: 'center' }}>APY</Th>
               <Th style={{ textAlign: 'right' }}>Total Staked</Th>
               <Th style={{ textAlign: 'right' }}>TVL</Th>
               <Th style={{ textAlign: 'right' }}>Rewards (Day)</Th>
-            </TBodyTr>
+            </tr>
           </thead>
           <tbody>
             {isLoading ? (

@@ -26,7 +26,12 @@ export const Th = styled.th`
   }
 `
 
-export const TBodyTr = styled.tr``
+export const TBodyTr = styled.tr`
+  :hover {
+    background-color: ${({ theme }) => theme.black};
+    cursor: pointer;
+  }
+`
 
 export const Tr = styled.tr`
   :hover {
