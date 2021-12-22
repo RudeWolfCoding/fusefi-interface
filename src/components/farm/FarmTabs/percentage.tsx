@@ -1,3 +1,4 @@
+import { TokenAmount } from '@fuseio/fuse-swap-sdk'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -28,20 +29,26 @@ const Selector = styled('button')`
 `
 interface Percentage {
   selectPerecentage: any
-  value?: string
+  tokenAmount?: TokenAmount
 }
 
-export default function Percentage({ value, selectPerecentage }: Percentage) {
-  function selectPercentage(amount: number) {
-    const calculated = (Number(value) * amount) / 100
-    selectPerecentage(String(calculated))
+export default function Percentage({ tokenAmount, selectPerecentage }: Percentage) {
+  function selectPercentage(amount: string) {
+    if (tokenAmount) {
+      selectPerecentage(
+        tokenAmount
+          .multiply(amount)
+          .divide('100')
+          .toFixed(18)
+      )
+    }
   }
 
   return (
     <Wrapper>
       <Selector
         onClick={() => {
-          selectPercentage(25)
+          selectPercentage('25')
         }}
       >
         {' '}
@@ -49,7 +56,7 @@ export default function Percentage({ value, selectPerecentage }: Percentage) {
       </Selector>
       <Selector
         onClick={() => {
-          selectPercentage(50)
+          selectPercentage('50')
         }}
       >
         {' '}
@@ -57,7 +64,7 @@ export default function Percentage({ value, selectPerecentage }: Percentage) {
       </Selector>
       <Selector
         onClick={() => {
-          selectPercentage(75)
+          selectPercentage('75')
         }}
       >
         {' '}
@@ -65,7 +72,7 @@ export default function Percentage({ value, selectPerecentage }: Percentage) {
       </Selector>
       <Selector
         onClick={() => {
-          selectPercentage(100)
+          selectPercentage('100')
         }}
       >
         {' '}

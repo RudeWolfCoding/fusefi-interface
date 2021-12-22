@@ -140,7 +140,7 @@ export default function Deposit({ farm }: { farm?: Farm }) {
         <span>{pairSymbol}</span>
       </InputWrapper>
 
-      <Percentage selectPerecentage={setTypedValue} value={tokenBalance?.toSignificant(6)} />
+      <Percentage selectPerecentage={setTypedValue} tokenAmount={tokenBalance} />
 
       <FarmInfoCard
         title="Estimated Rewards"

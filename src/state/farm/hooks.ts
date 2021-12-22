@@ -12,6 +12,7 @@ import { useTokenBalance } from '../wallet/hooks'
 import { tryParseAmount } from '../swap/hooks'
 import BigNumber from 'bignumber.js'
 import { useBlockNumber } from '../application/hooks'
+import { TokenAmount } from '@fuseio/fuse-swap-sdk'
 
 let networkContracts: { [key: string]: Farm } | null = null
 
@@ -152,10 +153,16 @@ export function useWithdrawDerivedInfo(farm?: Farm, typedValue?: string) {
   const accuruedRewards = farm?.rewardsInfo ? tryFormatDecimalAmount(farm?.rewardsInfo[0].accuruedRewards, 18, 2) : '0'
   const hasAccuruedRewards = Number(accuruedRewards) > 0
 
+  const lpTokenAmount = useMemo(() => {
+    if (!token || !farm) return
+    return new TokenAmount(token, farm.totalStaked ?? '')
+  }, [farm, token])
+
   return {
     parsedTotalStaked,
     parsedAmount,
     accuruedRewards,
-    hasAccuruedRewards
+    hasAccuruedRewards,
+    lpTokenAmount
   }
 }

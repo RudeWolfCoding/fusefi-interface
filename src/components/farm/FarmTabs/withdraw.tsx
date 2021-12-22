@@ -100,10 +100,13 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
   const { account, library } = useActiveWeb3React()
   const [typedValue, setTypedValue] = useState('')
 
-  const { parsedAmount, parsedTotalStaked, hasAccuruedRewards, accuruedRewards } = useWithdrawDerivedInfo(
-    farm,
-    typedValue
-  )
+  const {
+    parsedAmount,
+    parsedTotalStaked,
+    hasAccuruedRewards,
+    accuruedRewards,
+    lpTokenAmount
+  } = useWithdrawDerivedInfo(farm, typedValue)
 
   const pairSymbol = farm?.token0?.symbol + '-' + farm?.token1?.symbol
 
@@ -164,7 +167,7 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
         />
         <span>{pairSymbol}</span>
       </InputWrapper>
-      <Percentage selectPerecentage={setTypedValue} value={parsedTotalStaked} />
+      <Percentage selectPerecentage={setTypedValue} tokenAmount={lpTokenAmount} />
       <InfoCard
         title="Accrued Rewards"
         content="Accrued Rewards - Accrued Rewards refers to the total FUSE you've earned for your stake"
