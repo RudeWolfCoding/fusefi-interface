@@ -54,27 +54,40 @@ const Web3StatusGeneric = styled('div')`
   > span {
     padding: 0px 8px 0px 5px;
   }
+  :hover,
+  :focus {
+    background: linear-gradient(93.58deg, #f3fc1f -105.35%, #3ad889 103.54%);
+    > svg icon {
+      stroke-width: 2px;
+      fill: red;
+      stroke: red;
+    }
+  }
 `
 const Web3StatusError = styled(Web3StatusGeneric)`
   background-color: ${({ theme }) => theme.red1};
   border: 1px solid ${({ theme }) => theme.red1};
   color: ${({ theme }) => theme.white};
   font-weight: 500;
-  :hover,
-  :focus {
-    background-color: ${({ theme }) => darken(0.1, theme.red1)};
-  }
 `
 
-const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
+const Web3StatusConnect = styled(Web3StatusGeneric) <{ faded?: boolean }>`
   font-weight: 500;
   height: 32px;
   & > * {
     stroke: black;
   }
+  :hover,
+  :focus {
+    background-color: linear-gradient(93.58deg, #f3fc1f -105.35%, #3ad889 103.54%);
+    color: white;
+    & > * {
+      stroke: white;
+    }
+  }
 `
 
-const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
+const Web3StatusConnected = styled(Web3StatusGeneric) <{ pending?: boolean }>`
   border: 2px solid #b5f043;
   border-radius: 5px;
   background: black;
