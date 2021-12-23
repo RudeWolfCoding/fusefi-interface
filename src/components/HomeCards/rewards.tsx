@@ -68,7 +68,7 @@ const TextIcon = styled.div`
 
 export default function HomeRewards() {
   return (
-    <Wrap href="https://rewards.fuse.io/" target="_blank">
+    <Wrap href="https:/fuse.fi" target="_blank">
       <Container>
         <Flash>
           {' '}
