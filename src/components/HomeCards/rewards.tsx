@@ -26,7 +26,7 @@ const Container = styled.div`
     content: '';
     position: absolute;
     border-radius: 20px;
-    width: 99.1%;
+    width: 99.75%;
     top: 0;
     bottom: 0;
     left: -0.15px;
@@ -68,7 +68,7 @@ const TextIcon = styled.div`
 
 export default function HomeRewards() {
   return (
-    <Wrap href="https:/fuse.fi" target="_blank">
+    <Wrap href="https://fuse.fi/" target="_blank">
       <Container>
         <Flash>
           {' '}
