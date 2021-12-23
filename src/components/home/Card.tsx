@@ -40,7 +40,7 @@ const Title = styled.p`
   font-size: 16px;
   margin: 0;
   color: #b5b9d3;
-  margin-bottom: 24px;
+  margin-bottom: 34px;
 `
 
 type CardProps = {
