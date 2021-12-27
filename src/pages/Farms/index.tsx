@@ -78,7 +78,7 @@ export default function Farms() {
             <SubHeader>Let&apos;s farm FUSE and VOLT with your LP tokens!</SubHeader>
             <SubHeader>
               <Arrow />{' '}
-              <Link href="https://app.gitbook.com/o/-LdmeTBjede0-BcSd0W0/s/-MjTjRg6s-Uep2Adcd_1/tutorials-and-guides/what-are-lp-tokens">
+              <Link href="https://tutorials.fuse.io/tutorials/fusefi-tutorials/what-are-lp-tokens">
                 What are LP Tokens?{' '}
               </Link>
             </SubHeader>

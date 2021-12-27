@@ -219,6 +219,8 @@ const MenuWrapper = styled.div`
   display: block;
   height: 60%;
   width: 100%;
+  overflow: auto;
+
 `
 
 const SubMenuWrapper = styled.div`
