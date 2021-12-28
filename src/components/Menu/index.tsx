@@ -372,7 +372,7 @@ export default function Sidebar() {
             <Item id="link" href="https://github.com/fuseio">
               <img src={github} alt="Github icon" />
             </Item>
-            <Item id="link" href="https://t.me/fuseswap">
+            <Item id="link" href="https://t.me/fuse_fi">
               <img src={telegram} alt="Telegram icon" />
             </Item>
             <Item id="link" href="https://twitter.com/Fuse_Fi">
