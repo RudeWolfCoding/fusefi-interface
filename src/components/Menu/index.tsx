@@ -223,41 +223,41 @@ const MenuWrapper = styled.div`
   position: relative;
   &::-webkit-scrollbar {
     width: 7px;
-}
+  }
 
-&::-webkit-scrollbar-button {
+  &::-webkit-scrollbar-button {
     width: 0px;
-}
+  }
 
-&::-webkit-scrollbar-thumb {
-  border-top: 60px solid green;
-  border-radius: 11px;
-  border-radius: 999px;
-  height: 32px;
-  transition: .5s;
-}
+  &::-webkit-scrollbar-thumb {
+    border-top: 60px solid green;
+    border-radius: 11px;
+    border-radius: 999px;
+    height: 32px;
+    transition: 0.5s;
+  }
 
-&::-webkit-scrollbar-thumb:hover {
+  &::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(0deg, #f3fc1f -10.87%, #3ad8a4 108.7%);
-}
+  }
 
-&::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     background: #8f9197;
     border-radius: 666;
     margin-top: 110px;
-}
+  }
 
-&::-webkit-scrollbar-track:hover {
+  &::-webkit-scrollbar-track:hover {
     background: #ffffff;
-}
+  }
 
-&::-webkit-scrollbar-track:active {
+  &::-webkit-scrollbar-track:active {
     background: #ffffff;
-}
+  }
 
-&::-webkit-scrollbar-corner {
+  &::-webkit-scrollbar-corner {
     background: transparent;
-}
+  }
 `
 
 const SubMenuWrapper = styled.div`

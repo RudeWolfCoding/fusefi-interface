@@ -71,7 +71,7 @@ const Web3StatusError = styled(Web3StatusGeneric)`
   font-weight: 500;
 `
 
-const Web3StatusConnect = styled(Web3StatusGeneric) <{ faded?: boolean }>`
+const Web3StatusConnect = styled(Web3StatusGeneric)<{ faded?: boolean }>`
   font-weight: 500;
   height: 32px;
   & > * {
@@ -87,7 +87,7 @@ const Web3StatusConnect = styled(Web3StatusGeneric) <{ faded?: boolean }>`
   }
 `
 
-const Web3StatusConnected = styled(Web3StatusGeneric) <{ pending?: boolean }>`
+const Web3StatusConnected = styled(Web3StatusGeneric)<{ pending?: boolean }>`
   border: 2px solid #b5f043;
   border-radius: 5px;
   background: black;
