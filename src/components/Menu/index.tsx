@@ -217,10 +217,47 @@ const MenuItemWrapper = styled.div`
 
 const MenuWrapper = styled.div`
   display: block;
-  height: 60%;
+  height: 62%;
   width: 100%;
   overflow: auto;
+  position: relative;
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
 
+  &::-webkit-scrollbar-button {
+    width: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-top: 60px solid green;
+    border-radius: 11px;
+    border-radius: 999px;
+    height: 32px;
+    transition: 0.5s;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(0deg, #f3fc1f -10.87%, #3ad8a4 108.7%);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #8f9197;
+    border-radius: 666;
+    margin-top: 110px;
+  }
+
+  &::-webkit-scrollbar-track:hover {
+    background: #ffffff;
+  }
+
+  &::-webkit-scrollbar-track:active {
+    background: #ffffff;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 `
 
 const SubMenuWrapper = styled.div`
@@ -373,7 +410,7 @@ export default function Sidebar() {
             <Item id="link" href="https://github.com/fuseio">
               <img src={github} alt="Github icon" />
             </Item>
-            <Item id="link" href="https://t.me/fuseswap">
+            <Item id="link" href="https://t.me/fuse_fi">
               <img src={telegram} alt="Telegram icon" />
             </Item>
             <Item id="link" href="https://twitter.com/Fuse_Fi">
