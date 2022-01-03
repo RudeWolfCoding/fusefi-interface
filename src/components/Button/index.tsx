@@ -300,6 +300,16 @@ export const ButtonErrorStyle = styled(Base)`
   }
 `
 
+export const ButtonGradientStyle = styled(Base)`
+  background: transparent;
+  border: 2px solid #9fa3c9;
+  color: #9fa3c9 !important;
+
+  :disabled {
+    cursor: not-allowed;
+  }
+`
+
 export function ButtonConfirmed({
   confirmed,
   altDisabledStyle,
@@ -323,6 +333,14 @@ export function ButtonDark({ dark, ...rest }: { dark?: boolean } & ButtonProps) 
 export function ButtonError({ error, ...rest }: { error?: boolean } & ButtonProps) {
   if (error) {
     return <ButtonErrorStyle {...rest} />
+  } else {
+    return <ButtonLight {...rest} />
+  }
+}
+
+export function ButtonGradient({ error, ...rest }: { error?: boolean } & ButtonProps) {
+  if (error) {
+    return <ButtonGradientStyle {...rest} />
   } else {
     return <ButtonLight {...rest} />
   }
