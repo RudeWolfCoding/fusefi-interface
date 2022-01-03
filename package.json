@@ -6,7 +6,7 @@
   "devDependencies": {
     "@apollo/client": "3.3.21",
     "@ethersproject/experimental": "^5.0.1",
-    "@fuseio/earn-sdk": "^0.2.2",
+    "@fuseio/earn-sdk": "file:../rewards-sdk",
     "@fuseio/fuse-swap-default-token-list": "~2.0.0",
     "@fuseio/fuse-swap-sdk": "^3.1.1",
     "@fuseio/rewards-sdk": "^0.1.8",
@@ -96,6 +96,7 @@
     "start-server-and-test": "^1.11.0",
     "styled-components": "^4.2.0",
     "superagent": "^6.1.0",
+    "swr": "^1.1.1",
     "typescript": "^3.8.3",
     "use-async-memo": "^1.2.2",
     "webfontloader": "^1.6.28"

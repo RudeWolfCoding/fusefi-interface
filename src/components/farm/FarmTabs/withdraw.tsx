@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useActiveWeb3React } from '../../../hooks'
 import { ButtonLight, ButtonPrimary } from '../../Button'
 import InfoCard from './farmInfoCard'
@@ -6,9 +6,9 @@ import Percentage from './percentage'
 import styled from 'styled-components'
 import { getProgram } from '../../../utils/farm'
 import { useTransactionAdder } from '../../../state/transactions/hooks'
-import { Farm } from '../../../constants/farms'
 import { useWalletModalToggle } from '../../../state/application/hooks'
 import { useWithdrawDerivedInfo } from '../../../state/farm/hooks'
+import { ChefRewardProgram } from '@fuseio/earn-sdk'
 
 const Container = styled('div')`
   text-align: left;
@@ -96,7 +96,7 @@ const ClaimButton = styled.button`
   cursor: pointer;
 `
 
-export default function WithdrawReward({ farm }: { farm?: Farm }) {
+export default function WithdrawReward({ farm }: { farm?: any }) {
   const { account, library } = useActiveWeb3React()
   const [typedValue, setTypedValue] = useState('')
 
@@ -114,11 +114,21 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
 
   const addTransaction = useTransactionAdder()
 
+  const rewardProgram = useMemo(() => {
+    if (!farm || !library) return undefined
+    return getProgram(farm?.contractAddress, library?.provider, farm?.type)
+  }, [farm, library])
+
   const withdraw = useCallback(async () => {
-    if (!farm || !library || !parsedAmount || !account) return
+    if (!farm || !library || !parsedAmount || !account || !rewardProgram) return
     try {
-      const rewardProgram = getProgram(farm?.contractAddress, library?.provider, farm?.type)
-      const response = await rewardProgram.withdraw(parsedAmount.raw.toString(), account)
+      let response
+
+      if (rewardProgram instanceof ChefRewardProgram) {
+        response = await rewardProgram.withdraw(parsedAmount.raw.toString(), account, farm?.id)
+      } else {
+        response = await rewardProgram.withdraw(parsedAmount.raw.toString(), account)
+      }
       const formattedReponse = { ...response, hash: response.transactionHash }
 
       addTransaction(formattedReponse, {
@@ -129,21 +139,26 @@ export default function WithdrawReward({ farm }: { farm?: Farm }) {
     } catch (e) {
       console.error(e)
     }
-  }, [account, addTransaction, farm, library, pairSymbol, parsedAmount])
+  }, [account, addTransaction, farm, library, pairSymbol, parsedAmount, rewardProgram])
 
   const claim = useCallback(async () => {
-    if (!farm || !library || !account) return
+    if (!farm || !library || !account || !rewardProgram) return
 
     try {
-      const rewardProgram = getProgram(farm?.contractAddress, library?.provider, farm?.type)
-      const response = await rewardProgram.withdrawReward(account)
+      let response
+
+      if (rewardProgram instanceof ChefRewardProgram) {
+        response = await rewardProgram.withdrawReward(account, farm?.id)
+      } else {
+        response = await rewardProgram.withdrawReward(account)
+      }
       const formattedReponse = { ...response, hash: response.transactionHash }
 
       addTransaction(formattedReponse, { summary: `Rewards Claimed` })
     } catch (e) {
       console.error(e)
     }
-  }, [account, addTransaction, farm, library])
+  }, [account, addTransaction, farm, library, rewardProgram])
 
   return (
     <Container>

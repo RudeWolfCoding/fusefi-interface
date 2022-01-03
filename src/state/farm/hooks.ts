@@ -1,20 +1,61 @@
+import { useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { ethers } from 'ethers'
-import { useEffect, useMemo, useState } from 'react'
+import { ChainId, TokenAmount } from '@fuseio/fuse-swap-sdk'
+import BigNumber from 'bignumber.js'
+import axios from 'axios'
+import { ChefRewardProgram } from '@fuseio/earn-sdk'
 import { getChainNetworkLibrary } from '../../connectors'
 import { useActiveWeb3React } from '../../hooks'
 import { tryFormatAmount, tryFormatDecimalAmount } from '../../utils'
 import { getProgram } from '../../utils/farm'
-import axios from 'axios'
 import { Farm, FARMS_CONTRACTS_URL } from '../../constants/farms'
 import { useToken } from '../../hooks/Tokens'
 import { useTokenBalance } from '../wallet/hooks'
 import { tryParseAmount } from '../swap/hooks'
-import BigNumber from 'bignumber.js'
 import { useBlockNumber } from '../application/hooks'
-import { TokenAmount } from '@fuseio/fuse-swap-sdk'
+import { getMasterChefV2Farms, getMasterChefV3Farms } from '../../graphql/queries'
+import { Chef, useChefPool } from '../chefs/hooks'
+import { MASTERCHEF_V2_ADDRESS, MASTERCHEF_V3_ADDRESS, VOLT_ADDRESS } from '../../constants'
 
 let networkContracts: { [key: string]: Farm } | null = null
+
+async function fetchChefFarm(farm?: any, account?: string) {
+  if (!farm) return
+
+  account = account || ethers.constants.AddressZero
+
+  const networkId = ChainId.FUSE
+  const networkLibrary = getChainNetworkLibrary(networkId)
+
+  let chefAddress
+  if (farm?.chef === Chef.MASTERCHEF_V2) {
+    chefAddress = MASTERCHEF_V2_ADDRESS[networkId]
+  } else if (farm?.chef === Chef.MASTERCHEF_V3) {
+    chefAddress = MASTERCHEF_V3_ADDRESS[networkId]
+  }
+
+  if (!chefAddress) return
+
+  const rewardProgram = new ChefRewardProgram(chefAddress, networkLibrary.provider)
+  const stats = await rewardProgram.getStats(account, farm.pair, networkId, Number(farm.id))
+  const [totalStaked] = await rewardProgram.getStakerInfo(account, farm.id)
+  const rewardsPerDay = stats.rewardsInfo[0].rewardPerDay
+  const rewardsUSDPerDay = stats.rewardsInfo[0].rewardPerDayUSD
+
+  return {
+    contractAddress: chefAddress,
+    pairName: `${stats?.token0?.symbol}/${stats?.token1?.symbol}`,
+    rewards: [VOLT_ADDRESS],
+    LPToken: farm.pair,
+    totalStaked,
+    networkId,
+    rewardsPerDay,
+    rewardsUSDPerDay,
+    ...farm,
+    ...stats
+  }
+}
 
 async function fetchFarm(farm?: Farm, account?: string) {
   if (!farm) return
@@ -23,7 +64,10 @@ async function fetchFarm(farm?: Farm, account?: string) {
 
   const accountAddress = account || ethers.constants.AddressZero
   const networkLibrary = getChainNetworkLibrary(networkId)
+
   const rewardProgram = getProgram(contractAddress, networkLibrary.provider, type)
+  if (!rewardProgram || rewardProgram instanceof ChefRewardProgram) return
+
   const stats = await rewardProgram.getStats(accountAddress, LPToken, networkId, rewards)
   const [totalStaked] = await rewardProgram.getStakerInfo(accountAddress, rewards[0])
   const stakingTimes = await rewardProgram.getStakingTimes(rewards[0])
@@ -65,20 +109,34 @@ async function fetchNetworksContracts() {
 async function fetchFarms(account?: string) {
   try {
     const multiContracts = await fetchNetworksContracts()
-    return await Promise.all(Object.values(multiContracts).map((farm: any) => fetchFarm(farm, account)))
+    const multiFarm = await Promise.all(Object.values(multiContracts).map((farm: any) => fetchFarm(farm, account)))
+
+    const [chefV2Farms, chefV3Farms] = await Promise.all([getMasterChefV2Farms(), getMasterChefV3Farms()])
+    const chefFarms = await Promise.all(
+      [
+        ...chefV2Farms.map(
+          (farm: any) => ({ ...farm, chef: Chef.MASTERCHEF_V2 }),
+          ...chefV3Farms.map((farm: any) => ({ ...farm, chef: Chef.MASTERCHEF_V3 }))
+        )
+      ].map((farm: any) => fetchChefFarm(farm, account))
+    )
+
+    return [...multiFarm, ...chefFarms]
   } catch (error) {
     console.error(error)
     return []
   }
 }
 
-export function useFarm(farmAddress: string) {
+export function useFarm(farmAddress?: string) {
   const { account } = useActiveWeb3React()
   const [farm, setFarm] = useState(null)
   const blockNumber = useBlockNumber()
 
   useEffect(() => {
     async function fetchFarmInfo() {
+      if (!farmAddress) return
+
       if (networkContracts === null) {
         await fetchNetworksContracts()
       }
@@ -91,6 +149,26 @@ export function useFarm(farmAddress: string) {
 
     fetchFarmInfo()
   }, [account, farmAddress, blockNumber])
+
+  return farm
+}
+
+export function useChefFarm(chef?: string, pid?: string) {
+  const { account } = useActiveWeb3React()
+  const [farm, setFarm] = useState(null)
+  const pool = useChefPool(pid, chef)
+
+  useEffect(() => {
+    async function fetchChefFarmInfo() {
+      if (!pool) return
+
+      const farm = await fetchChefFarm(pool, account ?? undefined)
+
+      setFarm(farm)
+    }
+
+    fetchChefFarmInfo()
+  }, [account, pool])
 
   return farm
 }

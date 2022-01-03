@@ -1,6 +1,11 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { ApolloClient, gql } from '@apollo/client/core'
-import { fuseswapSubgraphClient } from './client'
-import { FACTORY_ADDRESS } from '../constants'
+import { fuseswapSubgraphClient, masterChefV2Client, masterChefV3Client } from './client'
+import { FACTORY_ADDRESS, VOLT_ADDRESS } from '../constants'
+
+interface Variables {
+  [key: string]: any
+}
 
 export const getFuseswapFactoryData = async () => {
   const result = await fuseswapSubgraphClient.query({
@@ -109,4 +114,210 @@ export const getNativeStatusFromTxHash = async (homeTxHash: string, subgraph: Ap
   return result.data && result.data.relayedMessages && result.data.relayedMessages.length > 0
     ? result.data.relayedMessages[0]
     : null
+}
+
+export const getMasterChefV2Farms = async () => {
+  const result = await masterChefV2Client.query({
+    query: gql`
+      query poolsQuery(
+        $first: Int! = 1000
+        $skip: Int! = 0
+        $orderBy: String! = "id"
+        $orderDirection: String! = "desc"
+        $block: Block_height
+        $where: Pool_filter! = { allocPoint_gt: 0, accVoltPerShare_gt: 0 }
+      ) {
+        pools(
+          first: $first
+          skip: $skip
+          orderBy: $orderBy
+          orderDirection: $orderDirection
+          block: $block
+          where: $where
+        ) {
+          id
+          pair
+          allocPoint
+          lastRewardTimestamp
+          accVoltPerShare
+          balance
+          userCount
+          owner {
+            id
+            voltPerSec
+            totalAllocPoint
+          }
+        }
+      }
+    `
+  })
+
+  return result.data?.pools ? result.data?.pools : null
+}
+
+export const getMasterChefV3Farms = async () => {
+  const result = await masterChefV3Client.query({
+    query: gql`
+      query poolsV2Query(
+        $first: Int! = 1000
+        $skip: Int! = 0
+        $orderBy: String! = "id"
+        $orderDirection: String! = "desc"
+      ) {
+        pools(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+          id
+          pair
+          allocPoint
+          flpBalance
+          owner {
+            id
+            totalAllocPoint
+          }
+          rewarder {
+            id
+            rewardToken
+            tokenPerSec
+          }
+        }
+      }
+    `
+  })
+
+  return result.data?.pools ? result.data?.pools : null
+}
+
+export const getMasterChefV2TotalAllocPoint = async () => {
+  const result = await masterChefV2Client.query({
+    query: gql`
+      query masterChefV2TotalAllocPoint($id: String! = "0x517083dcaf665a0a9c166cca21f37243ac9fb9ee") {
+        masterChef(id: $id) {
+          id
+          totalAllocPoint
+        }
+      }
+    `
+  })
+
+  return result.data?.masterChef ? result.data?.masterChef : null
+}
+
+export const getMasterChefV2VoltPerSec = async () => {
+  const result = await masterChefV2Client.query({
+    query: gql`
+      query masterChefV2VoltPerSec($id: String! = "0x517083dcaf665a0a9c166cca21f37243ac9fb9ee") {
+        masterChef(id: $id) {
+          id
+          voltPerSec
+        }
+      }
+    `
+  })
+
+  return result.data?.masterChef ? result.data?.masterChef : null
+}
+
+export const tokenPriceQuery = gql`
+  query tokenPriceQuery($id: String!) {
+    token(id: $id) {
+      id
+      derivedETH
+    }
+  }
+`
+
+const bundleFields = gql`
+  fragment bundleFields on Bundle {
+    id
+    ethPrice
+  }
+`
+
+const fusePriceQuery = gql`
+  query ethPriceQuery($id: Int! = 1, $block: Block_height) {
+    bundles(id: $id, block: $block) {
+      ...bundleFields
+    }
+  }
+
+  ${bundleFields}
+`
+
+export const getBundle = async (query = fusePriceQuery, variables = { id: 1 }) => {
+  const result = await fuseswapSubgraphClient.query({
+    query,
+    variables
+  })
+
+  return result.data?.bundles ? result.data?.bundles[0]?.ethPrice : null
+}
+
+export const getNativePrice = async (variables?: any) => {
+  const result = await getBundle(undefined, variables)
+  return result
+}
+
+export const getTokenPrice = async (query: any, variables: Variables) => {
+  const nativePrice = await getNativePrice()
+
+  const result = await fuseswapSubgraphClient.query({
+    query,
+    variables
+  })
+
+  return nativePrice && result.data?.token ? result.data?.token?.derivedETH * nativePrice : 0
+}
+
+export const getVoltPrice = async (variables?: Variables) => {
+  return getTokenPrice(tokenPriceQuery, {
+    id: VOLT_ADDRESS,
+    ...variables
+  })
+}
+
+export const getFusePrice = async (variables?: Variables) => {
+  return getNativePrice(variables)
+}
+
+export const getMasterChefV2Pool = async (pid: string) => {
+  const result = await masterChefV2Client.query({
+    query: gql`
+    {
+      pool(id: "${pid}") {
+        id
+        balance
+        pair
+        allocPoint
+        owner {
+          id
+          voltPerSec
+          totalAllocPoint
+        }
+      }
+    }
+  `
+  })
+
+  return result?.data?.pool ? result?.data?.pool : null
+}
+
+export const getMasterChefV3Pool = async (pid: string) => {
+  const result = await masterChefV3Client.query({
+    query: gql`
+    {
+      pool(id: "${pid}") {
+        id
+        balance
+        pair
+        allocPoint
+        owner {
+          id
+          voltPerSec
+          totalAllocPoint
+        }
+      }
+    }
+  `
+  })
+
+  return result?.data?.pool ? result?.data?.pool : null
 }

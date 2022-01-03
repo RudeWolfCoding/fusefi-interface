@@ -11,7 +11,7 @@ import apyLightGreen from '../../assets/svg/questionmark2.svg'
 import apyGreen from '../../assets/svg/questionmark3.svg'
 import depositIcon from '../../assets/svg/deposits.svg'
 import FarmTabs from '../../components/farm/FarmTabs'
-import { useFarm } from '../../state/farm/hooks'
+import { useChefFarm, useFarm as useMultiFarm } from '../../state/farm/hooks'
 import { tryFormatAmount, tryFormatDecimalAmount } from '../../utils'
 
 const Container = styled('div')`
@@ -63,14 +63,18 @@ const Item = styled('div')`
   }
 `
 
-export default function Farm(props: RouteComponentProps<{ address: string }>) {
+export default function Farm(props: RouteComponentProps<{ address?: string; chef?: string; pid?: string }>) {
   const {
     match: {
-      params: { address }
+      params: { address, pid }
     }
   } = props
 
-  const farm: any = useFarm(address)
+  const isChef = !!pid
+  const useFarm = isChef ? useChefFarm : useMultiFarm
+  const useFarmArgs = isChef ? [address, pid] : [address]
+
+  const farm: any = useFarm(...useFarmArgs)
 
   return (
     <AppBody>
@@ -108,7 +112,7 @@ export default function Farm(props: RouteComponentProps<{ address: string }>) {
               title="Accrued Rewards"
               data={tryFormatAmount(farm?.rewardsInfo[0]?.accuruedRewards, 18) ?? ''}
               apyIcon={apyGreen}
-              label=" WFUSE"
+              label={` ${farm?.type === 'chef' ? 'VOLT' : 'WFUSE'}`}
               icon={rewards}
               txt="#1C9E7E"
               color="#0E4F3F"

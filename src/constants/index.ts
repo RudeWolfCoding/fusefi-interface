@@ -185,6 +185,16 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   ]
 }
 
+export const VOLT_ADDRESS = '0x91cfc38d082b3d07675c8caf0eadd93d8295a53d'
+
+export const MASTERCHEF_V2_ADDRESS: { readonly [chainId in ChainId]?: string } = {
+  [ChainId.FUSE]: '0x517083dCAf665A0a9c166cCA21f37243aC9fb9eE'
+}
+
+export const MASTERCHEF_V3_ADDRESS: { readonly [chainId in ChainId]?: string } = {
+  [ChainId.FUSE]: '0x7c416513BEf5D21950af85742d9644F387Dd08F4'
+}
+
 export interface WalletInfo {
   connector?: AbstractConnector
   name: string

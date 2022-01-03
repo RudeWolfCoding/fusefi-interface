@@ -43,3 +43,18 @@ export const ethFuseNativeSubgraphClient = new ApolloClient({
   uri: ETH_FUSE_NATIVE_BRIDGE_SUBGRAPH_URL,
   cache: new InMemoryCache()
 })
+
+export const masterChefV2Client = new ApolloClient({
+  uri: 'https://api.thegraph.com/subgraphs/name/mul53/masterchefv2',
+  cache: new InMemoryCache()
+})
+
+export const masterChefV3Client = new ApolloClient({
+  uri: 'https://api.thegraph.com/subgraphs/name/mul53/masterchefv3',
+  cache: new InMemoryCache()
+})
+
+export const blockClient = new ApolloClient({
+  uri: 'https://api.thegraph.com/subgraphs/name/fuseio/fuse-blocks',
+  cache: new InMemoryCache()
+})

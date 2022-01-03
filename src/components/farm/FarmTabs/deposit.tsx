@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { useApproveCallback, ApprovalState } from '../../../hooks/useApproveCallback'
 import { useActiveWeb3React } from '../../../hooks'
@@ -8,10 +8,10 @@ import { RowBetween } from '../../Row'
 import Percentage from './percentage'
 import FarmInfoCard from './farmInfoCard'
 import { getProgram } from '../../../utils/farm'
-import { Farm } from '../../../constants/farms'
 import { tryFormatDecimalAmount } from '../../../utils'
 import { useWalletModalToggle } from '../../../state/application/hooks'
 import { useDepositDerivedInfo } from '../../../state/farm/hooks'
+import { ChefRewardProgram } from '@fuseio/earn-sdk'
 
 const Container = styled('div')`
   text-align: left;
@@ -90,7 +90,7 @@ const Balance = styled('div')`
   line-height: 18px;
 `
 
-export default function Deposit({ farm }: { farm?: Farm }) {
+export default function Deposit({ farm }: { farm?: any }) {
   const { account, library } = useActiveWeb3React()
   const [typedValue, setTypedValue] = useState('')
   const { tokenBalance, parsedAmount, estimatedReward } = useDepositDerivedInfo(farm, typedValue)
@@ -103,11 +103,21 @@ export default function Deposit({ farm }: { farm?: Farm }) {
 
   const addTransaction = useTransactionAdder()
 
-  const deposit = useCallback(async () => {
-    if (!farm || !library || !parsedAmount || !account) return
+  const rewardProgram = useMemo(() => {
+    if (!farm || !library) return undefined
+    return getProgram(farm?.contractAddress, library?.provider, farm?.type)
+  }, [farm, library])
 
-    const rewardProgram = getProgram(farm?.contractAddress, library?.provider, farm?.type)
-    const response = await rewardProgram.deposit(parsedAmount.raw.toString(), account)
+  const deposit = useCallback(async () => {
+    if (!farm || !library || !parsedAmount || !account || !rewardProgram) return
+
+    let response
+    if (rewardProgram instanceof ChefRewardProgram) {
+      response = await rewardProgram.deposit(parsedAmount.raw.toString(), account, farm?.id)
+    } else {
+      response = await rewardProgram.deposit(parsedAmount.raw.toString(), account)
+    }
+
     const formattedReponse = { ...response, hash: response.transactionHash }
 
     addTransaction(formattedReponse, {
@@ -115,7 +125,7 @@ export default function Deposit({ farm }: { farm?: Farm }) {
     })
 
     setTypedValue('')
-  }, [account, addTransaction, library, pairSymbol, parsedAmount, farm])
+  }, [farm, library, parsedAmount, account, rewardProgram, addTransaction, pairSymbol])
 
   return (
     <Container>

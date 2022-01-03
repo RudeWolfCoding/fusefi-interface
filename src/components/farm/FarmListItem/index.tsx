@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Link, useHistory } from 'react-router-dom'
 import Icon from '../FarmList/icons'
 import { tryFormatDecimalAmount, tryFormatPercentageAmount } from '../../../utils'
-import { Farm } from '../../../constants/farms'
 import { Tr, TBodyTd } from '../../Table'
 import lightningIcon from '../../../assets/svg/lightning-icon.svg'
 
@@ -33,9 +32,12 @@ const StyledLink = styled(Link)`
   }
 `
 
-export default function FarmListItem({ farm }: { farm: Farm }) {
+export default function FarmListItem({ farm }: { farm: any }) {
   const history = useHistory()
-  const farmPath = `/farm/${farm.networkId}/${farm.contractAddress}`
+  const isChef = farm?.type === 'chef'
+  const farmPath = isChef
+    ? `/farm/${farm.networkId}/${farm.contractAddress}/${farm.id}`
+    : `/farm/${farm.networkId}/${farm.contractAddress}`
 
   const selectFarm = () => {
     history.push(farmPath)
@@ -69,7 +71,7 @@ export default function FarmListItem({ farm }: { farm: Farm }) {
           {farm.rewardsUSDPerDay?.toFixed(0)} <GreyText>USD</GreyText>
         </Text>
         <Text>
-          {farm.rewardsPerDay?.toFixed(0)} <GreyText>FUSE</GreyText>
+          {farm.rewardsPerDay?.toFixed(0)} <GreyText>{isChef ? 'VOLT' : 'FUSE'}</GreyText>
         </Text>
       </TBodyTd>
     </Tr>
