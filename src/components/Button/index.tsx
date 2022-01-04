@@ -304,12 +304,13 @@ export const ButtonErrorStyle = styled(Base)`
 `
 
 export const ButtonGradientStyle = styled(Base)`
-  background: transparent;
-  border: 2px solid #9fa3c9;
-  color: #9fa3c9 !important;
+  background: linear-gradient(93.58deg, #3ad889 -105.35%, #f3fc1f 103.54%);
+  border-radius: 5px;
+  color: black !important;
 
   :disabled {
     cursor: not-allowed;
+    background: linear-gradient(93.58deg, rgba(58, 216, 137, 0.3) -105.35%, rgba(243, 252, 31, 0.3) 103.54%);
   }
 `
 
@@ -341,7 +342,7 @@ export function ButtonGradient({ error, ...rest }: { error?: boolean } & ButtonP
   if (error) {
     return <ButtonGradientStyle {...rest} />
   } else {
-    return <ButtonLight {...rest} />
+    return <ButtonGradientStyle {...rest} />
   }
 }
 
