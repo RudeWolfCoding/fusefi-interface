@@ -70,7 +70,7 @@ export function colors(darkMode: boolean): Colors {
     bg12: '#042438',
 
     //specialty colors
-    modalBG: 'rgba(11, 12, 19, 0.9)',
+    modalBG: 'rgba(11, 12, 19, 0.95)',
     advancedBG: 'rgba(0,0,0,0.1)',
 
     //primary colors

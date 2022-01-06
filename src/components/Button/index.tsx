@@ -305,7 +305,7 @@ export const ButtonErrorStyle = styled(Base)`
 
 export const ButtonGradientStyle = styled(Base)`
   background: linear-gradient(93.58deg, #3ad889 -105.35%, #f3fc1f 103.54%);
-  border-radius: 10px;
+  border-radius: 5px;
   color: black !important;
 
   :disabled {
@@ -314,29 +314,29 @@ export const ButtonGradientStyle = styled(Base)`
   }
 `
 export const ButtonGradientOutlineStyle = styled(Base)`
-border-radius: 10px;
-padding: 1rem;
-font-family: 'Avenir Next';
-font-size: 1rem;
-padding: .5rem 3rem;
-color: linear-gradient(93.58deg, #3ad889 -105.35%, #f3fc1f 103.54%);
-box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
-border: solid 2px transparent;
-background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(93.58deg, #3ad889 -105.35%, #f3fc1f 103.54%);
-background-origin: border-box;
-background-clip: content-box, border-box;
-box-shadow: 2px 1000px 1px #000000 inset;
-}
->span{
-  background: linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%);;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-  :disabled {
-    cursor: not-allowed;
-    background: linear-gradient(93.58deg, rgba(58, 216, 137, 0.3) -105.35%, rgba(243, 252, 31, 0.3) 103.54%);
+  border-radius: 5px;
+  padding: 1rem;
+  font-family: 'Avenir Next';
+  font-size: 1rem;
+  padding: .5rem 3rem;
+  color: linear-gradient(93.58deg, #3ad889 -105.35%, #f3fc1f 103.54%);
+  box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
+  border: solid 2px transparent;
+  background-image: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)),linear-gradient(93.58deg,#1cbb28 -105.35%,#777a17 103.54%)
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px #0b0c12 inset;
+  } 
+  >span{
+    background: linear-gradient(93.58deg, #3AD889 -105.35%, #F3FC1F 103.54%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-`
+    :disabled {
+      cursor: not-allowed;
+      background: linear-gradient(93.58deg, rgba(58, 216, 137, 0.3) -105.35%, rgba(243, 252, 31, 0.3) 103.54%);
+    }
+  `
 
 export function ButtonConfirmed({
   confirmed,
