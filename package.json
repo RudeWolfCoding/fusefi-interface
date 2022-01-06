@@ -101,12 +101,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:prod": "env-cmd -f .env.production react-scripts start",
+    "start:prod": "SET NODE_OPTIONS=--openssl-legacy-provider && env-cmd -f .env.production react-scripts start",
     "start:beta": "env-cmd -f .env.beta react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'",
     "build:qa": "env-cmd -f .env react-scripts build",
     "build:beta": "env-cmd -f .env.beta react-scripts build"

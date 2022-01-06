@@ -64,7 +64,6 @@ export function useUserHasAvailableClaim(account: string | null | undefined): bo
   const userClaimData = useUserClaimData(account)
   const distributorContract = useMerkleDistributorContract()
   const isClaimedResult = useSingleCallResult(distributorContract, 'isClaimed', [userClaimData?.index])
-
   return Boolean(userClaimData && !isClaimedResult.loading && isClaimedResult.result?.[0] === false)
 }
 
