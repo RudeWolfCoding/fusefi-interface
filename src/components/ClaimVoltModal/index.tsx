@@ -2,7 +2,7 @@ import { ChainId } from '@fuseio/fuse-swap-sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import { TYPE } from '../../theme'
 import Modal from '../Modal'
-import { ButtonGradient } from '../Button'
+import { ButtonGradient, ButtonGradientOutline } from '../Button'
 import { useClaimModalOpen, useToggleClaimModal, useWalletModalToggle } from '../../state/application/hooks'
 import { useClaimCallback, useUserHasAvailableClaim, useUserUnclaimedAmount } from '../../state/claim/hooks'
 import { AutoColumn } from '../Column'
@@ -22,9 +22,9 @@ const Styler = styled.div<{ error: boolean }>`
   padding: 20px;
   :after {
     background: ${({ error }) =>
-    error
-      ? 'linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%)'
-      : 'linear-gradient(to bottom right, red, yellow)'};
+      error
+        ? 'linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%)'
+        : 'linear-gradient(to bottom right, red, yellow)'};
     content: '';
     position: absolute;
     border-radius: 20px;
@@ -111,7 +111,7 @@ margin-bottom: 12px;
 }
 }
 `
-const Wrapper2 = styled.div`
+const Card = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: auto;
@@ -153,6 +153,7 @@ const Claims = styled.div`
   }
 `
 export default function ClaimVoltModal() {
+  const [stage, setStage] = useState(0)
   const { account } = useActiveWeb3React()
   const [claimAccount, setClaimAccount] = useState('')
   const claimModalOpen = useClaimModalOpen()
@@ -172,11 +173,14 @@ export default function ClaimVoltModal() {
       console.error('Failed to claim tokens', error)
     }
   }, [claimCallback, toggleClaimModal])
-  const [stage, setStage] = useState(0)
 
   useEffect(() => {
     if (account && !userHasAvailableClaim) setClaimAccount(account ? account : '')
+    return () => {
+      setStage(0)
+    }
   }, [account, userHasAvailableClaim])
+
   return (
     <Modal
       isOpen={claimModalOpen}
@@ -202,7 +206,7 @@ export default function ClaimVoltModal() {
                 early supporter!
               </InfoText>
             </RowCenter>
-            <AddressInputPanel value={claimAccount} onChange={setClaimAccount} chainId={ChainId.FUSE} />
+            <AddressInputPanel readOnly={true} value={claimAccount} onChange={setClaimAccount} chainId={ChainId.FUSE} />
             {claimAccount.length < 7 ? (
               <TYPE.main
                 fontSize={14}
@@ -212,7 +216,7 @@ export default function ClaimVoltModal() {
                 margin="0.5rem"
                 marginBottom="50px"
               >
-                Please, provide valid wallet address to the input above or connect
+                Please, connect your wallet below
                 <ButtonGradient onClick={toggleWalletModal}>Connect your wallet</ButtonGradient>
               </TYPE.main>
             ) : (
@@ -245,7 +249,7 @@ export default function ClaimVoltModal() {
         <Container>
           <Wrapper>
             <Main>
-              <img src={LargeVolt} alt="" style={{ margin: 'auto' }} />
+              <img src={LargeVolt} alt="" style={{ margin: 'auto', display: 'flex' }} />
               <Header>Volt Token (VOLT)</Header>
               <Content>
                 The Volt Token is our governance token. It is used predominantly to vote on FuseFi proposals including
@@ -281,9 +285,9 @@ export default function ClaimVoltModal() {
           </Wrapper>
 
           <Row margin={'0.5em'} justifyContent={'space-between'}>
-            <ButtonGradient maxWidth={100} onClick={() => setStage(stage - 1)}>
-              Back
-            </ButtonGradient>
+            <ButtonGradientOutline maxWidth={100} onClick={() => setStage(stage - 1)}>
+              <span>Back</span>
+            </ButtonGradientOutline>
             <ButtonGradient maxWidth={100} onClick={() => setStage(stage + 1)}>
               Next
             </ButtonGradient>
@@ -318,9 +322,9 @@ export default function ClaimVoltModal() {
             </Main>
           </Wrapper>
           <Row margin={'0.5em'} justifyContent={'space-between'}>
-            <ButtonGradient maxWidth={100} onClick={() => setStage(stage - 1)}>
-              Back
-            </ButtonGradient>
+            <ButtonGradientOutline maxWidth={100} onClick={() => setStage(stage - 1)}>
+              <span>Back</span>
+            </ButtonGradientOutline>
             <ButtonGradient maxWidth={100} onClick={() => setStage(stage + 1)}>
               Next
             </ButtonGradient>
@@ -330,7 +334,7 @@ export default function ClaimVoltModal() {
 
       {stage === 3 && (
         <Claims>
-          <Wrapper2>
+          <Card>
             <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
               <img src={Airdrop} alt="" style={{ width: '80%', paddingBottom: '14px', margin: 'auto' }} />
               <img src={VoltIcon} alt="" style={{ width: '65px', paddingBottom: '15px', margin: 'auto' }} />
@@ -341,34 +345,34 @@ export default function ClaimVoltModal() {
                 Claim
               </ButtonGradient>
             </Main>
-          </Wrapper2>
-          <Wrapper2>
+          </Card>
+          <Card>
             <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
               <img src={Presale} alt="" style={{ width: '170px', paddingBottom: '14px', margin: 'auto' }} />
               <img src={VoltIcon} alt="" style={{ width: '65px', paddingBottom: '15px', margin: 'auto' }} />
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
               <Volt>Volt: 000000</Volt>
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
-              <ButtonGradient maxWidth={'100%'} marginTop={'33px'} onClick={() => setStage(stage + 1)}>
+              <ButtonGradient maxWidth={'100%'} marginTop={'33px'} onClick={() => setStage(0)}>
                 Claim
               </ButtonGradient>
             </Main>
-          </Wrapper2>
+          </Card>
 
-          <Wrapper2>
+          <Card>
             <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
-              <div>
+              <div style={{ display: 'flex', width: '100%', margin: 'auto' }}>
                 <img src={Ido} alt="" style={{ width: '67px', paddingBottom: '14px', margin: 'auto' }} />
               </div>
               <img src={VoltIcon} alt="" style={{ width: '65px', paddingBottom: '15px', margin: 'auto' }} />
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
               <Volt>Volt: 000000</Volt>
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
-              <ButtonGradient maxWidth={'100%'} marginTop={'33px'} onClick={() => setStage(stage + 1)}>
+              <ButtonGradient maxWidth={'100%'} marginTop={'33px'} onClick={() => setStage(0)}>
                 Claim
               </ButtonGradient>
             </Main>
-          </Wrapper2>
+          </Card>
         </Claims>
       )}
     </Modal>
