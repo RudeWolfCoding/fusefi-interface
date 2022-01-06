@@ -322,7 +322,7 @@ export const ButtonGradientOutlineStyle = styled(Base)`
   color: linear-gradient(93.58deg, #3ad889 -105.35%, #f3fc1f 103.54%);
   box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
   border: solid 2px transparent;
-  background-image: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)),linear-gradient(93.58deg,#1cbb28 -105.35%,#777a17 103.54%)
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(93.58deg, #298b5a -105.35%, #6e7210 103.54%);
   background-origin: border-box;
   background-clip: content-box, border-box;
   box-shadow: 2px 1000px 1px #0b0c12 inset;
