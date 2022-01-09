@@ -384,6 +384,11 @@ export default function Sidebar() {
               <WhiteText>soon</WhiteText>
             </MenuItemWrapper>
           </MenuItemInternal>
+          <MenuItemInternal to="/stake">
+            <MenuItemWrapper>
+              <span>Stake</span>
+            </MenuItemWrapper>
+          </MenuItemInternal>
         </MenuWrapper>
         <SubMenuWrapper>
           <MenuItemExternal id="link" href="https://info.fuseswap.com/">

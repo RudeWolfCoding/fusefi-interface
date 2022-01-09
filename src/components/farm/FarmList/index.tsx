@@ -32,7 +32,7 @@ export default function FarmList({ networkId }: { networkId: number }) {
             ) : farms?.length ? (
               farms
                 .filter((farm: any) => farm.networkId === networkId && !farm.isExpired)
-                .map((farm: any) => <FarmListItem key={farm.contractAddress} farm={farm} />)
+                .map((farm: any, idx: number) => <FarmListItem key={idx} farm={farm} />)
             ) : (
               <TBodyTr>
                 <td></td>

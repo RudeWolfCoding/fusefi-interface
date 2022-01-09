@@ -13,3 +13,7 @@ export const getProgram = (contract?: string, library?: any, type?: string) => {
     return undefined
   }
 }
+
+export const isChef = (farm: any) => {
+  return typeof farm?.chef === 'number'
+}

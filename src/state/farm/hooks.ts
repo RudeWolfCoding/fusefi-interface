@@ -114,10 +114,10 @@ async function fetchFarms(account?: string) {
     const [chefV2Farms, chefV3Farms] = await Promise.all([getMasterChefV2Farms(), getMasterChefV3Farms()])
     const chefFarms = await Promise.all(
       [
-        ...chefV2Farms.map(
-          (farm: any) => ({ ...farm, chef: Chef.MASTERCHEF_V2 }),
-          ...chefV3Farms.map((farm: any) => ({ ...farm, chef: Chef.MASTERCHEF_V3 }))
-        )
+        ...chefV2Farms
+          .map((farm: any) => ({ ...farm, chef: Chef.MASTERCHEF_V2 }))
+          .filter((farm: any) => farm.id === '1'),
+        ...chefV3Farms.map((farm: any) => ({ ...farm, chef: Chef.MASTERCHEF_V3 }))
       ].map((farm: any) => fetchChefFarm(farm, account))
     )
 

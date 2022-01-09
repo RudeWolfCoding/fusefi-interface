@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { ApolloClient, gql } from '@apollo/client/core'
-import { fuseswapSubgraphClient, masterChefV2Client, masterChefV3Client } from './client'
-import { FACTORY_ADDRESS, VOLT_ADDRESS } from '../constants'
+import { blockClient, fuseswapSubgraphClient, masterChefV2Client, masterChefV3Client } from './client'
+import { FACTORY_ADDRESS, VOLT_ADDRESS, XVOLT_ADDRESS } from '../constants'
 
 interface Variables {
   [key: string]: any
@@ -267,10 +267,15 @@ export const getTokenPrice = async (query: any, variables: Variables) => {
   return nativePrice && result.data?.token ? result.data?.token?.derivedETH * nativePrice : 0
 }
 
-export const getVoltPrice = async (variables?: Variables) => {
+export const getVoltPrice = async () => {
   return getTokenPrice(tokenPriceQuery, {
-    id: VOLT_ADDRESS,
-    ...variables
+    id: VOLT_ADDRESS
+  })
+}
+
+export const getXVoltPrice = async () => {
+  return getTokenPrice(tokenPriceQuery, {
+    id: XVOLT_ADDRESS
   })
 }
 
@@ -320,4 +325,53 @@ export const getMasterChefV3Pool = async (pid: string) => {
   })
 
   return result?.data?.pool ? result?.data?.pool : null
+}
+
+export const getBlock = async (variables?: any) => {
+  const result = await blockClient.query({
+    query: gql`
+      query blockQuery($timestampFrom: Int, $timestampTo: Int) {
+        blocks(
+          first: 1
+          where: { timestamp_gt: $timestampFrom, timestamp_lt: $timestampTo }
+          orderBy: timestamp
+          orderDirection: desc
+        ) {
+          id
+          number
+          timestamp
+        }
+      }
+    `,
+    variables
+  })
+  return { number: Number(result?.data?.blocks?.[0]?.number) }
+}
+
+export const getFactory = async (variables: any) => {
+  const query = variables
+    ? gql`
+        {
+          uniswapFactories(first: 1, block: { number: ${variables.blockNumber} }) {
+            id
+            totalVolumeUSD
+            totalLiquidityUSD
+          }
+        }
+      `
+    : gql`
+        {
+          uniswapFactories(first: 1) {
+            id
+            totalVolumeUSD
+            totalLiquidityUSD
+          }
+        }
+      `
+
+  const result = await fuseswapSubgraphClient.query({
+    query
+  })
+
+  return result?.data?.uniswapFactories ? result?.data?.uniswapFactories?.[0] : null
 }

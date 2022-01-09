@@ -26,6 +26,7 @@ export default async function getErc20ToErc677MinMax(
   }
 
   const min = await contract.minPerTx(tokenAddress)
+  console.log(BINANCE_ERC20_TO_ERC677_FOREIGN_BRIDGE_ADDRESS, min)
 
   let max = await contract.maxPerTx(tokenAddress)
   if (tryFormatAmount(max, decimals) === '0.0') {

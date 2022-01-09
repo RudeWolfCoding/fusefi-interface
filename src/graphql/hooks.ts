@@ -1,8 +1,17 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { ChainId } from '@fuseio/fuse-swap-sdk'
 import { useMemo } from 'react'
 import useSWR from 'swr'
+import { addSeconds, getUnixTime, startOfMinute, subDays } from 'date-fns'
 import { Chef } from '../state/chefs/hooks'
-import { getMasterChefV2Farms, getMasterChefV3Farms } from './queries'
+import {
+  getBlock,
+  getFactory,
+  getMasterChefV2Farms,
+  getMasterChefV3Farms,
+  getVoltPrice,
+  getXVoltPrice
+} from './queries'
 
 interface UseChefFarmProps {
   shouldFetch?: boolean
@@ -34,4 +43,38 @@ export function useChefFarms(chainId?: ChainId) {
     masterChefV2Farms,
     masterChefV3Farms
   ])
+}
+
+export function useVoltPrice() {
+  const { data } = useSWR('voltPrice', () => getVoltPrice())
+  return data
+}
+
+export function useXVoltPrice() {
+  const { data } = useSWR('xVoltPrice', () => getXVoltPrice())
+  return data
+}
+
+export function useBlock(variables: any, shouldFetch = true) {
+  const { data } = useSWR(shouldFetch ? ['block'] : null, () => getBlock(variables))
+  return data
+}
+
+export function useOneDayBlock(shouldFetch = true) {
+  const date = startOfMinute(subDays(Date.now(), 1))
+  const start = getUnixTime(date)
+  const end = getUnixTime(addSeconds(date, 600))
+
+  return useBlock(
+    {
+      timestampFrom: start,
+      timestampTo: end
+    },
+    shouldFetch
+  )
+}
+
+export function useFactory(variables?: any, shouldFetch = true) {
+  const { data } = useSWR(shouldFetch ? ['factory', JSON.stringify(variables)] : null, () => getFactory(variables))
+  return data
 }

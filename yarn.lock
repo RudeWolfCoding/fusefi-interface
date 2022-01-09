@@ -1789,8 +1789,10 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
-"@fuseio/earn-sdk@file:../rewards-sdk":
-  version "0.2.2"
+"@fuseio/earn-sdk@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@fuseio/earn-sdk/-/earn-sdk-0.3.0.tgz#49f9571d903c1014dd592f47cf1c97b2760dc91b"
+  integrity sha512-7Y8Kg+X/eJ1jNDvhCrh51xjc1QOm2G2uFuY5/ke2QAVBNum7xtUUL9cUygtWnfmKb376sKTS/gUOtQ84Mf8wWw==
   dependencies:
     "@apollo/client" "^3.3.21"
     bignumber.js "^9.0.1"
@@ -6309,6 +6311,11 @@ date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
+
+date-fns@^2.28.0:
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
+  integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
 
 dayjs@^1.10.4, dayjs@^1.10.6:
   version "1.10.7"

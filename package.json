@@ -6,7 +6,7 @@
   "devDependencies": {
     "@apollo/client": "3.3.21",
     "@ethersproject/experimental": "^5.0.1",
-    "@fuseio/earn-sdk": "file:../rewards-sdk",
+    "@fuseio/earn-sdk": "^0.3.0",
     "@fuseio/fuse-swap-default-token-list": "~2.0.0",
     "@fuseio/fuse-swap-sdk": "^3.1.1",
     "@fuseio/rewards-sdk": "^0.1.8",
@@ -52,6 +52,7 @@
     "copy-to-clipboard": "^3.2.0",
     "cross-env": "^7.0.2",
     "cypress": "^4.11.0",
+    "date-fns": "^2.28.0",
     "dayjs": "^1.10.6",
     "env-cmd": "^10.1.0",
     "eslint": "^6.8.0",

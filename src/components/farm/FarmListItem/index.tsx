@@ -5,6 +5,7 @@ import Icon from '../FarmList/icons'
 import { tryFormatDecimalAmount, tryFormatPercentageAmount } from '../../../utils'
 import { Tr, TBodyTd } from '../../Table'
 import lightningIcon from '../../../assets/svg/lightning-icon.svg'
+import { isChef } from '../../../utils/farm'
 
 const Text = styled.div`
   font-size: 14px;
@@ -34,8 +35,8 @@ const StyledLink = styled(Link)`
 
 export default function FarmListItem({ farm }: { farm: any }) {
   const history = useHistory()
-  const isChef = farm?.type === 'chef'
-  const farmPath = isChef
+  const isChefFarm = isChef(farm)
+  const farmPath = isChefFarm
     ? `/farm/${farm.networkId}/${farm.contractAddress}/${farm.id}`
     : `/farm/${farm.networkId}/${farm.contractAddress}`
 
@@ -71,7 +72,7 @@ export default function FarmListItem({ farm }: { farm: any }) {
           {farm.rewardsUSDPerDay?.toFixed(0)} <GreyText>USD</GreyText>
         </Text>
         <Text>
-          {farm.rewardsPerDay?.toFixed(0)} <GreyText>{isChef ? 'VOLT' : 'FUSE'}</GreyText>
+          {farm.rewardsPerDay?.toFixed(0)} <GreyText>{isChefFarm ? 'VOLT' : 'FUSE'}</GreyText>
         </Text>
       </TBodyTd>
     </Tr>

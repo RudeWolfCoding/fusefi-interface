@@ -130,6 +130,12 @@ export const FUSE_BUSD = new Token(
 
 export const FUSE_BNB = new Token(ChainId.FUSE, BNB_FOREIGN_TOKEN_ADDRESS, 18, 'BNB', 'BNB on Fuse')
 
+export const VOLT_ADDRESS = '0x91CFC38d082B3d07675C8CAF0eadD93D8295A53D'
+export const XVOLT_ADDRESS = '0xaf1815C8279975AC397Bd5b102aD551983835775'
+
+export const VOLT = new Token(ChainId.FUSE, VOLT_ADDRESS, 18, 'VOLT', 'Volt')
+export const xVOLT = new Token(ChainId.FUSE, XVOLT_ADDRESS, 18, 'xVOLT', 'xVolt')
+
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
   [ChainId.ROPSTEN]: [WETH[ChainId.ROPSTEN]],
@@ -184,8 +190,6 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
     [FUSE_DAI, FUSE_USDT]
   ]
 }
-
-export const VOLT_ADDRESS = '0x91cfc38d082b3d07675c8caf0eadd93d8295a53d'
 
 export const MASTERCHEF_V2_ADDRESS: { readonly [chainId in ChainId]?: string } = {
   [ChainId.FUSE]: '0x517083dCAf665A0a9c166cCA21f37243aC9fb9eE'
