@@ -12,7 +12,7 @@ phases:
       - echo $HTPASSWD_CONTENT > ./build/.htpasswd
       - aws s3 cp build s3://${Bucket} --recursive --acl public-read --exclude ".git/*"  --cache-control 'max-age=300,public'
       - aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths "/*"
-  artifacts:
-    base-directory: build
-    files:
-      - '**/*'
+artifacts:
+  base-directory: build
+  files:
+    - '**/*'
