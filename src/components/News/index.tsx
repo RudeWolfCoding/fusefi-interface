@@ -88,7 +88,7 @@ export default function News() {
             data-chrome="transparent nofooter noborders noheader noscrollbar"
             data-height="325"
             data-theme="dark"
-            href="https://twitter.com/Fuse_network?ref_src=twsrc%5Etfw"
+            href="https://twitter.com/Fuse_Fi"
           >
             <Loader />
           </a>{' '}
