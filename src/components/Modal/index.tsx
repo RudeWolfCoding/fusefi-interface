@@ -18,7 +18,7 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
     display: flex;
     align-items: center;
     justify-content: center;
-
+    margin-left: 14.7%;
     background-color: ${({ theme }) => theme.modalBG};
   }
 `
@@ -33,6 +33,7 @@ const StyledDialogContent = styled(
 ).attrs({
   'aria-label': 'dialog'
 })`
+  position: relative;
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
     border: 1px solid ${({ theme, backgroundColor }) => (backgroundColor ? backgroundColor : theme.bg1)};

@@ -29,6 +29,7 @@ export const updateBlockNumber = createAction<{ chainId: number; blockNumber: nu
 export const toggleWalletModal = createAction<void>('app/toggleWalletModal')
 export const toggleSettingsMenu = createAction<void>('app/toggleSettingsMenu')
 export const toggleNavMenu = createAction<void>('app/toggleNavMenu')
+export const toggleClaimModal = createAction<void>('app/toggleClaimModal')
 export const addPopup = createAction<{ key?: string; removeAfterMs?: number | null; content: PopupContent }>(
   'app/addPopup'
 )

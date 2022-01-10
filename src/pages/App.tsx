@@ -24,6 +24,7 @@ import Bridge from './Bridge'
 import { RedirectToDefault } from './redirects'
 import Menu from '../components/Menu'
 import MobileNav from '../components/MobileNav'
+import ClaimVoltModal from '../components/ClaimVoltModal'
 import Stake from './Stake'
 
 const AppWrapper = styled.div`
@@ -99,6 +100,7 @@ export default function App() {
                 </Switch>
               </Web3ReactManager>
             </Container>
+            <ClaimVoltModal />
           </Content>
         </AppWrapper>
       </HashRouter>
