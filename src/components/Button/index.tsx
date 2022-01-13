@@ -9,10 +9,11 @@ import { Button as RebassButton, ButtonProps } from 'rebass/styled-components'
 const Base = styled(RebassButton)<{
   padding?: string
   width?: string
+  height?: string
   borderRadius?: string
   altDisabledStyle?: boolean
 }>`
-  height: 48px;
+  height: ${({ height }) => (height ? height : '48px')};
   width: ${({ width }) => (width ? width : '100%')};
   font-size: 16px;
   font-weight: 500;

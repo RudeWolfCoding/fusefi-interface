@@ -10,6 +10,7 @@ import { ReactComponent as HomeIcon } from '../../assets/svg/home.svg'
 import { ReactComponent as LendingIcon } from '../../assets/svg/lend.svg'
 import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance.svg'
 import { ReactComponent as Analytics } from '../../assets/svg/analyticsMenu.svg'
+import { ReactComponent as StakeIcon } from '../../assets/svg/stake.svg'
 
 import telegram from '../../assets/svg/telegram.svg'
 import twitter from '../../assets/svg/twitter.svg'
@@ -359,6 +360,14 @@ export default function Sidebar() {
               <span>Bridge</span>
             </MenuItemWrapper>
           </MenuItemInternal>
+          <MenuItemInternal to="/stake">
+            <MenuItemWrapper>
+              <IconWrapper>
+                <StakeIcon />
+              </IconWrapper>
+              <span>Stake</span>
+            </MenuItemWrapper>
+          </MenuItemInternal>
           <MenuItemInternal to={`/farm/${FUSE_CHAIN_ID}`}>
             <MenuItemWrapper>
               <IconWrapper>
@@ -382,11 +391,6 @@ export default function Sidebar() {
               </IconWrapper>
               <GreyText>Governance</GreyText>
               <WhiteText>soon</WhiteText>
-            </MenuItemWrapper>
-          </MenuItemInternal>
-          <MenuItemInternal to="/stake">
-            <MenuItemWrapper>
-              <span>Stake</span>
             </MenuItemWrapper>
           </MenuItemInternal>
         </MenuWrapper>

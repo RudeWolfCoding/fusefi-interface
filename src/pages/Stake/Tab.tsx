@@ -1,7 +1,7 @@
 import { TokenAmount, JSBI } from '@fuseio/fuse-swap-sdk'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
-import { ButtonLight, ButtonPrimary, ButtonError } from '../../components/Button'
+import { ButtonLight, ButtonGradient } from '../../components/Button'
 import { AutoColumn } from '../../components/Column'
 import Input from '../../components/NumericalInput'
 import { VOLT, xVOLT } from '../../constants'
@@ -26,7 +26,7 @@ const InputRow = styled.div`
   align-items: center;
   padding: 0.75rem 1rem 0.75rem 1rem;
   height: 48px;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
 `
 
 const MaxButton = styled.button`
@@ -109,24 +109,27 @@ export default function Tab({
         <TYPE.body fontSize={16}>
           {action} {isStake ? 'VOLT' : 'xVOLT'}
         </TYPE.body>
-        <TYPE.body fontSize={14}>1xVOLT = {xVoltRatio} VOLT</TYPE.body>
+        <TYPE.body fontSize={14}>available balance: {balance?.toSignificant()}</TYPE.body>
       </Row>
       <InputRow>
         <Input value={value} onUserInput={setValue} placeholder="0" />
         <MaxButton onClick={() => onMax()}>Max</MaxButton>
       </InputRow>
+      <TYPE.body fontSize={12} marginBottom="2rem" textAlign="right">
+        1xVOLT = {xVoltRatio} VOLT
+      </TYPE.body>
       {!account ? (
         <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
       ) : (
         <AutoColumn gap={'md'}>
           {isValid && approval !== ApprovalState.APPROVED && (
-            <ButtonPrimary onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
+            <ButtonGradient onClick={approveCallback} disabled={approval === ApprovalState.PENDING}>
               Approve VOLT
-            </ButtonPrimary>
+            </ButtonGradient>
           )}
-          <ButtonError onClick={() => onAction()} disabled={!isValid || approval !== ApprovalState.APPROVED}>
+          <ButtonGradient onClick={() => onAction()} disabled={!isValid || approval !== ApprovalState.APPROVED}>
             {action}
-          </ButtonError>
+          </ButtonGradient>
         </AutoColumn>
       )}
     </div>

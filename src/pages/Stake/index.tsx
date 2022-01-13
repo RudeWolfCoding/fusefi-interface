@@ -11,14 +11,15 @@ import Tab from './Tab'
 import { useFactory, useOneDayBlock } from '../../graphql/hooks'
 import { useXVoltTotalSupply } from '../../hooks/stake'
 import { tryFormatAmount } from '../../utils'
+import AppBody from '../AppBody'
 
 const Wrapper = styled.div`
-  margin: 4rem 1rem 2rem;
+  margin: 5rem 0rem 0rem;
 `
 
 const AlignWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   column-gap: 1rem;
   flex-wrap: wrap;
   width: 840px;
@@ -40,7 +41,7 @@ const LargeColumn = styled.div`
 `
 
 const SmallColumn = styled.div`
-  width: 350px;
+  width: 310px;
   max-width: 100%;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -82,13 +83,18 @@ const AprText = styled.div`
 
 const FuseFiIcon = styled.img.attrs({
   src: fuseFiLogo,
-  width: '250px'
+  width: '175px'
 })`
   display: block;
   margin: 0 auto;
+  padding-top: 25px;
 `
 
 const StakeCard = styled(Card)`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   padding: 20px;
   background: #242637;
   border-radius: 12px;
@@ -96,7 +102,7 @@ const StakeCard = styled(Card)`
 
 const AprCard = styled(Card)`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `
 
@@ -185,74 +191,76 @@ export default function Stake() {
   const balance = isStake ? voltBalance : xVoltBalance
 
   return (
-    <Wrapper>
-      <AlignWrapper>
-        <LargeColumn>
-          <GradientBorder margin="0 0 1rem 0" background="#0B0C13">
-            <StatsCard>
-              <Stat>
-                <TYPE.body fontSize={14} fontWeight={700} color="#B5B9D3">
-                  TVL
-                </TYPE.body>
-                <TYPE.body color="#B5B9D3">${tvl?.toFixed(4)}</TYPE.body>
-              </Stat>
-              <Dot />
-              <Stat>
-                <TYPE.body fontSize={14} fontWeight={700} color="#B5B9D3">
-                  Unstaked
-                </TYPE.body>
-                <TYPE.body color="#B5B9D3">{voltBalance?.toSignificant()} VOLT</TYPE.body>
-              </Stat>
-              <Dot />
-              <Stat>
-                <TYPE.body fontSize={14} fontWeight={700} color="#B5B9D3">
-                  Balance
-                </TYPE.body>
-                <TYPE.body color="#B5B9D3">{xVoltBalance?.toSignificant()} xVOLT</TYPE.body>
-              </Stat>
-            </StatsCard>
-          </GradientBorder>
-          <GradientBorder
-            margin="0 0 1rem 0"
-            padding="1.2rem 0"
-            background="linear-gradient(92.18deg, rgba(58, 216, 137, 0.25) -2.78%, rgba(243, 252, 31, 0.25) 102.81%);"
-          >
-            <AprCard>
-              <img src={fuseFiBoltLogo} alt="bolt" />
-              <AprText>Approximate APR {parseInt(String(apr))}%</AprText>
-              <img src={fuseFiBoltLogo} alt="bolt" />
-            </AprCard>
-          </GradientBorder>
-          <StakeCard>
-            <Tabs>
-              <TabPane active={isStake} onClick={() => setIsStake(true)}>
-                Stake
-              </TabPane>
-              <TabPane active={!isStake} onClick={() => setIsStake(false)}>
-                Unstake
-              </TabPane>
-            </Tabs>
-            <Tab isStake={isStake} account={account ?? undefined} balance={balance} />
-          </StakeCard>
-        </LargeColumn>
-        <SmallColumn>
-          <GradientBorder padding="12px" background="#0B0C13">
-            <TYPE.mediumHeader fontSize={16} marginBottom={16}>
-              Stake VOLT
-            </TYPE.mediumHeader>
-            <TYPE.body fontSize={14} marginBottom={16}>
-              Stake VOLT here and receive xVOLT as receipt representing your share of the pool. This pool automatically
-              compounds by using a portion of all trade fees to buy back VOLT which means the xVOLT to VOLT ratio will
-              grow over time!
-            </TYPE.body>
-            <TYPE.body fontSize={14} marginBottom={32}>
-              Like liquidity providing (LP), you will earn fees according to your share in the pool, and your xVOLT
-              receipt is needed as proof when claiming the rewards.
-            </TYPE.body>
-            <FuseFiIcon />
-          </GradientBorder>
-        </SmallColumn>
-      </AlignWrapper>
-    </Wrapper>
+    <AppBody>
+      <Wrapper>
+        <AlignWrapper>
+          <LargeColumn>
+            <GradientBorder margin="0 0 8px 0" background="#0B0C13">
+              <StatsCard>
+                <Stat>
+                  <TYPE.body fontSize={14} fontWeight={700} color="#B5B9D3">
+                    TVL
+                  </TYPE.body>
+                  <TYPE.body color="#B5B9D3">${tvl?.toFixed(4)}</TYPE.body>
+                </Stat>
+                <Dot />
+                <Stat>
+                  <TYPE.body fontSize={14} fontWeight={700} color="#B5B9D3">
+                    Unstaked
+                  </TYPE.body>
+                  <TYPE.body color="#B5B9D3">{voltBalance?.toSignificant()} VOLT</TYPE.body>
+                </Stat>
+                <Dot />
+                <Stat>
+                  <TYPE.body fontSize={14} fontWeight={700} color="#B5B9D3">
+                    Balance
+                  </TYPE.body>
+                  <TYPE.body color="#B5B9D3">{xVoltBalance?.toSignificant()} xVOLT</TYPE.body>
+                </Stat>
+              </StatsCard>
+            </GradientBorder>
+            <GradientBorder
+              margin="0 0 8px 0"
+              padding="1.2rem 0"
+              background="linear-gradient(92.18deg, rgba(58, 216, 137, 0.25) -2.78%, rgba(243, 252, 31, 0.25) 102.81%);"
+            >
+              <AprCard>
+                <img src={fuseFiBoltLogo} alt="bolt" />
+                <AprText>Approximate APR {parseInt(String(apr))}%</AprText>
+                <img src={fuseFiBoltLogo} alt="bolt" />
+              </AprCard>
+            </GradientBorder>
+            <StakeCard>
+              <Tabs>
+                <TabPane active={isStake} onClick={() => setIsStake(true)}>
+                  Stake
+                </TabPane>
+                <TabPane active={!isStake} onClick={() => setIsStake(false)}>
+                  Unstake
+                </TabPane>
+              </Tabs>
+              <Tab isStake={isStake} account={account ?? undefined} balance={balance} />
+            </StakeCard>
+          </LargeColumn>
+          <SmallColumn>
+            <GradientBorder padding="15px" background="#0B0C13">
+              <TYPE.mediumHeader fontSize={16} marginBottom={16}>
+                Stake VOLT
+              </TYPE.mediumHeader>
+              <TYPE.body fontSize={14} marginBottom={16}>
+                Stake VOLT here and receive xVOLT as receipt representing your share of the pool. This pool
+                automatically compounds by using a portion of all trade fees to buy back VOLT which means the xVOLT to
+                VOLT ratio will grow over time!
+              </TYPE.body>
+              <TYPE.body fontSize={14} marginBottom={10}>
+                Like liquidity providing (LP), you will earn fees according to your share in the pool, and your xVOLT
+                receipt is needed as proof when claiming the rewards.
+              </TYPE.body>
+              <FuseFiIcon />
+            </GradientBorder>
+          </SmallColumn>
+        </AlignWrapper>
+      </Wrapper>
+    </AppBody>
   )
 }

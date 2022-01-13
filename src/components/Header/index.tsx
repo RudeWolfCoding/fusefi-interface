@@ -1,7 +1,7 @@
 import { ChainId } from '@fuseio/fuse-swap-sdk'
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Text } from 'rebass'
+import { Text } from 'rebass'
 import { useActiveWeb3React } from '../../hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
 import { RowBetween } from '../Row'
@@ -10,6 +10,7 @@ import { getNativeCurrencySymbol } from '../../utils'
 import { BINANCE_MAINNET_CHAINID, BINANCE_TESTNET_CHAINID } from '../../constants'
 import { ReactComponent as MenuIcon } from '../../assets/svg/ham_menu.svg'
 import { useToggleClaimModal, useToggleNavMenu } from '../../state/application/hooks'
+import { useUserUnclaimedAmount } from '../../state/claim/hooks'
 
 const HeaderFrame = styled.div`
   padding-right: 2.6%;
@@ -60,7 +61,8 @@ const NetworkCard = styled('div')`
   border: 1px solid #808080;
   color: #808080;
   width: fit-content;
-  font-size: 16px;
+  font-size: 12px;
+  font-family: 'Inter';
   line-height: 28px;
   margin-right: 10px;
   border-radius: 5px;
@@ -94,11 +96,35 @@ const StyledMenuIcon = styled(MenuIcon)`
   `}
 `
 
-const StyledButton = styled(Button)`
-  background-color: ${({ theme }) => theme.primary1};
-  color: black !important;
-  border-radius: 12px !important;
+const StyledButton = styled('div')`
+  background: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 15px;
+  position: relative;
+  border-radius: 5px;
   cursor: pointer;
+  padding: 7px 12px;
+  > span {
+    font-family: 'Inter';
+    font-weight: 600;
+    background: -webkit-linear-gradient(96.84deg, #3ad889 -30.84%, #f3fc1f 119.45%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    z-index: -1;
+    border-radius: 5px;
+    background: linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%);
+  }
 `
 
 export const NETWORK_LABELS: any = {
@@ -120,15 +146,19 @@ export default function Header() {
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
 
+  const userUnclaimedAmount = useUserUnclaimedAmount(account)
+
   return (
     <HeaderFrame>
-      <RowBetween style={{ alignItems: 'flex-start' }}>
+      <RowBetween style={{ alignItems: 'flex-start', height: '24px!important' }}>
         <HeaderElement>
           <StyledMenuIcon onClick={() => toggleNavMenu()} />
         </HeaderElement>
         <HeaderControls>
           <HeaderElement>
-            <StyledButton onClick={() => toggleClaimModal()}>VOLT</StyledButton>
+            <StyledButton onClick={() => toggleClaimModal()}>
+              <span>{userUnclaimedAmount ? `VOLT(${userUnclaimedAmount?.toSignificant()})` : 'VOLT'}</span>
+            </StyledButton>
             <TestnetWrapper>
               {chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>

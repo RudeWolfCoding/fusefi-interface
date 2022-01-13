@@ -15,29 +15,11 @@ import voltBolt from '../../assets/svg/voltBolt.svg'
 import voltAllocation from '../../assets/svg/voltAllocation.svg'
 import Underline from '../../assets/svg/underline.svg'
 import Airdrop from '../../assets/svg/Airdrop.svg'
-import Presale from '../../assets/svg/Presale.svg'
-import Ido from '../../assets/svg/IDO.svg'
+import Ido from '../../assets/svg/fuseRound.svg'
 import { useActiveWeb3React } from '../../hooks'
-const Styler = styled.div<{ error: boolean }>`
-  padding: 20px;
-  :after {
-    background: ${({ error }) =>
-      error
-        ? 'linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%)'
-        : 'linear-gradient(to bottom right, red, yellow)'};
-    content: '';
-    position: absolute;
-    border-radius: 20px;
-    width: 99%;
-    top: 0;
-    bottom: 1px;
-    left: -0.15px;
-    padding: 2px;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-  }
-`
+import { Text } from 'rebass'
+import { addTokenToWallet } from '../../utils'
+import { VOLT } from '../../constants'
 
 const InfoText = styled.div`
   font-family: Inter;
@@ -45,8 +27,6 @@ const InfoText = styled.div`
   font-size: 12px;
   line-height: 16px;
   color: #FFFFF;
-  padding-left: 10px;
-  padding-right: 53px;
   margin-bottom: 20px;
 `
 const Dot = styled.div<{ error: boolean }>`
@@ -72,13 +52,13 @@ const Wrapper = styled.div`
   margin: 0.5em;
   padding: 1rem;
   background: black;
-  border-radius: 20px;
+  border-radius: 5px;
 `
 
 const Main = styled.div`
   position: relative;
   padding: 14px;
-  border-radius: 20px;
+  border-radius: 5px;
   min-height: 300px;
   &:before {
     content: '';
@@ -88,7 +68,7 @@ const Main = styled.div`
     bottom: -17px;
     left: -17px;
     z-index: -1;
-    border-radius: 20px;
+    border-radius: 5px;
     background: linear-gradient(-91.13deg, #f3fc1f -3.23%, #f3fc1f 26.69%, #3ad8a4 156.49%);
   }
 `
@@ -113,13 +93,11 @@ margin-bottom: 12px;
 `
 const Card = styled.div`
   display: flex;
-  flex-wrap: wrap;
   margin: auto;
-  width: calc(33% - 1em);
   margin: 0.5em;
   padding: 1rem;
   background: black;
-  border-radius: 20px;
+  border-radius: 5px;
 `
 
 const Content = styled.div`
@@ -154,7 +132,7 @@ const Claims = styled.div`
 `
 export default function ClaimVoltModal() {
   const [stage, setStage] = useState(0)
-  const { account } = useActiveWeb3React()
+  const { account, library } = useActiveWeb3React()
   const [claimAccount, setClaimAccount] = useState('')
   const claimModalOpen = useClaimModalOpen()
   const toggleClaimModal = useToggleClaimModal()
@@ -184,66 +162,85 @@ export default function ClaimVoltModal() {
   return (
     <Modal
       isOpen={claimModalOpen}
-      onDismiss={toggleClaimModal}
-      backgroundColor={stage === 0 ? 'black' : 'transparent'}
-      maxWidth={stage === 0 ? '' : '850px'}
+      onDismiss={() => {
+        toggleClaimModal()
+        setStage(0)
+      }}
+      backgroundColor={'transparent'}
+      maxWidth={'850px'}
       maxHeight={stage === 0 ? 100 : 850}
     >
       {stage === 0 && (
-        <Styler error={claimAccount.length < 7 || userHasAvailableClaim}>
-          <AutoColumn gap="sm">
-            <Row>
-              <img src={VoltIcon} alt="" />
-              {userHasAvailableClaim ? (
-                <TYPE.largeHeader fontSize={30}>{userUnclaimedAmount?.toSignificant()} VOLT</TYPE.largeHeader>
-              ) : (
-                <TYPE.largeHeader fontSize={30}>VOLT</TYPE.largeHeader>
-              )}
-            </Row>
-            <RowCenter>
-              <InfoText>
-                Thanks for being an a user of Fusefi. You are receiving this token for using our service and being a
-                early supporter!
-              </InfoText>
-            </RowCenter>
-            <AddressInputPanel readOnly={true} value={claimAccount} onChange={setClaimAccount} chainId={ChainId.FUSE} />
-            {claimAccount.length < 7 ? (
-              <TYPE.main
-                fontSize={14}
-                fontWeight={400}
-                color="grey"
-                textAlign="center"
-                margin="0.5rem"
-                marginBottom="50px"
-              >
-                Please, connect your wallet below
-                <ButtonGradient onClick={toggleWalletModal}>Connect your wallet</ButtonGradient>
-              </TYPE.main>
-            ) : (
-              [
-                !userUnclaimedAmount?.greaterThan('0') && !userHasAvailableClaim ? (
+        <Claims style={{ justifyContent: 'space-around' }}>
+          <Card style={{ width: '400px' }}>
+            <Main style={{ margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
+              <AutoColumn gap="sm">
+                <Row>
+                  <img src={VoltIcon} alt="" />
+                  {userHasAvailableClaim ? (
+                    <TYPE.largeHeader fontSize={30}>{userUnclaimedAmount?.toSignificant()} VOLT</TYPE.largeHeader>
+                  ) : (
+                    <TYPE.largeHeader fontSize={30}>VOLT</TYPE.largeHeader>
+                  )}
+                </Row>
+                <RowCenter>
+                  <InfoText>
+                    Thanks for being an a user of Fusefi. You are receiving this token for using our service and being a
+                    early supporter!
+                  </InfoText>
+                </RowCenter>
+                <AddressInputPanel
+                  readOnly={true}
+                  value={claimAccount}
+                  onChange={setClaimAccount}
+                  chainId={ChainId.FUSE}
+                />
+                {claimAccount.length < 7 ? (
+                  <TYPE.main
+                    fontSize={14}
+                    fontWeight={400}
+                    color="grey"
+                    textAlign="center"
+                    margin="0.5rem"
+                    marginBottom="50px"
+                  >
+                    Please, connect your wallet below
+                    <ButtonGradient onClick={toggleWalletModal}>Connect your wallet</ButtonGradient>
+                  </TYPE.main>
+                ) : !userUnclaimedAmount?.greaterThan('0') && !userHasAvailableClaim ? (
                   <TYPE.main fontSize={14} fontWeight={400} color="#FF0000" marginTop="1rem" marginBottom="50px">
                     <Dot error={true} /> You are not eligible for the airdrop!
                   </TYPE.main>
                 ) : (
                   <TYPE.main fontSize={14} fontWeight={400} color="#1AFB2A" marginTop="1rem" marginBottom="50px">
                     <Dot error={false} />
-                    You are eligible for the airdprop
+                    You are eligible for the airdrop
                   </TYPE.main>
-                )
-              ]
-            )}
-            <Row padding={'10px'}>
-              <ButtonGradient
-                disabled={!userHasAvailableClaim}
-                error={!userHasAvailableClaim && !claimAccount}
-                onClick={() => setStage(stage + 1)}
-              >
-                Start the claiming process
-              </ButtonGradient>
-            </Row>
-          </AutoColumn>
-        </Styler>
+                )}
+                <Row paddingTop={'10px'}>
+                  <ButtonGradient
+                    disabled={!userHasAvailableClaim}
+                    error={!userHasAvailableClaim && !claimAccount}
+                    onClick={() => setStage(stage + 1)}
+                  >
+                    Start the claiming process
+                  </ButtonGradient>
+                </Row>
+                <Row>
+                  <ButtonGradientOutline
+                    style={{ boxShadow: ' 2px 1000px 1px black inset' }}
+                    onClick={() => {
+                      if (!library) return
+                      addTokenToWallet(VOLT, library)
+                    }}
+                  >
+                    <span>Add VOLT token to Wallet</span>
+                  </ButtonGradientOutline>
+                </Row>
+              </AutoColumn>
+            </Main>
+          </Card>
+        </Claims>
       )}
       {stage === 1 && (
         <Container>
@@ -333,10 +330,10 @@ export default function ClaimVoltModal() {
       )}
 
       {stage === 3 && (
-        <Claims>
+        <Row>
           <Card>
-            <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
-              <img src={Airdrop} alt="" style={{ width: '80%', paddingBottom: '14px', margin: 'auto' }} />
+            <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
+              <img src={Airdrop} alt="" style={{ width: '177px', paddingBottom: '14px', margin: 'auto' }} />
               <img src={VoltIcon} alt="" style={{ width: '65px', paddingBottom: '15px', margin: 'auto' }} />
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
               <Volt>Volt: {userUnclaimedAmount?.toSignificant()}</Volt>
@@ -346,31 +343,67 @@ export default function ClaimVoltModal() {
               </ButtonGradient>
             </Main>
           </Card>
-          <Card>
-            <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
-              <img src={Presale} alt="" style={{ width: '170px', paddingBottom: '14px', margin: 'auto' }} />
-              <img src={VoltIcon} alt="" style={{ width: '65px', paddingBottom: '15px', margin: 'auto' }} />
-              <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
-              <Volt>Volt: 000000</Volt>
-              <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
-              <ButtonGradient maxWidth={'100%'} marginTop={'33px'} onClick={() => setStage(0)}>
-                Claim
-              </ButtonGradient>
-            </Main>
-          </Card>
-
-          <Card>
-            <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
+          <Card style={{ width: '100 %!important' }}>
+            <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap', flexDirection: 'column' }}>
               <div style={{ display: 'flex', width: '100%', margin: 'auto' }}>
-                <img src={Ido} alt="" style={{ width: '67px', paddingBottom: '14px', margin: 'auto' }} />
+                <img src={Ido} alt="" style={{ width: '177px', paddingBottom: '14px', margin: 'auto' }} />
               </div>
               <img src={VoltIcon} alt="" style={{ width: '65px', paddingBottom: '15px', margin: 'auto' }} />
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
               <Volt>Volt: 000000</Volt>
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
-              <ButtonGradient maxWidth={'100%'} marginTop={'33px'} onClick={() => setStage(0)}>
+              <ButtonGradient maxWidth={'100%'} marginTop={'33px'} onClick={() => setStage(4)}>
                 Claim
               </ButtonGradient>
+            </Main>
+          </Card>
+        </Row>
+      )}
+
+      {stage === 4 && (
+        <Claims style={{ justifyContent: 'space-around' }}>
+          <Card style={{ background: '#242637', width: '470px' }}>
+            <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
+              <Text fontSize={'24px'} marginBottom={'15px'}>
+                Round
+              </Text>
+              {Array.from({ length: 5 }, (_, k) => (
+                <Row
+                  padding={'11px 15px 11px 29px'}
+                  backgroundColor={'black'}
+                  justifyContent={'space-between'}
+                  borderRadius={'12px'}
+                  marginBottom={'5px'}
+                >
+                  <Text> SWAP {k}</Text>
+                  <Text display={'flex'} alignItems={'center'} marginLeft={'20px'}>
+                    <img src={VoltIcon} alt="" style={{ width: '25px', paddingBottom: '-8px', margin: 'auto' }} />
+                    000000000
+                  </Text>
+                  <ButtonGradient width={'100px'} height={'32px'} padding={'0px'} onClick={() => setStage(stage + 1)}>
+                    Claim
+                  </ButtonGradient>
+                </Row>
+              ))}
+            </Main>
+          </Card>
+        </Claims>
+      )}
+
+      {stage === 5 && (
+        <Claims style={{ justifyContent: 'space-around' }}>
+          <Card style={{ width: '350px' }}>
+            <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
+              <Text fontSize={'24px'} marginBottom={'15px'}>
+                Text Text Text
+              </Text>
+              <Text>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi dolor minima eligendi et recusandae
+                voluptatum.
+              </Text>
+              <Row paddingTop={'10px'}>
+                <ButtonGradient onClick={() => setStage(0)}>Add VOLT token to Wallet</ButtonGradient>
+              </Row>
             </Main>
           </Card>
         </Claims>
