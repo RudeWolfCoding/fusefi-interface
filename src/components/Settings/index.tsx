@@ -15,7 +15,7 @@ import Modal from '../Modal'
 import { darken } from 'polished'
 
 const StyledMenuIcon = styled(Settings)`
-  height: 100%;
+  height: 90%;
   width: 18%;
   padding: 10px;
   padding-right: 0px;
@@ -48,7 +48,7 @@ const StyledMenuButton = styled.button`
   background-color: transparent;
   margin: 0;
   padding: 0;
-  padding: 0.15rem 32px;
+  padding: 0rem 32px;
   font-wight: 100;
   >span{
     line-height: 42px;
@@ -80,7 +80,7 @@ const EmojiWrapper = styled.div`
 const StyledMenu = styled.div`
   height: 100%;
   width: 100%;
-  height: 48px;
+  height: 40px;
   bottom: 0;
   left: 0;
   border: none;

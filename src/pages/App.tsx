@@ -26,6 +26,7 @@ import Menu from '../components/Menu'
 import MobileNav from '../components/MobileNav'
 import ClaimVoltModal from '../components/ClaimVoltModal'
 import Stake from './Stake'
+import Portfolio from './Portfolio'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -96,6 +97,7 @@ export default function App() {
                   <Route exact path="/farm/:networkId/:address/:pid" component={Reward} />
                   <Route exact strict path="/lending" component={Lending} />
                   <Route exact path="/stake" component={Stake} />
+                  <Route exact path="/portfolio" component={Portfolio} />
                   <Route component={RedirectToDefault} />
                 </Switch>
               </Web3ReactManager>

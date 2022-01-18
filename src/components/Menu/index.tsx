@@ -10,7 +10,8 @@ import { ReactComponent as HomeIcon } from '../../assets/svg/home.svg'
 import { ReactComponent as LendingIcon } from '../../assets/svg/lend.svg'
 import { ReactComponent as GovernanceIcon } from '../../assets/svg/governance.svg'
 import { ReactComponent as Analytics } from '../../assets/svg/analyticsMenu.svg'
-import { ReactComponent as StakeIcon } from '../../assets/svg/stake.svg'
+import { ReactComponent as Stake } from '../../assets/svg/stake.svg'
+import { ReactComponent as PortfolioIcon } from '../../assets/svg/portfolio.svg'
 
 import telegram from '../../assets/svg/telegram.svg'
 import twitter from '../../assets/svg/twitter.svg'
@@ -72,7 +73,7 @@ const UniIcon = styled.div`
   }
   > svg #icon {
     padding: 0.35rem;
-    stroke-width: 1px;
+    stroke-width: 0.5px;
     stroke: ${({ theme }) => theme.text2};
     ${({ theme }) => theme.mediaWidth.upToSmall`
       width: 7.5rem;
@@ -218,7 +219,7 @@ const MenuItemWrapper = styled.div`
 
 const MenuWrapper = styled.div`
   display: block;
-  height: 62%;
+  height: 85%;
   width: 100%;
   overflow: auto;
   position: relative;
@@ -284,7 +285,7 @@ const Logo = styled.img.attrs({
   width: '210px',
   alt: 'FuseFi Logo'
 })`
-  padding: 25px 0 30px 0px;
+  padding: 25px 0 25px 0px;
 `
 
 const Links = styled.div`
@@ -316,6 +317,24 @@ const WhiteText = styled.span`
 const GreyText = styled.span`
   color: gray;
 `
+const Claim = styled.span`
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  padding: 15px;
+  color: #b5b9d3;
+  > div {
+    font-size: 10px;
+    margin-left: 5px;
+    font-weight: 500;
+    line-height: 14px;
+    padding: 4px;
+    background: #3ad889;
+    color: black;
+    border-radius: 3px;
+  }
+`
+
 export default function Sidebar() {
   const node = useRef<HTMLDivElement>()
   const openRampWidget = useRampWidget()
@@ -363,7 +382,7 @@ export default function Sidebar() {
           <MenuItemInternal to="/stake">
             <MenuItemWrapper>
               <IconWrapper>
-                <StakeIcon />
+                <Stake />
               </IconWrapper>
               <span>Stake</span>
             </MenuItemWrapper>
@@ -384,6 +403,17 @@ export default function Sidebar() {
               <span>Lending</span>
             </MenuItemWrapper>
           </MenuItemInternal>
+          <MenuItemInternal to="/portfolio">
+            <MenuItemWrapper>
+              <IconWrapper>
+                <PortfolioIcon />
+              </IconWrapper>
+              <span>Portfolio</span>
+              <Claim>
+                <div>Claim</div>
+              </Claim>
+            </MenuItemWrapper>
+          </MenuItemInternal>
           <MenuItemInternal to="/wallet">
             <MenuItemWrapper>
               <IconWrapper>
@@ -395,7 +425,7 @@ export default function Sidebar() {
           </MenuItemInternal>
         </MenuWrapper>
         <SubMenuWrapper>
-          <MenuItemExternal id="link" href="https://info.fuseswap.com/">
+          <MenuItemExternal style={{ height: '40px' }} id="link" href="https://info.fuseswap.com/">
             <MenuItemWrapper>
               <IconWrapper>
                 <Analytics />
@@ -403,8 +433,8 @@ export default function Sidebar() {
               <span>Analytics</span>
             </MenuItemWrapper>
           </MenuItemExternal>
-          <Ramp onClick={openRampWidget}>
-            <MenuItem>
+          <Ramp onClick={openRampWidget} style={{ height: '40px' }}>
+            <MenuItem style={{ height: '40px' }}>
               <MenuItemWrapper>
                 <IconWrapper>
                   <FUSD />
