@@ -14,6 +14,7 @@ import PEG_SWAP_ABI from '../constants/abis/pegSwap.json'
 import COMPTROLLER_ABI from '../constants/abis/comptroller.json'
 import COMPOUND_LENS_ABI from '../constants/abis/compoundLens.json'
 import MERKLE_DISTRIBUTOR_ABI from '../constants/abis/merkleDistributor.json'
+import VESTING_ABI from '../constants/abis/vesting.json'
 import XVOLT_ABI from '../constants/abis/xVolt.json'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../constants/v1'
@@ -129,4 +130,8 @@ export function useMerkleDistributorContract(): Contract | null {
 
 export function useXVoltContract(): Contract | null {
   return useContract(XVOLT_ADDRESS, XVOLT_ABI)
+}
+
+export function useVestingContract(vestingAddress?: string, withSignerIfPossible = false): Contract | null {
+  return useContract(vestingAddress, VESTING_ABI, withSignerIfPossible)
 }

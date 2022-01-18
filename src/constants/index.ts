@@ -204,6 +204,10 @@ export const MASTERCHEF_V3_ADDRESS: { readonly [chainId in ChainId]?: string } =
   [ChainId.FUSE]: '0x7c416513BEf5D21950af85742d9644F387Dd08F4'
 }
 
+export const TOKENSWAP_VESTING_ADDRESSES: { [key: string]: string } = {
+  A: '0xc91247d3d56531FEa9C2ebaCF41eaA768da2a429'
+}
+
 export interface WalletInfo {
   connector?: AbstractConnector
   name: string

@@ -11,6 +11,8 @@ import { BINANCE_MAINNET_CHAINID, BINANCE_TESTNET_CHAINID } from '../../constant
 import { ReactComponent as MenuIcon } from '../../assets/svg/ham_menu.svg'
 import { useToggleClaimModal, useToggleNavMenu } from '../../state/application/hooks'
 import { useUserUnclaimedAmount } from '../../state/claim/hooks'
+import { useVestingTotalUnclaimedAmount } from '../../state/vesting/hooks'
+import { formatEther } from 'ethers/lib/utils'
 
 const HeaderFrame = styled.div`
   padding-right: 2.6%;
@@ -148,6 +150,8 @@ export default function Header() {
 
   const userUnclaimedAmount = useUserUnclaimedAmount(account)
 
+  const vestingClaimableAmount = useVestingTotalUnclaimedAmount()
+
   return (
     <HeaderFrame>
       <RowBetween style={{ alignItems: 'flex-start', height: '24px!important' }}>
@@ -157,7 +161,12 @@ export default function Header() {
         <HeaderControls>
           <HeaderElement>
             <StyledButton onClick={() => toggleClaimModal()}>
-              <span>{userUnclaimedAmount ? `VOLT(${userUnclaimedAmount?.toSignificant()})` : 'VOLT'}</span>
+              <span>
+                {userUnclaimedAmount
+                  ? `VOLT(${parseInt(userUnclaimedAmount?.toSignificant() ?? '0') +
+                      parseInt(formatEther(vestingClaimableAmount))})`
+                  : 'VOLT'}
+              </span>
             </StyledButton>
             <TestnetWrapper>
               {chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}

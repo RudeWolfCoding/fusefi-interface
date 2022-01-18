@@ -16,10 +16,13 @@ import voltAllocation from '../../assets/svg/voltAllocation.svg'
 import Underline from '../../assets/svg/underline.svg'
 import Airdrop from '../../assets/svg/Airdrop.svg'
 import Ido from '../../assets/svg/fuseRound.svg'
-import { useActiveWeb3React } from '../../hooks'
+import { useActiveWeb3React, useInjectedProvider } from '../../hooks'
 import { Text } from 'rebass'
 import { addTokenToWallet } from '../../utils'
 import { VOLT } from '../../constants'
+import ClaimVestingTable from '../ClaimVestingTable'
+import { useVestingTotalUnclaimedAmount } from '../../state/vesting/hooks'
+import { formatEther } from 'ethers/lib/utils'
 
 const InfoText = styled.div`
   font-family: Inter;
@@ -132,6 +135,7 @@ const Claims = styled.div`
 `
 export default function ClaimVoltModal() {
   const [stage, setStage] = useState(0)
+  const injected = useInjectedProvider()
   const { account, library } = useActiveWeb3React()
   const [claimAccount, setClaimAccount] = useState('')
   const claimModalOpen = useClaimModalOpen()
@@ -141,6 +145,10 @@ export default function ClaimVoltModal() {
   const userUnclaimedAmount = useUserUnclaimedAmount(claimAccount)
   const userHasAvailableClaim = useUserHasAvailableClaim(claimAccount)
   const claimCallback = useClaimCallback(claimAccount)
+
+  const vestingClaimableAmount = useVestingTotalUnclaimedAmount()
+
+  const chainId = parseInt(injected?.chainId ?? '', 16)
 
   const onClaim = useCallback(async () => {
     try {
@@ -178,7 +186,11 @@ export default function ClaimVoltModal() {
                 <Row>
                   <img src={VoltIcon} alt="" />
                   {userHasAvailableClaim ? (
-                    <TYPE.largeHeader fontSize={30}>{userUnclaimedAmount?.toSignificant()} VOLT</TYPE.largeHeader>
+                    <TYPE.largeHeader fontSize={30}>
+                      {parseInt(userUnclaimedAmount?.toSignificant() ?? '0') +
+                        parseInt(formatEther(vestingClaimableAmount))}{' '}
+                      VOLT
+                    </TYPE.largeHeader>
                   ) : (
                     <TYPE.largeHeader fontSize={30}>VOLT</TYPE.largeHeader>
                   )}
@@ -206,6 +218,10 @@ export default function ClaimVoltModal() {
                   >
                     Please, connect your wallet below
                     <ButtonGradient onClick={toggleWalletModal}>Connect your wallet</ButtonGradient>
+                  </TYPE.main>
+                ) : chainId !== ChainId.FUSE ? (
+                  <TYPE.main fontSize={14} fontWeight={400} color="#FF0000" marginTop="1rem" marginBottom="50px">
+                    <Dot error={true} /> Please switch to Fuse
                   </TYPE.main>
                 ) : !userUnclaimedAmount?.greaterThan('0') && !userHasAvailableClaim ? (
                   <TYPE.main fontSize={14} fontWeight={400} color="#FF0000" marginTop="1rem" marginBottom="50px">
@@ -350,7 +366,7 @@ export default function ClaimVoltModal() {
               </div>
               <img src={VoltIcon} alt="" style={{ width: '65px', paddingBottom: '15px', margin: 'auto' }} />
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
-              <Volt>Volt: 000000</Volt>
+              <Volt>Volt: {parseInt(formatEther(vestingClaimableAmount))}</Volt>
               <img src={Underline} alt="" style={{ width: '100%', margin: 'auto' }} />
               <ButtonGradient maxWidth={'100%'} marginTop={'33px'} onClick={() => setStage(4)}>
                 Claim
@@ -360,35 +376,7 @@ export default function ClaimVoltModal() {
         </Row>
       )}
 
-      {stage === 4 && (
-        <Claims style={{ justifyContent: 'space-around' }}>
-          <Card style={{ background: '#242637', width: '470px' }}>
-            <Main style={{ width: '100%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
-              <Text fontSize={'24px'} marginBottom={'15px'}>
-                Round
-              </Text>
-              {Array.from({ length: 5 }, (_, k) => (
-                <Row
-                  padding={'11px 15px 11px 29px'}
-                  backgroundColor={'black'}
-                  justifyContent={'space-between'}
-                  borderRadius={'12px'}
-                  marginBottom={'5px'}
-                >
-                  <Text> SWAP {k}</Text>
-                  <Text display={'flex'} alignItems={'center'} marginLeft={'20px'}>
-                    <img src={VoltIcon} alt="" style={{ width: '25px', paddingBottom: '-8px', margin: 'auto' }} />
-                    000000000
-                  </Text>
-                  <ButtonGradient width={'100px'} height={'32px'} padding={'0px'} onClick={() => setStage(stage + 1)}>
-                    Claim
-                  </ButtonGradient>
-                </Row>
-              ))}
-            </Main>
-          </Card>
-        </Claims>
-      )}
+      {stage === 4 && <ClaimVestingTable />}
 
       {stage === 5 && (
         <Claims style={{ justifyContent: 'space-around' }}>
