@@ -147,6 +147,7 @@ export default function ClaimVoltModal() {
   const claimCallback = useClaimCallback(claimAccount)
 
   const vestingClaimableAmount = useVestingTotalUnclaimedAmount()
+  const userHasAvailableVestingClaim = vestingClaimableAmount?.gt('0')
 
   const chainId = parseInt(injected?.chainId ?? '', 16)
 
@@ -185,15 +186,11 @@ export default function ClaimVoltModal() {
               <AutoColumn gap="sm">
                 <Row>
                   <img src={VoltIcon} alt="" />
-                  {userHasAvailableClaim ? (
-                    <TYPE.largeHeader fontSize={30}>
-                      {parseInt(userUnclaimedAmount?.toSignificant() ?? '0') +
-                        parseInt(formatEther(vestingClaimableAmount))}{' '}
-                      VOLT
-                    </TYPE.largeHeader>
-                  ) : (
-                    <TYPE.largeHeader fontSize={30}>VOLT</TYPE.largeHeader>
-                  )}
+                  <TYPE.largeHeader fontSize={30}>
+                    {parseInt(userUnclaimedAmount?.toSignificant() ?? '0') +
+                      parseInt(formatEther(vestingClaimableAmount))}{' '}
+                    VOLT
+                  </TYPE.largeHeader>
                 </Row>
                 <RowCenter>
                   <InfoText>
@@ -223,20 +220,22 @@ export default function ClaimVoltModal() {
                   <TYPE.main fontSize={14} fontWeight={400} color="#FF0000" marginTop="1rem" marginBottom="50px">
                     <Dot error={true} /> Please switch to Fuse
                   </TYPE.main>
-                ) : !userUnclaimedAmount?.greaterThan('0') && !userHasAvailableClaim ? (
+                ) : !userUnclaimedAmount?.greaterThan('0') &&
+                  !userHasAvailableClaim &&
+                  !userHasAvailableVestingClaim ? (
                   <TYPE.main fontSize={14} fontWeight={400} color="#FF0000" marginTop="1rem" marginBottom="50px">
-                    <Dot error={true} /> You are not eligible for the airdrop!
+                    <Dot error={true} /> You are not eligible for the claim!
                   </TYPE.main>
                 ) : (
                   <TYPE.main fontSize={14} fontWeight={400} color="#1AFB2A" marginTop="1rem" marginBottom="50px">
                     <Dot error={false} />
-                    You are eligible for the airdrop
+                    You are eligible for the claim
                   </TYPE.main>
                 )}
                 <Row paddingTop={'10px'}>
                   <ButtonGradient
-                    disabled={!userHasAvailableClaim}
-                    error={!userHasAvailableClaim && !claimAccount}
+                    disabled={!userHasAvailableClaim && !userHasAvailableVestingClaim}
+                    error={!userHasAvailableClaim && !claimAccount && !userHasAvailableVestingClaim}
                     onClick={() => setStage(stage + 1)}
                   >
                     Start the claiming process

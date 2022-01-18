@@ -162,10 +162,8 @@ export default function Header() {
           <HeaderElement>
             <StyledButton onClick={() => toggleClaimModal()}>
               <span>
-                {userUnclaimedAmount
-                  ? `VOLT(${parseInt(userUnclaimedAmount?.toSignificant() ?? '0') +
-                      parseInt(formatEther(vestingClaimableAmount))})`
-                  : 'VOLT'}
+                {parseInt(userUnclaimedAmount?.toSignificant() ?? '0') + parseInt(formatEther(vestingClaimableAmount))}{' '}
+                VOLT
               </span>
             </StyledButton>
             <TestnetWrapper>
