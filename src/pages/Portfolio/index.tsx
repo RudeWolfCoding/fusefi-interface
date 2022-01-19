@@ -138,7 +138,7 @@ export default function HomePrices() {
         <Card title="Total Supply" value={'$ 4500'} />
         <CardWrap>
           <Title>
-            <img src={volt} />
+            <img src={volt} alt="icon" />
             500
           </Title>
           <ValueWrapper>
@@ -165,14 +165,14 @@ export default function HomePrices() {
             <Positions>
               <div>
                 <span>
-                  <img src={fUSD} style={{ marginBottom: '-3px' }}></img> FUSD -{' '}
-                  <img src={volt} style={{ marginBottom: '-9px' }}></img>VOLT
+                  <img src={fUSD} style={{ marginBottom: '-3px' }} alt="icon"></img> FUSD -{' '}
+                  <img src={volt} style={{ marginBottom: '-9px' }} alt="icon"></img>VOLT
                 </span>{' '}
                 770
               </div>
               <div>
                 <span>
-                  <img src={weth}></img> WETH - <img src={btc} style={{ marginBottom: '-9px' }}></img>BTC
+                  <img src={weth} alt="icon"></img> WETH - <img src={btc} style={{ marginBottom: '-9px' }} alt="icon"></img>BTC
                 </span>{' '}
                 770
               </div>
@@ -186,12 +186,12 @@ export default function HomePrices() {
                   Next unvesting in: <b>01:00:00</b>
                 </span>{' '}
                 <span>
-                  <img src={volt} style={{ marginBottom: '-9px' }}></img>10
+                  <img src={volt} style={{ marginBottom: '-9px' }} alt="icon"></img>10
                 </span>
               </div>
               <div>
                 <span>
-                  Total vested: <img src={volt} style={{ marginBottom: '-9px' }} />
+                  Total vested: <img src={volt} style={{ marginBottom: '-9px' }} alt="icon" />
                   10
                 </span>
               </div>
@@ -202,9 +202,9 @@ export default function HomePrices() {
           <p>STAKING</p>
           <p>VOLT</p>
           <h2>APR 23.84%</h2>
-          <img src={fuse} style={{ margin: 'auto' }} alt="" width="150px" />
+          <img src={fuse} style={{ margin: 'auto' }} alt="icon" width="150px" />
           <div style={{ position: 'absolute', top: '15px', right: '15px' }}>
-            <img src={link} alt="" />
+            <img src={link} alt="icon" />
           </div>
         </RightPanel>
       </Wrapper>

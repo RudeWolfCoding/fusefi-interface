@@ -8,7 +8,12 @@ import { useVestingClaimableIds, useVestingTotalUnclaimedAmounts } from '../../s
 import { useVestingContract } from '../../hooks/useContract'
 import { useActiveWeb3React } from '../../hooks'
 
-export default function ClaimVestingTableRow({ vestingAddress }: any) {
+interface ClaimVestingTableRowProps {
+  vestingAddress: string
+  name: string
+}
+
+export default function ClaimVestingTableRow({ vestingAddress, name }: ClaimVestingTableRowProps) {
   const { account } = useActiveWeb3React()
   const vestingContract = useVestingContract(vestingAddress, true)
   const userUnclaimedAmounts: any = useVestingTotalUnclaimedAmounts(vestingAddress, account ?? undefined)
@@ -34,7 +39,7 @@ export default function ClaimVestingTableRow({ vestingAddress }: any) {
       borderRadius={'12px'}
       marginBottom={'5px'}
     >
-      <Text> SWAP</Text>
+      <Text>SWAP {name}</Text>
       <Text display={'flex'} alignItems={'center'} marginLeft={'20px'}>
         <img src={VoltIcon} alt="" style={{ width: '25px', paddingBottom: '-8px', margin: 'auto' }} />
         {parseInt(formatEther(userUnclaimedAmounts))}

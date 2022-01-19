@@ -36,13 +36,15 @@ export function useMasterChefV3Farms({ shouldFetch }: UseChefFarmProps) {
 export function useChefFarms(chainId?: ChainId) {
   const shouldFetch = chainId === ChainId.FUSE
 
-  const masterChefV2Farms = useMasterChefV2Farms({ shouldFetch })
-  const masterChefV3Farms = useMasterChefV3Farms({ shouldFetch })
+  // const masterChefV2Farms = useMasterChefV2Farms({ shouldFetch })
+  // const masterChefV3Farms = useMasterChefV3Farms({ shouldFetch })
 
-  return useMemo(() => masterChefV2Farms.concat(masterChefV3Farms).filter((pool: any) => pool && pool.pair), [
-    masterChefV2Farms,
-    masterChefV3Farms
-  ])
+  // return useMemo(() => masterChefV2Farms.concat(masterChefV3Farms).filter((pool: any) => pool && pool.pair), [
+  //   masterChefV2Farms,
+  //   masterChefV3Farms
+  // ])
+
+  return useMasterChefV2Farms({ shouldFetch })
 }
 
 export function useVoltPrice() {

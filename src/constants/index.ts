@@ -136,7 +136,7 @@ export const FUSE_BUSD = new Token(
 
 export const FUSE_BNB = new Token(ChainId.FUSE, BNB_FOREIGN_TOKEN_ADDRESS, 18, 'BNB', 'BNB on Fuse')
 
-export const XVOLT_ADDRESS = '0xaf1815C8279975AC397Bd5b102aD551983835775'
+export const XVOLT_ADDRESS = '0x8685F405A5f9083761e32a34cACAcBc6265a02B4'
 
 export const VOLT = new Token(ChainId.FUSE, VOLT_ADDRESS, 18, 'VOLT', 'Volt')
 export const xVOLT = new Token(ChainId.FUSE, XVOLT_ADDRESS, 18, 'xVOLT', 'xVolt')
@@ -197,7 +197,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
 }
 
 export const MASTERCHEF_V2_ADDRESS: { readonly [chainId in ChainId]?: string } = {
-  [ChainId.FUSE]: '0x517083dCAf665A0a9c166cCA21f37243aC9fb9eE'
+  [ChainId.FUSE]: '0x89c77020558a5BAE4e3D873BA1615Aaf4eEd83e7'
 }
 
 export const MASTERCHEF_V3_ADDRESS: { readonly [chainId in ChainId]?: string } = {
@@ -205,7 +205,10 @@ export const MASTERCHEF_V3_ADDRESS: { readonly [chainId in ChainId]?: string } =
 }
 
 export const TOKENSWAP_VESTING_ADDRESSES: { [key: string]: string } = {
-  A: '0xc91247d3d56531FEa9C2ebaCF41eaA768da2a429'
+  A: '0xA721F19Cbf273460Fb46Dbdac0eE3bF236e51e78',
+  B: '0xb3fD8E2c773Eb39A557073e09b02C18B0dfc1fe8',
+  C: '0x938b838BF1EEDD11b5Ee812865Ad35671f3A7854',
+  D: '0x0e5A1b9d6A12D81d4b0f389FC3525eB66E060B89'
 }
 
 export interface WalletInfo {

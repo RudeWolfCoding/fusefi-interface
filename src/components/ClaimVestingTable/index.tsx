@@ -47,7 +47,7 @@ export default function ClaimVestingTable() {
             Round
           </Text>
           {Object.keys(TOKENSWAP_VESTING_ADDRESSES).map((key: string) => (
-            <ClaimVestingTableRow key={key} vestingAddress={TOKENSWAP_VESTING_ADDRESSES[key]} />
+            <ClaimVestingTableRow key={key} name={key} vestingAddress={TOKENSWAP_VESTING_ADDRESSES[key]} />
           ))}
         </Main>
       </Card>

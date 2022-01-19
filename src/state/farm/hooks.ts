@@ -111,13 +111,12 @@ async function fetchFarms(account?: string) {
     const multiContracts = await fetchNetworksContracts()
     const multiFarm = await Promise.all(Object.values(multiContracts).map((farm: any) => fetchFarm(farm, account)))
 
-    const [chefV2Farms, chefV3Farms] = await Promise.all([getMasterChefV2Farms(), getMasterChefV3Farms()])
+    const [chefV2Farms] = await Promise.all([getMasterChefV2Farms(), getMasterChefV3Farms()])
     const chefFarms = await Promise.all(
       [
         ...chefV2Farms
           .map((farm: any) => ({ ...farm, chef: Chef.MASTERCHEF_V2 }))
-          .filter((farm: any) => farm.id === '1'),
-        ...chefV3Farms.map((farm: any) => ({ ...farm, chef: Chef.MASTERCHEF_V3 }))
+          .filter((farm: any) => farm.id === '1')
       ].map((farm: any) => fetchChefFarm(farm, account))
     )
 

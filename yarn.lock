@@ -1789,10 +1789,10 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
-"@fuseio/earn-sdk@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@fuseio/earn-sdk/-/earn-sdk-0.3.0.tgz#49f9571d903c1014dd592f47cf1c97b2760dc91b"
-  integrity sha512-7Y8Kg+X/eJ1jNDvhCrh51xjc1QOm2G2uFuY5/ke2QAVBNum7xtUUL9cUygtWnfmKb376sKTS/gUOtQ84Mf8wWw==
+"@fuseio/earn-sdk@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@fuseio/earn-sdk/-/earn-sdk-0.3.2.tgz#4399d537547300a27004eb57e9002806aad467b6"
+  integrity sha512-FP87PuIkbzDt61cvcl0+wCOeQnIoZZjwAAPCoiQaRc6ev7/mvR1zmhlOg5t1lTGhqGiQxYeyoOuBYqlwdVnSHQ==
   dependencies:
     "@apollo/client" "^3.3.21"
     bignumber.js "^9.0.1"

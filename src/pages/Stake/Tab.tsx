@@ -75,7 +75,7 @@ export default function Tab({
   const xVoltTotalSupply = useXVoltTotalSupply()
 
   const xVoltRatio =
-    !!xVoltContractVoltBalance && !!xVoltTotalSupply
+    !!xVoltContractVoltBalance && !!xVoltTotalSupply && xVoltTotalSupply?.greaterThan('0')
       ? JSBI.divide(JSBI.BigInt(xVoltContractVoltBalance.raw), JSBI.BigInt(xVoltTotalSupply.raw))
       : undefined
 
