@@ -23,8 +23,9 @@ import { Wrapper, Loader, DestinationWrapper } from '../../components/bridge/sty
 import styled, { ThemeContext } from 'styled-components'
 import { BottomGrouping } from '../../components/bridge/styleds'
 import { ButtonGradient, ButtonPrimary } from '../../components/Button'
-import ethLogo from '../../assets/images/ethereum-logo.png'
-import bnbLogo from '../../assets/svg/bnb.svg'
+import ethLogo from '../../assets/svg/eth-volt.svg'
+import bnbLogo from '../../assets/svg/bsc-volt.svg'
+import fuseLogo from '../../assets/svg/fuse-cropped.svg'
 import loader from '../../assets/svg/loader.svg'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
@@ -56,14 +57,16 @@ import { AppWrapper, AppWrapperInner } from '../../components/swap/styleds'
 import ClaimAmbTransferModal from '../../components/ClaimAmbTransferModal'
 import ClaimNativeTransferModal from '../../components/ClaimNativeTransferModal'
 import { useAsyncMemo } from 'use-async-memo'
+import ImportantIcon from '../../assets/svg/important.svg'
 
 export const GradientWrapper = styled(Wrapper)`
-display: flex;
-flex-direction: column;
-border: double 1px transparent;
-background-image: linear-gradient(#242637, #242637),  linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(243,252,31,1) 100%);
-background-origin: border-box;
-background-clip: content-box, border-box;
+  display: flex;
+  flex-direction: column;
+  border: double 1px transparent;
+  background-image: linear-gradient(#242637, #242637),
+    linear-gradient(90deg, rgba(255, 0, 0, 1) 0%, rgba(243, 252, 31, 1) 100%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
 `
 
 export default function Bridge() {
@@ -125,6 +128,8 @@ export default function Bridge() {
   const [addTokenModalOpen, setAddTokenModalOpen] = useState(false)
 
   const [claimTransferModalOpen, setClaimTransferModalOpen] = useState(false)
+
+  const [limitReached] = useState(true)
 
   const formattedAmounts = {
     [independentField]: typedValue
@@ -295,8 +300,10 @@ export default function Bridge() {
       <AppBody>
         <AppWrapper>
           <AppWrapperInner>
-            <h1>Bridge</h1>
-            <Wrapper style={{ padding: '10px' }} margin={true}>
+            <TYPE.main lineHeight={'39px'} fontSize={32} fontWeight={600} color="#FFFFF" marginBottom="18px">
+              Bridge
+            </TYPE.main>
+            <Wrapper style={{ padding: '10px', marginBottom: '10px' }}>
               <AutoSwitchNetwork chainId={sourceChain} />
               <UnsupportedBridgeTokenModal isOpen={modalOpen} setIsOpen={setModalOpen} />
               <FeeModal isOpen={feeModalOpen} onDismiss={() => setFeeModalOpen(false)} />
@@ -326,8 +333,8 @@ export default function Bridge() {
                 />
               )}
               {isHome ? (
-                <AutoColumn gap="md">
-                  <TYPE.mediumHeader textAlign={'center'} color={theme.white} fontSize={16} marginTop={2}>
+                <AutoColumn gap="16px">
+                  <TYPE.mediumHeader textAlign={'center'} color={theme.white} fontSize={16}>
                     Select Destination
                   </TYPE.mediumHeader>
                   <DestinationWrapper>
@@ -359,20 +366,22 @@ export default function Bridge() {
                   <DestinationWrapper>
                     <DestinationButton
                       text="Fuse"
-                      logoSrc={ethLogo}
+                      logoSrc={fuseLogo}
                       color={theme.ethereum}
                       colorSelect="rgba(98, 126, 234, 0.2)"
-                      handleClick={() => {}}
+                      handleClick={() => {
+                        console.log('click')
+                      }}
                     />
                   </DestinationWrapper>
                 </AutoColumn>
               )}
             </Wrapper>
             <MainCard>
-              <TYPE.mediumHeader color={theme.text2} fontSize={16} marginBottom={2}>
+              <TYPE.mediumHeader color={'#B5B9D3'} fontSize={14} fontWeight={500} marginBottom={2}>
                 Select Currency
               </TYPE.mediumHeader>
-              <Wrapper id="bridge-page" style={{ paddingInline: '40px' }} margin={true}>
+              <Wrapper id="bridge-page" style={{ paddingInline: '40px' }}>
                 <AutoColumn gap={'md'}>
                   <CurrencyInputPanel
                     bridge={true}
@@ -459,21 +468,68 @@ export default function Bridge() {
                 />
               </Wrapper>
             </MainCard>
-            {isAccountContract && (
-              <Wrapper style={{ marginTop: '10px', padding: '30px' }}>
-                <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
-                  Important! - We currently dont support bridge transactions sent from a wallet contract (like
-                  FuseCash). Your funds are probably going to get lost if you transfer.
+            {limitReached && (
+              <GradientWrapper style={{ marginTop: '10px' }}>
+                <img
+                  src={ImportantIcon}
+                  alt={'important'}
+                  style={{ width: '10px', margin: '10px', marginBottom: '0px' }}
+                />
+                <TYPE.main
+                  padding={'40px'}
+                  paddingTop={'3px'}
+                  paddingBottom={'3px'}
+                  textAlign={'center'}
+                  fontSize={14}
+                  fontWeight={400}
+                  color="#FFFFF"
+                >
+                  Bridge network limit has been reached for this token, please select other or wait to the network
+                  resets
                 </TYPE.main>
-                .
-              </Wrapper>
+                <TYPE.main
+                  width={'100%'}
+                  textAlign={'center'}
+                  fontSize={16}
+                  fontWeight={700}
+                  color="#FFFFF"
+                  marginBottom={'10px'}
+                >
+                  12:00:00
+                </TYPE.main>
+              </GradientWrapper>
+            )}
+            {isAccountContract && (
+              <GradientWrapper style={{ marginTop: '10px' }}>
+                <TYPE.main
+                  width={'100%'}
+                  textAlign={'center'}
+                  fontSize={16}
+                  fontWeight={600}
+                  color="#FFFFF"
+                  marginTop="12px"
+                >
+                  Important!
+                </TYPE.main>
+                <TYPE.main padding={10} textAlign={'center'} fontSize={14} fontWeight={400} color="#FFFFF">
+                  We currently dont support bridge transactions sent from a wallet contract (like FuseCash). Your funds
+                  are probably going to get lost if you transfer.{' '}
+                </TYPE.main>
+              </GradientWrapper>
             )}
             {bridgeDirection === BridgeDirection.FUSE_TO_ETH && (
               <GradientWrapper style={{ marginTop: '10px' }}>
-                <TYPE.main width={'100%'} textAlign={'center'} fontSize={16} fontWeight={600} color="#FFFFF" marginTop="12px">
+                <TYPE.main
+                  width={'100%'}
+                  textAlign={'center'}
+                  fontSize={16}
+                  fontWeight={600}
+                  color="#FFFFF"
+                  marginTop="12px"
+                >
                   Important!
                 </TYPE.main>
-                <TYPE.main padding={10} textAlign={'center'} fontSize={14} fontWeight={400} color="#FFFFF" marginTop="6px">
+                <TYPE.main padding={10} textAlign={'center'} fontSize={14} fontWeight={400} color="#FFFFF">
                   Ethereum claim fees apply and will be paid by the user, be aware of the gas costs
                 </TYPE.main>
               </GradientWrapper>

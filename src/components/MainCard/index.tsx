@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const SwapWrapper = styled('div')`
   position: relative;
-  padding: 1rem;
+  padding: 12px 16px;
   width: 100%;
   background: ${({ theme }) => theme.bg1};
   border: solid 2px #000000;

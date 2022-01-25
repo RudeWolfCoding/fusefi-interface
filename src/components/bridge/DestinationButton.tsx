@@ -10,14 +10,16 @@ export const Button = styled.button<{ isActive?: boolean; colorSelect?: string }
   justify-content: center;
   padding: 1rem;
   width: 165px;
+  height: 37px;
   margin: 2px;
   font-size: 1rem;
   padding: 0.5rem 3rem;
   color: white;
   box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
-  border: solid 1.5px white;
+  border: solid 0.5px white;
+  filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.1));
   background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
-    linear-gradient(130.47deg, #3ad889 -6.17%, #f3fc1f 108.46%);
+    linear-gradient(317deg, #3ad889ab -6.17%, #f3fc1f9c 108.46%);
   background-origin: border-box;
   background-clip: content-box, border-box;
   box-shadow: 2px 1000px 1px #232535 inset;

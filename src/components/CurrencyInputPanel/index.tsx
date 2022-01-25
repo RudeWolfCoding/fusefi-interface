@@ -22,8 +22,7 @@ const InputRow = styled.div<{ selected: boolean }>`
   background: ${({ theme }) => theme.bg2};
   padding: 6px 14px 6px 14px;
   border-radius: 12px;
-  border: 0.5px solid #B5B9D3;
-
+  border: 0.5px solid #b5b9d3;
 `
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
@@ -38,7 +37,7 @@ const CurrencySelect = styled.button<{ selected: boolean }>`
   user-select: none;
   border: none;
   padding: 10px 20px;
-  margin-top: 1rem;
+  margin-top: 13px;
   svg path {
     stroke: white;
     stroke-width: 1.5px;
@@ -66,11 +65,10 @@ const LabelRow = styled.div`
   }
 `
 
-const Aligner = styled.span<{ active?: boolean }>`
+const Aligner = styled.span`
   display: flex;
   align-items: center;
-  justify-content: ${({active})=> active ? 'flex-end' : 'space-between'};
-
+  justify-content: space-between;
 `
 
 const StyledDropDown = styled(DropDown)<{ selected: boolean }>`
@@ -156,7 +154,7 @@ export default function CurrencyInputPanel({
   showMaxButton,
   label = 'Input',
   onCurrencySelect,
-  currency ,
+  currency,
   disableCurrencySelect = false,
   hideBalance = false,
   pair = null, // used for double token logo
@@ -183,7 +181,7 @@ export default function CurrencyInputPanel({
       <Container hideInput={hideInput}>
         {!hideInput && (
           <LabelRow>
-            <RowBetween >
+            <RowBetween>
               <TYPE.body color={theme.white} fontWeight={500} fontSize={14}>
                 {label}
               </TYPE.body>
@@ -227,25 +225,27 @@ export default function CurrencyInputPanel({
               }
             }}
           >
-            <Aligner active={!!currency}>
-              {pair ? (
-                <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
-              ) : currency ? (
-                <CurrencyLogo currency={currency} size={'24px'} />
-              ) : null}
-              {pair ? (
-                <StyledTokenName className="pair-name-container">
-                  {pair?.token0.symbol}:{pair?.token1.symbol}
-                </StyledTokenName>
-              ) : (
-                <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
-                  {(currency && currency.symbol && currency.symbol.length > 20
-                    ? currency.symbol.slice(0, 4) +
-                      '...' +
-                      currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
-                    : getCurrencySymbol(currency, chainId)) || t('selectToken')}
-                </StyledTokenName>
-              )}
+            <Aligner>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {pair ? (
+                  <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
+                ) : currency ? (
+                  <CurrencyLogo currency={currency} size={'24px'} />
+                ) : null}
+                {pair ? (
+                  <StyledTokenName className="pair-name-container">
+                    {pair?.token0.symbol}:{pair?.token1.symbol}
+                  </StyledTokenName>
+                ) : (
+                  <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
+                    {(currency && currency.symbol && currency.symbol.length > 20
+                      ? currency.symbol.slice(0, 4) +
+                        '...' +
+                        currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
+                      : getCurrencySymbol(currency, chainId)) || t('selectToken')}
+                  </StyledTokenName>
+                )}
+              </div>
               {!disableCurrencySelect && <StyledDropDown selected={!!currency} />}
             </Aligner>
           </CurrencySelect>

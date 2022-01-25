@@ -172,7 +172,8 @@ export default function HomePrices() {
               </div>
               <div>
                 <span>
-                  <img src={weth} alt="icon"></img> WETH - <img src={btc} style={{ marginBottom: '-9px' }} alt="icon"></img>BTC
+                  <img src={weth} alt="icon"></img> WETH -{' '}
+                  <img src={btc} style={{ marginBottom: '-9px' }} alt="icon"></img>BTC
                 </span>{' '}
                 770
               </div>

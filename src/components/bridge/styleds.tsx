@@ -2,11 +2,10 @@ import styled from 'styled-components'
 import { Link } from 'rebass'
 import { ExternalLink } from '../../theme'
 
-export const Wrapper = styled.div<{ margin?: boolean }>`
+export const Wrapper = styled.div`
   position: relative;
   background: #242637;
   border-radius: 12px;
-  ${({ margin }) => (margin ? 'margin-bottom: 20px;' : null)};
 `
 
 export const ModalSection = styled.div<{ light?: boolean }>`
@@ -23,7 +22,7 @@ export const ArrowWrapper = styled.div`
 `
 
 export const BottomGrouping = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
 `
 
 export const Logo = styled.img<{ width?: number }>`
@@ -39,7 +38,7 @@ export const DestinationWrapper = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 4px;
 `
 
 export const ModalLink = styled(Link)`

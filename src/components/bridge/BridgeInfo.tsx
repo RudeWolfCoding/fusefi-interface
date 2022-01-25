@@ -177,15 +177,17 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   text-align: center;
-  justify-content: center;
-  margin-top: 16px;
+  justify-content: start;
+  margin-top: 13px;
   position: relative;
-
+  align-items: center;
   > span {
-    font-size: 14px;
-    font-weight: 400;
-    color: #9fa3c9;
-    padding-left: 10px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    color: #b5b9d3;
+    padding-left: 6px;
     cursor: pointer;
   }
 
@@ -217,8 +219,8 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #393c57;
-  height: 24px;
-  width: 24px;
+  height: 14px;
+  width: 14px;
   border-radius: 50%;
   cursor: pointer;
 `
@@ -233,8 +235,8 @@ export default function BridgeInfo() {
         }}
       >
         <IconWrapper>
-          <img className="purple-icon" src={PurpleQuestionmarkIcon} width="15px" height="15px" alt="Bridge Logo" />
-          <img className="white-icon" src={WhiteQuestionmarkIcon} width="15px" height="15px" alt="Bridge Logo" />
+          <img className="purple-icon" src={PurpleQuestionmarkIcon} width="10px" height="10px" alt="Bridge Logo" />
+          <img className="white-icon" src={WhiteQuestionmarkIcon} width="10px" height="10px" alt="Bridge Logo" />
         </IconWrapper>
         <span>Read about fees and minimum</span>
       </Wrapper>
