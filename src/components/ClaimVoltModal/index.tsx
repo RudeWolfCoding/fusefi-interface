@@ -18,8 +18,7 @@ import Airdrop from '../../assets/svg/Airdrop.svg'
 import Ido from '../../assets/svg/fuseRound.svg'
 import { useActiveWeb3React, useInjectedProvider } from '../../hooks'
 import { Text } from 'rebass'
-import { addTokenToWallet } from '../../utils'
-import { VOLT } from '../../constants'
+
 import ClaimVestingTable from '../ClaimVestingTable'
 import { useVestingTotalUnclaimedAmount } from '../../state/vesting/hooks'
 import { formatEther } from 'ethers/lib/utils'
@@ -136,7 +135,7 @@ const Claims = styled.div`
 export default function ClaimVoltModal() {
   const [stage, setStage] = useState(0)
   const injected = useInjectedProvider()
-  const { account, library } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const [claimAccount, setClaimAccount] = useState('')
   const claimModalOpen = useClaimModalOpen()
   const toggleClaimModal = useToggleClaimModal()
@@ -245,11 +244,10 @@ export default function ClaimVoltModal() {
                   <ButtonGradientOutline
                     style={{ boxShadow: ' 2px 1000px 1px black inset' }}
                     onClick={() => {
-                      if (!library) return
-                      addTokenToWallet(VOLT, library)
+                      setStage(stage + 1)
                     }}
                   >
-                    <span>Add VOLT token to Wallet</span>
+                    <span>Learn about VOLT token</span>
                   </ButtonGradientOutline>
                 </Row>
               </AutoColumn>

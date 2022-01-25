@@ -5,26 +5,26 @@ import { BridgeDirection } from '../../state/bridge/hooks'
 
 export const Button = styled.button<{ isActive?: boolean; colorSelect?: string }>`
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 48px;
-  background: #242637;
-  border-radius: 12px;
-  border: 2px solid #FFFFFF
-  min-width: 160px;
-  max-width: 100%;
-  border-width: 2px;
-  border-style: solid;
+  border-radius: 10px;
+  justify-content: center;
+  padding: 1rem;
+  width: 165px;
+  margin: 2px;
+  font-size: 1rem;
+  padding: 0.5rem 3rem;
   color: white;
-  font-weight: 500;
-  outline: 0;
-  
-  >span{
-    positi;
-  }
+  box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
+  border: solid 1.5px white;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
+    linear-gradient(130.47deg, #3ad889 -6.17%, #f3fc1f 108.46%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px #232535 inset;
+
   &:hover {
     color: ${({ color }) => color};
-    border-color: ${({ color }) => color};
+    border-color: transparent;
     cursor: pointer;
   }
 
@@ -36,8 +36,10 @@ export const Button = styled.button<{ isActive?: boolean; colorSelect?: string }
     margin-right: 0.5rem;
   }
 
-  ${({ isActive, color, colorSelect }) =>
-    isActive && `border-color: ${color};background: ${colorSelect}; color: ${color}; opacity: 0.`}
+  ${({ isActive }) =>
+    isActive &&
+    `  border: solid 1.5px transparent;
+    box-shadow: 2px 1000px 1px rgb(0 0 0 / 62%) inset;`}
 `
 
 export default function DestinationButton({
@@ -55,7 +57,7 @@ export default function DestinationButton({
   colorSelect: string
   selectedBridgeDirection?: BridgeDirection
   handleClick: (...args: any[]) => void
-  bridgeDirection: BridgeDirection
+  bridgeDirection?: BridgeDirection
 }) {
   return (
     <Button

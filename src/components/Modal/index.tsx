@@ -13,13 +13,12 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
   &[data-reach-dialog-overlay] {
     z-index: 999;
     background-color: transparent;
-    overflow: hidden;
+    overflow: auto;
 
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 14.7%;
-    background-color: ${({ theme }) => theme.modalBG};
   }
 `
 
@@ -27,13 +26,15 @@ const AnimatedDialogContent = animated(DialogContent)
 // destructure to not pass custom props to Dialog DOM element
 const StyledDialogContent = styled(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ height, minHeight, maxHeight, mobile, isOpen, backgroundColor, maxWidth, ...rest }) => (
+  ({ height, minHeight, maxHeight, mobile, isOpen, backgroundColor, maxWidth, top, ...rest }) => (
     <AnimatedDialogContent {...rest} />
   )
 ).attrs({
   'aria-label': 'dialog'
 })`
   position: relative;
+  top: ${({ top }) => (top ? '53%' : '0')};;
+
   &[data-reach-dialog-content] {
     margin: 0 0 2rem 0;
     border: 1px solid ${({ theme, backgroundColor }) => (backgroundColor ? backgroundColor : theme.bg1)};
@@ -42,7 +43,6 @@ const StyledDialogContent = styled(
     padding: 0px;
     width: 50vw;
     overflow: hidden;
-
     align-self: ${({ mobile }) => (mobile ? 'flex-end' : 'center')};
 
     max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : '462px')};
@@ -90,6 +90,7 @@ interface ModalProps {
   children?: React.ReactNode
   backgroundColor?: string
   maxWidth?: string
+  top?: boolean
 }
 
 export default function Modal({
@@ -101,7 +102,8 @@ export default function Modal({
   initialFocusRef,
   children,
   backgroundColor,
-  maxWidth
+  maxWidth,
+  top = false
 }: ModalProps) {
   const fadeTransition = useTransition(isOpen, null, {
     config: { duration: 200 },
@@ -142,6 +144,7 @@ export default function Modal({
                 mobile={isMobile}
                 backgroundColor={backgroundColor}
                 maxWidth={maxWidth}
+                top={top}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}

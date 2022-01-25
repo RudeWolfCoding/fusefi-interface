@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useState, useEffect, useMemo } from 'react'
 import * as Sentry from '@sentry/react'
 import AppBody from '../AppBody'
-import { SwapPoolTabs } from '../../components/NavigationTabs'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { Currency, TokenAmount, ChainId } from '@fuseio/fuse-swap-sdk'
 import { currencyId } from '../../utils/currencyId'
@@ -19,15 +18,12 @@ import {
 } from '../../state/bridge/hooks'
 import { Field } from '../../state/bridge/actions'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { AutoColumn, ColumnCenter } from '../../components/Column'
-import { Wrapper, Logo, ArrowWrapper, Loader, DestinationWrapper } from '../../components/bridge/styleds'
-import { ArrowDown } from 'react-feather'
-import { ThemeContext } from 'styled-components'
+import { AutoColumn } from '../../components/Column'
+import { Wrapper, Loader, DestinationWrapper } from '../../components/bridge/styleds'
+import styled, { ThemeContext } from 'styled-components'
 import { BottomGrouping } from '../../components/bridge/styleds'
-import { ButtonLight, ButtonPrimary, ButtonError } from '../../components/Button'
-import { DarkBlueCard } from '../../components/Card'
+import { ButtonGradient, ButtonPrimary } from '../../components/Button'
 import ethLogo from '../../assets/images/ethereum-logo.png'
-import fuseLogo from '../../assets/images/fuse-logo-wordmark.svg'
 import bnbLogo from '../../assets/svg/bnb.svg'
 import loader from '../../assets/svg/loader.svg'
 import { useWalletModalToggle } from '../../state/application/hooks'
@@ -56,11 +52,19 @@ import { FUSE_CHAIN } from '../../constants/chains'
 import useAddChain from '../../hooks/useAddChain'
 import AddTokenToMetamaskModal from '../../components/AddTokenToMetamaskModal'
 import MainCard from '../../components/MainCard'
-import BridgeInfo from '../../components/bridge/BridgeInfo'
 import { AppWrapper, AppWrapperInner } from '../../components/swap/styleds'
 import ClaimAmbTransferModal from '../../components/ClaimAmbTransferModal'
 import ClaimNativeTransferModal from '../../components/ClaimNativeTransferModal'
 import { useAsyncMemo } from 'use-async-memo'
+
+export const GradientWrapper = styled(Wrapper)`
+display: flex;
+flex-direction: column;
+border: double 1px transparent;
+background-image: linear-gradient(#242637, #242637),  linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(243,252,31,1) 100%);
+background-origin: border-box;
+background-clip: content-box, border-box;
+`
 
 export default function Bridge() {
   const { account, chainId, library } = useActiveWeb3React()
@@ -291,71 +295,85 @@ export default function Bridge() {
       <AppBody>
         <AppWrapper>
           <AppWrapperInner>
-            <SwapPoolTabs active={'bridge'} />
-            <MainCard>
-              <Wrapper id="bridge-page">
-                <AutoSwitchNetwork chainId={sourceChain} />
-                <UnsupportedBridgeTokenModal isOpen={modalOpen} setIsOpen={setModalOpen} />
-                <FeeModal isOpen={feeModalOpen} onDismiss={() => setFeeModalOpen(false)} />
-                <TokenMigrationModal
-                  token={migrationCurrency}
-                  isOpen={migrateModalOpen}
-                  onDismiss={() => setMigrateModalOpen(false)}
-                  listType="Bridge"
+            <h1>Bridge</h1>
+            <Wrapper style={{ padding: '10px' }} margin={true}>
+              <AutoSwitchNetwork chainId={sourceChain} />
+              <UnsupportedBridgeTokenModal isOpen={modalOpen} setIsOpen={setModalOpen} />
+              <FeeModal isOpen={feeModalOpen} onDismiss={() => setFeeModalOpen(false)} />
+              <TokenMigrationModal
+                token={migrationCurrency}
+                isOpen={migrateModalOpen}
+                onDismiss={() => setMigrateModalOpen(false)}
+                listType="Bridge"
+              />
+              <AddTokenToMetamaskModal
+                isOpen={addTokenModalOpen}
+                setIsOpen={setAddTokenModalOpen}
+                currency={inputCurrency}
+              />
+              {currentAmbBridgeTransaction && (
+                <ClaimAmbTransferModal
+                  isOpen={claimTransferModalOpen}
+                  onDismiss={() => setClaimTransferModalOpen(false)}
+                  bridgeTransaction={currentAmbBridgeTransaction}
                 />
-                <AddTokenToMetamaskModal
-                  isOpen={addTokenModalOpen}
-                  setIsOpen={setAddTokenModalOpen}
-                  currency={inputCurrency}
+              )}
+              {currentNativeBridgeTransaction && (
+                <ClaimNativeTransferModal
+                  isOpen={claimTransferModalOpen}
+                  onDismiss={() => setClaimTransferModalOpen(false)}
+                  bridgeTransaction={currentNativeBridgeTransaction}
                 />
-                {currentAmbBridgeTransaction && (
-                  <ClaimAmbTransferModal
-                    isOpen={claimTransferModalOpen}
-                    onDismiss={() => setClaimTransferModalOpen(false)}
-                    bridgeTransaction={currentAmbBridgeTransaction}
-                  />
-                )}
-                {currentNativeBridgeTransaction && (
-                  <ClaimNativeTransferModal
-                    isOpen={claimTransferModalOpen}
-                    onDismiss={() => setClaimTransferModalOpen(false)}
-                    bridgeTransaction={currentNativeBridgeTransaction}
-                  />
-                )}
-                {isHome && (
-                  <AutoColumn gap="md">
-                    <TYPE.mediumHeader color={theme.text2} fontSize={16}>
-                      Select Destination
-                    </TYPE.mediumHeader>
-                    <DestinationWrapper>
-                      <DestinationButton
-                        text="Ethereum"
-                        logoSrc={ethLogo}
-                        color={theme.ethereum}
-                        colorSelect="rgba(98, 126, 234, 0.2)"
-                        selectedBridgeDirection={bridgeDirection}
-                        bridgeDirection={BridgeDirection.FUSE_TO_ETH}
-                        handleClick={handleDestinationSelect}
-                      />
-                      <TYPE.body fontSize={14} color={theme.text2} fontWeight={500}>
-                        or
-                      </TYPE.body>
-                      <DestinationButton
-                        text="Binance Smart Chain"
-                        logoSrc={bnbLogo}
-                        color={theme.binance}
-                        colorSelect="rgba(243, 186, 47, 0.2)"
-                        selectedBridgeDirection={bridgeDirection}
-                        bridgeDirection={BridgeDirection.FUSE_TO_BSC}
-                        handleClick={handleDestinationSelect}
-                      />
-                    </DestinationWrapper>
-                  </AutoColumn>
-                )}
-                <AutoColumn gap={'md'}>
-                  <TYPE.mediumHeader color={theme.text2} fontSize={16}>
-                    Select Currency
+              )}
+              {isHome ? (
+                <AutoColumn gap="md">
+                  <TYPE.mediumHeader textAlign={'center'} color={theme.white} fontSize={16} marginTop={2}>
+                    Select Destination
                   </TYPE.mediumHeader>
+                  <DestinationWrapper>
+                    <DestinationButton
+                      text="Ethereum"
+                      logoSrc={ethLogo}
+                      color={theme.ethereum}
+                      colorSelect="rgba(98, 126, 234, 0.2)"
+                      selectedBridgeDirection={bridgeDirection}
+                      bridgeDirection={BridgeDirection.FUSE_TO_ETH}
+                      handleClick={handleDestinationSelect}
+                    />
+                    <DestinationButton
+                      text="BSC"
+                      logoSrc={bnbLogo}
+                      color={theme.binance}
+                      colorSelect="rgba(243, 186, 47, 0.2)"
+                      selectedBridgeDirection={bridgeDirection}
+                      bridgeDirection={BridgeDirection.FUSE_TO_BSC}
+                      handleClick={handleDestinationSelect}
+                    />
+                  </DestinationWrapper>
+                </AutoColumn>
+              ) : (
+                <AutoColumn gap="md">
+                  <TYPE.mediumHeader textAlign={'center'} color={theme.white} fontSize={16} marginTop={2}>
+                    Select Destination
+                  </TYPE.mediumHeader>
+                  <DestinationWrapper>
+                    <DestinationButton
+                      text="Fuse"
+                      logoSrc={ethLogo}
+                      color={theme.ethereum}
+                      colorSelect="rgba(98, 126, 234, 0.2)"
+                      handleClick={() => {}}
+                    />
+                  </DestinationWrapper>
+                </AutoColumn>
+              )}
+            </Wrapper>
+            <MainCard>
+              <TYPE.mediumHeader color={theme.text2} fontSize={16} marginBottom={2}>
+                Select Currency
+              </TYPE.mediumHeader>
+              <Wrapper id="bridge-page" style={{ paddingInline: '40px' }} margin={true}>
+                <AutoColumn gap={'md'}>
                   <CurrencyInputPanel
                     bridge={true}
                     label="Amount"
@@ -383,24 +401,13 @@ export default function Bridge() {
                     />
                   </AutoColumn>
                 )}
-                {!isHome && (
-                  <>
-                    <ColumnCenter>
-                      <ArrowWrapper>
-                        <ArrowDown size="16" color={theme.text2} />
-                      </ArrowWrapper>
-                    </ColumnCenter>
-                    <DarkBlueCard>
-                      <Logo src={fuseLogo} alt="fuse logo" />
-                    </DarkBlueCard>
-                  </>
-                )}
+
                 <BottomGrouping>
                   {!account ? (
                     isAddChainEnabled ? (
-                      <ButtonLight onClick={() => addChain(FUSE_CHAIN)}>Switch to Fuse</ButtonLight>
+                      <ButtonGradient onClick={() => addChain(FUSE_CHAIN)}>Switch to Fuse</ButtonGradient>
                     ) : (
-                      <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
+                      <ButtonGradient onClick={toggleWalletModal}>Connect Wallet</ButtonGradient>
                     )
                   ) : (
                     <AutoColumn gap={'md'}>
@@ -419,7 +426,7 @@ export default function Bridge() {
                           </ButtonPrimary>
                         </RowBetween>
                       )}
-                      <ButtonError
+                      <ButtonGradient
                         id="bridge-transfer-button"
                         onClick={onTransfer}
                         disabled={
@@ -441,29 +448,36 @@ export default function Bridge() {
                             {inputError ?? 'Transfer'}
                           </Text>
                         )}
-                      </ButtonError>
+                      </ButtonGradient>
                     </AutoColumn>
                   )}
                 </BottomGrouping>
-                {isAccountContract && (
-                  <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
-                    Important! - We currently dont support bridge transactions sent from a wallet contract (like
-                    FuseCash). Your funds are probably going to get lost if you transfer.
-                  </TYPE.main>
-                )}
-                {bridgeDirection === BridgeDirection.FUSE_TO_ETH && (
-                  <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
-                    Important! - Ethereum claim fees apply and will be paid by the user, be aware of the gas costs
-                  </TYPE.main>
-                )}
-                <BridgeInfo />
+                <BridgeDetails
+                  inputCurrencyId={inputCurrencyId}
+                  inputAmount={parsedAmounts[Field.INPUT]}
+                  bridgeDirection={bridgeDirection}
+                />
               </Wrapper>
             </MainCard>
-            <BridgeDetails
-              inputCurrencyId={inputCurrencyId}
-              inputAmount={parsedAmounts[Field.INPUT]}
-              bridgeDirection={bridgeDirection}
-            />
+            {isAccountContract && (
+              <Wrapper style={{ marginTop: '10px', padding: '30px' }}>
+                <TYPE.main fontSize={14} fontWeight={400} color="#FF6871" marginTop="16px">
+                  Important! - We currently dont support bridge transactions sent from a wallet contract (like
+                  FuseCash). Your funds are probably going to get lost if you transfer.
+                </TYPE.main>
+                .
+              </Wrapper>
+            )}
+            {bridgeDirection === BridgeDirection.FUSE_TO_ETH && (
+              <GradientWrapper style={{ marginTop: '10px' }}>
+                <TYPE.main width={'100%'} textAlign={'center'} fontSize={16} fontWeight={600} color="#FFFFF" marginTop="12px">
+                  Important!
+                </TYPE.main>
+                <TYPE.main padding={10} textAlign={'center'} fontSize={14} fontWeight={400} color="#FFFFF" marginTop="6px">
+                  Ethereum claim fees apply and will be paid by the user, be aware of the gas costs
+                </TYPE.main>
+              </GradientWrapper>
+            )}
           </AppWrapperInner>
         </AppWrapper>
       </AppBody>

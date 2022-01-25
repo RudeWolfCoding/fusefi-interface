@@ -14,31 +14,35 @@ import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import { getCurrencySymbol } from '../../utils'
+import { AutoColumn } from '../Column'
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
-  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
+  background: ${({ theme }) => theme.bg2};
+  padding: 6px 14px 6px 14px;
+  border-radius: 12px;
+  border: 0.5px solid #B5B9D3;
+
 `
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
   align-items: center;
-  height: 2.2rem;
   font-size: 20px;
   font-weight: 500;
-  background-color: ${({ selected, theme }) => (selected ? theme.bg1 : theme.bg7)};
+  background-color: ${({ selected, theme }) => (selected ? theme.bg2 : theme.bg2)};
   color: white;
-  border-radius: 999px;
+  border-radius: 12px;
   outline: none;
   cursor: pointer;
   user-select: none;
   border: none;
-  padding: 0 0.5rem;
+  padding: 10px 20px;
+  margin-top: 1rem;
   svg path {
     stroke: white;
     stroke-width: 1.5px;
   }
-  :focus,
   :hover {
     background-color: ${({ selected, theme }) => (selected ? darken(0.02, theme.bg1) : darken(0.02, theme.bg7))};
     color: #ffffff;
@@ -55,17 +59,18 @@ const LabelRow = styled.div`
   color: ${({ theme }) => theme.text1};
   font-size: 0.75rem;
   line-height: 1rem;
-  padding: 0.75rem 1rem 0 1rem;
+  padding: 0.75rem 0.5rem 0.75rem 0.5rem;
   span:hover {
     cursor: pointer;
     color: ${({ theme }) => darken(0.2, theme.text2)};
   }
 `
 
-const Aligner = styled.span`
+const Aligner = styled.span<{ active?: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${({active})=> active ? 'flex-end' : 'space-between'};
+
 `
 
 const StyledDropDown = styled(DropDown)<{ selected: boolean }>`
@@ -83,7 +88,7 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
 
 const Container = styled.div<{ hideInput: boolean }>`
   border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
-  background-color: ${({ theme }) => theme.secondary4};
+  background-color: #242637;
 `
 
 const StyledTokenName = styled.span<{ active?: boolean }>`
@@ -93,18 +98,30 @@ const StyledTokenName = styled.span<{ active?: boolean }>`
 `
 
 const StyledBalanceMax = styled.button`
-  height: 28px;
-  background-color: ${({ theme }) => theme.bg7};
-  border: 0px solid;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  margin-right: 0.5rem;
+  width: 70px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: white;
+  box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
+  border: solid 1.5px transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
+    linear-gradient(130.47deg, #3ad889 -6.17%, #f3fc1f 108.46%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px black inset;
+  max-width: 175px;
   color: ${({ theme }) => theme.text1};
   :hover {
-    border: 1px solid ${() => darken(0.05, '#3b3e48')};
-    background-color: ${({ theme }) => darken(0.05, theme.bg7)};
+    box-shadow: 2px 1000px 1px transparent inset;
+    cursor: pointer;
   }
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
@@ -139,7 +156,7 @@ export default function CurrencyInputPanel({
   showMaxButton,
   label = 'Input',
   onCurrencySelect,
-  currency,
+  currency ,
   disableCurrencySelect = false,
   hideBalance = false,
   pair = null, // used for double token logo
@@ -166,21 +183,21 @@ export default function CurrencyInputPanel({
       <Container hideInput={hideInput}>
         {!hideInput && (
           <LabelRow>
-            <RowBetween>
-              <TYPE.body color={theme.text2} fontWeight={500} fontSize={14}>
+            <RowBetween >
+              <TYPE.body color={theme.white} fontWeight={500} fontSize={14}>
                 {label}
               </TYPE.body>
               {account && (
                 <TYPE.body
                   onClick={onMax}
-                  color={theme.text2}
+                  color={theme.white}
                   fontWeight={500}
                   fontSize={14}
                   style={{ display: 'inline', cursor: 'pointer' }}
                 >
                   {!hideBalance && !!currency && selectedCurrencyBalance
                     ? 'Balance: ' + selectedCurrencyBalance?.toSignificant(6)
-                    : ' -'}
+                    : ' Balance: 0'}
                 </TYPE.body>
               )}
             </RowBetween>
@@ -196,11 +213,11 @@ export default function CurrencyInputPanel({
                   onUserInput(val)
                 }}
               />
-              {account && currency && showMaxButton && label !== 'To' && (
-                <StyledBalanceMax onClick={onMax}>MAX</StyledBalanceMax>
-              )}
+              {account && showMaxButton && label !== 'To' && <StyledBalanceMax onClick={onMax}>MAX</StyledBalanceMax>}
             </>
           )}
+        </InputRow>
+        <AutoColumn>
           <CurrencySelect
             selected={!!currency}
             className="open-currency-select-button"
@@ -210,7 +227,7 @@ export default function CurrencyInputPanel({
               }
             }}
           >
-            <Aligner>
+            <Aligner active={!!currency}>
               {pair ? (
                 <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
               ) : currency ? (
@@ -232,7 +249,7 @@ export default function CurrencyInputPanel({
               {!disableCurrencySelect && <StyledDropDown selected={!!currency} />}
             </Aligner>
           </CurrencySelect>
-        </InputRow>
+        </AutoColumn>
       </Container>
       {!disableCurrencySelect && onCurrencySelect && (
         <CurrencySearchModal
