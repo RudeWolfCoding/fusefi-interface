@@ -13,6 +13,7 @@ import BRIDGED_TOKENS_MIGRATOR_ABI from '../constants/abis/bridgedTokenMigrator.
 import PEG_SWAP_ABI from '../constants/abis/pegSwap.json'
 import COMPTROLLER_ABI from '../constants/abis/comptroller.json'
 import COMPOUND_LENS_ABI from '../constants/abis/compoundLens.json'
+import SWAP_FLASH_LOAN_V3_ABI from '../constants/abis/swap-flash-loan-v3.json'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../constants/multicall'
 import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../constants/v1'
 import { getContract } from '../utils'
@@ -108,6 +109,11 @@ export function usePegSwapContract(): Contract | null {
 
 export function useComptrollerContract(): Contract | null {
   return useContract(COMPTROLLER_ADDRESS, COMPTROLLER_ABI)
+}
+
+export function useStableSwapContract(poolAddress: string): Contract | null {
+  return useContract(poolAddress, SWAP_FLASH_LOAN_V3_ABI)
+
 }
 
 export function useLensContract(): Contract | null {

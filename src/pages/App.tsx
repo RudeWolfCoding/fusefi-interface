@@ -22,6 +22,7 @@ import Swap from './Swap'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import Bridge from './Bridge'
 import { RedirectToDefault } from './redirects'
+import StableSwap from './StableSwap/Swap'
 import Menu from '../components/Menu'
 import MobileNav from '../components/MobileNav'
 
@@ -79,6 +80,7 @@ export default function App() {
                   <Route exact strict path="/home" component={Home} />
                   <Route exact strict path="/swap" component={Swap} />
                   <Route exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
+                  <Route exact strict path="/stable-swap" component={StableSwap} />
                   <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
                   <Route exact strict path="/find" component={PoolFinder} />
                   <Route exact strict path="/pool" component={Pool} />

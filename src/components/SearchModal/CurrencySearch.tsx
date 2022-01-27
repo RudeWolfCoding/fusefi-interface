@@ -6,7 +6,7 @@ import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
 import { useActiveWeb3React } from '../../hooks'
-import { useAllSwapTokens, useToken, useAllBridgeTokens } from '../../hooks/Tokens'
+import { useAllSwapTokens, useToken, useAllBridgeTokens, useStableSwapTokens } from '../../hooks/Tokens'
 import { useSelectedSwapListInfo, useSelectedBridgeListInfo, WrappedTokenInfo } from '../../state/lists/hooks'
 import { CloseIcon, LinkStyledButton, TYPE } from '../../theme'
 import { isAddress } from '../../utils'
@@ -35,6 +35,7 @@ interface CurrencySearchProps {
   onChangeList: () => void
   showETH: boolean
   listType: CurrencyListType
+  isStable?: boolean
 }
 
 export function CurrencySearch({
@@ -46,7 +47,8 @@ export function CurrencySearch({
   isOpen,
   onChangeList,
   showETH: showETHToken,
-  listType
+  listType,
+  isStable = false
 }: CurrencySearchProps) {
   const { t } = useTranslation()
   const { chainId } = useActiveWeb3React()
@@ -55,7 +57,7 @@ export function CurrencySearch({
   const fixedList = useRef<FixedSizeList>()
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [invertSearchOrder, setInvertSearchOrder] = useState<boolean>(false)
-  const useAllTokens = listType === 'Swap' ? useAllSwapTokens : useAllBridgeTokens
+  const useAllTokens = listType === 'Swap' ? useAllSwapTokens : listType === 'StableSwap' ? useStableSwapTokens : useAllBridgeTokens
   const { bridgeDirection } = useBridgeState()
   const allTokens = useAllTokens()
 

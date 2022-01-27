@@ -130,6 +130,14 @@ export const FUSE_BUSD = new Token(
 
 export const FUSE_BNB = new Token(ChainId.FUSE, BNB_FOREIGN_TOKEN_ADDRESS, 18, 'BNB', 'BNB on Fuse')
 
+export const FUSE_ONEFUSE = new Token(
+  ChainId.FUSE, 
+  "0x8A5eE71Cd4Db6b7ffdCE37313006e48FaD6ADdB0", 
+  18, 
+  "oneFUSE", 
+  "oneFUSE on Fuse"
+)
+
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
   [ChainId.ROPSTEN]: [WETH[ChainId.ROPSTEN]],
@@ -298,3 +306,26 @@ export const SENTRY_IGNORE_ERRORS = [
   /^cancelled\.?$/,
   /^Non-Error promise rejection captured with keys: code\.?$/ // usually rpc errors
 ]
+
+// StableSwap constants
+
+export interface StableSwapPool{
+    name: string
+    address: string
+    tokenList: Token[]
+}
+
+export type StableSwapPoolsMap = {[address: string]: StableSwapPool}
+
+export const STABLESWAP_POOLS: StableSwapPoolsMap = {
+  "0x3E192A2Eae22B3DB07a0039E10bCe29097E881B9": {
+    name: 'USD1',
+    address: '0x3E192A2Eae22B3DB07a0039E10bCe29097E881B9',
+    tokenList: [FUSE_DAI, FUSE_USDC, FUSE_USDT],
+  },
+  "0xc98f8bf953647aC364F43D61E5132867c787653F": {
+    name: 'USD3',
+    address: '0xc98f8bf953647aC364F43D61E5132867c787653F',
+    tokenList: [FUSE_FUSD, FUSE_ONEFUSE, FUSE_BUSD, FUSE_USDT],
+  },
+}

@@ -148,7 +148,7 @@ export default function CurrencyInputPanel({
   id,
   showCommonBases,
   showETH = true,
-  listType = 'Swap'
+  listType = 'Swap',
 }: CurrencyInputPanelProps) {
   const { t } = useTranslation()
 

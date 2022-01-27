@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { Pair } from '@fuseio/fuse-swap-sdk'
 import { Link } from 'react-router-dom'
-import { SwapPoolTabs } from '../../components/NavigationTabs'
+// import { SwapPoolTabs } from '../../components/NavigationTabs'
 
 import Question from '../../components/QuestionHelper'
 import FullPositionCard from '../../components/PositionCard'
@@ -78,7 +78,7 @@ export default function Pool() {
         <AppBody>
           <AppWrapper>
             <AppWrapperInner>
-              <SwapPoolTabs active={'pool'} />
+              {/* <SwapPoolTabs active={'pool'} /> */}
               <MainCard>
                 <SwitchNetwork />
               </MainCard>
@@ -94,7 +94,7 @@ export default function Pool() {
       <AppBody>
         <AppWrapper>
           <AppWrapperInner>
-            <SwapPoolTabs active={'pool'} />
+            {/* <SwapPoolTabs active={'pool'} /> */}
             <MainCard>
               <AutoColumn gap="lg" justify="center">
                 <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add/FUSE">

@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useState, useEffect, useMemo } from 'react'
 import * as Sentry from '@sentry/react'
 import AppBody from '../AppBody'
-import { SwapPoolTabs } from '../../components/NavigationTabs'
+// import { SwapPoolTabs } from '../../components/NavigationTabs'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { Currency, TokenAmount, ChainId } from '@fuseio/fuse-swap-sdk'
 import { currencyId } from '../../utils/currencyId'
@@ -291,7 +291,7 @@ export default function Bridge() {
       <AppBody>
         <AppWrapper>
           <AppWrapperInner>
-            <SwapPoolTabs active={'bridge'} />
+            {/* <SwapPoolTabs active={'bridge'} /> */}
             <MainCard>
               <Wrapper id="bridge-page">
                 <AutoSwitchNetwork chainId={sourceChain} />

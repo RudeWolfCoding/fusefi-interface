@@ -74,6 +74,22 @@ const initialState: ListsState = {
       }
     },
     selectedListUrl: BRIDGE_DEFAULT_TOKEN_LIST_URL
+  },
+  StableSwap: { // TODO: change
+    lastInitializedDefaultListOfLists: SWAP_DEFAULT_LIST_OF_LISTS,
+    byUrl: {
+      ...SWAP_DEFAULT_LIST_OF_LISTS.reduce<Mutable<ListState['byUrl']>>((memo, listUrl) => {
+        memo[listUrl] = NEW_LIST_STATE
+        return memo
+      }, {}),
+      [SWAP_DEFAULT_TOKEN_LIST_URL]: {
+        error: null,
+        current: SWAP_DEFAULT_LIST,
+        loadingRequestId: null,
+        pendingUpdate: null
+      }
+    },
+    selectedListUrl: SWAP_DEFAULT_TOKEN_LIST_URL
   }
 }
 

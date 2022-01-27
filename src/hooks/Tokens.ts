@@ -5,10 +5,12 @@ import { useSelectedSwapTokenList, useSelectedBridgeTokenList } from '../state/l
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
 import { useUserAddedTokens } from '../state/user/hooks'
 import { isAddress } from '../utils'
+import { STABLESWAP_POOLS } from '../constants'
 
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 import { BNB } from '../data/Currency'
+import { tryParseAmount } from '../state/swap/hooks'
 
 export function useAllSwapTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
@@ -31,6 +33,45 @@ export function useAllSwapTokens(): { [address: string]: Token } {
         )
     )
   }, [chainId, userAddedTokens, allTokens])
+}
+
+function useStableSwapTokenList(poolAddress: string | null): Token[] {
+  return useMemo(() => {
+    if(!poolAddress || !STABLESWAP_POOLS[poolAddress]) return []
+    return STABLESWAP_POOLS[poolAddress].tokenList
+  }, [poolAddress])
+}
+
+export function useStableSwapPooledTokenIndex(poolAddress: string | null, pooledToken: Token | undefined): number|null {
+    const tokenList = useStableSwapTokenList(poolAddress)
+
+    return useMemo(() => {
+      if(!pooledToken || !poolAddress) return null
+      let res = tokenList.findIndex((token:Token) => {
+        return currencyEquals(pooledToken, token)
+      })
+      return res !== -1 ? res:null
+    }, [poolAddress, pooledToken, tokenList])
+}
+
+export function useOneToken(token: Token | undefined){
+  return tryParseAmount('1', token)
+}
+
+export function useStableSwapTokens(): { [address: string]: Token} {
+  const poolAddress = localStorage.getItem('stablePoolAddress') // TODO: again redux
+  const { chainId } = useActiveWeb3React()
+  const pooledTokens = useStableSwapTokenList(poolAddress)
+  // const allTokens = useSelectedSwapTokenList()
+  
+  return useMemo(() => {
+    if(!chainId || !poolAddress) return {}
+    let ret: { [address: string]: Token } = {}
+    pooledTokens.forEach((token)=> {
+      ret[token.address] = token
+    })
+    return ret
+  }, [poolAddress, chainId, pooledTokens])
 }
 
 export function useAllBridgeTokens(): { [address: string]: Token } {

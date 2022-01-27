@@ -30,4 +30,4 @@ declare module 'multihashes' {
   declare function toB58String(hash: Uint8Array): string
 }
 
-type CurrencyListType = 'Swap' | 'Bridge'
+type CurrencyListType = 'Swap' | 'Bridge' | 'StableSwap'
